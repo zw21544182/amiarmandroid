@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
         serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
         serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
         bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -158,6 +160,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         return f;
     }
+
 
     public class ActivityCollector {
         public List<Activity> activityList = new ArrayList<>();

@@ -25,7 +25,7 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
     }
 
     @Override

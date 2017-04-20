@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".BaseActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -20,7 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CsbdActivity"
+        <activity
+            android:name=".CsbdActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".YpjcActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".JcsjcxActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".XtwhActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
