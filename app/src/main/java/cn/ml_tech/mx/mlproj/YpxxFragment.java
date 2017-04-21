@@ -3,30 +3,21 @@ package cn.ml_tech.mx.mlproj;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.ml_tech.mx.mlservice.DrugControls;
-import cn.ml_tech.mx.mlservice.IMlService;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link YpkFragment.OnFragmentInteractionListener} interface
+ * {@link YpxxFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link YpkFragment#newInstance} factory method to
+ * Use the {@link YpxxFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class YpkFragment extends Fragment {
+public class YpxxFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,21 +27,9 @@ public class YpkFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private List<DrugControls> drugList = new ArrayList<>();
-
-    public IMlService getmService() {
-        return mService;
-    }
-
-    public void setmService(IMlService mService) {
-        this.mService = mService;
-    }
-
-    private IMlService mService;
-
     private OnFragmentInteractionListener mListener;
 
-    public YpkFragment() {
+    public YpxxFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +39,11 @@ public class YpkFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment YpkFragment.
+     * @return A new instance of fragment YpxxFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static YpkFragment newInstance(String param1, String param2) {
-        YpkFragment fragment = new YpkFragment();
+    public static YpxxFragment newInstance(String param1, String param2) {
+        YpxxFragment fragment = new YpxxFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,31 +60,11 @@ public class YpkFragment extends Fragment {
         }
     }
 
-    private void initDrugs() {
-        try {
-            drugList = mService.queryDrugControl();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        initDrugs();
-        getActivity().findViewById(R.id.btAddDrug).setOnClickListener((View.OnClickListener) getActivity());
-        RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        DrugAdapter adapter = new DrugAdapter(drugList);
-        recyclerView.setAdapter(adapter);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ypk, container, false);
+        return inflater.inflate(R.layout.fragment_ypxx, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -115,6 +74,12 @@ public class YpkFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().findViewById(R.id.btYpxxNext).setOnClickListener((View.OnClickListener) getActivity());
+
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -85,7 +85,10 @@ public class YpjcFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @Override
     public void onDetach() {

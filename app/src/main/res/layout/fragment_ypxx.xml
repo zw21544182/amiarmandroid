@@ -1,0 +1,175 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="100dp"
+    android:layout_marginRight="100dp"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroud"
+    tools:context="cn.ml_tech.mx.mlproj.YpxxFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="300dp"
+        android:layout_marginTop="50dp">
+
+    <TextView
+        android:id="@+id/tvDrugName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="药品名称 " />
+
+    <EditText
+        android:id="@+id/etDrugName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text=" " />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="300dp"
+        android:layout_marginTop="100dp">
+
+        <TextView
+            android:id="@+id/tvPinYin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拼音缩写 " />
+
+        <EditText
+            android:id="@+id/etPinYin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text=" " />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="300dp"
+        android:layout_marginTop="150dp">
+
+        <TextView
+            android:id="@+id/tvEnName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="药品英文 " />
+
+        <EditText
+            android:id="@+id/etEnName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text=" " />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="300dp"
+        android:layout_marginTop="200dp">
+
+        <TextView
+            android:id="@+id/tvBottleType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="药瓶类型 " />
+
+        <EditText
+            android:id="@+id/etBottleType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text=" " />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="300dp"
+        android:layout_marginTop="250dp">
+
+        <TextView
+            android:id="@+id/tvFactory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="药品厂家 " />
+
+        <EditText
+            android:id="@+id/etFactory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text=" " />
+
+        <Button
+            android:id="@+id/btYpxxAddFactory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="添加" />
+        <TextView
+            android:id="@+id/tvNone2"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text=" " />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="270dp"
+        android:layout_marginTop="300dp">
+
+        <TextView
+            android:id="@+id/tvThreshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="检测标准阈值 " />
+
+        <EditText
+            android:id="@+id/etThreshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text=" " />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="300dp"
+        android:layout_marginTop="350dp">
+
+        <Button
+            android:id="@+id/btYpxxPre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="上一步" />
+        <Button
+            android:id="@+id/btYpxxNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="下一步" />
+        <TextView
+            android:id="@+id/tvNone"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:text=" " />
+    </LinearLayout>
+</FrameLayout>

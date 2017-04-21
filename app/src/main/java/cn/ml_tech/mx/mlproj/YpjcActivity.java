@@ -1,15 +1,18 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.net.Uri;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmentInteractionListener, View.OnClickListener,
-        YpkFragment.OnFragmentInteractionListener {
+        YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
+    YpxxFragment ypxxFragment = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,8 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 f = new YpjcFragment();
             } else if (tag.equals("YpkFragment")) {
                 f = new YpkFragment();
+            } else if (tag.equals("YpxxFragment")) {
+                f = new YpxxFragment();
             } else {
                 f = super.getFragment(tag);
             }
@@ -52,6 +57,22 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 break;
             case R.id.btNext:
                 ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+                ypkFragment.setmService(mService);
+                break;
+            case R.id.btAddDrug:
+                logv("add drug..........");
+                ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+                break;
+            case R.id.btYpxxNext:
+                try {
+                    mService.addDrugInfo(((EditText)findViewById(R.id.etDrugName)).getText().toString(),
+                            ((EditText)findViewById(R.id.etEnName)).getText().toString(),
+                            ((EditText)findViewById(R.id.etPinYin)).getText().toString(),
+                            1,1);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
                 break;
             default:
                 break;
