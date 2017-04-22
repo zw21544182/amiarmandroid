@@ -45,6 +45,8 @@ public class BaseActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_base);
         logv("created\n");
+
+
         mFragmentManager = getSupportFragmentManager();
 
         Intent serviceIntent = new Intent();
