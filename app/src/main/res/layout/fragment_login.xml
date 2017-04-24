@@ -76,7 +76,7 @@
         android:layout_gravity="center">
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBoxRember"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

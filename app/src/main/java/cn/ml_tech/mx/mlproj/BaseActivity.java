@@ -1,16 +1,15 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +21,7 @@ import java.util.List;
 import cn.ml_tech.mx.mlservice.IMlService;
 import cn.ml_tech.mx.mlservice.MotorControl;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
 
     protected String mCurrentContentFragmentTag;
     protected String mCurrentTopFragmentTag;
@@ -34,7 +33,11 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void logv(String msg) {
         Log.v(getClass().getSimpleName(), msg);
-        activityCollector.addActivity(this);
+
+    }
+    protected void LogDebug(String msg) {
+        Log.d(getClass().getSimpleName()+" "+" debug ", msg);
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +48,8 @@ public class BaseActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_base);
         logv("created\n");
-
-
-        mFragmentManager = getSupportFragmentManager();
+        activityCollector.addActivity(this);
+        mFragmentManager = getFragmentManager();
 
         Intent serviceIntent = new Intent();
         serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
@@ -89,11 +91,8 @@ public class BaseActivity extends AppCompatActivity {
 
     protected Fragment getFragment(String tag) {
         Fragment f = mFragmentManager.findFragmentByTag(tag);
-
         if (f == null) {
-
         }
-
         return f;
     }
     protected FragmentTransaction ensureTransaction() {
@@ -132,8 +131,10 @@ public class BaseActivity extends AppCompatActivity {
     protected Fragment switchContentFragment(String tag){
         Fragment f = null;
         if(!tag.equals(mCurrentContentFragmentTag)){
+
             if (mCurrentContentFragmentTag != null) detachFragment(getFragment(mCurrentContentFragmentTag));
             //attachFragment(mMenuDrawer.getContentContainer().getId(), getFragment(tag), tag);
+            LogDebug("replace fragment "+tag);
             attachFragment(R.id.linearlayout_middle,  f=getFragment(tag), tag);
             mCurrentContentFragmentTag = tag;
             commitTransactions();

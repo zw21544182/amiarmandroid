@@ -17,7 +17,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res/layout/DrugStandardCheck',
+                    'src/main/res/layout/',
+                    'src/main/res'
+
+            ]
+            java.srcDirs = ['src/main/java', 'src/main/java/CustomView']
+        }
+    }
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

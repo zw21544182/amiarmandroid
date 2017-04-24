@@ -1,18 +1,15 @@
 package cn.ml_tech.mx.mlproj;
 
+import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,12 +17,23 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
 
     private LoginFragment loginFragment = null;
     private OptionFragment optionFragment = null;
+    private CheckBox chkRember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(loginFragment!=null)
+        {
+             loginFragment.getView().findViewById(R.id.checkBoxRember).setVisibility(View.INVISIBLE);//set the rember password invisible
+        }
     }
 
     @Override
@@ -35,29 +43,13 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
 
     @Override
     protected Fragment getFragment(String tag) {
-        Fragment f = mFragmentManager.findFragmentByTag(tag);
+       Fragment f = mFragmentManager.findFragmentByTag(tag);
         if (f == null) {
-            if (tag.equals("content")) {
-//		  		programframe = new ProgrammeFragment();
-//		  		f = programframe;
-            } else if (tag.equals("right_toolbar")) {
-                //f = new RightToolbarFragment();
-            } else if (tag.equals("left_toolbar")) {
-                //f = new LeftToolbarFragment();
-            } else if (tag.equals("bottom_toolbar")) {
-                //f = new ProgramToolbar();
-            } else if (tag.equals("LoginFragment")) {
+            if (tag.equals("LoginFragment")) {
                 f = new LoginFragment();
-            } else if (tag.equals("ProgramToolbar")) {
-                //f = new ProgramToolbar();
-            } else if (tag.equals("ProcessContent")) {
-                //f = new ProcessContent();
-            } else if (tag.equals("ProcessToolbar")) {
-                //f = new ProcessToolbar();
-            } else if (tag.equals("OptionFragment")) {
+            }
+             else if (tag.equals("OptionFragment")) {
                 f = new OptionFragment();
-            } else if (tag.equals("AboutBottomToolbarFragment")) {
-                //f = new AboutBottomToolbarFragment();
             } else {
                 f = super.getFragment(tag);
             }
@@ -87,8 +79,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
     }
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-
         final EditText etUserName = (EditText)this.findViewById(R.id.etUserName);
         final EditText etPassword = (EditText)this.findViewById(R.id.etPassword);
         View btn = this.findViewById(R.id.btLogin);
