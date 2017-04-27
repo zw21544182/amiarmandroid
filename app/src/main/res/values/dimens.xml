@@ -3,5 +3,7 @@
     <dimen name="default_edittext_height">16dp</dimen>
     <dimen name="default_button_height">16dp</dimen>
     <dimen name="login_user_top">160dp</dimen>
-    <dimen name="login_user_left">16dp</dimen>
+    <dimen name="nopadding">0dp</dimen>
+    <dimen name="nomargin">0dp</dimen>
+
 </resources>

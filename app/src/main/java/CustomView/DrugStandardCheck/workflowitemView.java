@@ -3,39 +3,54 @@ package DrugStandardCheck;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TextView;
 
 /**
  * Created by ml on 2017/4/22.
  */
 
-public class workflowitemView extends TextView {
+public class workflowitemView extends TextView{
     private String title;
-    private Color bgcolor;
+    private int bgcolor;
+    private int textcolor;
+    private boolean isHightLight;
+    public int getTextcolor() {
+        return textcolor;
+    }
+
+    public void setTextcolor(int textcolor) {
+        this.textcolor = textcolor;
+    }
+
+    public boolean isHightLight() {
+        return isHightLight;
+    }
+
+    public void setHightLight(boolean hightLight) {
+        isHightLight = hightLight;
+    }
+
     public workflowitemView(Context context) {
         super(context);
+    }
+    public  workflowitemView(Context context,@Nullable AttributeSet attrs,String text,int textcolor,int bgcolor){
+        super(context,attrs);
+
+        this.setTextcolor(textcolor);
+        this.setText(text);
+        this.setBgcolor(bgcolor);
     }
     public workflowitemView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
     }
-    
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-    }
-
-    public Color getBgcolor() {
+    public int getBgcolor() {
         return bgcolor;
     }
 
-    public void setBgcolor(Color bgcolor) {
+    public void setBgcolor(int bgcolor) {
         this.bgcolor = bgcolor;
     }
 

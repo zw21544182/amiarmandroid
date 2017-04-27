@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener,OptionFragment.OnFragmentInteractionListener {
-
     private LoginFragment loginFragment = null;
     private OptionFragment optionFragment = null;
     private CheckBox chkRember;
@@ -24,21 +23,35 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         super.onCreate(savedInstanceState);
         LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(loginFragment!=null)
+        /*
+        *
+        *@author wl
+        *create at  2017/4/27 14:42
+        * the function maybe not use
+        */
+
+        if(loginFragment!=null&&loginFragment.getView()!=null)
         {
-             loginFragment.getView().findViewById(R.id.checkBoxRember).setVisibility(View.INVISIBLE);//set the rember password invisible
+            LogDebug(" on start loginfragment is not null");
+            chkRember= (CheckBox) loginFragment.getView().findViewById(R.id.checkBoxRember);
+            if(chkRember!=null)
+                chkRember.setVisibility(View.INVISIBLE);//set the rember password invisible
         }
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    protected void onRestart() {
+        super.onRestart();
 
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
     }
 
     @Override

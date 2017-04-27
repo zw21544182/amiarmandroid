@@ -2,222 +2,265 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/nomargin"
     android:layout_marginLeft="100dp"
     android:layout_marginRight="100dp"
     android:background="@color/colorBackgroud"
+    android:padding="@dimen/default_edittext_height"
+    android:paddingBottom="@dimen/nopadding"
+    android:paddingLeft="@dimen/nopadding"
+    android:paddingRight="@dimen/nopadding"
+    android:paddingTop="@dimen/nopadding"
     tools:context="cn.ml_tech.mx.mlproj.CsbdFragment">
 
     <LinearLayout
+        android:id="@+id/layoutmain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="top"
-        android:gravity="right">
-        <Button
-            android:id="@+id/btBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="返回"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/nomargin"
+        android:orientation="vertical"
+        android:padding="@dimen/nopadding">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="left" >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="top"
-                android:paddingLeft="80dp">
-
-                <Button
-                    android:id="@+id/btZdjy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/zdjy"
-                    android:text=" " />
-                <Button
-                    android:id="@+id/btJxsqy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/jxsqy"
-                    android:paddingLeft="10dp"
-                    android:text=" " />
-
-                <Button
-                    android:id="@+id/btGdyp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/gdyp"
-                    android:paddingLeft="10dp"
-                    android:text=" " />
-                <Button
-                    android:id="@+id/btGsxp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/gsxp"
-                    android:paddingLeft="10dp"
-                    android:text=" " />
-                <Button
-                    android:id="@+id/btJgsm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/jgsm"
-                    android:paddingLeft="10dp"
-                    android:text=" " />
-                <Button
-                    android:id="@+id/btJgxs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/jgxs"
-                    android:paddingLeft="10dp"
-                    android:text=" " />
-                <Button
-                    android:id="@+id/btZdcp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/zdcp"
-                    android:paddingLeft="10dp"
-                    android:text=" " />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="80dp"
-                android:paddingLeft="80dp">
-
-                <TextView
-                    android:id="@+id/tvNotice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="#e73f56"
-                    android:textSize="20sp"
-                    android:text="请放入安瓶10ml 40um标准粒子瓶，开始标定!" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="bottom"
-                android:paddingLeft="80dp"
-                android:paddingTop="100dp">
-
-                <Button
-                    android:id="@+id/btStart"
-                    android:layout_width="5dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="开始标定" />
-                <Button
-                    android:id="@+id/btApply"
-                    android:layout_width="5dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="应用" />
-                <Button
-                    android:id="@+id/btExport"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="数据导出" />
-                <TextView
-                    android:id="@+id/btEmpty1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="" />
-                <TextView
-                    android:id="@+id/btEmpty2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-
-        <LinearLayout
+            android:id="@+id/layoutBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="right"
-            android:paddingRight="50dp"
-            android:paddingLeft="50dp">
-            <TextView
-            android:id="@+id/tvResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="标定结果" />
-            <TextView
-                android:id="@+id/tvResult"
+            android:layout_margin="@dimen/nomargin"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="@dimen/nopadding">
+
+            <Button
+                android:id="@+id/btBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="40um标准" />
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="50um标准" />
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="60um标准" />
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="40um方差" />
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="60um方差" />
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="旋屏时间" />
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="停瓶时间" />
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="色差系数" />
+                android:text="返回" />
         </LinearLayout>
-    </LinearLayout>
+        <!-- content left state right result-->
+        <LinearLayout
+
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/nomargin"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="@dimen/nopadding">
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/nomargin"
+                android:orientation="vertical"
+                android:padding="@dimen/nopadding"
+                android:layout_weight="3"
+                >
+                <LinearLayout
+                    android:id="@+id/layoutworkflow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="left|center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/nomargin"
+                    android:orientation="vertical"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_weight="1"
+                    android:padding="@dimen/nopadding">
+                    <TextView
+                        android:id="@+id/tvNotice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="请放入安瓶10ml 40um标准粒子瓶，开始标定!"
+                        android:textColor="#e73f56"
+                        android:textSize="20sp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/nomargin"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/nopadding"
+                    android:gravity="bottom|left"
+                    >
+                    <Button
+                        android:id="@+id/btStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开始标定" />
+
+                    <Button
+                        android:id="@+id/btApply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="应用" />
+
+                    <Button
+                        android:id="@+id/btExport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="数据导出" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/nomargin"
+                android:layout_weight="1"
+              android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/nopadding">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/labResult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="标定结果" />
+                    <TextView
+                        android:id="@+id/lab40um"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="40um标准" />
+                    <TextView
+                        android:id="@+id/lab50um"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="50um标准" />
+
+                    <TextView
+                        android:id="@+id/lab60um"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="60um标准" />
+
+                    <TextView
+                        android:id="@+id/lab40umvariance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="40um方差" />
+
+                    <TextView
+                        android:id="@+id/lab60umvariance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="60um方差" />
+
+                    <TextView
+                        android:id="@+id/labrotatetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="旋屏时间" />
+
+                    <TextView
+                        android:id="@+id/labstoptime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="停瓶时间" />
+
+                    <TextView
+                        android:id="@+id/labcolorfactor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="色差系数" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/nomargin"
+                        android:paddingLeft="20dp"
+                        android:layout_weight="1"
+                          android:gravity="left"
+                        android:orientation="vertical"
+                        android:padding="@dimen/nopadding">
+                            <TextView
+                                android:id="@+id/txtResult"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="标定结果" />
+                            <TextView
+                                android:id="@+id/txt40um"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="40um标准" />
+
+                            <TextView
+                                android:id="@+id/txt50um"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="50um标准" />
+
+                            <TextView
+                                android:id="@+id/txt60um"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="60um标准" />
+
+                            <TextView
+                                android:id="@+id/txt40umvariance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="40um方差" />
+
+                            <TextView
+                                android:id="@+id/txt60umvariance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="60um方差" />
+
+                            <TextView
+                                android:id="@+id/txtrotatetime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="旋屏时间" />
+
+                            <TextView
+                                android:id="@+id/txtstoptime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="停瓶时间" />
+
+                            <TextView
+                                android:id="@+id/txtcolorfactor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="色差系数" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
 </FrameLayout>

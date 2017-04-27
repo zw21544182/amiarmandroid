@@ -8,9 +8,12 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
+import android.graphics.Region;
+import android.graphics.RegionIterator;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,9 +23,7 @@ import java.util.List;
 
 import cn.ml_tech.mx.mlservice.IMlService;
 import cn.ml_tech.mx.mlservice.MotorControl;
-
 public class BaseActivity extends Activity {
-
     protected String mCurrentContentFragmentTag;
     protected String mCurrentTopFragmentTag;
     protected String mCurrentBottomFragmentTag;
@@ -30,11 +31,10 @@ public class BaseActivity extends Activity {
     protected FragmentManager mFragmentManager;
     private ActivityCollector activityCollector = new ActivityCollector();
     protected IMlService mService;
-
     protected void logv(String msg) {
         Log.v(getClass().getSimpleName(), msg);
-
     }
+
     protected void LogDebug(String msg) {
         Log.d(getClass().getSimpleName()+" "+" debug ", msg);
 
@@ -50,7 +50,6 @@ public class BaseActivity extends Activity {
         logv("created\n");
         activityCollector.addActivity(this);
         mFragmentManager = getFragmentManager();
-
         Intent serviceIntent = new Intent();
         serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
         serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
@@ -84,6 +83,7 @@ public class BaseActivity extends Activity {
     }
     @Override
     protected  void onDestroy() {
+        LogDebug("on destory "+this.getPackageName());
         super.onDestroy();
         unbindService(mConnection);
         activityCollector.removeActivity(this);
@@ -91,8 +91,6 @@ public class BaseActivity extends Activity {
 
     protected Fragment getFragment(String tag) {
         Fragment f = mFragmentManager.findFragmentByTag(tag);
-        if (f == null) {
-        }
         return f;
     }
     protected FragmentTransaction ensureTransaction() {
@@ -100,7 +98,6 @@ public class BaseActivity extends Activity {
             mFragmentTransaction = mFragmentManager.beginTransaction();
             mFragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         }
-
         return mFragmentTransaction;
     }
     protected void attachFragment(int layout, Fragment f, String tag) {
@@ -121,7 +118,6 @@ public class BaseActivity extends Activity {
             mFragmentTransaction.detach(f);
         }
     }
-
     protected void commitTransactions() {
         if (mFragmentTransaction != null && !mFragmentTransaction.isEmpty()) {
             mFragmentTransaction.commit();
@@ -131,7 +127,6 @@ public class BaseActivity extends Activity {
     protected Fragment switchContentFragment(String tag){
         Fragment f = null;
         if(!tag.equals(mCurrentContentFragmentTag)){
-
             if (mCurrentContentFragmentTag != null) detachFragment(getFragment(mCurrentContentFragmentTag));
             //attachFragment(mMenuDrawer.getContentContainer().getId(), getFragment(tag), tag);
             LogDebug("replace fragment "+tag);
@@ -163,15 +158,13 @@ public class BaseActivity extends Activity {
         }
         return f;
     }
-
-
     public class ActivityCollector {
         public List<Activity> activityList = new ArrayList<>();
-
         public void addActivity(Activity activity) {
             activityList.add(activity);
         }
         public void removeActivity(Activity activity) {
+            LogDebug("remove activity "+activity.getClass().getSimpleName());
             activityList.remove(activity);
         }
         public void finishAll() {

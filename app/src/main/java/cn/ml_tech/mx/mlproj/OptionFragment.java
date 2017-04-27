@@ -105,6 +105,7 @@ public class OptionFragment extends Fragment implements View.OnClickListener {
         getActivity().findViewById(R.id.ibSjcx).setOnClickListener(this);
         getActivity().findViewById(R.id.ibXtwh).setOnClickListener(this);
     }
+    
     @Override
     public void onClick(View v) {
         Intent intent = null;
