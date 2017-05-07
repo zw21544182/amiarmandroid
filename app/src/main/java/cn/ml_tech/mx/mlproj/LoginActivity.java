@@ -13,8 +13,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener,OptionFragment.OnFragmentInteractionListener {
+public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener,OptionFragment.OnFragmentInteractionListener,
+                                                BottomFragment.OnFragmentInteractionListener {
     private LoginFragment loginFragment = null;
+    private BottomFragment bottomFragment = null;
     private OptionFragment optionFragment = null;
     private CheckBox chkRember;
 
@@ -23,6 +25,7 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         super.onCreate(savedInstanceState);
         LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
+        bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
     }
 
     @Override
@@ -63,6 +66,8 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
             }
              else if (tag.equals("OptionFragment")) {
                 f = new OptionFragment();
+            } else if (tag.equals("BottomFragment")) {
+                f = new BottomFragment();
             } else {
                 f = super.getFragment(tag);
             }

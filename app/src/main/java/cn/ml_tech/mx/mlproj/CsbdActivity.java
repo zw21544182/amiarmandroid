@@ -21,14 +21,16 @@ import java.util.List;
 
 import DrugStandardCheck.workflowitemView;
 
-public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragmentInteractionListener, View.OnClickListener {
+public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener, View.OnClickListener {
     CsbdFragment csbdFragment = null;
+    BottomFragment bottomFragment = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_csbd);
         LogDebug(CsbdFragment.class.getSimpleName());
         csbdFragment = (CsbdFragment) switchContentFragment(CsbdFragment.class.getSimpleName());
+        bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
     }
     protected void onStart() {
         super.onStart();
@@ -97,6 +99,9 @@ public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragme
             } else if (tag.equals("CsbdFragment")) {
                 LogDebug("new CsbdFragment");
                 f = new CsbdFragment();
+            } else if (tag.equals("BottomFragment")) {
+                LogDebug("new BottomFragment");
+                f = new BottomFragment();
             } else {
                 f = super.getFragment(tag);
             }

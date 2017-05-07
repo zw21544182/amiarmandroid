@@ -5,25 +5,45 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.graphics.PixelFormat;
 import android.graphics.Region;
 import android.graphics.RegionIterator;
+import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.service.notification.StatusBarNotification;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Manifest;
 
 import cn.ml_tech.mx.mlservice.IMlService;
 import cn.ml_tech.mx.mlservice.MotorControl;
+
+import static android.content.ContentValues.TAG;
+
 public class BaseActivity extends Activity {
+    public static final int OVERLAY_PERMISSION_REQ_CODE = 4545;
     protected String mCurrentContentFragmentTag;
     protected String mCurrentTopFragmentTag;
     protected String mCurrentBottomFragmentTag;
@@ -31,6 +51,7 @@ public class BaseActivity extends Activity {
     protected FragmentManager mFragmentManager;
     private ActivityCollector activityCollector = new ActivityCollector();
     protected IMlService mService;
+    public static final String FULL_SCREEN_EXPAND_STATUSBAR = "android.settings.FULL_SCREEN_EXPAND_STATUSBAR";
     protected void logv(String msg) {
         Log.v(getClass().getSimpleName(), msg);
     }
@@ -39,6 +60,35 @@ public class BaseActivity extends Activity {
         Log.d(getClass().getSimpleName()+" "+" debug ", msg);
 
     }
+
+    //禁止下拉
+    private void prohibitDropDown() {
+        customViewGroup view;
+        WindowManager manager;
+        manager = ((WindowManager) getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE));
+        WindowManager.LayoutParams localLayoutParams = new WindowManager.LayoutParams();
+        localLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        localLayoutParams.gravity = Gravity.TOP;
+        localLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|
+                // this is to enable the notification to recieve touch events
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+                // Draws over status bar
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        localLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        localLayoutParams.height = (int) (50 * getResources()
+                .getDisplayMetrics().scaledDensity);
+        localLayoutParams.format = PixelFormat.TRANSPARENT;
+        view = new customViewGroup(this);
+        manager.addView(view, localLayoutParams);
+
+        customViewGroup viewBottom = new customViewGroup(this);
+        localLayoutParams.gravity = Gravity.BOTTOM;
+        localLayoutParams.height = (int) (50 * getResources()
+                .getDisplayMetrics().scaledDensity);
+        manager.addView(viewBottom, localLayoutParams);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +105,43 @@ public class BaseActivity extends Activity {
         serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
         bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        hideBottomUIMenu();
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //if (Settings.System.canWrite(this)) {
+            if (Settings.canDrawOverlays(this)) {
+                //Toast.makeText(this, "Write allowed :-)", Toast.LENGTH_LONG).show();
+                //Settings.System.putInt(this.getContentResolver(), FULL_SCREEN_EXPAND_STATUSBAR, 0);
+                prohibitDropDown();
+            }
+            else {
+                Toast.makeText(this, "Write not allowed :-(", Toast.LENGTH_LONG).show();
+                //Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+                //intent.setData(Uri.parse("package:" + getPackageName()));
+                // startActivity(intent);
+            }
+
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
+            if (!Settings.canDrawOverlays(this)) {
+                Toast.makeText(this, "User can access system settings without this permission!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                prohibitDropDown();
+            }
+        }
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -141,6 +228,7 @@ public class BaseActivity extends Activity {
         if(!tag.equals( mCurrentTopFragmentTag)){
             if (mCurrentTopFragmentTag != null) detachFragment(getFragment(mCurrentTopFragmentTag));
             //attachFragment(mMenuDrawer.getContentContainer().getId(), getFragment(tag), tag);
+            LogDebug("replace fragment "+tag);
             attachFragment(R.id.linearlayout_top,  f=getFragment(tag), tag);
             mCurrentTopFragmentTag = tag;
             commitTransactions();
@@ -152,6 +240,7 @@ public class BaseActivity extends Activity {
         if(!tag.equals(mCurrentBottomFragmentTag)){
             if (mCurrentBottomFragmentTag != null) detachFragment(getFragment(mCurrentBottomFragmentTag));
             //attachFragment(mMenuDrawer.getContentContainer().getId(), getFragment(tag), tag);
+            LogDebug("replace fragment "+tag);
             attachFragment(R.id.linearlayout_bottom,  f=getFragment(tag), tag);
             mCurrentBottomFragmentTag = tag;
             commitTransactions();
@@ -175,5 +264,65 @@ public class BaseActivity extends Activity {
             }
         }
 
+    }
+
+    /**
+     * 隐藏虚拟按键，并且全屏
+     */
+    protected void hideBottomUIMenu() {
+        //隐藏虚拟按键，并且全屏
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        collapseStatusBar();
+    }
+
+    private void collapseStatusBar() {
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        try {
+            Object service = getSystemService("statusbar");
+
+            Class<?> statusbarManager = Class
+                    .forName("android.app.StatusBarManager");
+            Method collapse = null;
+            if (service != null) {
+                if (currentApiVersion <= 16) {
+                    collapse = statusbarManager.getMethod("collapse");
+                } else {
+                    collapse = statusbarManager.getMethod("collapsePanels");
+                }
+                //collapse.setAccessible(true);
+                collapse.invoke(service);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public class customViewGroup extends ViewGroup {
+
+        public customViewGroup(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(MotionEvent ev) {
+            Log.v("customViewGroup", "**********Intercepted");
+            return true;
+        }
     }
 }
