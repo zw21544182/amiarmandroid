@@ -5,7 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-public class JcsjcxActivity extends BaseActivity implements JcsjcxFragment.OnFragmentInteractionListener, View.OnClickListener {
+public class JcsjcxActivity extends BaseActivity implements JcsjcxFragment.OnFragmentInteractionListener,
+        BottomFragment.OnFragmentInteractionListener, View.OnClickListener {
     JcsjcxFragment jcsjcxFragment = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

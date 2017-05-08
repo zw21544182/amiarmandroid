@@ -16,7 +16,6 @@ import android.widget.Toast;
 public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener,OptionFragment.OnFragmentInteractionListener,
                                                 BottomFragment.OnFragmentInteractionListener {
     private LoginFragment loginFragment = null;
-    private BottomFragment bottomFragment = null;
     private OptionFragment optionFragment = null;
     private CheckBox chkRember;
 
@@ -25,7 +24,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         super.onCreate(savedInstanceState);
         LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
-        bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
     }
 
     @Override
@@ -63,11 +61,8 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         if (f == null) {
             if (tag.equals("LoginFragment")) {
                 f = new LoginFragment();
-            }
-             else if (tag.equals("OptionFragment")) {
+            } else if (tag.equals("OptionFragment")) {
                 f = new OptionFragment();
-            } else if (tag.equals("BottomFragment")) {
-                f = new BottomFragment();
             } else {
                 f = super.getFragment(tag);
             }
@@ -120,10 +115,11 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
                     if (result) {
                         msg = "login success";
                         optionFragment = (OptionFragment) switchContentFragment(OptionFragment.class.getSimpleName());
+                        app.setUserName(userName);
+                        app.setLogined(true);
+                        bottomFragment.updateDisplay();
                     }
                     Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
-
-
                 }
             });
         }

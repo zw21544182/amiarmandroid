@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -18,6 +19,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class BottomFragment extends Fragment {
+    private AmiApp app = null;
+    private TextView tvLoginedUserName = null;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +64,20 @@ public class BottomFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        app = (AmiApp) getActivity().getApplication();
+        tvLoginedUserName = (TextView) getActivity().findViewById(R.id.loginedUserName);
+        updateDisplay();
+    }
+
+    public void updateDisplay() {
+        if (app.getLogined()) {
+            tvLoginedUserName.setText(app.getUserName());
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -75,6 +92,7 @@ public class BottomFragment extends Fragment {
     }
 
     @Override
+
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {

@@ -44,6 +44,8 @@ import static android.content.ContentValues.TAG;
 
 public class BaseActivity extends Activity {
     public static final int OVERLAY_PERMISSION_REQ_CODE = 4545;
+    protected AmiApp app = null;
+    protected BottomFragment bottomFragment = null;
     protected String mCurrentContentFragmentTag;
     protected String mCurrentTopFragmentTag;
     protected String mCurrentBottomFragmentTag;
@@ -92,6 +94,7 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        app = (AmiApp)getApplication();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -125,6 +128,7 @@ public class BaseActivity extends Activity {
             }
 
         }
+        bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -178,6 +182,11 @@ public class BaseActivity extends Activity {
 
     protected Fragment getFragment(String tag) {
         Fragment f = mFragmentManager.findFragmentByTag(tag);
+        if (f == null) {
+            if (tag.equals("BottomFragment")) {
+                f = new BottomFragment();
+            }
+        }
         return f;
     }
     protected FragmentTransaction ensureTransaction() {

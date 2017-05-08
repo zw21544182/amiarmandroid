@@ -4,7 +4,7 @@ import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmentInteractionListener {
+public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
     XtwhFragment xtwhFragment = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

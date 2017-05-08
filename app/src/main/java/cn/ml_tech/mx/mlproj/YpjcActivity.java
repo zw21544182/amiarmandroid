@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 
 public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmentInteractionListener, View.OnClickListener,
-        YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener {
+        YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener,
+        BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
     YpxxFragment ypxxFragment = null;
@@ -52,7 +53,7 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btPre:
-
+                this.finish();
                 break;
             case R.id.btNext:
                 ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
