@@ -9,11 +9,6 @@
         android:layout_height="149dp"
         android:orientation="horizontal"
         android:background="@drawable/head">
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="head test" />
     </LinearLayout>
 
     <LinearLayout

@@ -1,11 +1,13 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
@@ -30,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
@@ -42,16 +45,17 @@ import cn.ml_tech.mx.mlservice.MotorControl;
 
 import static android.content.ContentValues.TAG;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener {
     public static final int OVERLAY_PERMISSION_REQ_CODE = 4545;
     protected AmiApp app = null;
     protected BottomFragment bottomFragment = null;
+    protected HeadFragment headFragment = null;
     protected String mCurrentContentFragmentTag;
     protected String mCurrentTopFragmentTag;
     protected String mCurrentBottomFragmentTag;
     protected FragmentTransaction mFragmentTransaction;
     protected FragmentManager mFragmentManager;
-    private ActivityCollector activityCollector = new ActivityCollector();
+    protected ActivityCollector activityCollector = new ActivityCollector();
     protected IMlService mService;
     public static final String FULL_SCREEN_EXPAND_STATUSBAR = "android.settings.FULL_SCREEN_EXPAND_STATUSBAR";
     protected void logv(String msg) {
@@ -129,6 +133,7 @@ public class BaseActivity extends Activity {
 
         }
         bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
+        headFragment = (HeadFragment) switchTopFragment(HeadFragment.class.getSimpleName());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -172,6 +177,13 @@ public class BaseActivity extends Activity {
         MotorControl mControl = null;
         mService.addMotorControl(mControl);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     @Override
     protected  void onDestroy() {
         LogDebug("on destory "+this.getPackageName());
@@ -185,6 +197,8 @@ public class BaseActivity extends Activity {
         if (f == null) {
             if (tag.equals("BottomFragment")) {
                 f = new BottomFragment();
+            } else if (tag.equals("HeadFragment")) {
+                f = new HeadFragment();
             }
         }
         return f;
@@ -256,6 +270,12 @@ public class BaseActivity extends Activity {
         }
         return f;
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     public class ActivityCollector {
         public List<Activity> activityList = new ArrayList<>();
         public void addActivity(Activity activity) {
