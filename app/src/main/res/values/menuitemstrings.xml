@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="MenuUser">用户管理</string>
+    <string name="MenuDeviceDebug">仪器管理</string>
+    <string name="MenuTray">托环管理</string>
+    <string name="MenuInformation">信息管理</string>
+    <string name="MenuDrugParam">参数管理</string>
+    <string name="MenuData">数据管理</string>
+    <string name="MenuSysConfig">系统配置</string>
+    <string name="MenuCaptureConfig">相机配置</string>
+    <string name="MenuAuditTrail">审计追踪</string>
+    <string name="MenuRightManager">权限管理</string>
+    <string name="MenuProgramUpdate">程序更新</string>
+    <string name="MenuLogShow">日志显示</string>
+
+</resources>

@@ -3,16 +3,23 @@ package cn.ml_tech.mx.mlproj;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link XtwhFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link XtwhFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -26,6 +33,7 @@ public class XtwhFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private List<String>listItemMenu=new ArrayList<String>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -54,17 +62,48 @@ public class XtwhFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+                    listItemMenu.add(getString(R.string.MenuUser));
+                    listItemMenu.add(getString(R.string.MenuDeviceDebug));
+                    listItemMenu.add(getString(R.string.MenuTray));
+                    listItemMenu.add(getString(R.string.MenuInformation));
+                    listItemMenu.add(getString(R.string.MenuDrugParam));
+                    listItemMenu.add(getString(R.string.MenuData));
+                    listItemMenu.add(getString(R.string.MenuSysConfig));
+                    listItemMenu.add(getString(R.string.MenuCaptureConfig));
+                    listItemMenu.add(getString(R.string.MenuAuditTrail));
+                    listItemMenu.add(getString(R.string.MenuRightManager));
+                    listItemMenu.add(getString(R.string.MenuProgramUpdate));
+                    listItemMenu.add(getString(R.string.MenuLogShow));
+
+        Log.d("xtwh","oncreate");
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_xtwh, container, false);
+//        return inflater.inflate(R.layout.fragment_xtwh, container, false);
+
+        View view= inflater.inflate(R.layout.fragment_systemsetup, container, false);
+        LinearLayout llRoot= (LinearLayout) view.findViewById(R.id.llSystemRoot);
+        Log.d("xtwh",String.valueOf(listItemMenu.size()));
+
+        for (int i=0;i<listItemMenu.size();i++)
+        {
+            SystemSetUp.MenuItemView itemView=new SystemSetUp.MenuItemView(getContext());
+            itemView.setTitle(listItemMenu.get(i));
+            llRoot.addView(itemView);
+        }
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

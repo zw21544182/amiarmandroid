@@ -20,12 +20,16 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    'src/main/res/layout/SystemSetUp',
                     'src/main/res/layout/DrugStandardCheck',
+                    'src/main/res/layout/DrugReportQuery',
                     'src/main/res/layout/',
                     'src/main/res'
-
             ]
-            java.srcDirs = ['src/main/java', 'src/main/java/CustomView']
+//            java.srcDirs = [ 'src/main/java/CustomView',
+//                             'src/main/java',
+//                             'src/main/',
+//                             'src/']
         }
     }
 }
