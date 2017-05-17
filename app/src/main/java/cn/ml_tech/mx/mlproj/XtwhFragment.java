@@ -67,20 +67,18 @@ public class XtwhFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-                    listItemMenu.add(getString(R.string.MenuUser));
-                    listItemMenu.add(getString(R.string.MenuDeviceDebug));
-                    listItemMenu.add(getString(R.string.MenuTray));
-                    listItemMenu.add(getString(R.string.MenuInformation));
-                    listItemMenu.add(getString(R.string.MenuDrugParam));
-                    listItemMenu.add(getString(R.string.MenuData));
-                    listItemMenu.add(getString(R.string.MenuSysConfig));
-                    listItemMenu.add(getString(R.string.MenuCaptureConfig));
-                    listItemMenu.add(getString(R.string.MenuAuditTrail));
-                    listItemMenu.add(getString(R.string.MenuRightManager));
-                    listItemMenu.add(getString(R.string.MenuProgramUpdate));
-                    listItemMenu.add(getString(R.string.MenuLogShow));
+        listItemMenu.add(getString(R.string.MenuUser));
+        listItemMenu.add(getString(R.string.MenuDeviceDebug));
+        listItemMenu.add(getString(R.string.MenuTray));
+        listItemMenu.add(getString(R.string.MenuInformation));
+        listItemMenu.add(getString(R.string.MenuDrugParam));
+        listItemMenu.add(getString(R.string.MenuData));
+        listItemMenu.add(getString(R.string.MenuSysConfig));
+        listItemMenu.add(getString(R.string.MenuCaptureConfig));
+        listItemMenu.add(getString(R.string.MenuAuditTrail));
+        listItemMenu.add(getString(R.string.MenuRightManager));
+        listItemMenu.add(getString(R.string.MenuProgramUpdate));
+        listItemMenu.add(getString(R.string.MenuLogShow));
 
         Log.d("xtwh","oncreate");
 
@@ -90,13 +88,9 @@ public class XtwhFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_xtwh, container, false);
-
         View view= inflater.inflate(R.layout.fragment_systemsetup, container, false);
         LinearLayout llRoot= (LinearLayout) view.findViewById(R.id.llSystemRoot);
         Log.d("xtwh",String.valueOf(listItemMenu.size()));
-
         for (int i=0;i<listItemMenu.size();i++)
         {
             SystemSetUp.MenuItemView itemView=new SystemSetUp.MenuItemView(getContext());
