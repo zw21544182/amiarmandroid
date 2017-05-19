@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml_tech.mx.CustomView.SystemSetUp.MenuItemView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -25,63 +27,37 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class XtwhFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private List<String>listItemMenu=new ArrayList<String>();
 
+    private String[]arrayItemMenu;
+
+    private String[]arrayFragmentTag;
     private OnFragmentInteractionListener mListener;
 
     public XtwhFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment XtwhFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static XtwhFragment newInstance(String param1, String param2) {
-        XtwhFragment fragment = new XtwhFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        listItemMenu.add(getString(R.string.MenuUser));
-        listItemMenu.add(getString(R.string.MenuDeviceDebug));
-        listItemMenu.add(getString(R.string.MenuTray));
-        listItemMenu.add(getString(R.string.MenuInformation));
-        listItemMenu.add(getString(R.string.MenuDrugParam));
-        listItemMenu.add(getString(R.string.MenuData));
-        listItemMenu.add(getString(R.string.MenuSysConfig));
-        listItemMenu.add(getString(R.string.MenuCaptureConfig));
-        listItemMenu.add(getString(R.string.MenuAuditTrail));
-        listItemMenu.add(getString(R.string.MenuRightManager));
-        listItemMenu.add(getString(R.string.MenuProgramUpdate));
-        listItemMenu.add(getString(R.string.MenuLogShow));
-
-        Log.d("xtwh","oncreate");
-
+        arrayItemMenu=new String[]{
+            getString(R.string.MenuUser),
+                    getString(R.string.MenuDeviceDebug),
+                    getString(R.string.MenuTray),
+                    getString(R.string.MenuInformation),
+                    getString(R.string.MenuDrugParam),
+                    getString(R.string.MenuData),
+                    getString(R.string.MenuSysConfig),
+                    getString(R.string.MenuCaptureConfig),
+                    getString(R.string.MenuAuditTrail),
+                    getString(R.string.MenuRightManager),
+                    getString(R.string.MenuProgramUpdate),
+                    getString(R.string.MenuLogShow),
+        };
+        arrayFragmentTag=getResources().getStringArray(R.array.menufragment);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -90,11 +66,13 @@ public class XtwhFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_systemsetup, container, false);
         LinearLayout llRoot= (LinearLayout) view.findViewById(R.id.llSystemRoot);
-        Log.d("xtwh",String.valueOf(listItemMenu.size()));
-        for (int i=0;i<listItemMenu.size();i++)
+        Log.d(getContext().getPackageName(), "onCreateView: "+String.valueOf(arrayFragmentTag.length)+" "+String.valueOf(arrayItemMenu.length));
+        for (int i=0;i<arrayItemMenu.length;i++)
         {
-            SystemSetUp.MenuItemView itemView=new SystemSetUp.MenuItemView(getContext());
-            itemView.setTitle(listItemMenu.get(i));
+            MenuItemView itemView=new MenuItemView(getContext());
+            itemView.setFragmentTag(arrayFragmentTag[i]);
+            itemView.setTitle(arrayItemMenu[i]);
+            Log.d("debug", "onCreateView: "+arrayItemMenu[i] +" "+arrayFragmentTag[i]);
             llRoot.addView(itemView);
         }
         return view;
@@ -123,6 +101,7 @@ public class XtwhFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

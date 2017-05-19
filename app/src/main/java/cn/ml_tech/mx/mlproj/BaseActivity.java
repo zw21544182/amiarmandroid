@@ -234,7 +234,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
             mFragmentTransaction = null;
         }
     }
-    protected Fragment switchContentFragment(String tag){
+    public Fragment switchContentFragment(String tag){
         Fragment f = null;
         if(!tag.equals(mCurrentContentFragmentTag)){
             if (mCurrentContentFragmentTag != null) detachFragment(getFragment(mCurrentContentFragmentTag));

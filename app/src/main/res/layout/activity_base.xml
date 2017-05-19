@@ -9,7 +9,9 @@
         android:layout_height="149dp"
         android:orientation="horizontal"
         android:background="@drawable/head">
+
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearlayout_middle"

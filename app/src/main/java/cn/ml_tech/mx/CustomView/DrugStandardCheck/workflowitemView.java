@@ -1,4 +1,4 @@
-package DrugStandardCheck;
+package cn.ml_tech.mx.CustomView.DrugStandardCheck;
 
 import android.content.Context;
 import android.graphics.Canvas;

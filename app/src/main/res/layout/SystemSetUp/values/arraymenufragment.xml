@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menufragment">
+        <item>UserManagerFragment</item>
+        <item>DeviceDebugFragment</item>
+        <item>TrayManagerFragment</item>
+        <item>InformationFragment</item>
+        <item>DrugParamFragment</item>
+        <item>DataManagerFragment</item>
+        <item>SysConfigFragment</item>
+        <item>CaptureConfigFragment</item>
+        <item>AuditTrailFragment</item>
+        <item>RightManagerFragment</item>
+        <item>ProgramUpdateFragment</item>
+        <item>LogShowFragment</item>
+
+    </string-array>
+</resources>

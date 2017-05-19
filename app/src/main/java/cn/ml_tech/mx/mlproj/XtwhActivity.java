@@ -10,6 +10,7 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         xtwhFragment = (XtwhFragment)switchContentFragment(XtwhFragment.class.getSimpleName());
+        LogDebug(XtwhFragment.class.getSimpleName());
     }
 
     @Override
@@ -25,7 +26,12 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
 
             } else if (tag.equals("XtwhFragment")) {
                 f = new XtwhFragment();
-            } else {
+            }else if (tag.equals("UserManagerFragment"))
+            {
+                UserManagerFragment fragmentuser=new UserManagerFragment();
+                f=fragmentuser;
+            }
+            else {
                 f = super.getFragment(tag);
             }
         }

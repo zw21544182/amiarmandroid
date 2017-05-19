@@ -19,7 +19,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import DrugStandardCheck.workflowitemView;
+import cn.ml_tech.mx.CustomView.DrugStandardCheck.workflowitemView;
 
 public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener, View.OnClickListener {
     CsbdFragment csbdFragment = null;

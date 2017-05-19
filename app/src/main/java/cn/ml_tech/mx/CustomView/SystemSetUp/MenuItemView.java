@@ -1,12 +1,16 @@
-package SystemSetUp;
-
+package cn.ml_tech.mx.CustomView.SystemSetUp;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlproj.XtwhActivity;
+
 /**
  * Created by ml on 2017/5/16.
  */
@@ -15,6 +19,15 @@ public class MenuItemView extends RelativeLayout {
     private static final String NAMESPACE="http://schemas.android.com/apk/res/cn.ml_tech.mx.mlproj";
     private String mTitle;
     private TextView txtTitle;
+    private String fragmentTag;
+
+    public String getFragmentTag() {
+        return fragmentTag;
+    }
+
+    public void setFragmentTag(String fragmentTag) {
+        this.fragmentTag = fragmentTag;
+    }
 
     public MenuItemView(Context context) {
         super(context);
@@ -41,9 +54,22 @@ public class MenuItemView extends RelativeLayout {
         View.inflate(getContext(), R.layout.view_menu_item,this);
         txtTitle= (TextView) findViewById(R.id.txtSubMenuText);
         setTitle(mTitle);
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                XtwhActivity activity= ((XtwhActivity)getContext());
+                activity.switchContentFragment(getFragmentTag());
+            }
+        });
     }
     public void setTitle(String title)
     {
         txtTitle.setText(title);
     }
+    public void setViewOnClickListener(OnClickListener l)
+    {
+        this.setOnClickListener(l);
+    }
+
+
 }
