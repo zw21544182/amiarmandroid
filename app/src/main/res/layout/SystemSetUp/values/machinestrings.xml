@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="UserAbbreviation">用户缩写</string>
+    <string name="UserName">用户名称</string>
+    <string name="MachineSn">仪器编号</string>
+    <string name="MachineType">仪器型号</string>
+    <string name="MachineName">仪器名称</string>
+    <string name="MachineFactoryName">仪器厂家</string>
+    <string name="MachineDateOfProduction">出厂日期</string>
+    <string name="Save">保存</string>
+</resources>

@@ -4,7 +4,7 @@
         <item>UserManagerFragment</item>
         <item>DeviceDebugFragment</item>
         <item>TrayManagerFragment</item>
-        <item>InformationFragment</item>
+        <item>ManchineManagerFragment</item>
         <item>DrugParamFragment</item>
         <item>DataManagerFragment</item>
         <item>SysConfigFragment</item>

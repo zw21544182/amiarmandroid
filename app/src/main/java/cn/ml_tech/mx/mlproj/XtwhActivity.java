@@ -30,6 +30,9 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
             {
                 UserManagerFragment fragmentuser=new UserManagerFragment();
                 f=fragmentuser;
+            }else if(tag.equals("ManchineManagerFragment"))
+            {
+                f=new ManchineManagerFragment();
             }
             else {
                 f = super.getFragment(tag);

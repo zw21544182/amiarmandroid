@@ -76,10 +76,7 @@ public class UserManagerFragment extends Fragment {
      class RecyleUserAdapter extends RecyclerView.Adapter<RecyleUserAdapter.ViewHolder>
     {
         private List<User>listUser;
-
         private Context context;
-
-
         private AdapterView.OnItemClickListener mlistener;
         public RecyleUserAdapter(Context context,List<User>list)
         {
