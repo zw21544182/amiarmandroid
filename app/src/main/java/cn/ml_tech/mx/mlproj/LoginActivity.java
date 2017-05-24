@@ -3,15 +3,17 @@ package cn.ml_tech.mx.mlproj;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.List;
+
+import cn.ml_tech.mx.mlservice.Bean.User;
 
 public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener,OptionFragment.OnFragmentInteractionListener,
                                                 BottomFragment.OnFragmentInteractionListener {
@@ -43,6 +45,11 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
             if(chkRember!=null)
                 chkRember.setVisibility(View.INVISIBLE);//set the rember password invisible
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -100,6 +107,18 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
 
                 @Override
                 public void onClick(View v) {
+
+                    try {
+            List<User> list=mService.getUserList();
+                        LogDebug(String.valueOf(list.size()));
+                        boolean flag= mService.checkAuthority("1230","123");
+                        LogDebug("checkAuthority "+ String.valueOf(flag));
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+
+
+
                     logv("login....");
                     String userName = etUserName.getText().toString();
                     String password = etPassword.getText().toString();
@@ -108,6 +127,7 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
                     boolean result = false;
                     try {
                         result = mService.checkAuthority(userName, password);
+                        result=true;//the result set true on debug
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

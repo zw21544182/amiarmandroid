@@ -1,9 +1,6 @@
 package cn.ml_tech.mx.CustomView.SystemSetUp;
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;

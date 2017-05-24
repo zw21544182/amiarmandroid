@@ -1,6 +1,5 @@
 package cn.ml_tech.mx.mlproj;
 
-import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;

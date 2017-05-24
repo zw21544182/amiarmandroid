@@ -1,49 +1,38 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
-import android.graphics.Region;
-import android.graphics.RegionIterator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
-import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Manifest;
 
+import cn.ml_tech.mx.mlservice.Bean.User;
 import cn.ml_tech.mx.mlservice.IMlService;
 import cn.ml_tech.mx.mlservice.MotorControl;
-
-import static android.content.ContentValues.TAG;
 
 public class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener {
     public static final int OVERLAY_PERMISSION_REQ_CODE = 4545;
@@ -64,6 +53,13 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
 
     protected void LogDebug(String msg) {
         Log.d(getClass().getSimpleName()+" "+" debug ", msg);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogDebug("Base Resume");
 
     }
 
@@ -111,10 +107,24 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
         serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
         bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
+       /*
+        try {
+            List<User>list= mService.getUserList();
+            Log.d("fer", String.valueOf(list.size()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        LogDebug("mService get userlist");
+        app.setmMLService(mService);
+        try {
+            List<User> list= app.getmMLService().getUserList();
+            //LogDebug("User Size is "+list.size());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        */
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         hideBottomUIMenu();
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //if (Settings.System.canWrite(this)) {
             if (Settings.canDrawOverlays(this)) {
