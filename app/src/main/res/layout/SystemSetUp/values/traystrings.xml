@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trayIcid">托环芯片编号</string>
+    <string name="trayDisplayId">托环编号</string>
+    <string name="containerDiameter">药瓶直径</string>
+    <string name="trayInnerDiameter">托环内径</string>
+    <string name="trayExternalDiameter">托环外径</string>
+    <string name="trayInfo">托环信息</string>
+    <string name="trayRead">读取编号</string>
+    <string name="traySave">保存</string>
+    <string name="trayReset">重置</string>
+</resources>

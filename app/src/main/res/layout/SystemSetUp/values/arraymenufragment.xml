@@ -13,6 +13,5 @@
         <item>RightManagerFragment</item>
         <item>ProgramUpdateFragment</item>
         <item>LogShowFragment</item>
-
     </string-array>
 </resources>
