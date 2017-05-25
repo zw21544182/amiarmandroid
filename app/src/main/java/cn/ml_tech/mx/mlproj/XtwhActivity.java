@@ -15,9 +15,7 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
-
     @Override
     protected Fragment getFragment(String tag) {
         Fragment f = mFragmentManager.findFragmentByTag(tag);
@@ -36,6 +34,9 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
             }else if(tag.equals("TrayManagerFragment"))
             {
                 f=new TrayManagerFragment();
+            }else if(tag.equals("DeviceDebugFragment"))
+            {
+                f=new DeviceDebugFragment();
             }
             else {
                 f = super.getFragment(tag);

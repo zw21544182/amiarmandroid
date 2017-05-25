@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/linearLayout">
+    <TextView
+        android:text="@string/debugDiameter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        />
+    <EditText
+        android:id="@+id/etDebugDiameter"
+        android:minWidth="50dp"
+        android:maxWidth="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="@string/readTrayNumber"
+        android:id="@+id/btnReadTray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="@string/laserSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="@string/laserOpen"
+        android:id="@+id/btnLaserSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btnMotorReset"
+        android:text="@string/motorReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btnMotorLockSwitch"
+        android:text="@string/motorRelease"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btnParamSave"
+        android:text="@string/paramSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout"
+        app:tabGravity="fill"
+      >
+
+        <android.support.design.widget.TabItem
+            android:layout="@layout/layoutsenddebug"
+            android:text="Left"
+
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"/>
+        <android.support.design.widget.TabItem
+            android:layout="@layout/layoutmachinehanddebug"
+            android:text="Left"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+
+            />
+
+
+    </android.support.design.widget.TabLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="debugDiameter">调试规格直径(mm)</string>
+    <string name="readTrayNumber">读取托环</string>
+    <string name="laserSwitch">激光开关</string>
+    <string name="laserOpen">打开</string>
+    <string name="laserClose">关闭</string>
+    <string name="motorReset">复位</string>
+    <string name="motorRelease">释放</string>
+    <string name="motorLock">上锁</string>
+    <string name="paramSave">保存参数</string>
+    <string name="machineSendDebug">送瓶调试</string>
+    <string name="machineHandDebug">机械手调试</string>
+    <string name="machineCatchDebug">抓瓶调试</string>
+    <string name="machinePressedDebug">压瓶调试</string>
+    <string name="machineShadeDebug">遮光调试</string>
+    <string name="machineRotateDebug">旋瓶调试</string>
+    <string name="machineOutPutDebug">出瓶调试</string>
+    <string name="machineAutoDebug">自动调试</string>
+    <string name="motorSendSpeed">电机速度(m/s)</string>
+    <string name="motorOffsetLoacation">补偿位置(mm)</string>
+    <string name="motorRunState">运行状态</string>
+    <string name="motorStart">启动</string>
+    <string name="motorWrite">写入</string>
+    <string name="motorMachineHandCatchLocation">抓瓶位置(mm)</string>
+    <string name="motorMachineHandDetLocation">检测位置(mm)</string>
+    <string name="motorMachineHandWaitLocation">等待位置(mm)</string>
+    <string name="motorMachineHandOutPutLocation">出瓶位置(mm)</string>
+    <string name="motorMachineHandCatchMaxDistance">机械手\n张开最大距离(mm)</string>
+    <string name="motorCatchPutterMoveDistance">推杆\n移动距离(5-10mm)</string>
+    <string name="motorMachineHandOpenDistance">机械手\n张开距离(mm)</string>
+    <string name="motorCatchCal">计算</string>
+    <string name="motorCatchParam1">参数1(mm)</string>
+    <string name="motorCatchParam2">参数2(mm)</string>
+    <string name="motorCatchDelayTime">停留时间</string>
+    <string name="motorShadeParam">遮光参数(mm)</string>
+    <string name="motorShadeParamDebug">遮光参数</string>
+    <string name="motorRotateSpeed">电机速度(转/分)</string>
+    <string name="motorOutPut10mlStandardParam1">10ml标准参数1(mm)</string>
+    <string name="motorOutPut10mlStandardParam2">10ml标准参数2(mm)</string>
+    <string name="motorOutPut10mlStandardDiameter">10ml标准直径(mm)</string>
+    <string name="motorAutoDebugStart">自动运行</string>
+    <string name="motorAutoDebugOpenWindow">开窗</string>
+    <string name="motorAutoDebugBinary">二值化</string>
+    <string name="motorAutoDebugShowMotorVersion">显示驱动版本</string>
+
+</resources>
