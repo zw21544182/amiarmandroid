@@ -40,8 +40,10 @@
     <string name="motorOutPut10mlStandardParam2">10ml标准参数2(mm)</string>
     <string name="motorOutPut10mlStandardDiameter">10ml标准直径(mm)</string>
     <string name="motorAutoDebugStart">自动运行</string>
+    <string name="motorAutoDebugSet">设置</string>
     <string name="motorAutoDebugOpenWindow">开窗</string>
     <string name="motorAutoDebugBinary">二值化</string>
+    <string name="motorAutoDebugReadReg">读取</string>
     <string name="motorAutoDebugShowMotorVersion">显示驱动版本</string>
 
 </resources>

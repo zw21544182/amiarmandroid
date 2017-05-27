@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+ android:rowCount="2"
+    android:layout_column="3"
+    >
+   <Button
+       android:text="@string/machineAutoDebug"
+       android:id="@+id/btnAutoRun"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       />
+    <EditText
+
+        android:id="@+id/txtAutoCount"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+<CheckBox
+    android:layout_row="1"
+    android:text="@string/motorAutoDebugOpenWindow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    />
+    <CheckBox
+        android:text="@string/motorAutoDebugBinary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        />
+<Button
+    android:id="@+id/btnAutoSet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/txtRegValue"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+    <!--<EditText-->
+        <!--android:id="@+id/etRegAddress"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/motorAutoDebugReadReg"-->
+        <!--/>-->
+    <!--<Button-->
+        <!--android:layout_row="3"-->
+        <!--android:layout_column=""-->
+        <!--android:id="@+id/btnShowMotorVersion"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/motorAutoDebugShowMotorVersion"-->
+        <!--/>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</GridLayout>
