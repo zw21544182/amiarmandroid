@@ -27,19 +27,19 @@
     <EditText
         android:layout_row="1"
         android:layout_column="0"
-        android:id="@+id/txtOutPut10mlStandardParam1"
+        android:id="@+id/etOutPut10mlStandardParam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
-        android:id="@+id/txtOutPut10mlStandardParam2"
+        android:id="@+id/etOutPut10mlStandardParam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
-        android:id="@+id/txtOutPut10mlStandardParamDiameter"
+        android:id="@+id/etOutPut10mlStandardParamDiameter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
@@ -78,19 +78,19 @@
     <EditText
         android:layout_row="3"
         android:layout_column="0"
-        android:id="@+id/txtOutPut10mlStandardSpeed"
+        android:id="@+id/etOutPut10mlStandardSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
-        android:id="@+id/txtOutPutParam1"
+        android:id="@+id/etOutPutParam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
-        android:id="@+id/txtOutPutParam2"
+        android:id="@+id/etOutPutParam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"

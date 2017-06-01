@@ -40,13 +40,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnShadeMotorParam"
+        android:id="@+id/btnRotateMotorStart"
         android:text="@string/motorStart"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnPressedMotorWrite"
-        android:text="@string/motorWrite"
+        android:id="@+id/btnRotateMotorStop"
+        android:text="@string/motorStop"
         />
 </GridLayout>

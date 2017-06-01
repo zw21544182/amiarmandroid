@@ -15,8 +15,7 @@
        android:layout_width="wrap_content"
        />
     <EditText
-
-        android:id="@+id/txtAutoCount"
+        android:id="@+id/etAutoCount"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"/>
 <CheckBox
@@ -32,6 +31,7 @@
 
         />
 <Button
+    android:text="@string/motorAutoDebugSet"
     android:id="@+id/btnAutoSet"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>

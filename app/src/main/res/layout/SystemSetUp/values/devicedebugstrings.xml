@@ -21,6 +21,7 @@
     <string name="motorOffsetLoacation">补偿位置(mm)</string>
     <string name="motorRunState">运行状态</string>
     <string name="motorStart">启动</string>
+    <string name="motorStop">停止</string>
     <string name="motorWrite">写入</string>
     <string name="motorMachineHandCatchLocation">抓瓶位置(mm)</string>
     <string name="motorMachineHandDetLocation">检测位置(mm)</string>
@@ -45,5 +46,33 @@
     <string name="motorAutoDebugBinary">二值化</string>
     <string name="motorAutoDebugReadReg">读取</string>
     <string name="motorAutoDebugShowMotorVersion">显示驱动版本</string>
+    <string-array name="arrayDebugParam">
+        <item name="DebugDiameter" />
+        <item name="SendMotorSpeed" />
+        <item name="SendMotorOffsetLocation" />
+        <item name="MachineHandMotorSpeed" />
+        <item name="MachineHandMotorCatchLocation" />
+        <item name="MachineHandMotorDetLocation" />
+        <item name="MachineHandMotorOutPutLocation" />
+        <item name="MachineHandMotorWaitLocation" />
+        <item name="CatchDelayTime" />
+        <item name="CatchMaxDiatance" />
+        <item name="CatchOpenDistance" />
+        <item name="CatchParam1" />
+        <item name="CatchParam2" />
+        <item name="CatchPutterDistance" />
+        <item name="CatchSpeed" />
+        <item name="PressedParam1" />
+        <item name="PressedSpeed" />
+        <item name="ShadeMotorParam" />
+        <item name="ShadeMotorSpeed" />
+        <item name="RotateMotorSpeed" />
+        <item name="OutPut10mlStandardParam1" />
+        <item name="OutPut10mlStandardParam2" />
+        <item name="OutPut10mlStandardParamDiameter" />
+        <item name="OutPut10mlStandardSpeed" />
+        <item name="OutPutParam1" />
+        <item name="OutPutParam2" />
 
+    </string-array>
 </resources>

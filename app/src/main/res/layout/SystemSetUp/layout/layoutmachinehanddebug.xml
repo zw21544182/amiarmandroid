@@ -72,7 +72,7 @@
         />
     <TextView
         android:layout_column="4"
-        android:id="@+id/txtMachineHandMotor"
+        android:id="@+id/txtMachineHandMotorState"
         android:text="@string/motorRunState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,13 +80,13 @@
     <Button
         android:layout_row="3"
         android:layout_column="3"
-        android:id="@+id/btnSendMotorStart"
+        android:id="@+id/btnMachineHandMotorStart"
         android:text="@string/motorStart"
         />
     <Button
         android:layout_row="3"
         android:layout_column="4"
-        android:id="@+id/btnSendMotorWrite"
+        android:id="@+id/btnMachineHandMotorWrite"
         android:text="@string/motorWrite"
         />
 </GridLayout>

@@ -44,6 +44,7 @@
         android:inputType="numberDecimal"
         />
     <Button
+        android:id="@+id/btnCatchCal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorCatchCal"
@@ -106,13 +107,13 @@
     <Button
         android:layout_row="4"
         android:layout_column="3"
-        android:id="@+id/btnSendMotorStart"
+        android:id="@+id/btnCatchMotorStart"
         android:text="@string/motorStart"
         />
     <Button
         android:layout_row="4"
         android:layout_column="4"
-        android:id="@+id/btnSendMotorWrite"
+        android:id="@+id/btnCatchMotorWrite"
         android:text="@string/motorWrite"
         />
 </GridLayout>
