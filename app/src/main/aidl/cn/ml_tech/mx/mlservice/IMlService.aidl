@@ -6,6 +6,7 @@ import cn.ml_tech.mx.mlservice.listener.IMlServiceChangeListener;
 import cn.ml_tech.mx.mlservice.Bean.User;
 import cn.ml_tech.mx.mlservice.Bean.UserType;
 import cn.ml_tech.mx.mlservice.DAO.DevParam;
+import cn.ml_tech.mx.mlservice.DAO.DevUuid;
 
 // Declare any non-default types here with import statements
 
@@ -23,5 +24,7 @@ interface IMlService {
    List<DevParam>getDeviceParamList(in int type);
    void setDeviceParamList(in List<DevParam>list);
     double getDeviceParams(in String paramName,in int type);
+    DevUuid getDeviceManagerInfo();
+    boolean setDeviceManagerInfo(in DevUuid info);
 
 }

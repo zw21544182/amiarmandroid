@@ -1,5 +1,8 @@
 package cn.ml_tech.mx.mlservice.DAO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
@@ -28,10 +31,26 @@ import java.util.Date;
  foreign key (trayID) REFERENCES tray(id)
  );
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:06
+* CREATE TABLE [devuuid](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [devdateofproduction] integer NOT NULL,
+    [devfactory] text NOT NULL,
+    [devid] text NOT NULL,
+    [devmodel] text NOT NULL,
+    [devname] text NOT NULL,
+    [userabbreviation] text NOT NULL,
+    [username] text NOT NULL);
 
-public class DevUuid extends DataSupport {
+
+*/
+
+public class DevUuid extends DataSupport implements Parcelable {
     @Column(unique = true,nullable = false)
-    private int id;
+    private long id;
     @Column( nullable = false)
     private String userAbbreviation;
     @Column(nullable = false)
@@ -44,12 +63,14 @@ public class DevUuid extends DataSupport {
     private String devName;
     @Column( nullable = false)
     private String devFactory;
+    @Column( nullable = false)
+   private Date devDateOfProduction;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -109,6 +130,48 @@ public class DevUuid extends DataSupport {
         this.devDateOfProduction = devDateOfProduction;
     }
 
-    @Column( nullable = false)
-    Date devDateOfProduction;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.userAbbreviation);
+        dest.writeString(this.userName);
+        dest.writeString(this.devID);
+        dest.writeString(this.devModel);
+        dest.writeString(this.devName);
+        dest.writeString(this.devFactory);
+        dest.writeLong(this.devDateOfProduction != null ? this.devDateOfProduction.getTime() : -1);
+    }
+
+    public DevUuid() {
+
+    }
+
+    protected DevUuid(Parcel in) {
+        this.id = in.readLong();
+        this.userAbbreviation = in.readString();
+        this.userName = in.readString();
+        this.devID = in.readString();
+        this.devModel = in.readString();
+        this.devName = in.readString();
+        this.devFactory = in.readString();
+        long tmpDevDateOfProduction = in.readLong();
+        this.devDateOfProduction = tmpDevDateOfProduction == -1 ? null : new Date(tmpDevDateOfProduction);
+    }
+
+    public static final Creator<DevUuid> CREATOR = new Creator<DevUuid>() {
+        @Override
+        public DevUuid createFromParcel(Parcel source) {
+            return new DevUuid(source);
+        }
+
+        @Override
+        public DevUuid[] newArray(int size) {
+            return new DevUuid[size];
+        }
+    };
 }
