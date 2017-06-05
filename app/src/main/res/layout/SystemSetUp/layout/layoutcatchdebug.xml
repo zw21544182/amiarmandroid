@@ -29,18 +29,18 @@
         android:layout_column="0"
         android:id="@+id/etCatchMaxDiatance"
 
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:inputType="numberDecimal"
         />
     <EditText
         android:id="@+id/etCatchPutterDistance"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
 
         android:inputType="numberDecimal"
         />
     <EditText
         android:id="@+id/etCatchOpenDistance"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:inputType="numberDecimal"
         />
     <Button
@@ -83,17 +83,17 @@
         android:id="@+id/etCatchSpeed"
         />
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/etCatchParam1"
         />
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/etCatchParam2"
         />
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/etCatchDelayTime"
         />

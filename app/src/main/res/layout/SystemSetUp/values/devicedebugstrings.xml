@@ -33,7 +33,7 @@
     <string name="motorCatchCal">计算</string>
     <string name="motorCatchParam1">参数1(mm)</string>
     <string name="motorCatchParam2">参数2(mm)</string>
-    <string name="motorCatchDelayTime">停留时间</string>
+    <string name="motorCatchDelayTime">停留时间(s)</string>
     <string name="motorShadeParam">遮光参数(mm)</string>
     <string name="motorShadeParamDebug">遮光参数</string>
     <string name="motorRotateSpeed">电机速度(转/分)</string>
@@ -47,32 +47,31 @@
     <string name="motorAutoDebugReadReg">读取</string>
     <string name="motorAutoDebugShowMotorVersion">显示驱动版本</string>
     <string-array name="arrayDebugParam">
-        <item name="DebugDiameter" />
-        <item name="SendMotorSpeed" />
-        <item name="SendMotorOffsetLocation" />
-        <item name="MachineHandMotorSpeed" />
-        <item name="MachineHandMotorCatchLocation" />
-        <item name="MachineHandMotorDetLocation" />
-        <item name="MachineHandMotorOutPutLocation" />
-        <item name="MachineHandMotorWaitLocation" />
-        <item name="CatchDelayTime" />
-        <item name="CatchMaxDiatance" />
-        <item name="CatchOpenDistance" />
-        <item name="CatchParam1" />
-        <item name="CatchParam2" />
-        <item name="CatchPutterDistance" />
-        <item name="CatchSpeed" />
-        <item name="PressedParam1" />
-        <item name="PressedSpeed" />
-        <item name="ShadeMotorParam" />
-        <item name="ShadeMotorSpeed" />
-        <item name="RotateMotorSpeed" />
-        <item name="OutPut10mlStandardParam1" />
-        <item name="OutPut10mlStandardParam2" />
-        <item name="OutPut10mlStandardParamDiameter" />
-        <item name="OutPut10mlStandardSpeed" />
-        <item name="OutPutParam1" />
-        <item name="OutPutParam2" />
-
+        <item >DebugDiameter</item>
+        <item >SendMotorSpeed</item>
+        <item >SendMotorOffsetLocation</item>
+        <item >MachineHandMotorSpeed</item>
+        <item >MachineHandMotorCatchLocation</item>
+        <item >MachineHandMotorDetLocation</item>
+        <item >MachineHandMotorOutPutLocation</item>
+        <item >MachineHandMotorWaitLocation</item>
+        <item >CatchDelayTime</item>
+        <item >CatchMaxDiatance</item>
+        <item >CatchOpenDistance</item>
+        <item >CatchParam1</item>
+        <item >CatchParam2</item>
+        <item >CatchPutterDistance</item>
+        <item >CatchSpeed</item>
+        <item >PressedParam1</item>
+        <item >PressedSpeed</item>
+        <item >ShadeMotorParam</item>
+        <item >ShadeMotorSpeed</item>
+        <item >RotateMotorSpeed</item>
+        <item >OutPut10mlStandardParam1</item>
+        <item >OutPut10mlStandardParam2</item>
+        <item >OutPut10mlStandardParamDiameter</item>
+        <item >OutPut10mlStandardSpeed</item>
+        <item >OutPutParam1</item>
+        <item >OutPutParam2</item>
     </string-array>
 </resources>

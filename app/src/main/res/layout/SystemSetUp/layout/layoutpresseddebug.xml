@@ -28,13 +28,13 @@
 
     <EditText
         android:id="@+id/etPressedSpeed"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
         android:id="@+id/etPressedParam1"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />

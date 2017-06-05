@@ -18,7 +18,8 @@
         android:id="@+id/etDebugDiameter"
         android:minWidth="50dp"
         android:maxWidth="70dp"
-        android:layout_width="wrap_content"
+
+        android:layout_width="100dp"
         android:layout_height="wrap_content" />
     <Button
         android:text="@string/readTrayNumber"

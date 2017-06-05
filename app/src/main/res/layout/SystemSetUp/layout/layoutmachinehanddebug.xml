@@ -37,31 +37,31 @@
         />
     <EditText
         android:id="@+id/etMachineHandMotorSpeed"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
         android:id="@+id/etMachineHandMotorCatchLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
         android:id="@+id/etMachineHandMotorDetLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
         android:id="@+id/etMachineHandMotorWaitLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
         android:id="@+id/etMachineHandMotorOutPutLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal" />
     <TextView

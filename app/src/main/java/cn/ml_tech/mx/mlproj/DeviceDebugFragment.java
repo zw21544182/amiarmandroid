@@ -1,8 +1,12 @@
 package cn.ml_tech.mx.mlproj;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.media.midi.MidiManager;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +18,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
+import cn.ml_tech.mx.mlservice.DAO.DevParam;
 
 import static android.content.ContentValues.TAG;
 
@@ -80,6 +87,9 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
     private TextView txtOutPutRunState;
     private TextView txtPressedRunState;
     private View viewinflate;
+    private BaseActivity mActivity;
+    private List<String> listParamName;
+    private HashMap<String, Double> mParamHasMap;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,8 +100,10 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         viewinflate = inflater.inflate(R.layout.fragment_devicedebug,container,false);
+        listParamName = Arrays.asList(getResources().getStringArray(R.array.arrayDebugParam));
         initView();
         initButtonClick();
+
         return viewinflate;
     }
     private  void initView()
@@ -154,8 +166,9 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
         txtCatchRunState = (TextView) viewinflate.findViewById(R.id.txtCatchRunState);
         txtOutPutRunState = (TextView) viewinflate.findViewById(R.id.txtOutPutRunState);
         txtPressedRunState = (TextView) viewinflate.findViewById(R.id.txtPressedRunState);
-    }
 
+
+    }
     private void  initButtonClick()
     {
         btnReadTray.setOnClickListener(this);
@@ -185,33 +198,33 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
     }
     private void SaveAllParams()
     {
-        String strDebugDiameter=etDebugDiameter.getText().toString();
-        String strSendMotorSpeed=etSendMotorSpeed.getText().toString();
-        String strSendMotorOffsetLocation=etSendMotorOffsetLocation.getText().toString();
-        String strMachineHandMotorSpeed=etMachineHandMotorSpeed.getText().toString();
-        String strMachineHandMotorCatchLocation=etMachineHandMotorCatchLocation.getText().toString();
-        String strMachineHandMotorDetLocation=etMachineHandMotorDetLocation.getText().toString();
-        String strMachineHandMotorOutPutLocation=etMachineHandMotorOutPutLocation.getText().toString();
-        String strMachineHandMotorWaitLocation=etMachineHandMotorWaitLocation.getText().toString();
-        String strCatchDelayTime=etCatchDelayTime.getText().toString();
-        String strCatchMaxDiatance=etCatchMaxDiatance.getText().toString();
-        String strCatchOpenDistance=etCatchOpenDistance.getText().toString();
-        String strCatchParam1=etCatchParam1.getText().toString();
-        String strCatchParam2=etCatchParam2.getText().toString();
-        String strCatchPutterDistance=etCatchPutterDistance.getText().toString();
-        String strCatchSpeed=etCatchSpeed.getText().toString();
-        String strPressedParam1=etPressedParam1.getText().toString();
-        String strPressedSpeed=etPressedSpeed.getText().toString();
-        String strShadeMotorParam=etShadeMotorParam.getText().toString();
-        String strShadeMotorSpeed=etShadeMotorSpeed.getText().toString();
-        String strRotateMotorSpeed=etRotateMotorSpeed.getText().toString();
-        String strOutPut10mlStandardParam1=etOutPut10mlStandardParam1.getText().toString();
-        String strOutPut10mlStandardParam2=etOutPut10mlStandardParam2.getText().toString();
-        String strOutPut10mlStandardParamDiameter=etOutPut10mlStandardParamDiameter.getText().toString();
-        String strOutPut10mlStandardSpeed=etOutPut10mlStandardSpeed.getText().toString();
-        String strOutPutParam1=etOutPutParam1.getText().toString();
-        String strOutPutParam2=etOutPutParam2.getText().toString();
-        List<String> listParamName= Arrays.asList(getResources().getStringArray(R.array.arrayDebugParam));
+        String strDebugDiameter=etDebugDiameter.getText().toString().trim();
+        String strSendMotorSpeed=etSendMotorSpeed.getText().toString().trim();
+        String strSendMotorOffsetLocation=etSendMotorOffsetLocation.getText().toString().trim();
+        String strMachineHandMotorSpeed=etMachineHandMotorSpeed.getText().toString().trim();
+        String strMachineHandMotorCatchLocation=etMachineHandMotorCatchLocation.getText().toString().trim();
+        String strMachineHandMotorDetLocation=etMachineHandMotorDetLocation.getText().toString().trim();
+        String strMachineHandMotorOutPutLocation=etMachineHandMotorOutPutLocation.getText().toString().trim();
+        String strMachineHandMotorWaitLocation=etMachineHandMotorWaitLocation.getText().toString().trim();
+        String strCatchDelayTime=etCatchDelayTime.getText().toString().trim();
+        String strCatchMaxDiatance=etCatchMaxDiatance.getText().toString().trim();
+        String strCatchOpenDistance=etCatchOpenDistance.getText().toString().trim();
+        String strCatchParam1=etCatchParam1.getText().toString().trim();
+        String strCatchParam2=etCatchParam2.getText().toString().trim();
+        String strCatchPutterDistance=etCatchPutterDistance.getText().toString().trim();
+        String strCatchSpeed=etCatchSpeed.getText().toString().trim();
+        String strPressedParam1=etPressedParam1.getText().toString().trim();
+        String strPressedSpeed=etPressedSpeed.getText().toString().trim();
+        String strShadeMotorParam=etShadeMotorParam.getText().toString().trim();
+        String strShadeMotorSpeed=etShadeMotorSpeed.getText().toString().trim();
+        String strRotateMotorSpeed=etRotateMotorSpeed.getText().toString().trim();
+        String strOutPut10mlStandardParam1=etOutPut10mlStandardParam1.getText().toString().trim();
+        String strOutPut10mlStandardParam2=etOutPut10mlStandardParam2.getText().toString().trim();
+        String strOutPut10mlStandardParamDiameter=etOutPut10mlStandardParamDiameter.getText().toString().trim();
+        String strOutPut10mlStandardSpeed=etOutPut10mlStandardSpeed.getText().toString().trim();
+        String strOutPutParam1=etOutPutParam1.getText().toString().trim();
+        String strOutPutParam2=etOutPutParam2.getText().toString().trim();
+
         List<String>listParamValue=new ArrayList<String>();
         listParamValue.add(strDebugDiameter);
         listParamValue.add(strSendMotorSpeed);
@@ -239,11 +252,75 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
         listParamValue.add(strOutPut10mlStandardSpeed);
         listParamValue.add(strOutPutParam1);
         listParamValue.add(strOutPutParam2);
-        Log.d(TAG, "SaveAllParams: "+ String.valueOf(listParamName.size())+" values lengthg "+String.valueOf(listParamValue.size()));
+        List<DevParam>listParam=new ArrayList<DevParam>();
+
+        for (String name: listParamName
+             ) {
+            DevParam param=new DevParam();
+            param.setParamName(name);
+            if(listParamValue.get(listParamName.indexOf(name))!=null&& !TextUtils.isEmpty(listParamValue.get(listParamName.indexOf(name))))
+            param.setParamValue(Double.parseDouble(listParamValue.get(listParamName.indexOf(name))));
+            else param.setParamValue(0);
+            param.setType(0);
+            //Log.d(TAG, "SaveAllParams: "+param.getParamName()+" "+param.getParamValue()+String.valueOf(param.getType()));
+            listParam.add(param);
+
+        }
+        try {
+            mActivity.mService.setDeviceParamList(listParam);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
     }
     private void LoadAllParams()
     {
+        mParamHasMap = new HashMap<String,Double>();
+        List<DevParam>list=new ArrayList<DevParam>();
+        try {
+         list=   mActivity.mService.getDeviceParamList(0);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        for (DevParam param:list
+             ) {
+                mParamHasMap.put(param.getParamName(),param.getParamValue());
+        }
+        etDebugDiameter.setText(String.valueOf(mParamHasMap.get("DebugDiameter")));
+        etSendMotorSpeed.setText(String.valueOf(mParamHasMap.get("SendMotorSpeed")));
+        etSendMotorOffsetLocation.setText(String.valueOf(mParamHasMap.get("SendMotorOffsetLocation")));
+        etMachineHandMotorCatchLocation.setText(String.valueOf(mParamHasMap.get("MachineHandMotorCatchLocation")));
+        etMachineHandMotorDetLocation.setText(String.valueOf(mParamHasMap.get("MachineHandMotorDetLocation")));
+        etMachineHandMotorOutPutLocation.setText(String.valueOf(mParamHasMap.get("MachineHandMotorOutPutLocation")));
+        etMachineHandMotorSpeed.setText(String.valueOf(mParamHasMap.get("MachineHandMotorSpeed")));
+        etMachineHandMotorWaitLocation.setText(String.valueOf(mParamHasMap.get("MachineHandMotorWaitLocation")));
+        etCatchDelayTime.setText(String.valueOf(mParamHasMap.get("CatchDelayTime")));
+        etCatchMaxDiatance.setText(String.valueOf(mParamHasMap.get("CatchMaxDiatance")));
+        etCatchOpenDistance.setText(String.valueOf(mParamHasMap.get("CatchOpenDistance")));
+        etCatchParam1.setText(String.valueOf(mParamHasMap.get("CatchParam1")));
+        etCatchParam2.setText(String.valueOf(mParamHasMap.get("CatchParam2")));
+        etCatchPutterDistance.setText(String.valueOf(mParamHasMap.get("CatchPutterDistance")));
+        etCatchSpeed.setText(String.valueOf(mParamHasMap.get("CatchSpeed")));
+        etPressedParam1.setText(String.valueOf(mParamHasMap.get("PressedParam1")));
+        etPressedSpeed.setText(String.valueOf(mParamHasMap.get("PressedSpeed")));
+        etShadeMotorParam.setText(String.valueOf(mParamHasMap.get("ShadeMotorParam")));
+        etShadeMotorSpeed.setText(String.valueOf(mParamHasMap.get("ShadeMotorSpeed")));
+        etRotateMotorSpeed.setText(String.valueOf(mParamHasMap.get("RotateMotorSpeed")));
+        etOutPut10mlStandardParam1.setText(String.valueOf(mParamHasMap.get("OutPut10mlStandardParam1")));
+        etOutPut10mlStandardParam2.setText(String.valueOf(mParamHasMap.get("OutPut10mlStandardParam2")));
+        etOutPut10mlStandardParamDiameter.setText(String.valueOf(mParamHasMap.get("OutPut10mlStandardParamDiameter")));
+        etOutPut10mlStandardSpeed.setText(String.valueOf(mParamHasMap.get("OutPut10mlStandardSpeed")));
+        etOutPutParam1.setText(String.valueOf(mParamHasMap.get("OutPutParam1")));
+        etOutPutParam2.setText(String.valueOf(mParamHasMap.get("OutPutParam2")));
 
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mActivity =(BaseActivity) getActivity();
+        LoadAllParams();
     }
 
     @Override
