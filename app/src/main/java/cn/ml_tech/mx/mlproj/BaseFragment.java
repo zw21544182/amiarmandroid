@@ -17,7 +17,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public abstract class BaseFragment extends Fragment {
-    public Activity mActivity;
+    public BaseActivity mActivity;
     public View view;
     public Context ct;
 
@@ -36,7 +36,7 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mActivity=getActivity();
+        mActivity= (BaseActivity) getActivity();
         view = initView(inflater);
         return view;
     }

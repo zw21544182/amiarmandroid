@@ -1,8 +1,13 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.ml_tech.mx.mlservice.Bean.TrayHelper;
+import cn.ml_tech.mx.mlservice.DAO.LoginLog;
 import cn.ml_tech.mx.mlservice.DAO.Tray;
 import cn.ml_tech.mx.mlservice.IMlService;
 
@@ -32,6 +44,10 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
     private Button btnResetTray;
     private Tray mTray;
     private TrayHelper mTrayHelper;
+    private RecyclerView mRecyclerViewTray;
+    private List<Tray> trayList=new ArrayList<Tray>();
+    private AdapterTray adapterTray;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,8 +59,6 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
     public View initView(LayoutInflater inflater) {
         view= inflater.inflate(R.layout.fragment_traymanager,null);
         initFindViewById(view);
-
-
         return view;
     }
 
@@ -59,12 +73,20 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         btnReadTray = (Button) view.findViewById(R.id.btnReadTray);
         btnSaveTray = (Button) view.findViewById(R.id.btnSaveTray);
         btnResetTray = (Button) view.findViewById(R.id.btnResetTray);
+        mRecyclerViewTray = (RecyclerView) view.findViewById(R.id.rcvTray);
+
     }
+
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mTray=new Tray();
         mTrayHelper=new TrayHelper(mActivity);
+        adapterTray = new AdapterTray(mActivity, trayList);
+        mRecyclerViewTray.setAdapter(adapterTray);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(mActivity);
+        mRecyclerViewTray.setLayoutManager(linearLayoutManager);
+        LoadTrayData();
     }
 
     @Override
@@ -90,9 +112,21 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         this.mTray.setExternalDiameter(UtilsHelper.String2Double(etTrayExternalDiameter.getText().toString().trim()));
         this.mTray.setDiameter(UtilsHelper.String2Double(etContainerDiameter.getText().toString().trim()));
         this.mTray.setMark(etMark.getText().toString().trim());
-
-        mTrayHelper.saveOrUpdateTray(this.mTray);
-
+        if(mTrayHelper.saveOrUpdateTray(this.mTray)) {
+            ResetTray();
+            LoadTrayData();
+        }
+        else Toast.makeText(mActivity, "保存托环信息失败", Toast.LENGTH_SHORT).show();
+    }
+    private void LoadTrayData()
+    {
+        try {
+            trayList = ((BaseActivity)mActivity).getmService().getTrayList();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        mActivity.LogDebug("LoadTrayData: "+ String.valueOf(trayList.size()));
+        adapterTray.UpdateList(trayList);
     }
     private void ResetTray()
     {
@@ -121,4 +155,67 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
                 break;
         }
     }
+    class AdapterTray extends RecyclerView.Adapter<AdapterTray.ViewHolderTray>
+    {
+        public void UpdateList(List<Tray>list)
+
+        {
+            this.trayList=list;
+            notifyDataSetChanged();
+        }
+        List<Tray> trayList;
+        Context mcontext;
+        AdapterTray(Context context,List<Tray>list)
+        {
+            this.mcontext=context;
+            this.trayList=list;
+        }
+        @Override
+        public ViewHolderTray onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view=LayoutInflater.from(this.mcontext).inflate(R.layout.recyletray,viewGroup,false);
+            ViewHolderTray viewHolderTray=new ViewHolderTray(view);
+            return viewHolderTray;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolderTray viewHolder, int i) {
+            viewHolder.txtTrayIcId.setText(trayList.get(i).getIcId());
+            viewHolder.txtTrayDisplayNumber.setText(String.valueOf(trayList.get(i).getDisplayId()));
+            viewHolder.txtContainerDiameter.setText(String.valueOf(trayList.get(i).getDiameter()));
+            viewHolder.txtTrayInnerDiameter.setText(String.valueOf(trayList.get(i).getInnerDiameter()));
+            viewHolder.txtTrayExternalDiameter.setText(String.valueOf(trayList.get(i).getExternalDiameter()));
+            viewHolder.txtMark.setText(trayList.get(i).getMark());
+            viewHolder.txtEdit.setText("修改");
+            viewHolder.txtDel.setText("删除");
+        }
+
+        @Override
+        public int getItemCount() {
+            return null==this.trayList?0:this.trayList.size();
+        }
+        class ViewHolderTray extends RecyclerView.ViewHolder
+        {
+            TextView txtTrayIcId;
+            TextView txtTrayDisplayNumber;
+            TextView txtContainerDiameter;
+            TextView txtTrayInnerDiameter;
+            TextView txtTrayExternalDiameter;
+            TextView txtMark;
+            TextView txtEdit;
+            TextView txtDel;
+
+            public ViewHolderTray(View itemView) {
+                super(itemView);
+                txtTrayIcId= (TextView) itemView.findViewById(R.id.txtTrayIcId);
+                txtTrayDisplayNumber= (TextView) itemView.findViewById(R.id.txtTrayDisplayNumber);
+                txtContainerDiameter= (TextView) itemView.findViewById(R.id.txtContainerDiameter);
+                txtTrayInnerDiameter= (TextView) itemView.findViewById(R.id.txtTrayInnerDiameter);
+                txtTrayExternalDiameter= (TextView) itemView.findViewById(R.id.txtTrayExternalDiameter);
+                txtMark= (TextView) itemView.findViewById(R.id.txtMark);
+                txtEdit= (TextView) itemView.findViewById(R.id.txtEdit);
+                txtDel= (TextView) itemView.findViewById(R.id.txtDel);
+            }
+        }
+    }
+
 }
