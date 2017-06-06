@@ -16,7 +16,7 @@
             >
             <EditText
                 android:id="@+id/etTrayIcId"
-                android:enabled="true"
+                android:enabled="false"
                 android:hint="@string/trayIcid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -35,7 +35,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+
                     android:hint="@string/trayDisplayId"
+                    android:inputType="number"
                     android:id="@+id/etTrayDisplayNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -54,6 +56,7 @@
         android:layout_height="wrap_content" />
     <EditText
         android:hint="@string/containerDiameter"
+        android:inputType="numberDecimal"
         android:id="@+id/etContainerDiameter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -77,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/etTrayInnerDiameter"
                     android:hint="@string/trayInnerDiameter"
                     android:layout_width="wrap_content"
@@ -93,6 +97,7 @@ android:orientation="horizontal"
         android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/etTrayExternalDiameter"
+        android:inputType="numberDecimal"
         android:hint="@string/trayExternalDiameter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -110,6 +115,7 @@ android:orientation="horizontal"
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/etMark"
+
                 android:hint="@string/trayInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

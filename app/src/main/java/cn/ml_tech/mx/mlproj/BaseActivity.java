@@ -45,6 +45,15 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     protected FragmentTransaction mFragmentTransaction;
     protected FragmentManager mFragmentManager;
     protected ActivityCollector activityCollector = new ActivityCollector();
+
+    public IMlService getmService() {
+        return mService;
+    }
+
+    public void setmService(IMlService mService) {
+        this.mService = mService;
+    }
+
     protected IMlService mService;
     public static final String FULL_SCREEN_EXPAND_STATUSBAR = "android.settings.FULL_SCREEN_EXPAND_STATUSBAR";
     protected void logv(String msg) {
