@@ -86,6 +86,27 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         mRecyclerViewTray.setAdapter(adapterTray);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(mActivity);
         mRecyclerViewTray.setLayoutManager(linearLayoutManager);
+        adapterTray.setOnItemClickListener(new AdapterTray.OnItemClickListener() {
+            @Override
+            public void onSubViewClick(View view, int position) {
+                switch (view.getId())
+                {
+                    case R.id.txtEdit:
+                        EditTray(adapterTray.trayList.get(position));
+                        break;
+                    case R.id.txtDel:
+                        if(DelTray(adapterTray.trayList.get(position)))
+                        {
+                            adapterTray.trayList.remove(position);
+                            adapterTray.notifyItemRemoved(position);
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         LoadTrayData();
     }
 
@@ -106,6 +127,11 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
     }
     private void SaveTray(Tray tray)
     {
+        if(!CheckInfoComplete())
+        {
+            Toast.makeText(mActivity, "托环信息不完整", Toast.LENGTH_SHORT).show();
+            return ;
+        }
         this.mTray.setIcId(etTrayIcId.getText().toString().trim());
         this.mTray.setDisplayId(UtilsHelper.String2Int(etTrayDisplayNumber.getText().toString().trim()));
         this.mTray.setInnerDiameter(UtilsHelper.String2Double(etTrayInnerDiameter.getText().toString().trim()));
@@ -118,6 +144,36 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         }
         else Toast.makeText(mActivity, "保存托环信息失败", Toast.LENGTH_SHORT).show();
     }
+    private boolean CheckInfoComplete()
+    {
+        String icid=etTrayIcId.getText().toString().trim();
+        String dia=etContainerDiameter.getText().toString().trim();
+        String inndia=etTrayInnerDiameter.getText().toString().trim();
+        String extdia=etTrayExternalDiameter.getText().toString().trim();
+        String disid=etTrayDisplayNumber.getText().toString().trim();
+        String mark=etMark.getText().toString().trim();
+        if(TextUtils.isEmpty(icid)||TextUtils.isEmpty(dia)||TextUtils.isEmpty(inndia)
+                ||TextUtils.isEmpty(extdia)||TextUtils.isEmpty(disid)||TextUtils.isEmpty(mark))
+            return false;
+        else return true;
+    }
+    private boolean DelTray(Tray tray)
+    {
+        boolean flag=false;
+        flag= mTrayHelper.DelTray(tray);
+        return flag;
+    }
+    private void EditTray(Tray tray)
+    {
+
+        mTrayHelper.EditTray(tray);
+        etContainerDiameter.setText(String.valueOf(tray.getDiameter()));
+        etTrayInnerDiameter.setText(String.valueOf(tray.getInnerDiameter()));
+        etTrayExternalDiameter.setText(String.valueOf(tray.getExternalDiameter()));
+        etTrayIcId.setText(tray.getIcId());
+        etTrayDisplayNumber.setText(String.valueOf(tray.getDisplayId()));
+        etMark.setText(tray.getMark());
+    }
     private void LoadTrayData()
     {
         try {
@@ -125,7 +181,6 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        mActivity.LogDebug("LoadTrayData: "+ String.valueOf(trayList.size()));
         adapterTray.UpdateList(trayList);
     }
     private void ResetTray()
@@ -155,16 +210,21 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
                 break;
         }
     }
-    class AdapterTray extends RecyclerView.Adapter<AdapterTray.ViewHolderTray>
-    {
-        public void UpdateList(List<Tray>list)
 
+    static class AdapterTray extends RecyclerView.Adapter<AdapterTray.ViewHolderTray>implements View.OnClickListener
+    {
+        public interface OnItemClickListener{
+            void onSubViewClick(View view,int position);
+        }
+        public void setOnItemClickListener(OnItemClickListener listener){this.mOnItemClickListener=listener;}
+        public void UpdateList(List<Tray>list)
         {
             this.trayList=list;
             notifyDataSetChanged();
         }
         List<Tray> trayList;
         Context mcontext;
+        private OnItemClickListener mOnItemClickListener=null;
         AdapterTray(Context context,List<Tray>list)
         {
             this.mcontext=context;
@@ -174,6 +234,8 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         public ViewHolderTray onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view=LayoutInflater.from(this.mcontext).inflate(R.layout.recyletray,viewGroup,false);
             ViewHolderTray viewHolderTray=new ViewHolderTray(view);
+            viewHolderTray.txtEdit.setOnClickListener(this);
+            viewHolderTray.txtDel.setOnClickListener(this);
             return viewHolderTray;
         }
 
@@ -187,12 +249,23 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
             viewHolder.txtMark.setText(trayList.get(i).getMark());
             viewHolder.txtEdit.setText("修改");
             viewHolder.txtDel.setText("删除");
+            viewHolder.txtEdit.setTag(i);
+            viewHolder.txtDel.setTag(i);
         }
 
         @Override
         public int getItemCount() {
             return null==this.trayList?0:this.trayList.size();
         }
+
+        @Override
+        public void onClick(View v) {
+            if(null!=mOnItemClickListener)
+            {
+                mOnItemClickListener.onSubViewClick(v, (Integer) v.getTag());
+            }
+        }
+
         class ViewHolderTray extends RecyclerView.ViewHolder
         {
             TextView txtTrayIcId;

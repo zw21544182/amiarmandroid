@@ -30,8 +30,6 @@ CREATE TABLE [tray](
     [icid] text NOT NULL UNIQUE,
     [innerdiameter] real NOT NULL,
     [mark] text NOT NULL);
-
-
 */
 
 public class Tray extends DataSupport implements Parcelable {

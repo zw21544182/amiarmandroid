@@ -63,7 +63,18 @@ public class TrayHelper {
         }
         return flag;
     }
+    public void EditTray(Tray tray){this.tray=tray;}
+    public boolean DelTray(Tray tray)
+    {
+        boolean flag=false;
+        try {
+            flag=mlService.delTray(tray);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return flag;
 
+    }
 
 
 }
