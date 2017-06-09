@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="StandRotate">标准粒子旋瓶次数:</string>
+    <string name="FiberCountMax">纤维阈值:</string>
+    <string name="FloatCountMax">悬浮物阈值:</string>
+    <string name="GlassPrecent">沉淀物比重阈值:</string>
+    <string name="GlassTime">沉淀物时间阈值:</string>
+    <string name="DiskMax">磁盘使用百分比:</string>
+    <string name="IpAddress">IP地址:</string>
+    <string name="NetMask">子网掩码:</string>
+    <string name="GateWay">默认网关:</string>
+    <string name="Apply">应用</string>
+</resources>

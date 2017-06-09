@@ -100,7 +100,6 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
                             adapterTray.trayList.remove(position);
                             adapterTray.notifyItemRemoved(position);
                         }
-
                         break;
                     default:
                         break;
@@ -121,7 +120,6 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
     {
         String icid=mTrayHelper.getTrayIcId();
         this.mTray.setIcId(icid);
-
         if(TextUtils.isEmpty(icid))return "";
         else return icid;
     }
@@ -290,5 +288,4 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
             }
         }
     }
-
 }

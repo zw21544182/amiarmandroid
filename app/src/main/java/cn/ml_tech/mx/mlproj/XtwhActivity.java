@@ -41,6 +41,10 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
             {
                 f=new DeviceDebugFragment();
             }
+            else if(tag.equals("SysConfigFragment"))
+            {
+                f=new SysConfigFragment();
+            }
             else {
                 f = super.getFragment(tag);
             }
