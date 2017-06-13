@@ -116,9 +116,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
-
-
-
                     logv("login....");
                     String userName = etUserName.getText().toString();
                     String password = etPassword.getText().toString();

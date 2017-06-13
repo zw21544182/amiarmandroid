@@ -45,6 +45,7 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     @Override
     public void onStart() {
         super.onStart();
+        switchTopFragment("");//hiden powerbutton on this Activity
         findViewById(R.id.btPre).setOnClickListener(this);
         findViewById(R.id.btNext).setOnClickListener(this);
     }

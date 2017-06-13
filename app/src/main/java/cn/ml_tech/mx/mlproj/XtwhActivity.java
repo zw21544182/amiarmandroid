@@ -11,7 +11,15 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
         super.onCreate(savedInstanceState);
         xtwhFragment = (XtwhFragment)switchContentFragment(XtwhFragment.class.getSimpleName());
         LogDebug(XtwhFragment.class.getSimpleName());
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        switchTopFragment("");//hiden powerbutton on this Activity
+    }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

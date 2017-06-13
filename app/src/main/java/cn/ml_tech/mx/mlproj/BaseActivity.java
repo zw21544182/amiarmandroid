@@ -44,7 +44,6 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     protected String mCurrentBottomFragmentTag;
     protected FragmentTransaction mFragmentTransaction;
     protected FragmentManager mFragmentManager;
-    protected ActivityCollector activityCollector = new ActivityCollector();
 
     public IMlService getmService() {
         return mService;
@@ -110,7 +109,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         }
         setContentView(R.layout.activity_base);
         logv("created\n");
-        activityCollector.addActivity(this);
+        ActivityCollector.addActivity(this);
         mFragmentManager = getFragmentManager();
         Intent serviceIntent = new Intent();
         serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
@@ -208,7 +207,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         LogDebug("on destory "+this.getPackageName());
         super.onDestroy();
         unbindService(mConnection);
-        activityCollector.removeActivity(this);
+        ActivityCollector.removeActivity(this);
     }
 
     protected Fragment getFragment(String tag) {
@@ -294,26 +293,6 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-    public class ActivityCollector {
-        public List<Activity> activityList = new ArrayList<>();
-        public void addActivity(Activity activity) {
-            activityList.add(activity);
-        }
-        public void removeActivity(Activity activity) {
-            LogDebug("remove activity "+activity.getClass().getSimpleName());
-            activityList.remove(activity);
-        }
-        public void finishAll() {
-            for (Activity activity : activityList) {
-                if (!activity.isFinishing()) {
-                    activity.finish();
-                }
-            }
-        }
-
-    }
-
     /**
      * 隐藏虚拟按键，并且全屏
      */

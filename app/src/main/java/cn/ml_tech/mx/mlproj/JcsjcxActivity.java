@@ -12,6 +12,7 @@ public class JcsjcxActivity extends BaseActivity implements JcsjcxFragment.OnFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         jcsjcxFragment = (JcsjcxFragment)switchContentFragment(JcsjcxFragment.class.getSimpleName());
+
     }
 
     @Override
@@ -37,6 +38,7 @@ public class JcsjcxActivity extends BaseActivity implements JcsjcxFragment.OnFra
     @Override
     protected void onStart() {
         super.onStart();
+        switchTopFragment("");//hiden powerbutton on this Activity
         findViewById(R.id.btBack).setOnClickListener(this);
     }
 

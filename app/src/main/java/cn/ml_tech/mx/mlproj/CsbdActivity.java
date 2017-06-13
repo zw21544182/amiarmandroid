@@ -29,8 +29,8 @@ public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragme
     }
     protected void onStart() {
         super.onStart();
+        switchTopFragment("");//hiden powerbutton on this Activity
         CsbdFragment f=(CsbdFragment) getFragment(CsbdFragment.class.getSimpleName());
-//        CsbdActivity.this.findViewById(R.id.btBack).setOnClickListener(this);
         if(f!=null)
         {
            View view= f.getView();

@@ -91,14 +91,16 @@ public class HeadFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // 点击“确认”后的操作
-                                    ((BaseActivity)getActivity()).activityCollector.finishAll();
+//                                    ((BaseActivity)getActivity()).activityCollector.finishAll();
+                                    ActivityCollector.finishAll();
 
                                 }
                             })
                             .setNeutralButton("退出APP", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ((BaseActivity)getActivity()).activityCollector.finishAll();
+                                    ActivityCollector.finishAll();
+//                                    ((BaseActivity)getActivity()).activityCollector.finishAll();
                                 }
                             })
                             .setNegativeButton("返回", new DialogInterface.OnClickListener() {
