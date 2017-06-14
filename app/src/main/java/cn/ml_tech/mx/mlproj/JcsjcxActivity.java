@@ -5,14 +5,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-public class JcsjcxActivity extends BaseActivity implements JcsjcxFragment.OnFragmentInteractionListener,
+public class JcsjcxActivity extends BaseActivity implements
         BottomFragment.OnFragmentInteractionListener, View.OnClickListener {
     JcsjcxFragment jcsjcxFragment = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         jcsjcxFragment = (JcsjcxFragment)switchContentFragment(JcsjcxFragment.class.getSimpleName());
-
     }
 
     @Override

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DetSn">检索编号</string>
+    <string name="DetBatch">批号</string>
+    <string name="DetCode">检测编号</string>
+    <string name="DrugName">药品名称</string>
+    <string name="Factory">厂家</string>
+    <string name="FirstCount">初检</string>
+    <string name="SecondCount">复检</string>
+    <string name="DetDate">检测日期</string>
+    <string name="DetOperator">检测人员</string>
+    <string name="DetailNumber">编号</string>
+    <string name="DetailFloatResult">悬浮物</string>
+    <string name="DetailGlassResult">速降物</string>
+    <string name="DetailAnalyzeResult">异物检出率</string>
+    <string name="DetailNodeResult">异物颗粒</string>
+    <string name="DetailSuperNodeResult">超大颗粒</string>
+    <string name="DetailAllResult">结果详情</string>
+    <string name="DetailVideo">视频</string>
+    <string name="DetailIsPositive">综合结果</string>
+    <string name="DetailIsValid">是否有效</string>
+    <string name="DetailDetType">检测类型</string>
+    <string name="DetailRotateTime">旋瓶时间</string>
+    <string name="DetailStopTime">停瓶时间</string>
+    <string name="DetailRotateStateText">旋瓶状态</string>
+    <string name="DetailStopStateText">停瓶状态</string>
+    <string name="DetailColorFactor">色差系数</string>
+    <string name="DetPDF">PDF</string>
+    <string name="DetDetail">详情</string>
+    <string name="DetDelete">删除</string>
+
+
+</resources>

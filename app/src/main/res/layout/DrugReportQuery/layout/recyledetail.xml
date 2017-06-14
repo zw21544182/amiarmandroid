@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:id="@+id/txtDetailNumber"
+        android:text="@string/DetailNumber"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailFloatResult"
+        android:text="@string/DetailFloatResult"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailGlassResult"
+        android:text="@string/DetailGlassResult"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailAnalyzeResult"
+        android:text="@string/DetailAnalyzeResult"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailNodeResult"
+        android:text="@string/DetailNodeResult"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailSuperNodeResult"
+        android:text="@string/DetailSuperNodeResult"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailAllResult"
+        android:text="@string/DetailAllResult"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailIsPositive"
+        android:text="@string/DetailIsPositive"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailVideo"
+        android:text="@string/DetailVideo"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailIsValid"
+        android:text="@string/DetailIsValid"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailDetType"
+        android:text="@string/DetailDetType"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailRotateTime"
+        android:text="@string/DetailRotateTime"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailStopTime"
+        android:text="@string/DetailStopTime"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailRotateStateText"
+        android:text="@string/DetailRotateStateText"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailStopStateText"
+        android:text="@string/DetailStopStateText"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txtDetailColorFactor"
+        android:text="@string/DetailColorFactor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
