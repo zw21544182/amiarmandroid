@@ -28,6 +28,11 @@
     <string name="DetPDF">PDF</string>
     <string name="DetDetail">详情</string>
     <string name="DetDelete">删除</string>
+    <string name="ResultPositive">阳性</string>
+    <string name="ResultNegative">阴性</string>
+    <string name="NormalText">正常</string>
+    <string name="AbNormalText">异常</string>
+
 
 
 </resources>

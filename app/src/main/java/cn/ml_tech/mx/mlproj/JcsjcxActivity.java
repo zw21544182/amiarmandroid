@@ -4,10 +4,14 @@ import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class JcsjcxActivity extends BaseActivity implements
         BottomFragment.OnFragmentInteractionListener, View.OnClickListener {
     JcsjcxFragment jcsjcxFragment = null;
+    private Button btnBack;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +42,18 @@ public class JcsjcxActivity extends BaseActivity implements
     protected void onStart() {
         super.onStart();
         switchTopFragment("");//hiden powerbutton on this Activity
-        findViewById(R.id.btBack).setOnClickListener(this);
+        btnBack = (Button) findViewById(R.id.btBack);
+        btnBack.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btBack:
+               if(jcsjcxFragment.isReportLayout())
                 JcsjcxActivity.this.finish();
+                else jcsjcxFragment.ShowReport();
                 break;
             default:
                 break;

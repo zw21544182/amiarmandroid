@@ -1,5 +1,8 @@
 package cn.ml_tech.mx.mlservice.DAO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
@@ -30,12 +33,34 @@ import java.util.List;
  foreign key (trayID) REFERENCES tray(id)
  );
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:00
+* CREATE TABLE [detectionreport](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [date] integer NOT NULL,
+    [deprecate] integer NOT NULL DEFAULT false,
+    [detectionbatch] text NOT NULL,
+    [detectioncount] integer NOT NULL,
+    [detectionfirstcount] integer NOT NULL,
+    [detectionnumber] text NOT NULL,
+    [detectionsecondcount] integer NOT NULL,
+    [detectionsn] text NOT NULL,
+    [ispdfdown] integer NOT NULL DEFAULT false,
+    [user_id] integer,
+    [druginfo_id] integer);
 
-public class DetectionReport extends DataSupport {
+
+*/
+
+public class DetectionReport extends DataSupport implements Parcelable {
     @Column(unique = true,nullable = false)
-    private  int id;
+    private  long id;
     @Column(nullable = false)
-    private int drugId;
+    private long user_id;
+    @Column(nullable = false)
+    private long druginfo_id;
     @Column(nullable = false)
     private String detectionSn;
     @Column( nullable = false)
@@ -50,29 +75,37 @@ public class DetectionReport extends DataSupport {
     private  int detectionSecondCount;
     @Column(nullable = false)
     private  Date date;
-    @Column( nullable = false)
-    private  String operator;
     @Column( nullable = false,defaultValue = "false")
     private boolean deprecate;
     @Column( nullable = false,defaultValue = "false")
     private boolean ispdfdown;
-    private DrugInfo drugInfo;
-    private User user;
     private List<DetectionDetail>listDetail=new ArrayList<DetectionDetail>();
-    public int getId() {
+    protected String drugName;
+    protected String factoryName;
+    protected String userName;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getDrugId() {
-        return drugId;
+    public long getUser_id() {
+        return user_id;
     }
 
-    public void setDrugId(int drugId) {
-        this.drugId = drugId;
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
+    public long getDruginfo_id() {
+        return druginfo_id;
+    }
+
+    public void setDruginfo_id(long druginfo_id) {
+        this.druginfo_id = druginfo_id;
     }
 
     public String getDetectionSn() {
@@ -131,14 +164,6 @@ public class DetectionReport extends DataSupport {
         this.date = date;
     }
 
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
     public boolean isDeprecate() {
         return deprecate;
     }
@@ -155,22 +180,6 @@ public class DetectionReport extends DataSupport {
         this.ispdfdown = ispdfdown;
     }
 
-    public DrugInfo getDrugInfo() {
-        return drugInfo;
-    }
-
-    public void setDrugInfo(DrugInfo drugInfo) {
-        this.drugInfo = drugInfo;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<DetectionDetail> getListDetail() {
         return listDetail;
     }
@@ -179,6 +188,88 @@ public class DetectionReport extends DataSupport {
         this.listDetail = listDetail;
     }
 
+    public String getDrugName() {
+        return drugName;
+    }
 
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
 
+    public String getFactoryName() {
+        return factoryName;
+    }
+
+    public void setFactoryName(String factoryName) {
+        this.factoryName = factoryName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeLong(this.user_id);
+        dest.writeLong(this.druginfo_id);
+        dest.writeString(this.detectionSn);
+        dest.writeString(this.detectionNumber);
+        dest.writeString(this.detectionBatch);
+        dest.writeInt(this.detectionCount);
+        dest.writeInt(this.detectionFirstCount);
+        dest.writeInt(this.detectionSecondCount);
+        dest.writeLong(this.date != null ? this.date.getTime() : -1);
+        dest.writeByte(this.deprecate ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.ispdfdown ? (byte) 1 : (byte) 0);
+        dest.writeList(this.listDetail);
+        dest.writeString(this.drugName);
+        dest.writeString(this.factoryName);
+        dest.writeString(this.userName);
+    }
+
+    public DetectionReport() {
+    }
+
+    protected DetectionReport(Parcel in) {
+        this.id = in.readLong();
+        this.user_id = in.readLong();
+        this.druginfo_id = in.readLong();
+        this.detectionSn = in.readString();
+        this.detectionNumber = in.readString();
+        this.detectionBatch = in.readString();
+        this.detectionCount = in.readInt();
+        this.detectionFirstCount = in.readInt();
+        this.detectionSecondCount = in.readInt();
+        long tmpDate = in.readLong();
+        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.deprecate = in.readByte() != 0;
+        this.ispdfdown = in.readByte() != 0;
+        this.listDetail = new ArrayList<DetectionDetail>();
+        in.readList(this.listDetail, DetectionDetail.class.getClassLoader());
+        this.drugName = in.readString();
+        this.factoryName = in.readString();
+        this.userName = in.readString();
+    }
+
+    public static final Creator<DetectionReport> CREATOR = new Creator<DetectionReport>() {
+        @Override
+        public DetectionReport createFromParcel(Parcel source) {
+            return new DetectionReport(source);
+        }
+
+        @Override
+        public DetectionReport[] newArray(int size) {
+            return new DetectionReport[size];
+        }
+    };
 }

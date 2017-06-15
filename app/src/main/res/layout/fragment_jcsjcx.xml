@@ -43,8 +43,6 @@
 <!--android:layout_weight="1"-->
 <!--android:text="查询" />-->
 <!--</LinearLayout>-->
-
-
 <!--</FrameLayout>-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -65,31 +63,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <!--<include layout="@layout/fragment_reportitemlayout"/>-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/fragment_reportitemlayout" android:id="@+id/llReport"/>
-        <include layout="@layout/fragment_reportdetaillayout" android:id="@+id/llDetail"/>
+        <include layout="@layout/fragment_reportdetaillayout" />
+        <include layout="@layout/fragment_reportitemlayout" />
+
     </FrameLayout>
-    <!--<LinearLayout-->
-        <!--android:orientation="vertical"-->
-        <!--android:id="@+id/llReportDetail"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-        <!--android:id="@+id/llReportQuery"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical"-->
-        <!--&gt;-->
 
-
-        <!--<FrameLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-        <!--</FrameLayout>-->
-
-    <!--</LinearLayout>-->
 </LinearLayout>

@@ -5,11 +5,25 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import cn.ml_tech.mx.mlproj.DetReport.AdapterDetail;
+import cn.ml_tech.mx.mlproj.DetReport.AdapterReport;
+import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
+import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 
 
 /**
@@ -23,110 +37,164 @@ import android.widget.LinearLayout;
 public class JcsjcxFragment extends BaseFragment
 {
 
+    private RecyclerView recyclerReport;
+    private AdapterReport adapterReport;
+    private AdapterReport.OnItemClickListener mOnItemClickListener;
+    private RecyclerView recyclerDetail;
+    private AdapterDetail adapterDetail;
+    private List<DetectionDetail> detectionDetailList=null;
+    private LinearLayout llDetail;
+    private LinearLayout llReport;
+    private boolean isReportLayout=true;
+
+    public boolean isReportLayout() {
+        return isReportLayout;
+    }
+
+    public void setReportLayout(boolean reportLayout) {
+        isReportLayout = reportLayout;
+    }
     @Override
     public View initView(LayoutInflater inflater) {
         view=inflater.inflate(R.layout.fragment_jcsjcx,null);
         initFindViewById(view);
-
         return view;
     }
 
     @Override
     public void initFindViewById(View view) {
 
+
+        recyclerReport= (RecyclerView) view.findViewById(R.id.recyclerReport);
+        recyclerDetail = (RecyclerView) view.findViewById(R.id.recyclerDetail);
+        llReport = (LinearLayout) view.findViewById(R.id.llReport);
+        llDetail = (LinearLayout) view.findViewById(R.id.llDetail);
+        llDetail.setVisibility(View.INVISIBLE);
+    }
+    private void initRecycleReport()
+    {
+        List<DetectionReport>list=new ArrayList<DetectionReport>();
+        for(int i=0;i<100;i++)
+        {
+            DetectionReport report=new DetectionReport();
+            report.setDetectionSn(String.format("DetectionSn%d",i));
+            report.setDetectionBatch(String.format("DetectionBatch%d",i));
+            report.setDetectionNumber(String.format("DetectionNumber%d",i));
+            report.setDrugName(String.format("DrugName%d",i));
+            report.setFactoryName(String.format("FactoryName%d",i));
+            report.setDetectionFirstCount(i+1);
+            report.setDetectionSecondCount(i+1);
+            report.setUserName(String.format("UserName%d",i));
+            report.setDate(UtilsHelper.GetDateFromString("2017-06-18","yyyy-MM-dd"));
+            list.add(report);
+        }
+        adapterReport = new AdapterReport( list,mActivity);
+        recyclerReport.setAdapter(adapterReport);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(mActivity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerReport.setLayoutManager(linearLayoutManager);
+
+        adapterReport.setmItemClickListener(new AdapterReport.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                switch (view.getId())
+                {
+                    case R.id.txtPDF:
+                        Toast.makeText(mActivity,String.format("txtPDF%d ",(int)view.getTag()),Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.txtDetDetail:
+                        ShowDetailInfo(String.valueOf((int)view.getTag()));
+                        Toast.makeText(mActivity,String.format("txtDetDetail%d ",(int)view.getTag()),Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.txtDetDel:
+                        Toast.makeText(mActivity,String.format("txtDetDel%d ",(int)view.getTag()),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    private void ShowDetailInfo(@Nullable String id)
+    {
+        setReportLayout(false);
+     InitDetailData(id);
+
+        llDetail.setVisibility(View.VISIBLE);
+        llReport.setVisibility(View.INVISIBLE);
+    }
+    protected void ShowReport()
+    {
+        setReportLayout(true);
+        llReport.setVisibility(View.VISIBLE);
+        llDetail.setVisibility(View.INVISIBLE);
+    }
+    private void InitDetailData(@Nullable String info)
+    {
+
+        for(int i=0;i<100;i++)
+        {
+            DetectionDetail detail=new DetectionDetail();
+            detail.setRepIndex(i%2);
+            detail.setDetIndex(i);
+            detail.setFiberPositive(i%2==0);
+            detail.setFloatPositive(i%2==0);
+            detail.setGlassPositive(i%2==0);
+            detail.setAnalyzePositive(i%2==0);
+            detail.setNodePositive(i%2==0);
+            detail.setSuperPositive(i%2==0);
+            detail.setNodeInfo("node info");
+            detail.setPositive(i%2==0);
+            detail.setValid(i%2==0);
+            detail.setVideo("Video");
+            detail.setVideoMd5("vieo md5");
+            detail.setScrTime(i);
+            detail.setStpTime(i);
+            detail.setScrTimeText(info+"src time text ");
+            detail.setStpTimeText(info+"stp time text");
+            detail.setColorFactor(i);
+            detectionDetailList.add(detail);
+        }
+        adapterDetail.UpdateData(detectionDetailList);
+    }
+    private void initRecycleDetail(@Nullable String prefix)
+    {
+
+        adapterDetail = new AdapterDetail(mActivity,detectionDetailList);
+
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(mActivity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerDetail.setLayoutManager(linearLayoutManager);
+        recyclerDetail.setAdapter(adapterDetail);
+        adapterDetail.setmOnItemClickListener(new AdapterDetail.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                switch(view.getId())
+                {
+                    case R.id.txtDetailVideo:
+                        Toast.makeText(mActivity, "Vide Play "+String.valueOf(position), Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.txtDetailAllResult:
+                        Toast.makeText(mActivity, "All Reult"+String.valueOf(position), Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        adapterDetail.notifyDataSetChanged();
+    }
+    private void initRecycle()
+    {
+        initRecycleReport();
+        initRecycleDetail("");
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
+        detectionDetailList = new ArrayList<DetectionDetail>();
+        Log.d(JcsjcxFragment.class.getSimpleName(), "initData: ");
+        initRecycle();
     }
 }
-//public class JcsjcxFragment extends Fragment {
-//    // TODO: Rename parameter arguments, choose names that match
-//    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-//
-//    private OnFragmentInteractionListener mListener;
-//
-//    public JcsjcxFragment() {
-//        // Required empty public constructor
-//    }
-//
-//    /**
-//     * Use this factory method to create a new instance of
-//     * this fragment using the provided parameters.
-//     *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
-//     * @return A new instance of fragment JcsjcxFragment.
-//     */
-//    // TODO: Rename and change types and number of parameters
-//    public static JcsjcxFragment newInstance(String param1, String param2) {
-//        JcsjcxFragment fragment = new JcsjcxFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_jcsjcx, container, false);
-//    }
-//
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-//
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
-//}
