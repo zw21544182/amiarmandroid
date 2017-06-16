@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.STATUS_BAR"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:name=".AmiApp"
         android:allowBackup="true"
@@ -35,6 +35,18 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".XtwhActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!--<receiver android:name=".BroadBootCompleteReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+            <!--</intent-filter>-->
+    <!--</receiver>-->
+            <receiver android:name=".BroadBootCompleteReceiver"
+                >
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                </intent-filter>
+            </receiver>
+
     </application>
 
 </manifest>

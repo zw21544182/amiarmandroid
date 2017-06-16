@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,7 +117,7 @@ public class JcsjcxFragment extends BaseFragment
     private void ShowDetailInfo(@Nullable String id)
     {
         setReportLayout(false);
-     InitDetailData(id);
+        InitDetailData(id);
 
         llDetail.setVisibility(View.VISIBLE);
         llReport.setVisibility(View.INVISIBLE);
