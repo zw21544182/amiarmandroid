@@ -7,48 +7,101 @@
     android:layout_marginRight="100dp"
     android:background="@color/colorBackgroud"
     tools:context="cn.ml_tech.mx.mlproj.YpjcFragment">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_vertical">
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="300dp"
-          android:layout_marginBottom="30dp"
-          android:text="检测类型："
-          android:textSize="9pt" />
-      <RadioGroup android:id="@+id/rgType"
-          android:contentDescription="检测类型"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:layout_marginLeft="400dp">
-         <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rbNew" android:text="创建新检测" android:checked="true"></RadioButton>
-         <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rbContinue" android:text="继续上次检测"></RadioButton>
-      </RadioGroup>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_gravity="center_vertical">-->
+      <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+          <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:layout_marginLeft="300dp"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:layout_marginBottom="30dp"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:text="检测类型："&ndash;&gt;-->
+          <!--&lt;!&ndash;android:textSize="9pt" />&ndash;&gt;-->
+      <!--&lt;!&ndash;<RadioGroup android:id="@+id/rgType"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:contentDescription="检测类型"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:orientation="horizontal"&ndash;&gt;-->
+          <!--&lt;!&ndash;android:layout_marginLeft="400dp">&ndash;&gt;-->
+         <!--&lt;!&ndash;<RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rbNew" android:text="创建新检测" android:checked="true"></RadioButton>&ndash;&gt;-->
+         <!--&lt;!&ndash;<RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rbContinue" android:text="继续上次检测"></RadioButton>&ndash;&gt;-->
+      <!--&lt;!&ndash;</RadioGroup>&ndash;&gt;-->
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginTop="300dp"-->
+        <!--android:paddingLeft="400dp"-->
+        <!--&gt;-->
+        <!--<Button-->
+            <!--android:id="@+id/btPre"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="上一步" />-->
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="300dp"
-        android:paddingLeft="400dp"
-        >
-        <Button
-            android:id="@+id/btPre"
+        <!--<Button-->
+            <!--android:id="@+id/btNext"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="下一步" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--&gt;-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tvType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="上一步" />
+            android:text="检测类型："
+            />
+            <!--android:layout_marginLeft="300dp"-->
+            <!--android:layout_marginBottom="30dp"-->
+            <RadioGroup android:id="@+id/rgType"
+                android:layout_below="@id/tvType"
+                android:layout_alignLeft="@id/tvType"
+                android:contentDescription="检测类型"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rbNew" android:text="创建新检测" android:checked="true"></RadioButton>
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rbContinue" android:text="继续上次检测"></RadioButton>
+            </RadioGroup>
+            <LinearLayout
+                android:layout_below="@id/rgType"
+                android:layout_alignRight="@id/rgType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                >
+                <Button
+                    android:id="@+id/btPre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上一步" />
+                <Button
+                    android:id="@+id/btNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下一步" />
+            </LinearLayout>
+        </RelativeLayout>
 
-        <Button
-            android:id="@+id/btNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下一步" />
-    </LinearLayout>
-
+    <!--</LinearLayout>-->
 
 </FrameLayout>
+
+
