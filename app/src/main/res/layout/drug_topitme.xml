@@ -6,12 +6,12 @@
     android:layout_marginLeft="1dp"
     android:layout_marginRight="1dp"
     android:layout_marginTop="1dp"
-    android:background="#fff"
+    android:background="#D6D7D7"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <TextView
@@ -27,7 +27,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvDrugBottleType"
@@ -41,7 +41,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvChinese"
@@ -53,7 +53,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvEnglish"
@@ -67,7 +67,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvDrugFactory"
@@ -81,7 +81,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,35 +90,30 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/update"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:autoLink="all"
                 android:gravity="center"
-                android:text="修改"
-                android:textColor="@color/colorBackgroud" />
+                android:text="修改" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#D6D7D7" />
+                android:background="#000" />
 
             <TextView
-                android:id="@+id/delete"
                 android:layout_width="0dp"
+
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:autoLink="all"
                 android:gravity="center"
-                android:text="删除"
-                android:textColor="@color/colorBackgroud" />
+                android:text="删除" />
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#D6D7D7" />
+        android:background="#000" />
 
 </LinearLayout>

@@ -1,18 +1,9 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Application;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Debug;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 
-import java.util.List;
-
-import cn.ml_tech.mx.mlservice.Bean.User;
 import cn.ml_tech.mx.mlservice.IMlService;
 
 /**
@@ -20,16 +11,23 @@ import cn.ml_tech.mx.mlservice.IMlService;
  */
 public class AmiApp extends Application {
     private IMlService mMLService;
+    private static Context context;
+
     public AmiApp() {
         this.isLogined = false;
 
 
     }
 
+    public static Context getInstance() {
+        return context;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("Debug", "onCreate: ");
+        context = this;
         /*
         Intent intent=new Intent();
         intent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
@@ -76,6 +74,7 @@ public class AmiApp extends Application {
     public void setLogined(Boolean logined) {
         isLogined = logined;
     }
+
     private String userName;
     private Boolean isLogined;
 }

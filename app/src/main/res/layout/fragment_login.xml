@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_content"
-    tools:context="cn.ml_tech.mx.mlproj.LoginFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="cn.ml_tech.mx.mlproj.LoginFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_gravity="center"
         android:layout_marginTop="-50dp"
-        android:layout_gravity="center">
+        android:orientation="horizontal">
 
 
         <TextView
@@ -23,15 +23,17 @@
 
         <EditText
             android:id="@+id/etUserName"
+            style="@style/EditTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="AdminName" />
 
         <Button
             android:id="@+id/btLogin"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -39,10 +41,10 @@
     </LinearLayout>
 
     <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_gravity="center">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
 
         <TextView
@@ -54,26 +56,29 @@
 
         <EditText
             android:id="@+id/etPassword"
+            style="@style/EditTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPassword"
-            android:text="Password" />
+            android:text="Admin" />
 
         <Button
             android:id="@+id/btCancle"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="取消" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_gravity="center"
         android:layout_marginTop="70dp"
-        android:layout_gravity="center">
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/checkBoxRember"

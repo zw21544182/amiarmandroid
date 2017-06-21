@@ -12,16 +12,16 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link YpxxFragment.OnFragmentInteractionListener} interface
+ * {@link YpxaFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link YpxxFragment#newInstance} factory method to
+ * Use the {@link YpxaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class YpxxFragment extends Fragment {
+public class YpxaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "param12";
+    private static final String ARG_PARAM2 = "param23";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -29,7 +29,7 @@ public class YpxxFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public YpxxFragment() {
+    public YpxaFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class YpxxFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment YpxxFragment.
+     * @return A new instance of fragment YpxaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static YpxxFragment newInstance(String param1, String param2) {
-        YpxxFragment fragment = new YpxxFragment();
+    public static YpxaFragment newInstance(String param1, String param2) {
+        YpxaFragment fragment = new YpxaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +64,7 @@ public class YpxxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ypxx, container, false);
+        return inflater.inflate(R.layout.fragment_ypxa, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -77,8 +77,7 @@ public class YpxxFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().findViewById(R.id.btYpxxNext).setOnClickListener((View.OnClickListener) getActivity());
-        getActivity().findViewById(R.id.btYpxxAddFactory).setOnClickListener((View.OnClickListener) getActivity());
+        getActivity().findViewById(R.id.etMachineFactoryAddr).setOnTouchListener((View.OnTouchListener) getActivity());
 
     }
 
@@ -113,4 +112,5 @@ public class YpxxFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

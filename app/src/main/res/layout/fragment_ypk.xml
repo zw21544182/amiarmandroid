@@ -1,47 +1,96 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="100dp"
     android:layout_marginRight="100dp"
     android:background="@color/colorBackgroud"
+    android:orientation="vertical"
     tools:context="cn.ml_tech.mx.mlproj.YpkFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="top"
-        android:gravity="right">
-        <Button
-            android:id="@+id/btAddDrug"
+        android:orientation="horizontal">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="增加药品"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="top"
-        android:layout_marginTop="50dp">
+            android:layout_marginLeft="5dp"
+            android:text="药品名称" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/me_name"
+            style="@style/EditTextStyle"
             android:layout_width="800dp"
-            android:layout_marginLeft="30dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="标准"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp" />
 
         <Button
-            android:id="@+id/btSearch"
+            android:id="@+id/query"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1"
-            android:text="搜索" />
+            android:layout_marginLeft="20dp"
+            android:text="查询" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="药品拼音" />
+
+        <EditText
+            android:id="@+id/me_phonetic"
+            style="@style/EditTextStyle"
+            android:layout_width="800dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp" />
+
+        <Button
+            android:id="@+id/reseting"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="重置" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="英文名称" />
+
+        <EditText
+            android:id="@+id/me_enname"
+            style="@style/EditTextStyle"
+            android:layout_width="800dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp" />
+
+        <Button
+            android:id="@+id/addphonetic"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+
+            android:text="增加药品" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,8 +99,11 @@
         android:layout_marginTop="100dp">
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recycler_view" />
+            android:background="@drawable/bg_recyclerview" />
     </LinearLayout>
-</FrameLayout>
+
+
+</LinearLayout>

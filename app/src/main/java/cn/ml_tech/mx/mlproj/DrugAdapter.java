@@ -1,9 +1,11 @@
 package cn.ml_tech.mx.mlproj;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,39 +18,69 @@ import cn.ml_tech.mx.mlservice.DrugControls;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
     private List<DrugControls> mDrugList;
+    private Context context;
+
+    enum TYPE {
+        TOP, NOR
+    }
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView drugName;
         TextView drugBottleType;
         TextView drugFactory;
+        LinearLayout rootlayout;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            drugName = (TextView)itemView.findViewById(R.id.tvDrugName);
-            drugBottleType = (TextView)itemView.findViewById(R.id.tvDrugBottleType);
-            drugFactory = (TextView)itemView.findViewById(R.id.tvDrugFactory);
+            rootlayout = (LinearLayout) itemView.findViewById(R.id.toplayout);
+            drugName = (TextView) itemView.findViewById(R.id.tvDrugName);
+            drugBottleType = (TextView) itemView.findViewById(R.id.tvDrugBottleType);
+            drugFactory = (TextView) itemView.findViewById(R.id.tvDrugFactory);
         }
     }
-    public DrugAdapter(List<DrugControls> drugList) {
+
+    public DrugAdapter(List<DrugControls> drugList, Context context) {
         mDrugList = drugList;
+        this.context = context;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
+        View view = null;
+        if (viewType == TYPE.TOP.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_topitme, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
+        }
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE.TOP.ordinal();
+        } else {
+            return TYPE.NOR.ordinal();
+        }
+    }
+
+    @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        DrugControls drug = mDrugList.get(position);
-        holder.drugName.setText(drug.getDrugName());
-        holder.drugBottleType.setText(drug.getDrugBottleType());
-        holder.drugFactory.setText(drug.getDrugFactory());
+        if (position == 0) {
+
+        } else {
+            DrugControls drug = mDrugList.get(position - 1);
+            holder.drugName.setText(drug.getDrugName());
+            holder.drugBottleType.setText(drug.getDrugBottleType());
+            holder.drugFactory.setText(drug.getDrugFactory());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mDrugList.size();
+        return mDrugList.size() + 1;
     }
 
 /*    public static class Drug {
