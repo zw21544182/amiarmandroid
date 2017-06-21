@@ -3,16 +3,31 @@ package cn.ml_tech.mx.mlproj;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
     XtwhFragment xtwhFragment = null;
+    LinearLayout mllSysSetUpContent=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         xtwhFragment = (XtwhFragment)switchContentFragment(XtwhFragment.class.getSimpleName());
-        LogDebug(XtwhFragment.class.getSimpleName());
 
+        LogDebug(XtwhFragment.class.getSimpleName());
     }
+
+//    @Override
+//    public Fragment switchContentFragment(String tag) {
+//        Fragment f = null;
+//        if(!tag.equals(mCurrentContentFragmentTag)){
+//            if (mCurrentContentFragmentTag != null) detachFragment(getFragment(mCurrentContentFragmentTag));
+//            attachFragment(R.id.llSysSetUpContent,  f=getFragment(tag), tag);
+//            mCurrentContentFragmentTag = tag;
+//            commitTransactions();
+//        }
+//        return f;
+////        return super.switchContentFragment(tag);
+//    }
 
     @Override
     protected void onStart() {

@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
     >
+    <!--<LinearLayout-->
+        <!--android:id="@+id/llBack"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="right"-->
+        <!--&gt;-->
+        <!--<Button-->
+            <!--android:id="@+id/btnBack"-->
+            <!--android:text="@string/back"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <include layout="@layout/toptitle" android:id="@+id/llBack"/>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_below="@id/llBack"
         android:orientation="vertical"
-        android:id="@+id/llSystemRoot"
-        >
+        android:id="@+id/llSystemFragmentParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </LinearLayout>
-</ScrollView>
+
+</RelativeLayout>

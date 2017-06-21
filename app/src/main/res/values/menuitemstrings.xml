@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="MenuSystemMain">系统维护</string>
     <string name="MenuUser">用户管理</string>
     <string name="MenuDeviceDebug">仪器管理</string>
     <string name="MenuTray">托环管理</string>

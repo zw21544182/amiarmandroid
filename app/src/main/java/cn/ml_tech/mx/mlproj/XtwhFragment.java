@@ -1,6 +1,8 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -29,6 +31,8 @@ public class XtwhFragment extends Fragment {
 
     private String[]arrayFragmentTag;
     private OnFragmentInteractionListener mListener;
+    private FragmentManager mChildFragmentManager;
+    private FragmentTransaction mfragmentTransaction;
 
     public XtwhFragment() {
         // Required empty public constructor
@@ -40,6 +44,7 @@ public class XtwhFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         arrayItemMenu=new String[]{
+                getString(R.string.MenuSystemMain),
             getString(R.string.MenuUser),
                     getString(R.string.MenuDeviceDebug),
                     getString(R.string.MenuTray),
@@ -54,6 +59,26 @@ public class XtwhFragment extends Fragment {
                     getString(R.string.MenuLogShow),
         };
         arrayFragmentTag=getResources().getStringArray(R.array.menufragment);
+        mChildFragmentManager = getChildFragmentManager();
+
+    }
+    void initChildFragments()
+    {
+        mfragmentTransaction = mChildFragmentManager.beginTransaction();
+        SystemSetUpMainFragment mainFragment=new SystemSetUpMainFragment();
+//        UserManagerFragment fragmentuser=new UserManagerFragment();
+//        ManchineManagerFragment fragmentmanchine=new ManchineManagerFragment();
+//        TrayManagerFragment trayManagerFragment=new TrayManagerFragment();
+//        DeviceDebugFragment deviceDeubgFragment=new DeviceDebugFragment();
+//        SysConfigFragment sysConfigFragment=new  SysConfigFragment();
+        mfragmentTransaction.add(R.id.llSystemFragmentParent,mainFragment);
+//        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentuser).commit();
+//        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentmanchine).commit();
+//        mfragmentTransaction.add(R.id.llSystemFragmentParent,trayManagerFragment).commit();
+//        mfragmentTransaction.add(R.id.llSystemFragmentParent,deviceDeubgFragment).commit();
+//        mfragmentTransaction.add(R.id.llSystemFragmentParent,sysConfigFragment).commit();
+        mfragmentTransaction.attach(mainFragment);
+        mfragmentTransaction.commit();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -61,6 +86,7 @@ public class XtwhFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_systemsetup, container, false);
+        /*
         LinearLayout llRoot= (LinearLayout) view.findViewById(R.id.llSystemRoot);
         Log.d(getContext().getPackageName(), "onCreateView: "+String.valueOf(arrayFragmentTag.length)+" "+String.valueOf(arrayItemMenu.length));
         for (int i=0;i<arrayItemMenu.length;i++)
@@ -71,6 +97,8 @@ public class XtwhFragment extends Fragment {
             Log.d("debug", "onCreateView: "+arrayItemMenu[i] +" "+arrayFragmentTag[i]);
             llRoot.addView(itemView);
         }
+        return view;*/
+        initChildFragments();
         return view;
     }
 
@@ -91,6 +119,7 @@ public class XtwhFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
 
     @Override
     public void onDetach() {
