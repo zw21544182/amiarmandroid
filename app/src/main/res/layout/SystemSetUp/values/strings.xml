@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">AMIAndroid</string>
     <string name="title_activity_login">AMIAndroid</string>
+    <string name="back">返回</string>
 </resources>

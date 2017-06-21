@@ -256,8 +256,6 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         Fragment f = null;
         if(!tag.equals(mCurrentContentFragmentTag)){
             if (mCurrentContentFragmentTag != null) detachFragment(getFragment(mCurrentContentFragmentTag));
-            //attachFragment(mMenuDrawer.getContentContainer().getId(), getFragment(tag), tag);
-            LogDebug("replace fragment "+tag);
             attachFragment(R.id.linearlayout_middle,  f=getFragment(tag), tag);
             mCurrentContentFragmentTag = tag;
             commitTransactions();

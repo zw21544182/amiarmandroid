@@ -1,8 +1,10 @@
 package cn.ml_tech.mx.mlproj;
 
+import android.content.Context;
 import android.renderscript.Float2;
 import android.text.TextUtils;
 import android.text.method.NumberKeyListener;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,4 +81,18 @@ public class UtilsHelper {
             return date;
         }
     }
+    private static Toast toast=null;
+    public static void ShowToast(Context context,CharSequence charSequence,int duration)
+    {
+     if(null==toast)
+     {
+         toast=Toast.makeText(context,charSequence,duration);
+     }else
+     {
+         toast.setDuration(duration);
+         toast.setText(charSequence);
+     }
+     toast.show();
+    }
+
 }
