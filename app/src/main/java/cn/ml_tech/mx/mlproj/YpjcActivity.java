@@ -4,22 +4,23 @@ import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import cn.jeesoft.widget.pickerview.CharacterPickerWindow;
+import cn.ml_tech.mx.mlservice.BottlePara;
+import cn.ml_tech.mx.mlservice.DAO.Factory;
 
 public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmentInteractionListener, View.OnClickListener,
-        View.OnTouchListener,
+        View.OnTouchListener, YpxjFragment.OnFragmentInteractionListener,
         YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener, YpxaFragment.OnFragmentInteractionListener
         , BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
     YpxxFragment ypxxFragment = null;
     YpxaFragment ypxaFragment = null;
+    YpxjFragment ypxjFragment = null;
+    BottlePara bottlePara = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,15 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
             } else if (tag.equals("YpkFragment")) {
                 f = new YpkFragment();
             } else if (tag.equals("YpxxFragment")) {
-                f = new YpxxFragment();
+                if (ypxxFragment == null) {
+                    f = new YpxxFragment();
+                } else {
+                    f = ypxxFragment;
+                }
             } else if (tag.equals("YpxaFragment")) {
                 f = new YpxaFragment();
+            } else if (tag.equals("YpxjFragment")) {
+                f = new YpxjFragment();
 
             } else {
                 f = super.getFragment(tag);
@@ -63,21 +70,14 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
         findViewById(R.id.btNext).setOnClickListener(this);
     }
 
-    private void showWindow() {
-
-        final CharacterPickerWindow window = OptionsWindowHelper.builder(this, new OptionsWindowHelper.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(String province, String city, String area) {
-                ((TextView) findViewById(R.id.etMachineFactoryAddr)).setText(province + city + area);
-            }
-        });
-        window.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
-
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.bt_back:
+                ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+                ypxxFragment.setmService(mService);
+                break;
             case R.id.btPre:
                 this.finish();
                 break;
@@ -88,24 +88,43 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
             case R.id.addphonetic:
                 logv("add drug..........");
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+                ypxxFragment.setmService(mService);
                 break;
             case R.id.btYpxxNext:
-                try {
-                    mService.addDrugInfo(((EditText) findViewById(R.id.etDrugName)).getText().toString(),
-                            ((EditText) findViewById(R.id.etEnName)).getText().toString(),
-                            ((EditText) findViewById(R.id.etPinYin)).getText().toString(),
-                            1, 1);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                ypxjFragment = (YpxjFragment) switchContentFragment(YpxjFragment.class.getSimpleName());
+                ypxjFragment.setmService(mService);
+
 
                 break;
             case R.id.btYpxxAddFactory:
                 ypxaFragment = (YpxaFragment) switchContentFragment(YpxaFragment.class.getSimpleName());
 
                 break;
-            case R.id.etMachineFactoryAddr:
-                showWindow();
+            case R.id.btnSaveFactory:
+                Factory factory = ypxaFragment.getFactory();
+                try {
+                    if (factory != null) {
+                        mService.addFactory(factory.getName(), factory.getAddress(), factory.getPhone(), factory.getFax(), factory.getMail(), factory.getContactName(), factory.getContactPhone(), factory.getWebSite(), factory.getProvince_code(), factory.getCity_code(), factory.getArea_code());
+
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+                ypxxFragment.setmService(mService);
+                break;
+            case R.id.btnypxjPre:
+                ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+                break;
+            case R.id.btnypxjNext:
+                bottlePara = ypxjFragment.getBottlePara();
+                try {
+                    mService.saveBottlePara(bottlePara);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "保存参数失败", Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:
                 break;
         }
@@ -114,7 +133,7 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            showWindow();
+            ypxaFragment.showWindow();
         }
         return false;
     }

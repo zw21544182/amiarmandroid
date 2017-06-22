@@ -8,12 +8,11 @@ import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.EditText;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml_tech.mx.mlservice.BottlePara;
 import cn.ml_tech.mx.mlservice.FactoryControls;
 import cn.ml_tech.mx.mlservice.IMlService;
 
@@ -21,12 +20,12 @@ import cn.ml_tech.mx.mlservice.IMlService;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link YpxxFragment.OnFragmentInteractionListener} interface
+ * {@link YpxjFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link YpxxFragment#newInstance} factory method to
+ * Use the {@link YpxjFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class YpxxFragment extends Fragment {
+public class YpxjFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -49,21 +48,13 @@ public class YpxxFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public YpxxFragment() {
+    public YpxjFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment YpxxFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static YpxxFragment newInstance(String param1, String param2) {
-        YpxxFragment fragment = new YpxxFragment();
+
+    public static YpxjFragment newInstance(String param1, String param2) {
+        YpxjFragment fragment = new YpxjFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,11 +72,33 @@ public class YpxxFragment extends Fragment {
 
     }
 
+    public BottlePara getBottlePara() {
+        BottlePara bottlePara = new BottlePara();
+        double maxStatTime = Double.parseDouble(((EditText) getActivity().findViewById(R.id.etMaxStatTime)).getEditableText().toString());
+        double maxStopTime = Double.parseDouble(((EditText) getActivity().findViewById(R.id.etMaxStopTime)).getEditableText().toString());
+        double stopDelayTime = Double.parseDouble(((EditText) getActivity().findViewById(R.id.etStopDelayTime)).getEditableText().toString());
+        double imageDelayTime = Double.parseDouble(((EditText) getActivity().findViewById(R.id.etImageDelayTime)).getEditableText().toString());
+        double threshold40 = Double.parseDouble(((EditText) getActivity().findViewById(R.id.threshold40)).getEditableText().toString());
+        double threshold50 = Double.parseDouble(((EditText) getActivity().findViewById(R.id.threshold50)).getEditableText().toString());
+        double threshold60 = Double.parseDouble(((EditText) getActivity().findViewById(R.id.threshold60)).getEditableText().toString());
+        double threshold70 = Double.parseDouble(((EditText) getActivity().findViewById(R.id.threshold70)).getEditableText().toString());
+        bottlePara.setMaxStatTime(maxStatTime);
+        bottlePara.setMaxStopTime(maxStopTime);
+        bottlePara.setStopDelayTime(stopDelayTime);
+        bottlePara.setImageDelayTime(imageDelayTime);
+        bottlePara.setThreshold40(threshold40);
+        bottlePara.setThreshold50(threshold50);
+        bottlePara.setThreshold60(threshold60);
+        bottlePara.setThreshold70(threshold70);
+
+        return bottlePara;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ypxx, container, false);
+        return inflater.inflate(R.layout.fragment_ypxj, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -98,29 +111,17 @@ public class YpxxFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().findViewById(R.id.btYpxxNext).setOnClickListener((View.OnClickListener) getActivity());
-        getActivity().findViewById(R.id.btYpxxAddFactory).setOnClickListener((View.OnClickListener) getActivity());
+        getActivity().findViewById(R.id.btnypxjPre).setOnClickListener((View.OnClickListener) getActivity());
+        getActivity().findViewById(R.id.btnypxjNext).setOnClickListener((View.OnClickListener) getActivity());
         try {
             factoryControlses = mService.queryFactoryControl();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        setDataToView();
+
 
     }
 
-    private void setDataToView() {
-        factorydata = new ArrayList<>();
-        for (FactoryControls controls :
-                factoryControlses
-                ) {
-            factorydata.add(controls.getName());
-        }
-        ((Spinner) getActivity().findViewById(R.id.etFactory)).setAdapter(new ArrayAdapter<String>(
-                getActivity(), android.R.layout.simple_list_item_1, factorydata
-        ));
-
-    }
 
     @Override
     public void onAttach(Context context) {

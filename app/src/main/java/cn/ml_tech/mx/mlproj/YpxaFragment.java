@@ -4,9 +4,16 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import cn.jeesoft.widget.pickerview.CharacterPickerWindow;
+import cn.ml_tech.mx.mlservice.DAO.Factory;
 
 
 /**
@@ -22,6 +29,9 @@ public class YpxaFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param12";
     private static final String ARG_PARAM2 = "param23";
+    private String province_code;
+    private String city_code;
+    private String area_code;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -78,6 +88,54 @@ public class YpxaFragment extends Fragment {
     public void onStart() {
         super.onStart();
         getActivity().findViewById(R.id.etMachineFactoryAddr).setOnTouchListener((View.OnTouchListener) getActivity());
+        getActivity().findViewById(R.id.btnSaveFactory).setOnClickListener((View.OnClickListener) getActivity());
+        getActivity().findViewById(R.id.bt_back).setOnClickListener((View.OnClickListener) getActivity());
+
+    }
+
+
+    public Factory getFactory() {
+        Factory factory = new Factory();
+        //etMachineFactoryName
+        if (((EditText) getActivity().findViewById(R.id.etMachineFactoryName)).getEditableText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "请填写厂家名称", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if ((((EditText) getActivity().findViewById(R.id.etMachineFactoryAddress)).getEditableText().toString().trim().equals("")))
+
+        {
+            Toast.makeText(getActivity(), "请填写厂家地址", Toast.LENGTH_SHORT).show();
+            return null;
+
+        }
+        if (province_code.trim().equals("") || city_code.trim().equals("") || area_code.trim().equals("")) {
+            Toast.makeText(getActivity(), "请填写地址", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        factory.setName(((EditText) getActivity().findViewById(R.id.etMachineFactoryName)).getEditableText().toString());
+        factory.setAddress(((EditText) getActivity().findViewById(R.id.etMachineFactoryAddress)).getEditableText().toString());
+        factory.setPhone(((EditText) getActivity().findViewById(R.id.etMachineFactoryPhone)).getEditableText().toString());
+        factory.setFax(((EditText) getActivity().findViewById(R.id.etMachineFactoryFax)).getEditableText().toString());
+        factory.setMail(((EditText) getActivity().findViewById(R.id.etMachineFactoryEmail)).getEditableText().toString());
+        factory.setContactName(((EditText) getActivity().findViewById(R.id.etUserName)).getEditableText().toString());
+        factory.setContactPhone(((EditText) getActivity().findViewById(R.id.etPhone)).getEditableText().toString());
+        factory.setProvince_code(province_code);
+        factory.setCity_code(city_code);
+        factory.setArea_code(area_code);
+        return factory;
+    }
+
+    public void showWindow() {
+        final CharacterPickerWindow window = OptionsWindowHelper.builder(getActivity(), new OptionsWindowHelper.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(String province, String city, String area) {
+                YpxaFragment.this.province_code = province;
+                YpxaFragment.this.city_code = city;
+                YpxaFragment.this.area_code = area;
+                ((TextView) getActivity().findViewById(R.id.etMachineFactoryAddr)).setText(province + city + area);
+            }
+        });
+        window.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
 
     }
 

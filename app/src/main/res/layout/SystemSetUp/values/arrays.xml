@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="BottleType">
+        <item>西林瓶 1-2ml</item>
+        <item>西林瓶 2-3ml </item>
+        <item>西林瓶 6-10ml</item>
+        <item>西林瓶 10-12ml</item>
+        <item>西林瓶 15ml</item>
+        <item>西林瓶 20-25ml</item>
+        <item>西林瓶 30ml</item>
+        <item>安瓿瓶 1ml</item>
+        <item>安瓿瓶 2ml</item>
+        <item>安瓿瓶 5ml</item>
+        <item>安瓿瓶 10ml、西林瓶 5ml</item>
+        <item>安瓿瓶 20ml</item>
+    </string-array>
+    <string-array name="Threshold">
+        <item>40um通道</item>
+        <item>50um通道 </item>
+        <item>60um通道</item>
+        <item>70um通道</item>
+    </string-array>
+</resources>
