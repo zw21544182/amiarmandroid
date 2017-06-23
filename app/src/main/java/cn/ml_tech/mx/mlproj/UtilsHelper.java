@@ -15,6 +15,8 @@ import java.util.Date;
  */
 
 public class UtilsHelper {
+
+    public static final String DebugTag="Debug";
     public static int String2Int(String string)
     {
         int number=0;

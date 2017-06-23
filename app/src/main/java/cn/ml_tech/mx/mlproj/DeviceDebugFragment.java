@@ -90,12 +90,13 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
     private BaseActivity mActivity;
     private List<String> listParamName;
     private HashMap<String, Double> mParamHasMap;
-
+    public DeviceDebugFragment(Activity baseActivity){
+        this.mActivity= (BaseActivity) baseActivity;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -267,7 +268,7 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
 
         }
         try {
-            mActivity.mService.setDeviceParamList(listParam);
+            AmiApp.getAmiAppInstance().getmMLService().setDeviceParamList(listParam);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -279,7 +280,7 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
         mParamHasMap = new HashMap<String,Double>();
         List<DevParam>list=new ArrayList<DevParam>();
         try {
-         list=   mActivity.mService.getDeviceParamList(0);
+         list=   AmiApp.getAmiAppInstance().getmMLService().getDeviceParamList(0);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -319,7 +320,7 @@ public class DeviceDebugFragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActivity =(BaseActivity) getActivity();
+        mActivity =(BaseActivity) getParentFragment().getActivity();
         LoadAllParams();
     }
 

@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:id="@+id/title"
-        android:text="Title"
+        android:text="@string/MenuSystemMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
