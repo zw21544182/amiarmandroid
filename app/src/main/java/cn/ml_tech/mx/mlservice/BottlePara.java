@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * 创建时间: 2017/6/22
  * 创建人: zhongwang
- * 功能描述:
+ * 功能描述: 检测对象相关参数实体类
  */
 
 public class BottlePara implements Parcelable {
@@ -114,7 +114,7 @@ public class BottlePara implements Parcelable {
         this.threshold70 = in.readDouble();
     }
 
-    public static final Parcelable.Creator<BottlePara> CREATOR = new Parcelable.Creator<BottlePara>() {
+    public static final Creator<BottlePara> CREATOR = new Creator<BottlePara>() {
         @Override
         public BottlePara createFromParcel(Parcel source) {
             return new BottlePara(source);
