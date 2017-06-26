@@ -43,23 +43,23 @@ public class XtwhFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        arrayItemMenu=new String[]{
-                getString(R.string.MenuSystemMain),
-            getString(R.string.MenuUser),
-                    getString(R.string.MenuDeviceDebug),
-                    getString(R.string.MenuTray),
-                    getString(R.string.MenuInformation),
-                    getString(R.string.MenuDrugParam),
-                    getString(R.string.MenuData),
-                    getString(R.string.MenuSysConfig),
-                    getString(R.string.MenuCaptureConfig),
-                    getString(R.string.MenuAuditTrail),
-                    getString(R.string.MenuRightManager),
-                    getString(R.string.MenuProgramUpdate),
-                    getString(R.string.MenuLogShow),
-        };
-        arrayFragmentTag=getResources().getStringArray(R.array.menufragment);
-        mChildFragmentManager = getChildFragmentManager();
+//        arrayItemMenu=new String[]{
+//                getString(R.string.MenuSystemMain),
+//            getString(R.string.MenuUser),
+//                    getString(R.string.MenuDeviceDebug),
+//                    getString(R.string.MenuTray),
+//                    getString(R.string.MenuInformation),
+//                    getString(R.string.MenuDrugParam),
+//                    getString(R.string.MenuData),
+//                    getString(R.string.MenuSysConfig),
+//                    getString(R.string.MenuCaptureConfig),
+//                    getString(R.string.MenuAuditTrail),
+//                    getString(R.string.MenuRightManager),
+//                    getString(R.string.MenuProgramUpdate),
+//                    getString(R.string.MenuLogShow),
+//        };
+//        arrayFragmentTag=getResources().getStringArray(R.array.menufragment);
+//        mChildFragmentManager = getChildFragmentManager();
 
     }
     void initChildFragments()
@@ -85,7 +85,7 @@ public class XtwhFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_systemsetup, container, false);
+        View view= inflater.inflate(R.layout.activity_xtwhactivity, container, false);
         /*
         LinearLayout llRoot= (LinearLayout) view.findViewById(R.id.llSystemRoot);
         Log.d(getContext().getPackageName(), "onCreateView: "+String.valueOf(arrayFragmentTag.length)+" "+String.valueOf(arrayItemMenu.length));
@@ -98,7 +98,7 @@ public class XtwhFragment extends Fragment {
             llRoot.addView(itemView);
         }
         return view;*/
-        initChildFragments();
+//        initChildFragments();
         return view;
     }
 

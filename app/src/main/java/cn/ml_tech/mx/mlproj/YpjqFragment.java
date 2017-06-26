@@ -4,45 +4,24 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.ml_tech.mx.mlservice.FactoryControls;
-import cn.ml_tech.mx.mlservice.IMlService;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link YpxxFragment.OnFragmentInteractionListener} interface
+ * {@link YpjqFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link YpxxFragment#newInstance} factory method to
+ * Use the {@link YpjqFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class YpxxFragment extends Fragment {
+public class YpjqFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private IMlService mService;
-    private List<FactoryControls> factoryControlses;
-    List<String> factorydata;
-
-    public IMlService getmService() {
-        return mService;
-    }
-
-    public void setmService(IMlService mService) {
-        this.mService = mService;
-    }
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -50,7 +29,7 @@ public class YpxxFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public YpxxFragment() {
+    public YpjqFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +39,11 @@ public class YpxxFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment YpxxFragment.
+     * @return A new instance of fragment YpjcFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static YpxxFragment newInstance(String param1, String param2) {
-        YpxxFragment fragment = new YpxxFragment();
+    public static YpjqFragment newInstance(String param1, String param2) {
+        YpjqFragment fragment = new YpjqFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,14 +58,13 @@ public class YpxxFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ypxx, container, false);
+        return inflater.inflate(R.layout.fragment_ypxq, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -94,31 +72,6 @@ public class YpxxFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().findViewById(R.id.btYpxxNext).setOnClickListener((View.OnClickListener) getActivity());
-        getActivity().findViewById(R.id.btYpxxAddFactory).setOnClickListener((View.OnClickListener) getActivity());
-        try {
-            factoryControlses = mService.queryFactoryControl();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        setDataToView();
-
-    }
-
-    private void setDataToView() {
-        factorydata = new ArrayList<>();
-        for (FactoryControls controls :
-                factoryControlses
-                ) {
-            factorydata.add(controls.getName());
-        }
-        ((Spinner) getActivity().findViewById(R.id.etFactory)).setAdapter(new FactoryAdapter());
-
     }
 
     @Override
@@ -133,10 +86,16 @@ public class YpxxFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -151,36 +110,5 @@ public class YpxxFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public class FactoryAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return factorydata.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return factorydata.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            TextView textView = null;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getActivity()).inflate(R.layout.item_spinner, null);
-                textView = (TextView) convertView.findViewById(R.id.tvFactoryName);
-                convertView.setTag(textView);
-            } else {
-                textView = (TextView) convertView.getTag();
-            }
-            textView.setText(factorydata.get(position));
-            return convertView;
-        }
     }
 }

@@ -7,12 +7,11 @@ import android.widget.LinearLayout;
 
 public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
     XtwhFragment xtwhFragment = null;
-    LinearLayout mllSysSetUpContent=null;
+    LinearLayout mllSysSetUpContent = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        xtwhFragment = (XtwhFragment)switchContentFragment(XtwhFragment.class.getSimpleName());
-
+        xtwhFragment = (XtwhFragment) switchContentFragment(XtwhFragment.class.getSimpleName());
         LogDebug(XtwhFragment.class.getSimpleName());
     }
 
@@ -39,6 +38,7 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
+
     @Override
     protected Fragment getFragment(String tag) {
         Fragment f = mFragmentManager.findFragmentByTag(tag);
@@ -47,28 +47,21 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
 
             } else if (tag.equals("XtwhFragment")) {
                 f = new XtwhFragment();
-            }else if (tag.equals("UserManagerFragment"))
-            {
-                UserManagerFragment fragmentuser=new UserManagerFragment();
-                f=fragmentuser;
-            }else if(tag.equals("ManchineManagerFragment"))
-            {
-                f=new ManchineManagerFragment();
-            }else if(tag.equals("TrayManagerFragment"))
-            {
-                TrayManagerFragment trayManagerFragment=new TrayManagerFragment();
-                f=(Fragment)trayManagerFragment;
+            } else if (tag.equals("UserManagerFragment")) {
+                UserManagerFragment fragmentuser = new UserManagerFragment();
+                f = fragmentuser;
+            } else if (tag.equals("ManchineManagerFragment")) {
+                f = new ManchineManagerFragment();
+            } else if (tag.equals("TrayManagerFragment")) {
+                TrayManagerFragment trayManagerFragment = new TrayManagerFragment();
+                f = (Fragment) trayManagerFragment;
 
                 //f=(Fragment) new TrayManagerFragment();
-            }else if(tag.equals("DeviceDebugFragment"))
-            {
-                f=new DeviceDebugFragment();
-            }
-            else if(tag.equals("SysConfigFragment"))
-            {
-                f=new SysConfigFragment();
-            }
-            else {
+            } else if (tag.equals("DeviceDebugFragment")) {
+                f = new DeviceDebugFragment();
+            } else if (tag.equals("SysConfigFragment")) {
+                f = new SysConfigFragment();
+            } else {
                 f = super.getFragment(tag);
             }
         }

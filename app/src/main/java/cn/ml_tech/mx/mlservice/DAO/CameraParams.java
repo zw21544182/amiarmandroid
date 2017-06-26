@@ -4,34 +4,13 @@ import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
 /**
- * CREATE TABLE drugContainer
- (
- id integer primary key AUTOINCREMENT   not null,
- name text not null unique,
- type  INTEGER not null,
- specification INTEGER not null,
- diameter REAL not null,
- height REAL,
- trayID INTEGER not null,
- srcTime REAL not null,
- stpTime REAL not null,
- channelValue1 REAL not null,
- channelValue2 REAL not null,
- channelValue3 REAL not null,
- channelValue4 REAL not null,
- shadeParam REAL not null,
- rotateSpeed INTEGER NOT NULL DEFAULT 4500,
- sendParam REAL not null,
- foreign key (specification) REFERENCES specificationType(id),
- foreign key (trayID) REFERENCES tray(id)
- );
+ * 相机参数
  */
-
 public class CameraParams extends DataSupport {
-    @Column(unique = true,nullable = false)
-    private String ParamName;
-    @Column( nullable = false)
-    private double ParamValue;
+    @Column(unique = true, nullable = false)
+    private String ParamName;//参数名
+    @Column(nullable = false)
+    private double ParamValue;//参数值
 
     public String getParamName() {
         return ParamName;

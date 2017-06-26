@@ -55,12 +55,13 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
 
     protected IMlService mService;
     public static final String FULL_SCREEN_EXPAND_STATUSBAR = "android.settings.FULL_SCREEN_EXPAND_STATUSBAR";
+
     protected void logv(String msg) {
         Log.v(getClass().getSimpleName(), msg);
     }
 
     protected void LogDebug(String msg) {
-        Log.d(getClass().getSimpleName()+" "+" debug ", msg);
+        Log.d(getClass().getSimpleName() + " " + " debug ", msg);
 
     }
 
@@ -80,7 +81,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         WindowManager.LayoutParams localLayoutParams = new WindowManager.LayoutParams();
         localLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
         localLayoutParams.gravity = Gravity.TOP;
-        localLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|
+        localLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                 // this is to enable the notification to recieve touch events
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
                 // Draws over status bar
@@ -102,9 +103,9 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        app = (AmiApp)getApplication();
+        app = (AmiApp) getApplication();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         setContentView(R.layout.activity_base);
@@ -139,11 +140,10 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
                 //Toast.makeText(this, "Write allowed :-)", Toast.LENGTH_LONG).show();
                 //Settings.System.putInt(this.getContentResolver(), FULL_SCREEN_EXPAND_STATUSBAR, 0);
                 prohibitDropDown();
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Write not allowed :-(", Toast.LENGTH_LONG).show();
                 //Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,Uri.parse("package:" + getPackageName()));
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
                 //intent.setData(Uri.parse("package:" + getPackageName()));
                 // startActivity(intent);
@@ -163,9 +163,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             if (!Settings.canDrawOverlays(this)) {
                 Toast.makeText(this, "User can access system settings without this permission!", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 prohibitDropDown();
             }
         }
@@ -203,8 +201,8 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     }
 
     @Override
-    protected  void onDestroy() {
-        LogDebug("on destory "+this.getPackageName());
+    protected void onDestroy() {
+        LogDebug("on destory " + this.getPackageName());
         super.onDestroy();
         unbindService(mConnection);
         ActivityCollector.removeActivity(this);
@@ -221,6 +219,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         }
         return f;
     }
+
     protected FragmentTransaction ensureTransaction() {
         if (mFragmentTransaction == null) {
             mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -228,6 +227,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         }
         return mFragmentTransaction;
     }
+
     protected void attachFragment(int layout, Fragment f, String tag) {
         if (f != null) {
             if (f.isDetached()) {
@@ -246,41 +246,47 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
             mFragmentTransaction.detach(f);
         }
     }
+
     protected void commitTransactions() {
         if (mFragmentTransaction != null && !mFragmentTransaction.isEmpty()) {
             mFragmentTransaction.commit();
             mFragmentTransaction = null;
         }
     }
-    public Fragment switchContentFragment(String tag){
+
+    public Fragment switchContentFragment(String tag) {
         Fragment f = null;
-        if(!tag.equals(mCurrentContentFragmentTag)){
-            if (mCurrentContentFragmentTag != null) detachFragment(getFragment(mCurrentContentFragmentTag));
-            attachFragment(R.id.linearlayout_middle,  f=getFragment(tag), tag);
+        if (!tag.equals(mCurrentContentFragmentTag)) {
+            if (mCurrentContentFragmentTag != null)
+                detachFragment(getFragment(mCurrentContentFragmentTag));
+            attachFragment(R.id.linearlayout_middle, f = getFragment(tag), tag);
             mCurrentContentFragmentTag = tag;
             commitTransactions();
         }
         return f;
     }
-    protected Fragment switchTopFragment(String tag){
+
+    protected Fragment switchTopFragment(String tag) {
         Fragment f = null;
-        if(!tag.equals( mCurrentTopFragmentTag)){
+        if (!tag.equals(mCurrentTopFragmentTag)) {
             if (mCurrentTopFragmentTag != null) detachFragment(getFragment(mCurrentTopFragmentTag));
             //attachFragment(mMenuDrawer.getContentContainer().getId(), getFragment(tag), tag);
-            LogDebug("replace fragment "+tag);
-            attachFragment(R.id.linearlayout_top,  f=getFragment(tag), tag);
+            LogDebug("replace fragment " + tag);
+            attachFragment(R.id.linearlayout_top, f = getFragment(tag), tag);
             mCurrentTopFragmentTag = tag;
             commitTransactions();
         }
         return f;
     }
-    protected Fragment switchBottomFragment(String tag){
+
+    protected Fragment switchBottomFragment(String tag) {
         Fragment f = null;
-        if(!tag.equals(mCurrentBottomFragmentTag)){
-            if (mCurrentBottomFragmentTag != null) detachFragment(getFragment(mCurrentBottomFragmentTag));
+        if (!tag.equals(mCurrentBottomFragmentTag)) {
+            if (mCurrentBottomFragmentTag != null)
+                detachFragment(getFragment(mCurrentBottomFragmentTag));
             //attachFragment(mMenuDrawer.getContentContainer().getId(), getFragment(tag), tag);
-            LogDebug("replace fragment "+tag);
-            attachFragment(R.id.linearlayout_bottom,  f=getFragment(tag), tag);
+            LogDebug("replace fragment " + tag);
+            attachFragment(R.id.linearlayout_bottom, f = getFragment(tag), tag);
             mCurrentBottomFragmentTag = tag;
             commitTransactions();
         }
@@ -291,6 +297,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     public void onFragmentInteraction(Uri uri) {
 
     }
+
     /**
      * 隐藏虚拟按键，并且全屏
      */
@@ -334,6 +341,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
             e.printStackTrace();
         }
     }
+
     public class customViewGroup extends ViewGroup {
 
         public customViewGroup(Context context) {

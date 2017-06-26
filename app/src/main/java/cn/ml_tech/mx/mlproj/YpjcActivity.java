@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import cn.ml_tech.mx.mlservice.BottlePara;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
 
 public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmentInteractionListener, View.OnClickListener,
-        View.OnTouchListener, YpxjFragment.OnFragmentInteractionListener,
+        View.OnTouchListener, YpjqFragment.OnFragmentInteractionListener, YpxjFragment.OnFragmentInteractionListener,
         YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener, YpxaFragment.OnFragmentInteractionListener
         , BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
@@ -20,13 +19,18 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     YpxxFragment ypxxFragment = null;
     YpxaFragment ypxaFragment = null;
     YpxjFragment ypxjFragment = null;
+    YpjqFragment ypjqFragment = null;
     BottlePara bottlePara = null;
+    String BottleName = "";
+    String enName = "";
+    String pinyin = "";
+    int factoryId;
+    int containterd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ypjcFragment = (YpjcFragment) switchContentFragment(YpjcFragment.class.getSimpleName());
-
     }
 
     @Override
@@ -49,7 +53,8 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 f = new YpxaFragment();
             } else if (tag.equals("YpxjFragment")) {
                 f = new YpxjFragment();
-
+            } else if (tag.equals("YpjqFragment")) {
+                f = new YpjqFragment();
             } else {
                 f = super.getFragment(tag);
             }
@@ -118,12 +123,16 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 break;
             case R.id.btnypxjNext:
                 bottlePara = ypxjFragment.getBottlePara();
-                try {
-                    mService.saveBottlePara(bottlePara);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "保存参数失败", Toast.LENGTH_SHORT).show();
-                }
+                ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
+
+//                try {
+//                    mService.saveBottlePara(bottlePara);
+//                } catch (RemoteException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(this, "保存参数失败", Toast.LENGTH_SHORT).show();
+//                }
+                break;
+            case R.id.btSave:
                 break;
             default:
                 break;

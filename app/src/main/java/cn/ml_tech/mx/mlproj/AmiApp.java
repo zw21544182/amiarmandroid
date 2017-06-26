@@ -13,6 +13,7 @@ public class AmiApp extends Application {
     private IMlService mMLService;
     private static Context context;
 
+
     public AmiApp() {
         this.isLogined = false;
 

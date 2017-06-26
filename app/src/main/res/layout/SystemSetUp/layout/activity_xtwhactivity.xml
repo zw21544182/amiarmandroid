@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:background="@drawable/bg_system_layout"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <RadioGroup
+            android:id="@+id/rootgroup"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="12">
+
+            <RadioButton
+                android:id="@+id/rbUserManage"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="用户管理" />
+
+            <RadioButton
+                android:id="@+id/rbInstrumManage"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="仪器管理" />
+
+            <RadioButton
+                android:id="@+id/rbTrayManage"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="托环管理" />
+
+            <RadioButton
+                android:id="@+id/rbInfoManage"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="信息管理" />
+
+            <RadioButton
+                android:id="@+id/rbParaManage"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="参数管理" />
+
+            <RadioButton
+                android:id="@+id/rbDataManage"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="数据管理" />
+
+            <RadioButton
+                android:id="@+id/rbSystemConfig"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="系统配置" />
+
+            <RadioButton
+                android:id="@+id/rbCameraConfig"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="相机配置" />
+
+            <RadioButton
+                android:id="@+id/rbProgramUpdate"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="程序更新" />
+
+            <RadioButton
+                android:id="@+id/rbLogShow"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="logShow" />
+
+            <RadioButton
+                android:id="@+id/rbAuditTrack"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="审计追踪" />
+
+            <RadioButton
+                android:id="@+id/rbpermissTrack"
+                style="@style/Bottom_Tab_Style"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="权限管理" />
+
+        </RadioGroup>
+
+        <FrameLayout
+            android:id="@+id/settingFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="9"></FrameLayout>
+    </LinearLayout>
+</LinearLayout>

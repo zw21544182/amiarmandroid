@@ -1,12 +1,8 @@
 package cn.ml_tech.mx.CustomView.SystemSetUp;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import cn.ml_tech.mx.mlproj.R;
-import cn.ml_tech.mx.mlproj.XtwhActivity;
 
 /**
  * Created by ml on 2017/5/16.
@@ -47,17 +43,17 @@ public class MenuItemView extends RelativeLayout {
      */
     private void initView()
     {
-        //将自定义好的布局文件加载给当前的MenuItemView
-        View.inflate(getContext(), R.layout.view_menu_item,this);
-        txtTitle= (TextView) findViewById(R.id.txtSubMenuText);
-        setTitle(mTitle);
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                XtwhActivity activity= ((XtwhActivity)getContext());
-                activity.switchContentFragment(getFragmentTag());
-            }
-        });
+//        //将自定义好的布局文件加载给当前的MenuItemView
+//        View.inflate(getContext(), R.layout.view_menu_item,this);
+//        txtTitle= (TextView) findViewById(R.id.txtSubMenuText);
+//        setTitle(mTitle);
+//        this.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                XtwhActivity activity= ((XtwhActivity)getContext());
+//                activity.switchContentFragment(getFragmentTag());
+//            }
+//        });
     }
     public void setTitle(String title)
     {

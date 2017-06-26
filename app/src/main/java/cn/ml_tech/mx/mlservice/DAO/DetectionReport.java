@@ -58,27 +58,27 @@ public class DetectionReport extends DataSupport implements Parcelable {
     @Column(unique = true,nullable = false)
     private  long id;
     @Column(nullable = false)
-    private long user_id;
+    private long user_id;//检测园id
     @Column(nullable = false)
-    private long druginfo_id;
+    private long druginfo_id;//药品信息
     @Column(nullable = false)
-    private String detectionSn;
+    private String detectionSn;//检索编号
     @Column( nullable = false)
-    private String detectionNumber;
+    private String detectionNumber;//检测编号
     @Column(nullable = false)
-    private  String detectionBatch;
+    private  String detectionBatch;//批号
     @Column( nullable = false)
-    private  int detectionCount;
+    private  int detectionCount;//数量
     @Column(nullable = false)
-    private  int detectionFirstCount;
+    private  int detectionFirstCount;//初检
     @Column( nullable = false)
-    private  int detectionSecondCount;
+    private  int detectionSecondCount;//复检
     @Column(nullable = false)
-    private  Date date;
+    private  Date date;//检测日期
     @Column( nullable = false,defaultValue = "false")
-    private boolean deprecate;
+    private boolean deprecate;//是否可用
     @Column( nullable = false,defaultValue = "false")
-    private boolean ispdfdown;
+    private boolean ispdfdown;//是否已经导出
     private List<DetectionDetail>listDetail=new ArrayList<DetectionDetail>();
     protected String drugName;
     protected String factoryName;

@@ -9,13 +9,15 @@ import android.widget.Button;
 public class JcsjcxActivity extends BaseActivity implements
         BottomFragment.OnFragmentInteractionListener, View.OnClickListener {
     JcsjcxFragment jcsjcxFragment = null;
+    JcsjcxmainFragment jcsjcxmainFragment = null;
     private Button btnBack;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        jcsjcxFragment = (JcsjcxFragment)switchContentFragment(JcsjcxFragment.class.getSimpleName());
+        jcsjcxmainFragment = (JcsjcxmainFragment) switchContentFragment(JcsjcxmainFragment.class.getSimpleName());
+        jcsjcxmainFragment.setiMlService(mService);
     }
 
     @Override
@@ -26,7 +28,10 @@ public class JcsjcxActivity extends BaseActivity implements
 
             } else if (tag.equals("JcsjcxFragment")) {
                 f = new JcsjcxFragment();
-            } else {
+            } else if (tag.equals("JcsjcxmainFragment")) {
+                f = new JcsjcxmainFragment();
+            }
+            else {
                 f = super.getFragment(tag);
             }
         }
@@ -42,17 +47,17 @@ public class JcsjcxActivity extends BaseActivity implements
     protected void onStart() {
         super.onStart();
         switchTopFragment("");//hiden powerbutton on this Activity
-        btnBack = (Button) findViewById(R.id.btBack);
-        btnBack.setOnClickListener(this);
+//        btnBack = (Button) findViewById(R.id.btBack);
+//        btnBack.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.btBack:
-               if(jcsjcxFragment.isReportLayout())
-                JcsjcxActivity.this.finish();
+                if (jcsjcxFragment.isReportLayout())
+                    JcsjcxActivity.this.finish();
                 else jcsjcxFragment.ShowReport();
                 break;
             default:

@@ -25,7 +25,7 @@
         <EditText
             android:id="@+id/etDrugName"
             style="@style/EditTextStyle"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:text=" " />
@@ -49,7 +49,7 @@
             android:id="@+id/etPinYin"
 
             style="@style/EditTextStyle"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:text=" " />
@@ -73,7 +73,7 @@
             android:id="@+id/etEnName"
 
             style="@style/EditTextStyle"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:text=" " />
@@ -96,7 +96,7 @@
         <Spinner
             android:id="@+id/etBottleType"
             style="@style/EditTextStyle"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:entries="@array/BottleType" />
 
@@ -117,9 +117,10 @@
 
         <Spinner
             android:id="@+id/etFactory"
-            style="@style/EditTextStyle"
-            android:layout_width="150dp"
+            style="@style/SpinnerStyle"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
+
 
             android:text=" " />
 
@@ -155,7 +156,7 @@
         <Spinner
             android:id="@+id/etThreshold"
             style="@style/EditTextStyle"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:entries="@array/Threshold"
             android:text=" " />

@@ -1,6 +1,7 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,10 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
         TextView drugName;
         TextView drugBottleType;
         TextView drugFactory;
+        TextView drugPinYin;
+        TextView drugEnName;
+        TextView update;
+        TextView delete;
         LinearLayout rootlayout;
 
         public ViewHolder(View itemView) {
@@ -37,6 +42,10 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
             drugName = (TextView) itemView.findViewById(R.id.tvDrugName);
             drugBottleType = (TextView) itemView.findViewById(R.id.tvDrugBottleType);
             drugFactory = (TextView) itemView.findViewById(R.id.tvDrugFactory);
+            drugPinYin = (TextView) itemView.findViewById(R.id.tvChinese);
+            drugEnName = (TextView) itemView.findViewById(R.id.tvEnglish);
+            update = (TextView) itemView.findViewById(R.id.update);
+            delete = (TextView) itemView.findViewById(R.id.delete);
         }
     }
 
@@ -45,10 +54,16 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
         this.context = context;
     }
 
+    /**
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if (viewType == TYPE.TOP.ordinal()) {
+
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_topitme, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
@@ -69,12 +84,13 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (position == 0) {
-
         } else {
             DrugControls drug = mDrugList.get(position - 1);
             holder.drugName.setText(drug.getDrugName());
             holder.drugBottleType.setText(drug.getDrugBottleType());
             holder.drugFactory.setText(drug.getDrugFactory());
+            holder.update.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            holder.delete.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         }
     }
 
