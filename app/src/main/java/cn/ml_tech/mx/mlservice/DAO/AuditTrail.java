@@ -1,103 +1,70 @@
 package cn.ml_tech.mx.mlservice.DAO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
 /**
- * CREATE TABLE drugContainer
- (
- id integer primary key AUTOINCREMENT   not null,
- name text not null unique,
- type  INTEGER not null,
- specification INTEGER not null,
- diameter REAL not null,
- height REAL,
- trayID INTEGER not null,
- srcTime REAL not null,
- stpTime REAL not null,
- channelValue1 REAL not null,
- channelValue2 REAL not null,
- channelValue3 REAL not null,
- channelValue4 REAL not null,
- shadeParam REAL not null,
- rotateSpeed INTEGER NOT NULL DEFAULT 4500,
- sendParam REAL not null,
- foreign key (specification) REFERENCES specificationType(id),
- foreign key (trayID) REFERENCES tray(id)
- );
+ * CREATE TABLE [audittrail](
+ * [id] integer PRIMARY KEY AUTOINCREMENT,
+ * [event] integer NOT NULL,
+ * [info] integer NOT NULL,
+ * [mark] text NOT NULL,
+ * [time] text NOT NULL,
+ * [userautoid] integer,
+ * [userlogicid] text ,
+ * [audittraileventtype_id] integer,
+ * [audittrailinfotype_id] integer);
  */
 
-public class AuditTrail extends DataSupport {
-    @Column( unique = true,nullable = false)
-    private String id;
-    @Column( nullable = false)
-    private String userlogicid;
+public class AuditTrail extends DataSupport implements Parcelable {
 
-    @Column( nullable = false)
-    private int event;
-    @Column( nullable = false)
-    private int info;
-    @Column( nullable = false)
-    private String time;
-    @Column( nullable = false)
+    @Column(nullable = false, unique = true)
+    private long id;
+    @Column(nullable = false)
+    private int event_id;
+    @Column(nullable = false)
+    private int info_id;
+    @Column(nullable = false)
     private String mark;
-    private  AuditTrailInfoType infoType;
-    private AuditTrailEventType eventType;
+    @Column(nullable = false)
+    private String time;
+    private int userauto_id;
+    private String username;
+    private String value;
 
-    public AuditTrailInfoType getInfoType() {
-        return infoType;
+    public String getValue() {
+        return value;
     }
 
-    public void setInfoType(AuditTrailInfoType infoType) {
-        this.infoType = infoType;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public AuditTrailEventType getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(AuditTrailEventType eventType) {
-        this.eventType = eventType;
-    }
-
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getUserlogicid() {
-        return userlogicid;
+    public int getEvent_id() {
+        return event_id;
     }
 
-    public void setUserlogicid(String userlogicid) {
-        this.userlogicid = userlogicid;
+    public void setEvent_id(int event_id) {
+        this.event_id = event_id;
     }
 
-    public int getEvent() {
-        return event;
+    public int getInfo_id() {
+        return info_id;
     }
 
-    public void setEvent(int event) {
-        this.event = event;
-    }
-
-    public int getInfo() {
-        return info;
-    }
-
-    public void setInfo(int info) {
-        this.info = info;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setInfo_id(int info_id) {
+        this.info_id = info_id;
     }
 
     public String getMark() {
@@ -108,5 +75,70 @@ public class AuditTrail extends DataSupport {
         this.mark = mark;
     }
 
+    public String getTime() {
+        return time;
+    }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getUserauto_id() {
+        return userauto_id;
+    }
+
+    public void setUserauto_id(int userauto_id) {
+        this.userauto_id = userauto_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public AuditTrail() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeInt(this.event_id);
+        dest.writeInt(this.info_id);
+        dest.writeString(this.mark);
+        dest.writeString(this.time);
+        dest.writeInt(this.userauto_id);
+        dest.writeString(this.username);
+        dest.writeString(this.value);
+    }
+
+    protected AuditTrail(Parcel in) {
+        this.id = in.readLong();
+        this.event_id = in.readInt();
+        this.info_id = in.readInt();
+        this.mark = in.readString();
+        this.time = in.readString();
+        this.userauto_id = in.readInt();
+        this.username = in.readString();
+        this.value = in.readString();
+    }
+
+    public static final Creator<AuditTrail> CREATOR = new Creator<AuditTrail>() {
+        @Override
+        public AuditTrail createFromParcel(Parcel source) {
+            return new AuditTrail(source);
+        }
+
+        @Override
+        public AuditTrail[] newArray(int size) {
+            return new AuditTrail[size];
+        }
+    };
 }

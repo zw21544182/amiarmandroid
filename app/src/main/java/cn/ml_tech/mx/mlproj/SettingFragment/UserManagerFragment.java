@@ -1,4 +1,4 @@
-package cn.ml_tech.mx.mlproj;
+package cn.ml_tech.mx.mlproj.SettingFragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -21,6 +21,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml_tech.mx.mlproj.BaseActivity;
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlservice.Bean.User;
 
 /**
@@ -28,7 +30,7 @@ import cn.ml_tech.mx.mlservice.Bean.User;
  */
 
 public class UserManagerFragment extends Fragment {
-    private final  String TAG="UserManagerFragment";
+    private final String TAG = "UserManagerFragment";
     private Activity mActivity;
     private RecyleUserAdapter recyleUserAdapter;
     private RecyclerView recylerView;
@@ -41,7 +43,7 @@ public class UserManagerFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-         super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
     }
 
@@ -49,18 +51,18 @@ public class UserManagerFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated: ");
-        mActivity=getActivity();
-        recylerView = (RecyclerView)(mActivity.findViewById(R.id.rcvUser));
-        List<String>listNickName=new ArrayList<String>();
-        List<String>listUserName=new ArrayList<String>();
+        mActivity = getActivity();
+        recylerView = (RecyclerView) (mActivity.findViewById(R.id.rcvUser));
+        List<String> listNickName = new ArrayList<String>();
+        List<String> listUserName = new ArrayList<String>();
         listUser = new ArrayList<User>();
         listUser.clear();
         try {
-            listUser=((BaseActivity)mActivity).mService.getUserList();
+            listUser = ((BaseActivity) mActivity).mService.getUserList();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        recyleUserAdapter = new RecyleUserAdapter(mActivity,listUser);
+        recyleUserAdapter = new RecyleUserAdapter(mActivity, listUser);
         recylerView.setAdapter(recyleUserAdapter);
         layoutmanager = new LinearLayoutManager(mActivity);
         recylerView.setLayoutManager(layoutmanager);
@@ -70,47 +72,49 @@ public class UserManagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        return   inflater.inflate(R.layout.fragment_usermanager,container,false);
-       // return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.fragment_usermanager, container, false);
+        // return super.onCreateView(inflater, container, savedInstanceState);
     }
-     class RecyleUserAdapter extends RecyclerView.Adapter<RecyleUserAdapter.ViewHolder>
-    {
-        private List<User>listUser;
+
+    class RecyleUserAdapter extends RecyclerView.Adapter<RecyleUserAdapter.ViewHolder> {
+        private List<User> listUser;
         private Context context;
         private AdapterView.OnItemClickListener mlistener;
-        public RecyleUserAdapter(Context context,List<User>list)
-        {
-            this.context=context;
-            this.listUser=list;
+
+        public RecyleUserAdapter(Context context, List<User> list) {
+            this.context = context;
+            this.listUser = list;
         }
+
         public void setMlistener(AdapterView.OnItemClickListener mlistener) {
             this.mlistener = mlistener;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        class ViewHolder extends RecyclerView.ViewHolder {
             CheckBox checkBoxSelect;
-             TextView txtNickName;
-             TextView txtUserName;
-             TextView txtUserType;
-             TextView txtUserEnable;
-             TextView txtUserEdit;
-             TextView txtUserDel;
+            TextView txtNickName;
+            TextView txtUserName;
+            TextView txtUserType;
+            TextView txtUserEnable;
+            TextView txtUserEdit;
+            TextView txtUserDel;
 
-             public ViewHolder(View itemView) {
-                 super(itemView);
-                checkBoxSelect= (CheckBox) itemView.findViewById(R.id.chkSelect);
-                txtNickName= (TextView) itemView.findViewById(R.id.txtNickName);
-                txtUserName= (TextView) itemView.findViewById(R.id.txtUserName);
-                txtUserType= (TextView) itemView.findViewById(R.id.txtUserType);
-                 txtUserEnable= (TextView) itemView.findViewById(R.id.txtUserEnable);
-                 txtUserEdit= (TextView) itemView.findViewById(R.id.txtEdit);
-                 txtUserDel= (TextView) itemView.findViewById(R.id.txtDel);
-             }
-         }
+            public ViewHolder(View itemView) {
+                super(itemView);
+                checkBoxSelect = (CheckBox) itemView.findViewById(R.id.chkSelect);
+                txtNickName = (TextView) itemView.findViewById(R.id.txtNickName);
+                txtUserName = (TextView) itemView.findViewById(R.id.txtUserName);
+                txtUserType = (TextView) itemView.findViewById(R.id.txtUserType);
+                txtUserEnable = (TextView) itemView.findViewById(R.id.txtUserEnable);
+                txtUserEdit = (TextView) itemView.findViewById(R.id.txtEdit);
+                txtUserDel = (TextView) itemView.findViewById(R.id.txtDel);
+            }
+        }
+
         @Override
         public RecyleUserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view= LayoutInflater.from(this.context).inflate(R.layout.recyleuser,parent,false);
-            ViewHolder viewHolder=new ViewHolder(view);
+            View view = LayoutInflater.from(this.context).inflate(R.layout.recyleuser, parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
         }
 
@@ -121,8 +125,9 @@ public class UserManagerFragment extends Fragment {
             holder.txtUserType.setText(listUser.get(position).getUserType().getTypeName());
             holder.txtUserDel.setText("删除");
             holder.txtUserEdit.setText("修改");
-            holder.txtUserEnable.setText(listUser.get(position).isEnable()?"可用":"禁用");
+            holder.txtUserEnable.setText(listUser.get(position).isEnable() ? "可用" : "禁用");
         }
+
         @Override
         public int getItemCount() {
             return listUser.size();

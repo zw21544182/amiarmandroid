@@ -1,10 +1,9 @@
-package cn.ml_tech.mx.mlproj;
+package cn.ml_tech.mx.mlproj.SettingFragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,13 @@ import android.widget.EditText;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import cn.ml_tech.mx.mlproj.BaseActivity;
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlservice.DAO.DevUuid;
-
-import static android.R.attr.format;
-
 /**
  * Created by ml on 2017/5/24.
  */
-
 public class ManchineManagerFragment extends Fragment implements View.OnClickListener {
     private final  String TAG="ManchineManagerFragment";
     private View view;

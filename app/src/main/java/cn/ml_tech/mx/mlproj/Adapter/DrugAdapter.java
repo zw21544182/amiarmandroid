@@ -1,4 +1,4 @@
-package cn.ml_tech.mx.mlproj;
+package cn.ml_tech.mx.mlproj.Adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlservice.DrugControls;
 
 /**
@@ -63,7 +64,6 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if (viewType == TYPE.TOP.ordinal()) {
-
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_topitme, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
@@ -89,6 +89,8 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
             holder.drugName.setText(drug.getDrugName());
             holder.drugBottleType.setText(drug.getDrugBottleType());
             holder.drugFactory.setText(drug.getDrugFactory());
+            holder.drugPinYin.setText(drug.getPinyin());
+            holder.drugEnName.setText(drug.getEnname());
             holder.update.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             holder.delete.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         }

@@ -7,14 +7,15 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml_tech.mx.mlproj.Adapter.DrugAdapter;
 import cn.ml_tech.mx.mlservice.DrugControls;
 import cn.ml_tech.mx.mlservice.IMlService;
 
@@ -48,6 +49,7 @@ public class YpkFragment extends Fragment {
         this.mService = mService;
     }
 
+    RecyclerView recyclerView;
     private IMlService mService;
 
     private OnFragmentInteractionListener mListener;
@@ -86,7 +88,6 @@ public class YpkFragment extends Fragment {
     private void initDrugs() {
         try {
             drugList = mService.queryDrugControl();
-            Log.d("ZW", "个数" + drugList.size());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -96,10 +97,20 @@ public class YpkFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initDrugs();
+
+        getActivity().findViewById(R.id.query).setOnClickListener((View.OnClickListener) getActivity());
+
+        getActivity().findViewById(R.id.btnypxNext).setOnClickListener((View.OnClickListener) getActivity());
+
         getActivity().findViewById(R.id.addphonetic).setOnClickListener((View.OnClickListener) getActivity());
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
+        DrugAdapter adapter = new DrugAdapter(drugList, getActivity());
+        recyclerView.setAdapter(adapter);
+    }
+
+    public void setDataToView(List<DrugControls> drugList) {
         DrugAdapter adapter = new DrugAdapter(drugList, getActivity());
         recyclerView.setAdapter(adapter);
     }
@@ -148,5 +159,17 @@ public class YpkFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public String getDrugName() {
+        return ((EditText) getActivity().findViewById(R.id.me_name)).getEditableText().toString();
+    }
+
+    public String getPinyin() {
+        return ((EditText) getActivity().findViewById(R.id.me_phonetic)).getEditableText().toString();
+    }
+
+    public String getEnName() {
+        return ((EditText) getActivity().findViewById(R.id.me_enname)).getEditableText().toString();
     }
 }

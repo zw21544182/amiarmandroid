@@ -1,9 +1,12 @@
-package cn.ml_tech.mx.mlproj;
+package cn.ml_tech.mx.mlproj.SettingFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import cn.ml_tech.mx.mlproj.BaseFragment;
+import cn.ml_tech.mx.mlproj.R;
 
 /**
  * Created by ml on 2017/6/9.
@@ -14,7 +17,7 @@ public class SystemSetUpMainFragment extends BaseFragment implements View.OnClic
 
     @Override
     public View initView(LayoutInflater inflater) {
-        view = inflater.inflate(R.layout.activity_xtwhactivity, null);
+        view = inflater.inflate(R.layout.fragment_systemsetup, null);
         initFindViewById(view);
         return view;
     }

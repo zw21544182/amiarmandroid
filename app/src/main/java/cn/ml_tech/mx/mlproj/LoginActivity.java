@@ -15,8 +15,8 @@ import java.util.List;
 
 import cn.ml_tech.mx.mlservice.Bean.User;
 
-public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener,OptionFragment.OnFragmentInteractionListener,
-                                                BottomFragment.OnFragmentInteractionListener {
+public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener, OptionFragment.OnFragmentInteractionListener,
+        BottomFragment.OnFragmentInteractionListener {
     private LoginFragment loginFragment = null;
     private OptionFragment optionFragment = null;
     private CheckBox chkRember;
@@ -26,6 +26,8 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         super.onCreate(savedInstanceState);
         LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
+
+
     }
 
     @Override
@@ -38,11 +40,10 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         * the function maybe not use
         */
 
-        if(loginFragment!=null&&loginFragment.getView()!=null)
-        {
+        if (loginFragment != null && loginFragment.getView() != null) {
             LogDebug(" on start loginfragment is not null");
-            chkRember= (CheckBox) loginFragment.getView().findViewById(R.id.checkBoxRember);
-            if(chkRember!=null)
+            chkRember = (CheckBox) loginFragment.getView().findViewById(R.id.checkBoxRember);
+            if (chkRember != null)
                 chkRember.setVisibility(View.INVISIBLE);//set the rember password invisible
         }
     }
@@ -64,7 +65,7 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
 
     @Override
     protected Fragment getFragment(String tag) {
-       Fragment f = mFragmentManager.findFragmentByTag(tag);
+        Fragment f = mFragmentManager.findFragmentByTag(tag);
         if (f == null) {
             if (tag.equals("LoginFragment")) {
                 f = new LoginFragment();
@@ -97,22 +98,23 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
                     }
                 }).show();
     }
+
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        final EditText etUserName = (EditText)this.findViewById(R.id.etUserName);
-        final EditText etPassword = (EditText)this.findViewById(R.id.etPassword);
+        final EditText etUserName = (EditText) this.findViewById(R.id.etUserName);
+        final EditText etPassword = (EditText) this.findViewById(R.id.etPassword);
         View btn = this.findViewById(R.id.btLogin);
-        if(btn != null) {
+        if (btn != null) {
             btn.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
 
                     try {
-            List<User> list=mService.getUserList();
+                        List<User> list = mService.getUserList();
                         LogDebug(String.valueOf(list.size()));
-                        boolean flag= mService.checkAuthority("1230","123");
-                        LogDebug("checkAuthority "+ String.valueOf(flag));
+                        boolean flag = mService.checkAuthority("1230", "123");
+                        LogDebug("checkAuthority " + String.valueOf(flag));
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -124,7 +126,7 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
                     boolean result = false;
                     try {
                         result = mService.checkAuthority(userName, password);
-                        result=true;//the result set true on debug
+                        result = true;//the result set true on debug
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -144,5 +146,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
 
     }
 
-
 }
+
+

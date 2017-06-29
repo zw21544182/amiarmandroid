@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 import cn.ml_tech.mx.mlservice.FactoryControls;
 import cn.ml_tech.mx.mlservice.IMlService;
+import cn.ml_tech.mx.mlservice.SpecificationType;
 
 
 /**
@@ -34,7 +36,8 @@ public class YpxxFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private IMlService mService;
     private List<FactoryControls> factoryControlses;
-    List<String> factorydata;
+    private List<cn.ml_tech.mx.mlservice.SpecificationType> typeList;
+    List<String> factorydata, specificatedata;
 
     public IMlService getmService() {
         return mService;
@@ -82,6 +85,28 @@ public class YpxxFragment extends Fragment {
 
     }
 
+    public String getName() {
+        return ((EditText) getActivity().findViewById(R.id.etDrugName)).getEditableText().toString();
+    }
+
+    public String getPinyin() {
+        return ((EditText) getActivity().findViewById(R.id.etPinYin)).getEditableText().toString();
+
+    }
+
+    public String getEnname() {
+        return ((EditText) getActivity().findViewById(R.id.etEnName)).getEditableText().toString();
+
+    }
+
+    public int getFactoryId() {
+        return ((Spinner) getActivity().findViewById(R.id.etFactory)).getSelectedItemPosition() + 1;
+    }
+
+    public int getSpecificationTypeId() {
+        return ((Spinner) getActivity().findViewById(R.id.etBottleType)).getSelectedItemPosition() + 1;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,6 +128,7 @@ public class YpxxFragment extends Fragment {
         getActivity().findViewById(R.id.btYpxxAddFactory).setOnClickListener((View.OnClickListener) getActivity());
         try {
             factoryControlses = mService.queryFactoryControl();
+            typeList = mService.getSpecificationTypeList();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -111,14 +137,28 @@ public class YpxxFragment extends Fragment {
     }
 
     private void setDataToView() {
+        List<String> channel = new ArrayList<>();
+        channel.add("40um通道");
+        channel.add("50um通道");
+        channel.add("60um通道");
+        channel.add("70um通道");
         factorydata = new ArrayList<>();
         for (FactoryControls controls :
                 factoryControlses
                 ) {
             factorydata.add(controls.getName());
         }
-        ((Spinner) getActivity().findViewById(R.id.etFactory)).setAdapter(new FactoryAdapter());
-
+        specificatedata = new ArrayList<String>();
+        for (SpecificationType type : typeList
+                ) {
+            specificatedata.add(type.getName());
+        }
+        ((Spinner) getActivity().findViewById(R.id.etBottleType)).setAdapter(new StringAdapter(specificatedata));
+        ((Spinner) getActivity().findViewById(R.id.etFactory)).setAdapter(new StringAdapter(factorydata));
+        ((Spinner) getActivity().findViewById(R.id.etThreshold)).setAdapter(new StringAdapter(channel));
+        ((Spinner) getActivity().findViewById(R.id.etBottleType)).setSelection(0);
+        ((Spinner) getActivity().findViewById(R.id.etFactory)).setSelection(0);
+        ((Spinner) getActivity().findViewById(R.id.etThreshold)).setSelection(0);
     }
 
     @Override
@@ -153,15 +193,24 @@ public class YpxxFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class FactoryAdapter extends BaseAdapter {
+    public class StringAdapter extends BaseAdapter {
+        List<String> data;
+
+        private StringAdapter() {
+        }
+
+        public StringAdapter(List<String> data) {
+            this.data = data;
+        }
+
         @Override
         public int getCount() {
-            return factorydata.size();
+            return data.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return factorydata.get(position);
+            return data.get(position);
         }
 
         @Override
@@ -179,7 +228,7 @@ public class YpxxFragment extends Fragment {
             } else {
                 textView = (TextView) convertView.getTag();
             }
-            textView.setText(factorydata.get(position));
+            textView.setText(data.get(position));
             return convertView;
         }
     }

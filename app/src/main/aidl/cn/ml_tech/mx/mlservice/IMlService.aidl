@@ -12,8 +12,12 @@ import cn.ml_tech.mx.mlservice.DAO.Tray;
 import cn.ml_tech.mx.mlservice.DAO.SystemConfig;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.BottlePara;
+import cn.ml_tech.mx.mlservice.SpecificationType;
+import cn.ml_tech.mx.mlservice.DAO.CameraParams;
+import cn.ml_tech.mx.mlservice.DAO.AuditTrail;
+import cn.ml_tech.mx.mlservice.DAO.AuditTrailEventType;
+import cn.ml_tech.mx.mlservice.DAO.AuditTrailInfoType;
 // Declare any non-default types here with import statements
-
 interface IMlService {
     /**
      * Demonstrates some basic types that you can use as parameters
@@ -26,6 +30,7 @@ interface IMlService {
     List<DrugControls> queryDrugControl();
     List<FactoryControls> queryFactoryControl();
     List<User>getUserList();
+    List<SpecificationType>getSpecificationTypeList();
     void saveBottlePara(in BottlePara bottlepara);
    List<DevParam>getDeviceParamList(in int type);
    void setDeviceParamList(in List<DevParam>list);
@@ -38,7 +43,12 @@ interface IMlService {
     boolean setTray(in Tray tray);
     boolean delTray(in Tray tray);
     int setSystemConfig(in List<SystemConfig>list);
+    int setCameraParam(in CameraParams config);
     List<SystemConfig>getSystemConfig();
     List<DetectionReport>getDetectionReportList(in int reportId);
-
+    List<CameraParams>getCameraParams();
+    List<AuditTrailInfoType>getAuditTrailInfoType();
+    List<AuditTrailEventType>getAuditTrailEventType();
+    List<AuditTrail>getAuditTrail(String starttime,String stoptime,String user,in int event_id,in int info_id);
+    List<DrugControls> queryDrugControlByInfo(String drugname,String pinyin,String enname);
 }

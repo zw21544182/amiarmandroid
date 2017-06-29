@@ -88,6 +88,8 @@ public class YpjqFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        getActivity().findViewById(R.id.btSave).setOnClickListener((View.OnClickListener) getActivity());
+
     }
 
     @Override

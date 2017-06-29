@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="100dp"
     android:layout_marginRight="100dp"
-    android:background="@color/colorBackgroud"
+    android:background="@drawable/bgitme_layout"
     android:orientation="vertical"
     tools:context="cn.ml_tech.mx.mlproj.YpkFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <TextView
@@ -39,6 +40,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="3dp"
         android:orientation="horizontal">
 
         <TextView
@@ -67,6 +70,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -94,16 +99,57 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/wholelayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp">
+        android:layout_height="380dp"
+        android:layout_marginTop="30dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="380dp"
             android:background="@drawable/bg_recyclerview" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="3dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_next" />
+
+        <EditText
+            style="@style/EditTextStyle"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:ems="2"
+            android:gravity="center"
+            android:hint="1"
+            android:inputType="number"
+            android:singleLine="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_pre" />
+
+        <Button
+            android:id="@+id/btnypxNext"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="下一页" />
+    </LinearLayout>
 
 </LinearLayout>

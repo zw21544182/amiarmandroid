@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 import cn.ml_tech.mx.mlproj.R;
-import cn.ml_tech.mx.mlproj.TrayManagerFragment;
 import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 
 /**

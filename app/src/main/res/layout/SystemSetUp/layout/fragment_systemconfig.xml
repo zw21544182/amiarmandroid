@@ -1,158 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/llStandRotate"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/StandRotate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/StandRotate" />
+
+            <EditText
                 android:id="@+id/etStandRotateNum"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llFloatMaxCount"
-            android:layout_below="@id/llStandRotate"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llStandRotate"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/FloatCountMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/FloatCountMax" />
+
             <EditText
                 android:id="@+id/etFloatMaxCount"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llFiberMaxCount"
-            android:layout_below="@id/llFloatMaxCount"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llFloatMaxCount"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/FiberCountMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/FiberCountMax" />
+
             <EditText
                 android:id="@+id/etFiberMaxCount"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llGlassPrecent"
-            android:layout_below="@id/llFiberMaxCount"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llFiberMaxCount"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/GlassPrecent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/GlassPrecent" />
+
             <EditText
                 android:id="@+id/etGlassPrecentMax"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llGlassTime"
-            android:layout_below="@id/llGlassPrecent"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llGlassPrecent"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/GlassTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/GlassTime" />
+
             <EditText
                 android:id="@+id/etGlassTimeMax"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llDiskPrecent"
-            android:layout_below="@id/llGlassTime"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llGlassTime"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/DiskMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/DiskMax" />
+
             <EditText
                 android:id="@+id/etDiskPrecentMax"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llIpAddress"
-            android:layout_below="@id/llDiskPrecent"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llDiskPrecent"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/IpAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/IpAddress" />
+
             <EditText
                 android:id="@+id/etIpAddress"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llNetMask"
-            android:layout_below="@id/llIpAddress"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llIpAddress"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/NetMask"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/NetMask" />
+
             <EditText
                 android:id="@+id/etNetMask"
+
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llGateWay"
-            android:layout_below="@id/llNetMask"
-            android:orientation="horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llNetMask"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
             <TextView
-                android:text="@string/GateWay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/GateWay" />
+
             <EditText
                 android:id="@+id/etGateWay"
+                style="@style/EditTextStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_below="@id/llGateWay"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="400dp"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btnApply"
-                android:text="@string/Apply"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+
+                android:text="@string/Apply" />
         </LinearLayout>
 
 

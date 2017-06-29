@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arparaseeting">AR0134参数设置</string>
+    <string name="agc">AGC:</string>
+    <string name="flash">FLASH:</string>
+    <string name="fpgControl">FPGA控制增益:</string>
+    <string name="exposuretime">曝光时间:</string>
+    <string name="write">写入</string>
+    <string name="read">读取</string>
+    <string name="fpgafiltering">FPGA滤波:</string>
+    <string name="numplus">数字增益(R0X305E):</string>
+    <string name="times">倍</string>
+    <string name="analogplus">模拟增益(R0X30B0):</string>
+    <string name="sensortem">传感器温度:</string>
+    <string name="off">关</string>
+    <string name="on">开</string>
+    <string name="aec">AEC:</string>
+
+</resources>

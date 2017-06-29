@@ -5,40 +5,64 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
-import cn.ml_tech.mx.CustomView.SystemSetUp.MenuItemView;
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link XtwhFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import cn.ml_tech.mx.mlproj.SettingFragment.AuditTrackFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.CamParamsFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.LogShowFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.ManchineManagerFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.SysConfigFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.SystemSetUpMainFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.TrayManagerFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.UserManagerFragment;
+
+import static android.os.Build.VERSION_CODES.M;
+
 public class XtwhFragment extends Fragment {
-
-
-    private String[]arrayItemMenu;
-
-    private String[]arrayFragmentTag;
+    private String[] arrayItemMenu;
+    private String[] arrayFragmentTag;
     private OnFragmentInteractionListener mListener;
     private FragmentManager mChildFragmentManager;
     private FragmentTransaction mfragmentTransaction;
+    private UserManagerFragment userManagerFragment = null;
+    private SystemSetUpMainFragment systemSetUpMainFragment;
+    private ManchineManagerFragment manchineManagerFragment;
+    private int currentIndex = 0;//控制当前需要显示第几个Fragment
+    private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();//用List来存储Fragment,List的初始化没有写
+    private Fragment mCurrentFrgment;//显示当前Fragment
 
     public XtwhFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        initFragment();
+//        initChildFragments();
+        getActivity().findViewById(R.id.bt_back).setOnClickListener((View.OnClickListener) getActivity());
+        ((RadioGroup) getActivity().findViewById(R.id.rootgroup)).setOnCheckedChangeListener((RadioGroup.OnCheckedChangeListener) getActivity());
 
+    }
+
+    private void initFragment() {
+        fragmentArrayList.add(new UserManagerFragment());
+        fragmentArrayList.add(new TrayManagerFragment());
+        fragmentArrayList.add(new ManchineManagerFragment());
+        fragmentArrayList.add(new SysConfigFragment());
+        fragmentArrayList.add(new CamParamsFragment());
+        fragmentArrayList.add(new LogShowFragment());
+        fragmentArrayList.add(new AuditTrackFragment());
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,33 +83,33 @@ public class XtwhFragment extends Fragment {
 //                    getString(R.string.MenuLogShow),
 //        };
 //        arrayFragmentTag=getResources().getStringArray(R.array.menufragment);
-//        mChildFragmentManager = getChildFragmentManager();
+        mChildFragmentManager = getFragmentManager();
 
     }
-    void initChildFragments()
-    {
-        mfragmentTransaction = mChildFragmentManager.beginTransaction();
-        SystemSetUpMainFragment mainFragment=new SystemSetUpMainFragment();
-//        UserManagerFragment fragmentuser=new UserManagerFragment();
-//        ManchineManagerFragment fragmentmanchine=new ManchineManagerFragment();
-//        TrayManagerFragment trayManagerFragment=new TrayManagerFragment();
-//        DeviceDebugFragment deviceDeubgFragment=new DeviceDebugFragment();
-//        SysConfigFragment sysConfigFragment=new  SysConfigFragment();
-        mfragmentTransaction.add(R.id.llSystemFragmentParent,mainFragment);
-//        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentuser).commit();
-//        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentmanchine).commit();
-//        mfragmentTransaction.add(R.id.llSystemFragmentParent,trayManagerFragment).commit();
-//        mfragmentTransaction.add(R.id.llSystemFragmentParent,deviceDeubgFragment).commit();
-//        mfragmentTransaction.add(R.id.llSystemFragmentParent,sysConfigFragment).commit();
-        mfragmentTransaction.attach(mainFragment);
-        mfragmentTransaction.commit();
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+//    void initChildFragments() {
+//        mfragmentTransaction = mChildFragmentManager.beginTransaction();
+//        systemSetUpMainFragment = new SystemSetUpMainFragment();
+////        UserManagerFragment fragmentuser=new UserManagerFragment();
+////        ManchineManagerFragment fragmentmanchine=new ManchineManagerFragment();
+////        TrayManagerFragment trayManagerFragment=new TrayManagerFragment();
+////        DeviceDebugFragment deviceDeubgFragment=new DeviceDebugFragment();
+////        SysConfigFragment sysConfigFragment=new  SysConfigFragment();
+//        mfragmentTransaction.add(R.id.settingFragment, systemSetUpMainFragment);
+////        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentuser).commit();
+////        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentmanchine).commit();
+////        mfragmentTransaction.add(R.id.llSystemFragmentParent,trayManagerFragment).commit();
+////        mfragmentTransaction.add(R.id.llSystemFragmentParent,deviceDeubgFragment).commit();
+////        mfragmentTransaction.add(R.id.llSystemFragmentParent,sysConfigFragment).commit();
+//        mfragmentTransaction.attach(systemSetUpMainFragment);
+//        mfragmentTransaction.commit();
+//    }
+
+    @RequiresApi(api = M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.activity_xtwhactivity, container, false);
+        View view = inflater.inflate(R.layout.activity_xtwhactivity, container, false);
         /*
         LinearLayout llRoot= (LinearLayout) view.findViewById(R.id.llSystemRoot);
         Log.d(getContext().getPackageName(), "onCreateView: "+String.valueOf(arrayFragmentTag.length)+" "+String.valueOf(arrayItemMenu.length));
@@ -98,9 +122,9 @@ public class XtwhFragment extends Fragment {
             llRoot.addView(itemView);
         }
         return view;*/
-//        initChildFragments();
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -125,6 +149,62 @@ public class XtwhFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void changeTab(int index) {
+        currentIndex = index;
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        //判断当前的Fragment是否为空，不为空则隐藏
+        if (null != mCurrentFrgment) {
+            ft.hide(mCurrentFrgment);
+        }
+        //先根据Tag从FragmentTransaction事物获取之前添加的Fragment
+        Fragment fragment = getFragmentManager().findFragmentByTag(fragmentArrayList.get(currentIndex).getClass().getName());
+        Log.d("ZW", fragmentArrayList.get(currentIndex).getClass().getName());
+        if (null == fragment) {
+            //如fragment为空，则之前未添加此Fragment。便从集合中取出
+            fragment = fragmentArrayList.get(index);
+        }
+        mCurrentFrgment = fragment;
+
+        //判断此Fragment是否已经添加到FragmentTransaction事物中
+        if (!fragment.isAdded()) {
+            ft.add(R.id.settingFragment, fragment, fragment.getClass().getName());
+        } else {
+            ft.show(fragment);
+        }
+        ft.commit();
+    }
+
+    public void changeFragmentById(int id) {
+        switch (id) {
+            case R.id.rbUserManage:
+                changeTab(0);
+                break;
+            case R.id.rbTrayManage:
+                Toast.makeText(getActivity(), "tray", Toast.LENGTH_SHORT).show();
+                changeTab(1);
+                break;
+            case R.id.rbInfoManage:
+                changeTab(2);
+                break;
+            case R.id.rbSystemConfig:
+                changeTab(3);
+                break;
+            case R.id.rbCameraConfig:
+                changeTab(4);
+                break;
+            case R.id.rbLogShow:
+                changeTab(5);
+                break;
+            case R.id.rbAuditTrack:
+                changeTab(6);
+                break;
+
+            default:
+                break;
+        }
+
     }
 
 

@@ -7,30 +7,37 @@ import android.os.RemoteException;
 import android.view.MotionEvent;
 import android.view.View;
 
-import cn.ml_tech.mx.mlservice.BottlePara;
+import java.util.List;
+
+import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
+import cn.ml_tech.mx.mlservice.DrugControls;
 
 public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmentInteractionListener, View.OnClickListener,
         View.OnTouchListener, YpjqFragment.OnFragmentInteractionListener, YpxjFragment.OnFragmentInteractionListener,
         YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener, YpxaFragment.OnFragmentInteractionListener
-        , BottomFragment.OnFragmentInteractionListener {
+        , YpjccFragment.OnFragmentInteractionListener, YpjcjFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
     YpxxFragment ypxxFragment = null;
     YpxaFragment ypxaFragment = null;
     YpxjFragment ypxjFragment = null;
     YpjqFragment ypjqFragment = null;
-    BottlePara bottlePara = null;
-    String BottleName = "";
+    YpjcjFragment YpjcjFragment = null;
+    YpjccFragment ypjccFragment = null;
+    String name = "";
     String enName = "";
     String pinyin = "";
-    int factoryId;
-    int containterd;
+    int factoryid;
+    int containnerid;
+    DrugContainer drugContainer = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ypjcFragment = (YpjcFragment) switchContentFragment(YpjcFragment.class.getSimpleName());
+        drugContainer = new DrugContainer();
     }
 
     @Override
@@ -38,7 +45,6 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
         Fragment f = mFragmentManager.findFragmentByTag(tag);
         if (f == null) {
             if (tag.equals("content")) {
-
             } else if (tag.equals("YpjcFragment")) {
                 f = new YpjcFragment();
             } else if (tag.equals("YpkFragment")) {
@@ -51,10 +57,14 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 }
             } else if (tag.equals("YpxaFragment")) {
                 f = new YpxaFragment();
+            } else if (tag.equals("YpjccFragment")) {
+                f = new YpjccFragment();
             } else if (tag.equals("YpxjFragment")) {
                 f = new YpxjFragment();
             } else if (tag.equals("YpjqFragment")) {
                 f = new YpjqFragment();
+            } else if (tag.equals("YpjcjFragment")) {
+                f = new YpjcjFragment();
             } else {
                 f = super.getFragment(tag);
             }
@@ -79,6 +89,13 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ypjcjNext:
+                ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
+
+                break;
+            case R.id.btnypxNext:
+                YpjcjFragment = (YpjcjFragment) switchContentFragment(YpjcjFragment.class.getSimpleName());
+                break;
             case R.id.bt_back:
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
                 ypxxFragment.setmService(mService);
@@ -96,6 +113,11 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 ypxxFragment.setmService(mService);
                 break;
             case R.id.btYpxxNext:
+                name = ypxxFragment.getName();
+                pinyin = ypxxFragment.getPinyin();
+                enName = ypxxFragment.getEnname();
+                factoryid = ypxxFragment.getFactoryId();
+                containnerid = ypxxFragment.getSpecificationTypeId();
                 ypxjFragment = (YpxjFragment) switchContentFragment(YpxjFragment.class.getSimpleName());
                 ypxjFragment.setmService(mService);
 
@@ -122,9 +144,8 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
                 break;
             case R.id.btnypxjNext:
-                bottlePara = ypxjFragment.getBottlePara();
-                ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
 
+                ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
 //                try {
 //                    mService.saveBottlePara(bottlePara);
 //                } catch (RemoteException e) {
@@ -133,6 +154,24 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
 //                }
                 break;
             case R.id.btSave:
+                try {
+                    mService.addDrugInfo(name, enName, pinyin, containnerid, factoryid);
+                    showToast("保存成功");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    showToast("保存失败");
+                }
+                break;
+            case R.id.query:
+                String name = ypkFragment.getDrugName();
+                String pinyin = ypkFragment.getPinyin();
+                String enname = ypkFragment.getEnName();
+                try {
+                    List<DrugControls> drugControlses = mService.queryDrugControlByInfo(name, pinyin, enname);
+                    ypkFragment.setDataToView(drugControlses);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 break;

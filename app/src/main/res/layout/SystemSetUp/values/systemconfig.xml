@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="curtime">当前时间:</string>
+    <string name="rotatenum">标准粒子旋转次数:</string>
+    <string name="floaternum">漂浮物次数值:</string>
+    <string name="fibrenum">纤维次数值:</string>
+    <string name="precipitatemaxnum">沉淀物比重最大值:</string>
+    <string name="disuser">磁盘使用百分比:</string>
+</resources>

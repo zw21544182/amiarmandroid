@@ -97,7 +97,7 @@
                 android:autoLink="all"
                 android:gravity="center"
                 android:text="修改"
-                android:textColor="@color/colorBackgroud" />
+                android:textColor="@color/colorBlack" />
 
             <View
                 android:layout_width="1dp"
@@ -110,9 +110,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:autoLink="all"
-                android:text="删除"
                 android:gravity="center"
-                android:textColor="@color/colorBackgroud" />
+                android:text="删除"
+                android:textColor="@color/colorBlack" />
         </LinearLayout>
     </LinearLayout>
 

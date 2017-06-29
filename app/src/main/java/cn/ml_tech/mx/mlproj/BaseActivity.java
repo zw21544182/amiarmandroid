@@ -4,18 +4,19 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -27,10 +28,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
-import cn.ml_tech.mx.mlservice.Bean.User;
 import cn.ml_tech.mx.mlservice.IMlService;
 import cn.ml_tech.mx.mlservice.MotorControl;
 
@@ -44,6 +42,11 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     protected String mCurrentBottomFragmentTag;
     protected FragmentTransaction mFragmentTransaction;
     protected FragmentManager mFragmentManager;
+    protected MyReceiver receiver;
+
+    public void showToast(String content) {
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
+    }
 
     public IMlService getmService() {
         return mService;
@@ -53,7 +56,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         this.mService = mService;
     }
 
-    protected IMlService mService;
+    public IMlService mService;
     public static final String FULL_SCREEN_EXPAND_STATUSBAR = "android.settings.FULL_SCREEN_EXPAND_STATUSBAR";
 
     protected void logv(String msg) {
@@ -109,6 +112,10 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         setContentView(R.layout.activity_base);
+        receiver = new MyReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.alert");
+        registerReceiver(receiver, filter);
         logv("created\n");
         ActivityCollector.addActivity(this);
         mFragmentManager = getFragmentManager();
@@ -339,6 +346,16 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String info = intent.getExtras().getString("info");
+            Toast.makeText(context, info + "Ssss", Toast.LENGTH_SHORT).show();
+            context.unregisterReceiver(this);
         }
     }
 
