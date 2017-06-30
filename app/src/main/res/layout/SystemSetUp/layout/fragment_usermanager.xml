@@ -7,9 +7,21 @@
         android:id="@+id/llUserEdit"
         android:layout_width="800dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/bg_factory_layout"
-        android:orientation="vertical">
+        android:background="@drawable/bg_system_layout"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="用户管理" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,6 +137,8 @@
                 android:id="@+id/chbEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableLeft="@drawable/drawable_radio"
                 android:text="@string/userenable" />
 
             <TextView
@@ -163,9 +177,24 @@
         </LinearLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcvUser"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/llUserEdit"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_below="@id/llUserEdit"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_factory_layout"
+        android:orientation="vertical"
+        android:padding="1dp">
+
+        <include
+            layout="@layout/usermanagedate_toplayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></include>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcvUser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 </RelativeLayout>

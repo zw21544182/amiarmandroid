@@ -10,9 +10,7 @@ import java.util.List;
 
 import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlservice.DAO.AuditTrail;
-/**
- * Created by mx on 2017/4/22.
- */
+
 public class AuditTrackAdapter extends RecyclerView.Adapter<AuditTrackAdapter.ViewHolder> {
     private List<AuditTrail> mDrugList;
     private Context context;

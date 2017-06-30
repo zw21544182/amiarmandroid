@@ -124,6 +124,9 @@ public class YpxxFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        getActivity().findViewById(R.id.btYpxxPre
+        ).setOnClickListener((View.OnClickListener) getActivity());
+
         getActivity().findViewById(R.id.btYpxxNext).setOnClickListener((View.OnClickListener) getActivity());
         getActivity().findViewById(R.id.btYpxxAddFactory).setOnClickListener((View.OnClickListener) getActivity());
         try {
@@ -158,7 +161,7 @@ public class YpxxFragment extends Fragment {
         ((Spinner) getActivity().findViewById(R.id.etThreshold)).setAdapter(new StringAdapter(channel));
         ((Spinner) getActivity().findViewById(R.id.etBottleType)).setSelection(0);
         ((Spinner) getActivity().findViewById(R.id.etFactory)).setSelection(0);
-        ((Spinner) getActivity().findViewById(R.id.etThreshold)).setSelection(0);
+        ((Spinner) getActivity().findViewById(R.id.etThreshold)).setSelection(1);
     }
 
     @Override

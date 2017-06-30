@@ -102,30 +102,39 @@
         android:id="@+id/wholelayout"
         android:layout_width="match_parent"
         android:layout_height="380dp"
-        android:layout_marginTop="30dp">
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_factory_layout"
+        android:orientation="vertical"
+        android:padding="1dp">
+
+        <include layout="@layout/drug_topitme">
+
+        </include>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="380dp"
-            android:background="@drawable/bg_recyclerview" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="3dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_gravity="center"
+
             android:background="@drawable/ic_next" />
 
         <EditText
             style="@style/EditTextStyle"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
@@ -138,7 +147,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_gravity="center"
+
             android:layout_marginLeft="10dp"
             android:background="@drawable/ic_pre" />
 

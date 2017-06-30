@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户名:" />
+
+            <Spinner
+                android:id="@+id/spUser"
+                style="@style/SpinnerStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"></Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="仪器参数标定" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="开始标定" />
+
+            <CheckBox
+                android:id="@+id/ckSee"
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+                android:id="@+id/ckExcute"
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="校验50um粒子" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="应用" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="导出文件" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="标定结果" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="仪器参数标定" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="样品检测" />
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="快速查询" />
+
+            <CheckBox
+                android:id="@+id/ckSee"
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+                android:id="@+id/ckExcute"
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="增加药品" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="增加" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="药品信息" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="增加" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="开始检测" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="数据导出" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="导出" />
+
+            <CheckBox
+
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="添加药厂信息" />
+
+            <CheckBox
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="增加" />
+
+            <CheckBox
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="旋瓶参数" />
+
+            <CheckBox
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="统计结果阈值" />
+
+            <CheckBox
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="260dp"
+                android:gravity="start"
+                android:text="样品检测" />
+
+            <CheckBox
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看" />
+
+            <CheckBox
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="执行" />
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_checkdata"></include>
+
+        <include layout="@layout/layout_systemparam"></include>
+    </LinearLayout>
+</ScrollView>

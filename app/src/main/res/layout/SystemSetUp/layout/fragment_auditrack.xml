@@ -8,116 +8,140 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/TextViewStyle"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:gravity="end"
-            android:text="@string/eventtype" />
-
-        <Spinner
-            android:id="@+id/speventtype"
-            style="@style/SpinnerStyle"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"></Spinner>
-
-        <TextView
-            style="@style/TextViewStyle"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:gravity="end"
-            android:text="@string/infotype" />
-
-        <Spinner
-            android:id="@+id/spinfotype"
-            style="@style/SpinnerStyle"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"></Spinner>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/TextViewStyle"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:gravity="end"
-            android:text="@string/user" />
-
-        <EditText
-            android:id="@+id/etuser"
-            style="@style/EditTextStyle"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"></EditText>
-
-        <TextView
-            style="@style/TextViewStyle"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:gravity="end"
-            android:text="@string/starttime" />
-
-        <EditText
-            android:id="@+id/etStartDate"
-            style="@style/EditTextStyle"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"></EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_system_layout"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="审计追踪" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btsearch"
-                style="@style/ButtonStyle"
-                android:layout_width="wrap_content"
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:text="@string/search" />
+                android:gravity="end"
+                android:text="@string/eventtype" />
 
-            <Button
-                android:id="@+id/btresver"
-                style="@style/ButtonStyle"
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/speventtype"
+                style="@style/SpinnerStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"></Spinner>
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="@string/resver" />
+                android:layout_marginLeft="40dp"
+                android:gravity="end"
+                android:text="@string/infotype" />
+
+            <Spinner
+                android:id="@+id/spinfotype"
+                style="@style/SpinnerStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"></Spinner>
         </LinearLayout>
 
-        <TextView
-            style="@style/TextViewStyle"
-            android:layout_width="80dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="43dp"
-            android:gravity="end"
-            android:text="@string/stoptime" />
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/etStopDate"
-            style="@style/EditTextStyle"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"></EditText>
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:gravity="end"
+                android:text="@string/user" />
+
+            <EditText
+                android:id="@+id/etuser"
+                style="@style/EditTextStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"></EditText>
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:gravity="end"
+                android:text="@string/starttime" />
+
+            <EditText
+                android:id="@+id/etStartDate"
+                style="@style/EditTextStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"></EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btsearch"
+                    style="@style/ButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:text="@string/search" />
+
+                <Button
+                    android:id="@+id/btresver"
+                    style="@style/ButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/resver" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="43dp"
+                android:gravity="end"
+                android:text="@string/stoptime" />
+
+            <EditText
+                android:id="@+id/etStopDate"
+                style="@style/EditTextStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"></EditText>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

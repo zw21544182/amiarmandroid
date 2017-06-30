@@ -173,6 +173,10 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                     e.printStackTrace();
                 }
                 break;
+
+            case R.id.btYpxxPre:
+                ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+                break;
             default:
                 break;
         }

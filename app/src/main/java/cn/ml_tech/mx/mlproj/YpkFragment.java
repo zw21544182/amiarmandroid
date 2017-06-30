@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,28 @@ public class YpkFragment extends Fragment {
     private IMlService mService;
 
     private OnFragmentInteractionListener mListener;
+    private DrugAdapter.OperateToData operateToData = new DrugAdapter.OperateToData() {
+        @Override
+        public boolean delete(long id) {
+            Log.d("zw", id + "id");
+            try {
+                getmService().deleteDrugInfoById((int) id);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        public void operateToPre(boolean isNext) {
+            getActivity().findViewById(R.id.btnypxNext).setEnabled(isNext);
+        }
+
+        @Override
+        public void update(DrugControls drugControls) {
+
+        }
+    };
 
     public YpkFragment() {
         // Required empty public constructor
@@ -97,7 +120,7 @@ public class YpkFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initDrugs();
-
+        getActivity().findViewById(R.id.btnypxNext).setEnabled(false);
         getActivity().findViewById(R.id.query).setOnClickListener((View.OnClickListener) getActivity());
 
         getActivity().findViewById(R.id.btnypxNext).setOnClickListener((View.OnClickListener) getActivity());
@@ -106,12 +129,12 @@ public class YpkFragment extends Fragment {
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        DrugAdapter adapter = new DrugAdapter(drugList, getActivity());
+        DrugAdapter adapter = new DrugAdapter(drugList, getActivity(), operateToData);
         recyclerView.setAdapter(adapter);
     }
 
     public void setDataToView(List<DrugControls> drugList) {
-        DrugAdapter adapter = new DrugAdapter(drugList, getActivity());
+        DrugAdapter adapter = new DrugAdapter(drugList, getActivity(), operateToData);
         recyclerView.setAdapter(adapter);
     }
 

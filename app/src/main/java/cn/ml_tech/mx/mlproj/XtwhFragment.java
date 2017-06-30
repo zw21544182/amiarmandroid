@@ -12,14 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import cn.ml_tech.mx.mlproj.SettingFragment.AuditTrackFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.CamParamsFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.DataManageFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.InstrumManageFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.LogShowFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.ManchineManagerFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.ParmanageFragment;
+import cn.ml_tech.mx.mlproj.SettingFragment.PerManageFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.SysConfigFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.SystemSetUpMainFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.TrayManagerFragment;
@@ -56,12 +59,17 @@ public class XtwhFragment extends Fragment {
 
     private void initFragment() {
         fragmentArrayList.add(new UserManagerFragment());
+        fragmentArrayList.add(new InstrumManageFragment());
         fragmentArrayList.add(new TrayManagerFragment());
         fragmentArrayList.add(new ManchineManagerFragment());
+        fragmentArrayList.add(new ParmanageFragment());
+        fragmentArrayList.add(new DataManageFragment());
         fragmentArrayList.add(new SysConfigFragment());
         fragmentArrayList.add(new CamParamsFragment());
         fragmentArrayList.add(new LogShowFragment());
         fragmentArrayList.add(new AuditTrackFragment());
+        fragmentArrayList.add(new PerManageFragment());
+
     }
 
     @Override
@@ -181,25 +189,35 @@ public class XtwhFragment extends Fragment {
             case R.id.rbUserManage:
                 changeTab(0);
                 break;
-            case R.id.rbTrayManage:
-                Toast.makeText(getActivity(), "tray", Toast.LENGTH_SHORT).show();
+            case R.id.rbInstrumManage:
                 changeTab(1);
                 break;
-            case R.id.rbInfoManage:
+            case R.id.rbTrayManage:
                 changeTab(2);
                 break;
-            case R.id.rbSystemConfig:
+            case R.id.rbInfoManage:
                 changeTab(3);
                 break;
-            case R.id.rbCameraConfig:
+            case R.id.rbParaManage:
                 changeTab(4);
                 break;
-            case R.id.rbLogShow:
+            case R.id.rbDataManage:
                 changeTab(5);
                 break;
-            case R.id.rbAuditTrack:
+            case R.id.rbSystemConfig:
                 changeTab(6);
                 break;
+            case R.id.rbCameraConfig:
+                changeTab(7);
+                break;
+            case R.id.rbLogShow:
+                changeTab(8);
+                break;
+            case R.id.rbAuditTrack:
+                changeTab(9);
+                break;
+            case R.id.rbpermissTrack:
+                changeTab(10);
 
             default:
                 break;

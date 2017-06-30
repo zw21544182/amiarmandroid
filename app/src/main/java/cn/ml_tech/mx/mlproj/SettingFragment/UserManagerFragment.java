@@ -122,7 +122,8 @@ public class UserManagerFragment extends Fragment {
         public void onBindViewHolder(RecyleUserAdapter.ViewHolder holder, int position) {
             holder.txtNickName.setText(listUser.get(position).getUserId());
             holder.txtUserName.setText(listUser.get(position).getUserName());
-            holder.txtUserType.setText(listUser.get(position).getUserType().getTypeName());
+//            holder.txtUserType.setText(listUser.get(position).getUserType().getTypeName());
+            holder.txtUserType.setText("用户类型");
             holder.txtUserDel.setText("删除");
             holder.txtUserEdit.setText("修改");
             holder.txtUserEnable.setText(listUser.get(position).isEnable() ? "可用" : "禁用");

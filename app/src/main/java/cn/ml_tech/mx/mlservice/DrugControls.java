@@ -13,6 +13,7 @@ public class DrugControls implements Parcelable {
     private String drugFactory;
     private String pinyin;
     private String enname;
+    private long id;
 
     public String getDrugName() {
         return drugName;
@@ -52,6 +53,23 @@ public class DrugControls implements Parcelable {
 
     public void setEnname(String enname) {
         this.enname = enname;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public DrugControls(String drugName, String drugBottleType, String drugFactory, String pinyin, String enname, long id) {
+        this.drugName = drugName;
+        this.drugBottleType = drugBottleType;
+        this.drugFactory = drugFactory;
+        this.pinyin = pinyin;
+        this.enname = enname;
+        this.id = id;
     }
 
     public DrugControls(String drugName, String drugBottleType, String drugFactory, String pinyin, String enname) {
@@ -141,6 +159,9 @@ public class DrugControls implements Parcelable {
         };
     }
 
+    public DrugControls() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -153,9 +174,7 @@ public class DrugControls implements Parcelable {
         dest.writeString(this.drugFactory);
         dest.writeString(this.pinyin);
         dest.writeString(this.enname);
-    }
-
-    public DrugControls() {
+        dest.writeLong(this.id);
     }
 
     protected DrugControls(Parcel in) {
@@ -164,9 +183,10 @@ public class DrugControls implements Parcelable {
         this.drugFactory = in.readString();
         this.pinyin = in.readString();
         this.enname = in.readString();
+        this.id = in.readLong();
     }
 
-    public static final Parcelable.Creator<DrugControls> CREATOR = new Parcelable.Creator<DrugControls>() {
+    public static final Creator<DrugControls> CREATOR = new Creator<DrugControls>() {
         @Override
         public DrugControls createFromParcel(Parcel source) {
             return new DrugControls(source);

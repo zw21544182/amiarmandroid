@@ -2,19 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_factory_layout"
         android:orientation="vertical"
-        android:paddingRight="5dp">
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="仪器出厂信息"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -34,7 +46,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -55,7 +67,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 style="@style/TextViewStyle"
@@ -76,7 +88,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 style="@style/TextViewStyle"
@@ -97,12 +109,13 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp">
 
             <TextView
+                android:id="@+id/textView4"
                 style="@style/TextViewStyle"
-                android:layout_width="wrap_content"
 
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MachineName" />
 
@@ -118,7 +131,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 style="@style/TextViewStyle"
@@ -139,7 +152,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 style="@style/TextViewStyle"
@@ -159,8 +172,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
 
             <Button
                 android:id="@+id/btnSave"
