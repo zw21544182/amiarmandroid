@@ -119,27 +119,20 @@
                         android:paddingTop="5dp">
 
                         <TextView
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="70dp"
                             android:text="旋瓶次数"
                             android:textColor="@color/colorBlack" />
-
                         <EditText
                             android:id="@+id/et"
                             style="@style/EditTextStyle"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-
                             android:textColor="@color/colorBlack" />
                     </LinearLayout>
-
-
                 </LinearLayout>
-
-
             </LinearLayout>
         </LinearLayout>
 
