@@ -4,12 +4,19 @@ import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
+import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
 import cn.ml_tech.mx.mlservice.DrugControls;
 
@@ -30,14 +37,15 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     String pinyin = "";
     int factoryid;
     int containnerid;
-    DrugContainer drugContainer = null;
-
+    Map<String, String> data;
+    public int pos, druginfo_id;
+    public DrugControls drugControls = new DrugControls();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        data = new HashMap<>();
         super.onCreate(savedInstanceState);
         ypjcFragment = (YpjcFragment) switchContentFragment(YpjcFragment.class.getSimpleName());
-        drugContainer = new DrugContainer();
     }
 
     @Override
@@ -60,7 +68,9 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
             } else if (tag.equals("YpjccFragment")) {
                 f = new YpjccFragment();
             } else if (tag.equals("YpxjFragment")) {
-                f = new YpxjFragment();
+                if (ypxjFragment == null) {
+                    f = new YpxjFragment();
+                } else f = ypxjFragment;
             } else if (tag.equals("YpjqFragment")) {
                 f = new YpjqFragment();
             } else if (tag.equals("YpjcjFragment")) {
@@ -94,6 +104,11 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
 
                 break;
             case R.id.btnypxNext:
+                try {
+                    mService.getDrugParamById(2);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 YpjcjFragment = (YpjcjFragment) switchContentFragment(YpjcjFragment.class.getSimpleName());
                 break;
             case R.id.bt_back:
@@ -108,9 +123,8 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 ypkFragment.setmService(mService);
                 break;
             case R.id.addphonetic:
-                logv("add drug..........");
-                ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
-                ypxxFragment.setmService(mService);
+                druginfo_id = 0;
+                moveToAddDrug();
                 break;
             case R.id.btYpxxNext:
                 name = ypxxFragment.getName();
@@ -120,6 +134,7 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 containnerid = ypxxFragment.getSpecificationTypeId();
                 ypxjFragment = (YpxjFragment) switchContentFragment(YpxjFragment.class.getSimpleName());
                 ypxjFragment.setmService(mService);
+                pos = ((Spinner) findViewById(R.id.etBottleType)).getSelectedItemPosition();
 
 
                 break;
@@ -144,18 +159,22 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
                 break;
             case R.id.btnypxjNext:
+                data = ypxjFragment.getData();
 
+                Log.d("zw", data.size() + "datasize");
                 ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
-//                try {
-//                    mService.saveBottlePara(bottlePara);
-//                } catch (RemoteException e) {
-//                    e.printStackTrace();
-//                    Toast.makeText(this, "保存参数失败", Toast.LENGTH_SHORT).show();
-//                }
+
                 break;
             case R.id.btSave:
                 try {
-                    mService.addDrugInfo(name, enName, pinyin, containnerid, factoryid);
+
+                    data.putAll(ypjqFragment.getData());
+                    logv(druginfo_id + "druginfo");
+
+                    mService.addDrugInfo(name, enName, pinyin, containnerid, factoryid, String.valueOf(druginfo_id));
+                    saveDrugParams(data, mService.queryDrugControl().size());
+
+                    Toast.makeText(this, data.size() + "size", Toast.LENGTH_SHORT).show();
                     showToast("保存成功");
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -167,8 +186,10 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 String pinyin = ypkFragment.getPinyin();
                 String enname = ypkFragment.getEnName();
                 try {
-                    List<DrugControls> drugControlses = mService.queryDrugControlByInfo(name, pinyin, enname);
-                    ypkFragment.setDataToView(drugControlses);
+                    int page = -1;
+                    logv("mmp" + page);
+                    List<DrugControls> drugControlses = mService.queryDrugControlByInfo(name, pinyin, enname, page);
+                    ypkFragment.setDataToView(drugControlses, true);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -177,9 +198,77 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
             case R.id.btYpxxPre:
                 ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
                 break;
+            case R.id.reseting:
+                ypkFragment.resetting();
+                List<DrugControls> drugControlses = null;
+                try {
+                    drugControlses = mService.queryDrugControl();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                ypkFragment.setDataToView(drugControlses, true);
+                break;
+            case R.id.ibPre:
+                try {
+                    ypkFragment.setPreDataToView();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.ibNext:
+                try {
+                    ypkFragment.setNexTDataToView();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.ibSearch:
+                try {
+                    ypkFragment.setSearchDataToView();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             default:
                 break;
         }
+    }
+
+    public void logMap(Map<String, String> data) {
+        Iterator iter = data.entrySet().iterator();
+
+        Map.Entry entry = (Map.Entry) iter.next();
+        while (iter.hasNext()) {
+            Map.Entry s = (Map.Entry) iter.next();
+            String key = entry.getKey().toString();
+            String val = entry.getValue().toString();
+            Log.d("zw", "key" + key + " val" + val);
+        }
+    }
+
+    private void saveDrugParams(Map<String, String> map, int id) throws RemoteException {
+        List<DrugParam> drugParams = new ArrayList<>();
+        String drug_id = "";
+        if (id == 0) {
+            drug_id = mService.queryDrugControl().size() + "";
+        } else {
+            drug_id = id + "";
+
+        }
+        for (String key : data.keySet()
+                ) {
+            DrugParam drugParam = new DrugParam();
+            drugParam.setDruginfo_id(Long.parseLong(drug_id));
+            drugParam.setParamname(key);
+            drugParam.setParamvalue(Double.parseDouble(data.get(key)));
+            drugParams.add(drugParam);
+        }
+        mService.setDrugParamList(drugParams);
+    }
+
+    public void moveToAddDrug() {
+        ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+        ypxxFragment.setmService(mService);
+
     }
 
     @Override
