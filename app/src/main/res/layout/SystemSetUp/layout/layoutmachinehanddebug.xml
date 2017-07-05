@@ -1,92 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:rowCount="4"
+    android:layout_gravity="center"
     android:columnCount="5"
-    >
+    android:orientation="horizontal"
+    android:rowCount="4">
+
     <TextView
-        android:text="@string/motorSendSpeed"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        />
-    <TextView
-        android:text="@string/motorMachineHandCatchLocation"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        />
+        android:text="@string/motorSendSpeed" />
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/motorMachineHandCatchLocation" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/motorMachineHandDetLocation"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
 
         />
+
     <TextView
-        android:text="@string/motorMachineHandWaitLocation"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        />
+        android:layout_height="wrap_content"
+        android:text="@string/motorMachineHandWaitLocation" />
+
     <TextView
-        android:text="@string/motorMachineHandOutPutLocation"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        />
+        android:layout_height="wrap_content"
+        android:text="@string/motorMachineHandOutPutLocation" />
+
     <EditText
         android:id="@+id/etMachineHandMotorSpeed"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        />
+        android:inputType="numberDecimal" />
+
     <EditText
         android:id="@+id/etMachineHandMotorCatchLocation"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        />
+        android:inputType="numberDecimal" />
+
     <EditText
         android:id="@+id/etMachineHandMotorDetLocation"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        />
+        android:inputType="numberDecimal" />
+
     <EditText
         android:id="@+id/etMachineHandMotorWaitLocation"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        />
+        android:inputType="numberDecimal" />
+
     <EditText
         android:id="@+id/etMachineHandMotorOutPutLocation"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal" />
+
     <TextView
-        android:layout_column="3"
-        android:text="@string/motorRunState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:layout_column="3"
+        android:text="@string/motorRunState" />
+
     <TextView
-        android:layout_column="4"
         android:id="@+id/txtMachineHandMotorState"
-        android:text="@string/motorRunState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
-    <Button
-        android:layout_row="3"
-        android:layout_column="3"
-        android:id="@+id/btnMachineHandMotorStart"
-        android:text="@string/motorStart"
-        />
-    <Button
-        android:layout_row="3"
         android:layout_column="4"
+        android:text="@string/motorRunState" />
+
+    <Button
+        android:id="@+id/btnMachineHandMotorStart"
+        android:layout_column="3"
+        android:layout_row="3"
+        android:text="@string/motorStart" />
+
+    <Button
         android:id="@+id/btnMachineHandMotorWrite"
-        android:text="@string/motorWrite"
-        />
+        android:layout_column="4"
+        android:layout_row="3"
+        android:text="@string/motorWrite" />
 </GridLayout>

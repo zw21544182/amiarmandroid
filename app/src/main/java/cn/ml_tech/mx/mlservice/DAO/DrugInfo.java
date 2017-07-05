@@ -1,10 +1,12 @@
 package cn.ml_tech.mx.mlservice.DAO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
  * CREATE TABLE "druginfo" (
@@ -17,52 +19,63 @@ import java.util.List;
  * foreign key(containerId) REFERENCES drugContainer(id),
  * foreign key (factoryId) REFERENCES factory(id)
  * );
-
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:12
+CREATE TABLE [druginfo](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [createdate] integer NOT NULL,
+    [deprecate] integer NOT NULL,
+    [enname] text NOT NULL,
+    [name] text NOT NULL,
+    [pinyin] text NOT NULL,
+    [user_id] integer,
+    [drugcontainer_id] integer,
+    [factory_id] integer);
 
-public class DrugInfo extends DataSupport {
-    @Column(unique = true,nullable = false)
-    private String id;
+
+*/
+
+public class DrugInfo extends DataSupport implements Parcelable {
+
+    @Column(unique = true, nullable = false)
+    private long id;
+    @Column(nullable = false)
+    private Date createdate;
+    @Column(nullable = false, defaultValue = "false")
+    private boolean deprecate;
+    @Column(nullable = false)
+    private String enname;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String enName;
+    private String pinyin;
     @Column(nullable = false)
-    private String pinYin;
+    private long user_id;
     @Column(nullable = false)
-    private int containterId;
+    private long drugcontainer_id;
     @Column(nullable = false)
-    private int factoryId;
-    @Column(nullable = false)
-    private int createUserId;
-    @Column(nullable = false)
-    private boolean deprecate;
-    private   DrugContainer drugContainer;
-    private  Factory factory;
-    private User user;
-    private List<DrugParam>drugParamList=new ArrayList<DrugParam>();
+    private long factory_id;
 
-    public boolean isDeprecate() {
-        return deprecate;
-    }
-
-    public List<DrugParam> getDrugParamList() {
-        return drugParamList;
-    }
-
-    public void setDrugParamList(List<DrugParam> drugParamList) {
-        this.drugParamList = drugParamList;
-    }
-
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public boolean getDeprecate() {
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    public boolean isDeprecate() {
         return deprecate;
     }
 
@@ -70,22 +83,13 @@ public class DrugInfo extends DataSupport {
         this.deprecate = deprecate;
     }
 
-    public User getUser() {
-        return user;
+    public String getEnname() {
+        return enname;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setEnname(String enname) {
+        this.enname = enname;
     }
-
-    public int getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(int createUserId) {
-        this.createUserId = createUserId;
-    }
-
 
     public String getName() {
         return name;
@@ -95,53 +99,96 @@ public class DrugInfo extends DataSupport {
         this.name = name;
     }
 
-    public String getEnName() {
-        return enName;
+    public String getPinyin() {
+        return pinyin;
     }
 
-    public void setEnName(String enName) {
-        this.enName = enName;
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
 
-    public String getPinYin() {
-        return pinYin;
+    public long getUser_id() {
+        return user_id;
     }
 
-    public void setPinYin(String pinYin) {
-        this.pinYin = pinYin;
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
     }
 
-    public int getContainterId() {
-        return containterId;
+    public long getDrugcontainer_id() {
+        return drugcontainer_id;
     }
 
-    public void setContainterId(int containterId) {
-        this.containterId = containterId;
+    public void setDrugcontainer_id(long drugcontainer_id) {
+        this.drugcontainer_id = drugcontainer_id;
     }
 
-    public int getFactoryId() {
-        return factoryId;
+    public long getFactory_id() {
+        return factory_id;
     }
 
-    public void setFactoryId(int factoryId) {
-        this.factoryId = factoryId;
+    public void setFactory_id(long factory_id) {
+        this.factory_id = factory_id;
     }
 
-    public DrugContainer getDrugContainer() {
-        return drugContainer;
+    @Override
+    public String toString() {
+        return "DrugInfo{" +
+                "id=" + id +
+                ", createdate=" + createdate +
+                ", deprecate=" + deprecate +
+                ", enname='" + enname + '\'' +
+                ", name='" + name + '\'' +
+                ", pinyin='" + pinyin + '\'' +
+                ", user_id=" + user_id +
+                ", drugcontainer_id=" + drugcontainer_id +
+                ", factory_id=" + factory_id +
+                '}';
     }
 
-    public void setDrugContainer(DrugContainer drugContainer) {
-        this.drugContainer = drugContainer;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public Factory getFactory() {
-        return factory;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeLong(this.createdate != null ? this.createdate.getTime() : -1);
+        dest.writeByte(this.deprecate ? (byte) 1 : (byte) 0);
+        dest.writeString(this.enname);
+        dest.writeString(this.name);
+        dest.writeString(this.pinyin);
+        dest.writeLong(this.user_id);
+        dest.writeLong(this.drugcontainer_id);
+        dest.writeLong(this.factory_id);
     }
 
-    public void setFactory(Factory factory) {
-        this.factory = factory;
+    public DrugInfo() {
     }
 
+    protected DrugInfo(Parcel in) {
+        this.id = in.readLong();
+        long tmpCreatedate = in.readLong();
+        this.createdate = tmpCreatedate == -1 ? null : new Date(tmpCreatedate);
+        this.deprecate = in.readByte() != 0;
+        this.enname = in.readString();
+        this.name = in.readString();
+        this.pinyin = in.readString();
+        this.user_id = in.readLong();
+        this.drugcontainer_id = in.readLong();
+        this.factory_id = in.readLong();
+    }
 
+    public static final Parcelable.Creator<DrugInfo> CREATOR = new Parcelable.Creator<DrugInfo>() {
+        @Override
+        public DrugInfo createFromParcel(Parcel source) {
+            return new DrugInfo(source);
+        }
+
+        @Override
+        public DrugInfo[] newArray(int size) {
+            return new DrugInfo[size];
+        }
+    };
 }

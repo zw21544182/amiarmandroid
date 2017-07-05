@@ -45,23 +45,30 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                    <CheckBox
-                        android:id="@+id/cbFirstCheck"
-                        style="@style/CheckBox_Style"
+                    <RadioGroup
+                        android:id="@+id/check"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="初检"
-                        android:textColor="@color/colorBlack" />
+                        android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/cbSecondCheck"
+                        <RadioButton
+                            android:id="@+id/cbFirstCheck"
+                            style="@style/CheckBox_Style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="初检"
+                            android:textColor="@color/colorBlack" />
 
-                        style="@style/CheckBox_Style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:text="复检"
-                        android:textColor="@color/colorBlack" />
+                        <RadioButton
+                            android:id="@+id/cbSecondCheck"
+
+                            style="@style/CheckBox_Style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="复检"
+                            android:textColor="@color/colorBlack" />
+                    </RadioGroup>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -124,6 +131,7 @@
                             android:layout_marginLeft="70dp"
                             android:text="旋瓶次数"
                             android:textColor="@color/colorBlack" />
+
                         <EditText
                             android:id="@+id/et"
                             style="@style/EditTextStyle"

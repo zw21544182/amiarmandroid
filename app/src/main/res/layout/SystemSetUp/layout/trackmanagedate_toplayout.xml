@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
+    android:background="@drawable/bg_topbar_layout"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,17 +18,17 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/txtTrayDisplayNumber"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="托环编号" />
+
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -37,17 +37,17 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/txtTrayIcId"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="托环芯片" />
+
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -56,19 +56,17 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/txtContainerDiameter"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
+                android:text="托环内径" />
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -77,18 +75,17 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/txtTrayInnerDiameter"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="托环外径" />
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -97,17 +94,17 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/txtTrayExternalDiameter"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="托环直径" />
+
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -115,20 +112,18 @@
             android:layout_weight="4"
             android:gravity="center">
 
-
             <TextView
-                android:id="@+id/txtMark"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="托环适应瓶" />
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -137,18 +132,17 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/txtEdit"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="编辑" />
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -157,11 +151,10 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/txtDel"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="删除" />
 
         </LinearLayout>
     </LinearLayout>
@@ -169,8 +162,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorheadLine" />
-</LinearLayout><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--&gt;--><!----><!--&lt;!&ndash;<CheckBox&ndash;&gt;--><!--&lt;!&ndash;android:id="@+id/chkSelect"&ndash;&gt;--><!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;--><!--&lt;!&ndash;android:layout_height="match_parent" />&ndash;&gt;-->
-
-
-    <!--</LinearLayout>-->
+        android:background="#000" />
+</LinearLayout>

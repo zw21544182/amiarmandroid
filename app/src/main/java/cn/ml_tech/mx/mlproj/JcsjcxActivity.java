@@ -12,12 +12,11 @@ public class JcsjcxActivity extends BaseActivity implements
     JcsjcxmainFragment jcsjcxmainFragment = null;
     private Button btnBack;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        jcsjcxmainFragment = (JcsjcxmainFragment) switchContentFragment(JcsjcxmainFragment.class.getSimpleName());
-        jcsjcxmainFragment.setiMlService(mService);
+        jcsjcxFragment = (JcsjcxFragment) switchContentFragment(JcsjcxFragment.class.getSimpleName());
+//        jcsjcxmainFragment.setiMlService(mService);
     }
 
     @Override
@@ -25,13 +24,11 @@ public class JcsjcxActivity extends BaseActivity implements
         Fragment f = mFragmentManager.findFragmentByTag(tag);
         if (f == null) {
             if (tag.equals("content")) {
-
             } else if (tag.equals("JcsjcxFragment")) {
                 f = new JcsjcxFragment();
             } else if (tag.equals("JcsjcxmainFragment")) {
                 f = new JcsjcxmainFragment();
-            }
-            else {
+            } else {
                 f = super.getFragment(tag);
             }
         }
@@ -40,7 +37,6 @@ public class JcsjcxActivity extends BaseActivity implements
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override
@@ -49,7 +45,6 @@ public class JcsjcxActivity extends BaseActivity implements
         switchTopFragment("");//hiden powerbutton on this Activity
 //        btnBack = (Button) findViewById(R.id.btBack);
 //        btnBack.setOnClickListener(this);
-
     }
 
     @Override

@@ -1,56 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:rowCount="3"
+    android:layout_gravity="center"
     android:columnCount="3"
-    >
+    android:orientation="horizontal"
+    android:rowCount="3">
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/motorSendSpeed"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
 
         />
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/motorOffsetLoacation"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
 
         />
+
     <TextView
-        android:text="@string/motorRunState"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/motorRunState"
 
         />
+
     <EditText
         android:id="@+id/etSendMotorSpeed"
 
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        />
+        android:inputType="numberDecimal" />
+
     <EditText
         android:id="@+id/etSendMotorOffsetLocation"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        />
+        android:inputType="numberDecimal" />
+
     <TextView
         android:id="@+id/txtSendMotorState"
         android:layout_width="match_parent"
 
         />
+
     <Button
-        android:layout_column="1"
         android:id="@+id/btnSendMotorStart"
-        android:text="@string/motorStart"
-        />
+        android:layout_column="1"
+        android:text="@string/motorStart" />
+
     <Button
         android:id="@+id/btnSendMotorWrite"
-        android:text="@string/motorWrite"
-        />
+        android:text="@string/motorWrite" />
 </GridLayout>

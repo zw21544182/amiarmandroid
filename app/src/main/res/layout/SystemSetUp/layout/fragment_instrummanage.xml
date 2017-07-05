@@ -84,13 +84,31 @@
             android:text="保存参数" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
 
-        <android.support.design.widget.TabLayout
-             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.design.widget.TabLayout>
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/layoutsenddebug"></include>
+
+            <include layout="@layout/layoutmachinehanddebug"></include>
+
+            <include layout="@layout/layoutcatchdebug"></include>
+
+            <include layout="@layout/layoutpresseddebug"></include>
+
+            <include layout="@layout/layoutshadedebug"></include>
+
+            <include layout="@layout/layoutrotatedebug"></include>
+
+            <include layout="@layout/layoutoutputdebug"></include>
+
+            <include layout="@layout/layoutautodebug"></include>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

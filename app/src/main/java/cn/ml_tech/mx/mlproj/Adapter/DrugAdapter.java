@@ -39,7 +39,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
 
                     itmepostion = position;
 
-                    operateToData.operateToPre(true);
+                    operateToData.operateToPre(true, mDrugList.get(position));
                     notifyDataSetChanged();
                     break;
                 case R.id.delete:
@@ -52,10 +52,21 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
         }
     };
 
+    public void deleteDataById(int id) {
+        for (DrugControls drugControls :
+                mDrugList) {
+            if (drugControls.getId() == id) {
+                mDrugList.remove(drugControls);
+                break;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     public interface OperateToData {
         boolean delete(long id);
 
-        void operateToPre(boolean isNext);
+        void operateToPre(boolean isNext, DrugControls drugControls);
 
         void update(DrugControls drugControls);
     }
@@ -90,6 +101,17 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
         for (int i = 0; i < mDrugList.size(); i++) {
             isClicks.add(false);
         }
+    }
+
+    public void setDatasToView(List<DrugControls> date) {
+        mDrugList.clear();
+        isClicks.clear();
+        mDrugList.addAll(date);
+        for (int i = 0; i < mDrugList.size(); i++) {
+            isClicks.add(false);
+        }
+
+        notifyDataSetChanged();
     }
 
     /**

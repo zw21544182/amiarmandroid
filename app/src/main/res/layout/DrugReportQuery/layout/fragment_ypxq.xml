@@ -17,19 +17,20 @@
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6"
+            android:layout_weight="5.5"
             android:background="#000" />
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="2.5"
             android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -102,17 +103,19 @@
                 </LinearLayout>
 
                 <Button
+
                     android:id="@+id/btValidate"
                     style="@style/ButtonStyle"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:text="遮光验证" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -122,7 +125,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="5dp"
-                        android:text="旋瓶参数" />
+
+                        android:text="旋瓶测试" />
 
                     <EditText
                         android:id="@+id/etBottlePara"
@@ -136,6 +140,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -144,7 +149,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:layout_marginTop="8dp"
+
                         android:text="进瓶" />
 
                     <Button
@@ -153,7 +158,6 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:layout_marginTop="8dp"
                         android:text="出瓶" />
 
                 </LinearLayout>
@@ -161,12 +165,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <Spinner
                         android:id="@+id/spParaType"
-                        style="@style/EditTextStyle"
+                        style="@style/SpinnerStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
@@ -185,7 +189,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="5dp"
                         android:text="保存" />
 
                     <Button
@@ -194,7 +198,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="5dp"
                         android:text="取消" />
 
                 </LinearLayout>

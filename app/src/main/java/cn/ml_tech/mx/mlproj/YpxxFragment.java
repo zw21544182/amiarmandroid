@@ -16,9 +16,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
 import cn.ml_tech.mx.mlservice.FactoryControls;
 import cn.ml_tech.mx.mlservice.IMlService;
-import cn.ml_tech.mx.mlservice.SpecificationType;
 
 
 /**
@@ -36,8 +36,9 @@ public class YpxxFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private IMlService mService;
     private List<FactoryControls> factoryControlses;
-    private List<cn.ml_tech.mx.mlservice.SpecificationType> typeList;
+    private List<DrugContainer> typeList;
     List<String> factorydata, specificatedata;
+    private YpjcActivity ypjcActivity;
 
     public IMlService getmService() {
         return mService;
@@ -124,6 +125,7 @@ public class YpxxFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        ypjcActivity = (YpjcActivity) getActivity();
         getActivity().findViewById(R.id.btYpxxPre
         ).setOnClickListener((View.OnClickListener) getActivity());
 
@@ -131,15 +133,15 @@ public class YpxxFragment extends Fragment {
         getActivity().findViewById(R.id.btYpxxAddFactory).setOnClickListener((View.OnClickListener) getActivity());
         try {
             factoryControlses = mService.queryFactoryControl();
-            typeList = mService.getSpecificationTypeList();
+            typeList = mService.getDrugContainer();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        setDataToView();
+        setDataToView(ypjcActivity.pos, ypjcActivity.druginfo_id);
 
     }
 
-    private void setDataToView() {
+    private void setDataToView(int pos, int drug_id) {
         List<String> channel = new ArrayList<>();
         channel.add("40um通道");
         channel.add("50um通道");
@@ -152,16 +154,34 @@ public class YpxxFragment extends Fragment {
             factorydata.add(controls.getName());
         }
         specificatedata = new ArrayList<String>();
-        for (SpecificationType type : typeList
+        for (DrugContainer type : typeList
                 ) {
             specificatedata.add(type.getName());
         }
-        ((Spinner) getActivity().findViewById(R.id.etBottleType)).setAdapter(new StringAdapter(specificatedata));
         ((Spinner) getActivity().findViewById(R.id.etFactory)).setAdapter(new StringAdapter(factorydata));
         ((Spinner) getActivity().findViewById(R.id.etThreshold)).setAdapter(new StringAdapter(channel));
         ((Spinner) getActivity().findViewById(R.id.etBottleType)).setSelection(0);
         ((Spinner) getActivity().findViewById(R.id.etFactory)).setSelection(0);
         ((Spinner) getActivity().findViewById(R.id.etThreshold)).setSelection(1);
+        ((Spinner) getActivity().findViewById(R.id.etBottleType)).setAdapter(new StringAdapter(specificatedata));
+        if (drug_id != 0) {
+            ((TextView) getActivity().findViewById(R.id.etDrugName)).setText(ypjcActivity.drugControls.getDrugName());
+            ((TextView) getActivity().findViewById(R.id.etPinYin)).setText(ypjcActivity.drugControls.getPinyin());
+            ((TextView) getActivity().findViewById(R.id.etEnName)).setText(ypjcActivity.drugControls.getEnname());
+            for (int i = 0; i < factorydata.size(); i++) {
+                if (factorydata.get(i).trim().equals(ypjcActivity.drugControls.getDrugFactory().trim())) {
+                    ((Spinner) getActivity().findViewById(R.id.etFactory)).setSelection(i);
+
+                }
+            }
+            for (int i = 0; i < specificatedata.size(); i++) {
+                if (specificatedata.get(i).trim().equals(ypjcActivity.drugControls.getDrugBottleType().trim())) {
+                    ((Spinner) getActivity().findViewById(R.id.etBottleType)).setSelection(i);
+
+                }
+            }
+
+        }
     }
 
     @Override

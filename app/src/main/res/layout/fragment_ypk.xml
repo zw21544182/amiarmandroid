@@ -127,12 +127,13 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-
+            android:id="@+id/ibPre"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/ic_next" />
 
         <EditText
+            android:id="@+id/etPage"
             style="@style/EditTextStyle"
             android:layout_width="40dp"
             android:layout_height="30dp"
@@ -145,11 +146,32 @@
             android:singleLine="true" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-
+            android:id="@+id/ibNext"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/ic_pre" />
+
+        <TextView
+            android:id="@+id/tvCurrentPage"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/" />
+
+        <TextView
+            android:id="@+id/tvAllPage"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1" />
+
+        <ImageButton
+            android:id="@+id/ibSearch"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_search" />
 
         <Button
             android:id="@+id/btnypxNext"
@@ -158,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:text="下一页" />
+            android:text="下一步" />
     </LinearLayout>
 
 </LinearLayout>

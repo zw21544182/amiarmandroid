@@ -1,5 +1,8 @@
 package cn.ml_tech.mx.mlservice.DAO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
@@ -14,52 +17,56 @@ import org.litepal.crud.DataSupport;
  * foreign key(containerId) REFERENCES drugContainer(id),
  * foreign key (factoryId) REFERENCES factory(id)
  * );
-
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:15
+CREATE TABLE [drugparam](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [paramname] text NOT NULL,
+    [paramvalue] real NOT NULL,
+    [type] integer NOT NULL DEFAULT 0,
+    [druginfo_id] integer);
 
-public class DrugParam extends DataSupport {
-    @Column(unique = true,nullable = false)
-    private int id;
+
+*/
+
+public class DrugParam extends DataSupport implements Parcelable {
+
+    @Column(unique = true, nullable = false)
+    private long id;
     @Column(nullable = false)
-    private String drugId;
+    private String paramname;
     @Column(nullable = false)
-    private String paramName;
-    @Column(nullable = false)
-    private double paramValue;
-    @Column(nullable = false ,defaultValue = "0")
+    private double paramvalue;
+    @Column(nullable = false, defaultValue = "0")
     private int type;
-    private DrugInfo drugInfo;
+    @Column(nullable = false)
+    private long druginfo_id;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getDrugId() {
-        return drugId;
+    public String getParamname() {
+        return paramname;
     }
 
-    public void setDrugId(String drugId) {
-        this.drugId = drugId;
+    public void setParamname(String paramname) {
+        this.paramname = paramname;
     }
 
-    public String getParamName() {
-        return paramName;
+    public double getParamvalue() {
+        return paramvalue;
     }
 
-    public void setParamName(String paramName) {
-        this.paramName = paramName;
-    }
-
-    public double getParamValue() {
-        return paramValue;
-    }
-
-    public void setParamValue(double paramValue) {
-        this.paramValue = paramValue;
+    public void setParamvalue(double paramvalue) {
+        this.paramvalue = paramvalue;
     }
 
     public int getType() {
@@ -70,11 +77,48 @@ public class DrugParam extends DataSupport {
         this.type = type;
     }
 
-    public DrugInfo getDrugInfo() {
-        return drugInfo;
+    public long getDruginfo_id() {
+        return druginfo_id;
     }
 
-    public void setDrugInfo(DrugInfo drugInfo) {
-        this.drugInfo = drugInfo;
+    public void setDruginfo_id(long druginfo_id) {
+        this.druginfo_id = druginfo_id;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.paramname);
+        dest.writeDouble(this.paramvalue);
+        dest.writeInt(this.type);
+        dest.writeLong(this.druginfo_id);
+    }
+
+    public DrugParam() {
+    }
+
+    protected DrugParam(Parcel in) {
+        this.id = in.readLong();
+        this.paramname = in.readString();
+        this.paramvalue = in.readDouble();
+        this.type = in.readInt();
+        this.druginfo_id = in.readLong();
+    }
+
+    public static final Parcelable.Creator<DrugParam> CREATOR = new Parcelable.Creator<DrugParam>() {
+        @Override
+        public DrugParam createFromParcel(Parcel source) {
+            return new DrugParam(source);
+        }
+
+        @Override
+        public DrugParam[] newArray(int size) {
+            return new DrugParam[size];
+        }
+    };
 }

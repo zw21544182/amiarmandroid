@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
 import cn.ml_tech.mx.mlproj.Adapter.DrugAdapter;
 import cn.ml_tech.mx.mlservice.DrugControls;
 import cn.ml_tech.mx.mlservice.IMlService;
+
+import static cn.ml_tech.mx.mlproj.R.id.me_name;
 
 
 /**
@@ -41,10 +45,14 @@ public class YpkFragment extends Fragment {
 
     private List<DrugControls> drugList = new ArrayList<>();
     private DrugControls drugControls = null;
+    private DrugAdapter adapter;
+    private YpjcActivity ypjcActivity;
 
     public IMlService getmService() {
         return mService;
     }
+
+    private int cuurentPage = 1, lastPage;
 
     public void setmService(IMlService mService) {
         this.mService = mService;
@@ -52,7 +60,7 @@ public class YpkFragment extends Fragment {
 
     RecyclerView recyclerView;
     private IMlService mService;
-
+    private String mDrugName = "", mPinyin = "", mEnName = "";
     private OnFragmentInteractionListener mListener;
     private DrugAdapter.OperateToData operateToData = new DrugAdapter.OperateToData() {
         @Override
@@ -60,20 +68,26 @@ public class YpkFragment extends Fragment {
             Log.d("zw", id + "id");
             try {
                 getmService().deleteDrugInfoById((int) id);
+                adapter.deleteDataById((int) id);
+                Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                Toast.makeText(getActivity(), "删除成功 原因:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
             }
             return false;
         }
 
         @Override
-        public void operateToPre(boolean isNext) {
+        public void operateToPre(boolean isNext, DrugControls drugControl) {
             getActivity().findViewById(R.id.btnypxNext).setEnabled(isNext);
         }
 
         @Override
         public void update(DrugControls drugControls) {
-
+            ypjcActivity.druginfo_id = (int) drugControls.getId();
+            ypjcActivity.drugControls = drugControls;
+            ypjcActivity.moveToAddDrug();
         }
     };
 
@@ -116,25 +130,90 @@ public class YpkFragment extends Fragment {
         }
     }
 
+    // etPage 页数输入框
+    // ibPre imagebutton 上一页
+    //ibNext imageButton 下一页
+    //tvCurrentPage 当前页数
+    //tvAllPage 总页数
+    // ibSearch 查询
     @Override
     public void onStart() {
         super.onStart();
+        ypjcActivity = (YpjcActivity) getActivity();
         initDrugs();
+        getActivity().findViewById(R.id.ibPre).setOnClickListener((View.OnClickListener) getActivity());
+        getActivity().findViewById(R.id.ibNext).setOnClickListener((View.OnClickListener) getActivity());
+        getActivity().findViewById(R.id.ibSearch).setOnClickListener((View.OnClickListener) getActivity());
         getActivity().findViewById(R.id.btnypxNext).setEnabled(false);
         getActivity().findViewById(R.id.query).setOnClickListener((View.OnClickListener) getActivity());
-
+        getActivity().findViewById(R.id.reseting).setOnClickListener((View.OnClickListener) getActivity());
         getActivity().findViewById(R.id.btnypxNext).setOnClickListener((View.OnClickListener) getActivity());
-
         getActivity().findViewById(R.id.addphonetic).setOnClickListener((View.OnClickListener) getActivity());
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        DrugAdapter adapter = new DrugAdapter(drugList, getActivity(), operateToData);
-        recyclerView.setAdapter(adapter);
+        setDataToView(drugList, true);
     }
 
-    public void setDataToView(List<DrugControls> drugList) {
-        DrugAdapter adapter = new DrugAdapter(drugList, getActivity(), operateToData);
+    public void setPreDataToView() throws RemoteException {
+        if (cuurentPage == 1) {
+            Toast.makeText(getActivity(), "已经是第一页了", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cuurentPage--;
+        adapter.setDatasToView(mService.queryDrugControlByInfo(mDrugName, mPinyin, mEnName, cuurentPage));
+        ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+    }
+
+    public void setNexTDataToView() throws RemoteException {
+        if (cuurentPage == lastPage) {
+            Toast.makeText(getActivity(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cuurentPage++;
+        adapter.setDatasToView(mService.queryDrugControlByInfo(mDrugName, mPinyin, mEnName, cuurentPage));
+        ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+    }
+
+    public void setSearchDataToView() throws RemoteException {
+        String content = ((EditText) getActivity().findViewById(R.id.etPage)).getEditableText().toString();
+        if (content.trim().equals("")) {
+            Toast.makeText(getActivity(), "请输入页码再进行查询", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cuurentPage = Integer.parseInt(content);
+        if (cuurentPage > lastPage) {
+            Toast.makeText(getActivity(), "已超过最大页", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        adapter.setDatasToView(mService.queryDrugControlByInfo(mDrugName, mPinyin, mEnName, cuurentPage));
+        ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+
+    }
+
+    public void resetting() {
+
+        ((EditText) getActivity().findViewById(R.id.me_name)).setText("");
+
+        ((EditText) getActivity().findViewById(R.id.me_phonetic)).setText("");
+
+        ((EditText) getActivity().findViewById(R.id.me_enname)).setText("");
+
+    }
+
+    public void setDataToView(List<DrugControls> drugList, boolean isReseting) {
+        lastPage = ((int) Math.floor(drugList.size() / 20)) + 1;
+        ((TextView) getActivity().findViewById(R.id.tvAllPage)).setText(lastPage + "");
+        if (isReseting) {
+            cuurentPage = 1;
+            ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+            for (int i = 20; i < drugList.size(); i++) {
+                drugList.remove(i);
+                i--;
+            }
+        }
+
+        adapter = new DrugAdapter(drugList, getActivity(), operateToData);
         recyclerView.setAdapter(adapter);
     }
 
@@ -185,7 +264,7 @@ public class YpkFragment extends Fragment {
     }
 
     public String getDrugName() {
-        return ((EditText) getActivity().findViewById(R.id.me_name)).getEditableText().toString();
+        return ((EditText) getActivity().findViewById(me_name)).getEditableText().toString();
     }
 
     public String getPinyin() {

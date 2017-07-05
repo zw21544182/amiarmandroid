@@ -6,6 +6,7 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,12 +46,10 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
     private List<Tray> trayList = new ArrayList<Tray>();
     private AdapterTray adapterTray;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -78,6 +77,11 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mTray = new Tray();
+        try {
+            trayList = mActivity.getmService().getTrayList();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         mTrayHelper = new TrayHelper(mActivity);
         adapterTray = new AdapterTray(mActivity, trayList);
         mRecyclerViewTray.setAdapter(adapterTray);
@@ -242,8 +246,8 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
             viewHolder.txtTrayInnerDiameter.setText(String.valueOf(trayList.get(i).getInnerDiameter()));
             viewHolder.txtTrayExternalDiameter.setText(String.valueOf(trayList.get(i).getExternalDiameter()));
             viewHolder.txtMark.setText(trayList.get(i).getMark());
-            viewHolder.txtEdit.setText("修改");
-            viewHolder.txtDel.setText("删除");
+            viewHolder.txtEdit.setText(Html.fromHtml("<u>" + "修改" + "</u>"));
+            viewHolder.txtDel.setText(Html.fromHtml("<u>" + "删除" + "</u>"));
             viewHolder.txtEdit.setTag(i);
             viewHolder.txtDel.setTag(i);
         }
