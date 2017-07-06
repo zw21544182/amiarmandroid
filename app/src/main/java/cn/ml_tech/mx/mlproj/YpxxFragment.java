@@ -165,17 +165,17 @@ public class YpxxFragment extends Fragment {
         ((Spinner) getActivity().findViewById(R.id.etThreshold)).setSelection(1);
         ((Spinner) getActivity().findViewById(R.id.etBottleType)).setAdapter(new StringAdapter(specificatedata));
         if (drug_id != 0) {
-            ((TextView) getActivity().findViewById(R.id.etDrugName)).setText(ypjcActivity.drugControls.getDrugName());
-            ((TextView) getActivity().findViewById(R.id.etPinYin)).setText(ypjcActivity.drugControls.getPinyin());
-            ((TextView) getActivity().findViewById(R.id.etEnName)).setText(ypjcActivity.drugControls.getEnname());
+            ((TextView) getActivity().findViewById(R.id.etDrugName)).setText(ypjcActivity.drugControl.getDrugName());
+            ((TextView) getActivity().findViewById(R.id.etPinYin)).setText(ypjcActivity.drugControl.getPinyin());
+            ((TextView) getActivity().findViewById(R.id.etEnName)).setText(ypjcActivity.drugControl.getEnname());
             for (int i = 0; i < factorydata.size(); i++) {
-                if (factorydata.get(i).trim().equals(ypjcActivity.drugControls.getDrugFactory().trim())) {
+                if (factorydata.get(i).trim().equals(ypjcActivity.drugControl.getDrugFactory().trim())) {
                     ((Spinner) getActivity().findViewById(R.id.etFactory)).setSelection(i);
 
                 }
             }
             for (int i = 0; i < specificatedata.size(); i++) {
-                if (specificatedata.get(i).trim().equals(ypjcActivity.drugControls.getDrugBottleType().trim())) {
+                if (specificatedata.get(i).trim().equals(ypjcActivity.drugControl.getDrugBottleType().trim())) {
                     ((Spinner) getActivity().findViewById(R.id.etBottleType)).setSelection(i);
 
                 }

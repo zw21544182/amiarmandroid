@@ -1,12 +1,14 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -212,6 +214,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         LogDebug("on destory " + this.getPackageName());
         super.onDestroy();
         unbindService(mConnection);
+        unregisterReceiver(receiver);
         ActivityCollector.removeActivity(this);
     }
 
@@ -354,9 +357,16 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         @Override
         public void onReceive(Context context, Intent intent) {
             String info = intent.getExtras().getString("info");
-            Toast.makeText(context, info + "Ssss", Toast.LENGTH_SHORT).show();
-            context.unregisterReceiver(this);
+            new AlertDialog.Builder(BaseActivity.this).setTitle(info).
+                    setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    }).show();
+
         }
+
     }
 
     public class customViewGroup extends ViewGroup {

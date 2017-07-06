@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 
 /**
@@ -98,6 +99,31 @@ public class YpjcjFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * 药品批号
+     *
+     * @return 药品批号
+     */
+    public String getDetectionBatch() {
+        return ((EditText) getActivity().findViewById(R.id.etDetectionBatch)).getEditableText().toString();
+    }
+
+    /**
+     * 检测数量
+     * @return 检测数量
+     */
+    public String getDetectionCount() {
+        return ((EditText) getActivity().findViewById(R.id.etdetectionCount)).getEditableText().toString();
+    }
+
+    /**
+     * 检测编号
+     *
+     * @return 检测编号
+     */
+    public String getDetectionNumber() {
+        return ((EditText) getActivity().findViewById(R.id.etdetectionNumber)).getEditableText().toString();
+    }
 
     /**
      * This interface must be implemented by activities that contain this

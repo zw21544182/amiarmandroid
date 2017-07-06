@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
 import cn.ml_tech.mx.mlservice.DrugControls;
@@ -39,7 +41,8 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     int containnerid;
     Map<String, String> data;
     public int pos, druginfo_id;
-    public DrugControls drugControls = new DrugControls();
+    public DrugControls drugControl = new DrugControls();
+    public DetectionReport detectionReport = new DetectionReport();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,10 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
 
     }
 
+    public void moveToMainFragment() {
+        ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -100,15 +107,22 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ypjcjNext:
+                String detecitonBatch = YpjcjFragment.getDetectionBatch();
+                String detectionCount = YpjcjFragment.getDetectionCount();
+                String detectionNumber = YpjcjFragment.getDetectionNumber();
+                if (TextUtils.isEmpty(detecitonBatch) || TextUtils.isEmpty(detectionCount) || TextUtils.isEmpty(detectionNumber)) {
+                    showToast("请将信息填写完整");
+                    return;
+                }
+                detectionReport.setDetectionBatch(detecitonBatch);
+                detectionReport.setDetectionCount(Integer.parseInt(detectionCount));
+                detectionReport.setDetectionNumber(detectionNumber);
                 ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
-
                 break;
             case R.id.btnypxNext:
-                try {
-                    mService.getDrugParamById(2);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                detectionReport.setDruginfo_id(drugControl.getId());
+                detectionReport.setDrugName(drugControl.getDrugName());
+                detectionReport.setFactoryName(drugControl.getDrugFactory());
                 YpjcjFragment = (YpjcjFragment) switchContentFragment(YpjcjFragment.class.getSimpleName());
                 break;
             case R.id.bt_back:
@@ -163,19 +177,17 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
 
                 Log.d("zw", data.size() + "datasize");
                 ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
-
                 break;
             case R.id.btSave:
                 try {
-
                     data.putAll(ypjqFragment.getData());
-                    logv(druginfo_id + "druginfo");
-
+                    Log.d("zw", "drugid" + druginfo_id);
                     mService.addDrugInfo(name, enName, pinyin, containnerid, factoryid, String.valueOf(druginfo_id));
-                    saveDrugParams(data, mService.queryDrugControl().size());
+                    saveDrugParams(data, druginfo_id);
 
                     Toast.makeText(this, data.size() + "size", Toast.LENGTH_SHORT).show();
                     showToast("保存成功");
+                    ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                     showToast("保存失败");
@@ -249,7 +261,8 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
         List<DrugParam> drugParams = new ArrayList<>();
         String drug_id = "";
         if (id == 0) {
-            drug_id = mService.queryDrugControl().size() + "";
+            List<DrugControls> drugControlses = mService.queryDrugControl();
+            drug_id = drugControlses.get(drugControlses.size() - 1).getId() + "";
         } else {
             drug_id = id + "";
 

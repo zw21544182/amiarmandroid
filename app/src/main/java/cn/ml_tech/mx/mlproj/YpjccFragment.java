@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 
 
 /**
@@ -26,8 +29,9 @@ public class YpjccFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private YpjcActivity ypjcActivity;
     private OnFragmentInteractionListener mListener;
+    private View view;
 
     public YpjccFragment() {
         // Required empty public constructor
@@ -64,7 +68,8 @@ public class YpjccFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ypjcc, container, false);
+        view = inflater.inflate(R.layout.fragment_ypjcc, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -87,7 +92,10 @@ public class YpjccFragment extends Fragment {
 
     @Override
     public void onStart() {
+        ypjcActivity = (YpjcActivity) getActivity();
         super.onStart();
+        setDataToView(ypjcActivity.detectionReport);
+
 //        getActivity().findViewById(R.id.btSave).setOnClickListener((View.OnClickListener) getActivity());
 
     }
@@ -96,6 +104,13 @@ public class YpjccFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void setDataToView(DetectionReport report) {
+        ((TextView) getActivity().findViewById(R.id.tvDruginfoId)).setText(report.getDruginfo_id() + "");
+        ((TextView) getActivity().findViewById(R.id.tvDetectionCount)).setText(report.getDetectionCount() + "");
+
+
     }
 
 

@@ -68,6 +68,7 @@ public class YpkFragment extends Fragment {
             Log.d("zw", id + "id");
             try {
                 getmService().deleteDrugInfoById((int) id);
+                getmService().deleteDrugParamById((int) id);
                 adapter.deleteDataById((int) id);
                 Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
             } catch (RemoteException e) {
@@ -81,12 +82,13 @@ public class YpkFragment extends Fragment {
         @Override
         public void operateToPre(boolean isNext, DrugControls drugControl) {
             getActivity().findViewById(R.id.btnypxNext).setEnabled(isNext);
+            ypjcActivity.drugControl = drugControl;
         }
 
         @Override
         public void update(DrugControls drugControls) {
             ypjcActivity.druginfo_id = (int) drugControls.getId();
-            ypjcActivity.drugControls = drugControls;
+            ypjcActivity.drugControl = drugControls;
             ypjcActivity.moveToAddDrug();
         }
     };

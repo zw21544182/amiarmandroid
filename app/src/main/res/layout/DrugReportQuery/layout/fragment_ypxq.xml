@@ -14,11 +14,19 @@
         android:orientation="horizontal"
         android:weightSum="8">
 
-        <View
+        <RelativeLayout
+            android:id="@+id/imagelayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5.5"
-            android:background="#000" />
+            android:layout_weight="5.5">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5.5"
+                android:background="#000" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -52,6 +60,7 @@
                         style="@style/EditTextStyle"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:inputType="number" />
                 </LinearLayout>
 
@@ -95,7 +104,6 @@
 
                     <TextView
                         android:id="@+id/tvColorCoefficient"
-
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="36"
@@ -158,6 +166,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
+                        android:enabled="false"
                         android:text="出瓶" />
 
                 </LinearLayout>
@@ -190,6 +199,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
+                        android:enabled="false"
                         android:text="保存" />
 
                     <Button

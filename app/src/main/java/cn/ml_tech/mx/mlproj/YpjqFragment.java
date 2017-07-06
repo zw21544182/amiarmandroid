@@ -2,22 +2,27 @@ package cn.ml_tech.mx.mlproj;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 
@@ -42,9 +47,12 @@ public class YpjqFragment extends Fragment {
     private EditText etBottlePara, etShadLocation;
     private TextView tvShadPara, tvColorCoefficient;
     private Spinner spParaType;
+    private Button btEntryBottle, btValidate, btresver, btLeaveBottle, btBottlePara;
     private OnFragmentInteractionListener mListener;
     YpjcActivity ypjcActivity;
     private HashMap<String, String> data;
+    private boolean isEnter = false;
+    private View view;
 
     public Map<String, String> getData() {
         return data;
@@ -58,15 +66,8 @@ public class YpjqFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment YpjcFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    private ReceiverUtil receiverUtil = null;
+
     public static YpjqFragment newInstance(String param1, String param2) {
         YpjqFragment fragment = new YpjqFragment();
         Bundle args = new Bundle();
@@ -75,6 +76,54 @@ public class YpjqFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btEntryBottle:
+                    try {
+                        receiverUtil.inRegister();
+                        ypjcActivity.mService.enterBottle();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case R.id.btValidate:
+                    if (!isEnter) {
+                        Toast.makeText(getActivity(), "尚未进瓶子", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    try {
+                        ypjcActivity.mService.Validate(ypjcActivity.druginfo_id, Integer.parseInt(etShadLocation.getText().toString()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case R.id.btresver:
+                    if (isEnter) {
+                        Toast.makeText(getActivity(), "进瓶状态下无法取消", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    ypjcActivity.moveToMainFragment();
+                    break;
+                case R.id.btBottlePara:
+                    try {
+                        ypjcActivity.mService.bottleTest(Integer.parseInt(etBottlePara.getEditableText().toString()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case R.id.btLeaveBottle:
+                    try {
+                        ypjcActivity.mService.leaveBottle();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,19 +139,47 @@ public class YpjqFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ypjcActivity = (YpjcActivity) getActivity();
+        initReciver();
+        view = inflater.inflate(R.layout.fragment_ypxq, container, false);
+        Log.d("zw", "onCreateView");
 
-        View view = inflater.inflate(R.layout.fragment_ypxq, container, false);
-        etBottlePara = (EditText) view.findViewById(R.id.etBottlePara);
-        etShadLocation = (EditText) view.findViewById(R.id.etShadLocation);
-        tvShadPara = (TextView) view.findViewById(R.id.tvShadPara);
-        spParaType = (Spinner) view.findViewById(R.id.spParaType);
-        setDataToView(ypjcActivity.pos, ypjcActivity.druginfo_id);
-        tvColorCoefficient = (TextView) view.findViewById(R.id.tvColorCoefficient);
-        etBottlePara.addTextChangedListener(new ViewTextWatcher(etBottlePara));
-        etShadLocation.addTextChangedListener(new ViewTextWatcher(etShadLocation));
-        tvShadPara.addTextChangedListener(new ViewTextWatcher(tvShadPara));
-        tvColorCoefficient.addTextChangedListener(new ViewTextWatcher(tvColorCoefficient));
         return view;
+    }
+
+    private void initReciver() {
+        receiverUtil = new ReceiverUtil(ReceiverUtil.ENTERBOTTLE, getActivity()) {
+
+            @Override
+            protected void operate(Context context, Intent intent) {
+                String statue = intent.getExtras().getString("state");
+                if (statue.equals("sucess")) {
+                    //进瓶成功
+                    isEnter = true;
+                    btValidate.setEnabled(true);
+                    btLeaveBottle.setEnabled(true);
+                    btEntryBottle.setEnabled(false);
+                    etShadLocation.setEnabled(true);
+                } else if (statue.equals("Validate")) {
+                    //验证成功
+                    tvColorCoefficient.setText(intent.getExtras().getInt("colornum") + "");
+                    spParaType.setSelection((intent.getExtras().getInt("paratype") - 1));
+                } else if (statue.equals("leavebottlesucess")) {
+                    //出瓶成功
+                    isEnter = false;
+                    getActivity().findViewById(R.id.btSave).setEnabled(true);
+                }
+            }
+        }
+
+        ;
+    }
+
+    private void event() {
+        btEntryBottle.setOnClickListener(listener);
+        btValidate.setOnClickListener(listener);
+        btresver.setOnClickListener(listener);
+        btBottlePara.setOnClickListener(listener);
+        btLeaveBottle.setOnClickListener(listener);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -126,9 +203,31 @@ public class YpjqFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.d("zw", "onstart");
         data = new HashMap<>();
         getActivity().findViewById(R.id.btSave).setOnClickListener((View.OnClickListener) getActivity());
+        etBottlePara = (EditText) view.findViewById(R.id.etBottlePara);
+        etShadLocation = (EditText) view.findViewById(R.id.etShadLocation);
+        tvShadPara = (TextView) view.findViewById(R.id.tvShadPara);
+        spParaType = (Spinner) view.findViewById(R.id.spParaType);
+        tvColorCoefficient = (TextView) view.findViewById(R.id.tvColorCoefficient);
+        setDataToView(ypjcActivity.pos, ypjcActivity.druginfo_id);
+        btEntryBottle = (Button) view.findViewById(R.id.btEntryBottle);
+        btValidate = (Button) view.findViewById(R.id.btValidate);
+        btBottlePara = (Button) view.findViewById(R.id.btBottlePara);
+        btLeaveBottle = (Button) view.findViewById(R.id.btLeaveBottle);
+        btresver = (Button) view.findViewById(R.id.btresver);
+        etBottlePara.addTextChangedListener(new ViewTextWatcher(etBottlePara));
+        etShadLocation.addTextChangedListener(new ViewTextWatcher(etShadLocation));
+        tvShadPara.addTextChangedListener(new ViewTextWatcher(tvShadPara));
+        tvColorCoefficient.addTextChangedListener(new ViewTextWatcher(tvColorCoefficient));
+        event();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        receiverUtil.unRefister();
     }
 
     @Override
@@ -138,15 +237,19 @@ public class YpjqFragment extends Fragment {
     }
 
     public void setDataToView(int pos, int drug_id) {
+        Log.d("zw", "drugid" + drug_id);
         try {
             DrugContainer drugContainer = ypjcActivity.mService.getDrugContainer().get(pos);
             etBottlePara.setText(drugContainer.getRotatespeed() + "");
             etShadLocation.setText(drugContainer.getHeight() + "");
             if (drug_id != 0) {
+                Log.d("zw", "id!=0");
                 List<DrugParam> drugParams = ypjcActivity.mService.getDrugParamById(drug_id);
                 for (DrugParam drugParam :
                         drugParams
                         ) {
+                    Log.d("zw", drugParam.toString());
+
                     switch (drugParam.getParamname()) {
                         case "rotateSpeed":
                             etBottlePara.setText(drugParam.getParamvalue() + "");
@@ -158,17 +261,21 @@ public class YpjqFragment extends Fragment {
                             tvShadPara.setText(drugParam.getParamvalue() + "");
                             break;
                         case "sendparam":
-                            tvColorCoefficient.setText(drugParam.getParamvalue() + "");
+                            Toast.makeText(getActivity(), "abc", Toast.LENGTH_SHORT).show();
+                            if (tvColorCoefficient != null)
+                                tvColorCoefficient.setText(drugParam.getParamvalue() + "");
                             break;
 
                     }
                 }
             }
-        } catch (RemoteException e) {
+        } catch (RemoteException e)
+
+        {
             e.printStackTrace();
+            Log.d("zw", "exception");
         }
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
@@ -204,12 +311,10 @@ public class YpjqFragment extends Fragment {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
         }
 
         @Override
@@ -220,14 +325,25 @@ public class YpjqFragment extends Fragment {
                     break;
                 case R.id.etShadLocation:
                     data.put("height", s.toString());
+                    try {
+                        tvShadPara.setText(String.valueOf(getShadParaByLocation(Integer.parseInt(s.toString()))));
+                    } catch (Exception e) {
+
+                    }
                     break;
                 case R.id.tvShadPara:
                     data.put("shadeParam", s.toString());
                     break;
                 case R.id.tvColorCoefficient:
                     data.put("sendparam", s.toString());
+                    Toast.makeText(getActivity(), "tvColorCoefficient", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
+
+    }
+
+    private double getShadParaByLocation(int location) {
+        return location / 3 + 0.234;
     }
 }

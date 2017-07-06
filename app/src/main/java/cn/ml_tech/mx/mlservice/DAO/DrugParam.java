@@ -110,6 +110,17 @@ public class DrugParam extends DataSupport implements Parcelable {
         this.druginfo_id = in.readLong();
     }
 
+    @Override
+    public String toString() {
+        return "DrugParam{" +
+                "id=" + id +
+                ", paramname='" + paramname + '\'' +
+                ", paramvalue=" + paramvalue +
+                ", type=" + type +
+                ", druginfo_id=" + druginfo_id +
+                '}';
+    }
+
     public static final Parcelable.Creator<DrugParam> CREATOR = new Parcelable.Creator<DrugParam>() {
         @Override
         public DrugParam createFromParcel(Parcel source) {
