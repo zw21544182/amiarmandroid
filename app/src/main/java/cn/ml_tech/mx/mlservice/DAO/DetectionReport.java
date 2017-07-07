@@ -50,10 +50,7 @@ import java.util.List;
     [ispdfdown] integer NOT NULL DEFAULT false,
     [user_id] integer,
     [druginfo_id] integer);
-
-
 */
-
 public class DetectionReport extends DataSupport implements Parcelable {
     @Column(unique = true,nullable = false)
     private  long id;

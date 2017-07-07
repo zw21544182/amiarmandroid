@@ -44,6 +44,9 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     public DrugControls drugControl = new DrugControls();
     public DetectionReport detectionReport = new DetectionReport();
 
+
+    private List<DrugParam> drugParams = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         data = new HashMap<>();
@@ -282,6 +285,13 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
         ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
         ypxxFragment.setmService(mService);
 
+    }
+
+    public List<DrugParam> getDrugParams() throws RemoteException {
+        Log.d("zw", "druginfo_id " + druginfo_id);
+        drugParams = mService.getDrugParamById(druginfo_id);
+
+        return drugParams;
     }
 
     @Override

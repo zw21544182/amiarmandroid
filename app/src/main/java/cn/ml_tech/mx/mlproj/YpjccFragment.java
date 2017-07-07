@@ -4,12 +4,22 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
+import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 
 
 /**
@@ -32,20 +42,36 @@ public class YpjccFragment extends Fragment {
     private YpjcActivity ypjcActivity;
     private OnFragmentInteractionListener mListener;
     private View view;
+    private LinearLayout ltDrugPara;
+    private CheckBox cbShowDrugParam;
+    private TextView tvDrugName, tvFactionName, tvDetectionBatch, tvColorCoefficient, tvEnName, tvDetectionSn, tvDetectionNumber, tvShapePara;
+    private List<DrugParam> drugParamList = null;
+    private Button btStartCheck;
+    private EditText etRotateNum;
 
     public YpjccFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment YpjcFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btStartCheck:
+                    String rotate = etRotateNum.getEditableText().toString().trim();
+                    if (rotate.equals("")) {
+                        Toast.makeText(getActivity(), "旋转次数为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    try {
+                        ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate));
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+    };
+
     public static YpjccFragment newInstance(String param1, String param2) {
         YpjccFragment fragment = new YpjccFragment();
         Bundle args = new Bundle();
@@ -92,12 +118,43 @@ public class YpjccFragment extends Fragment {
 
     @Override
     public void onStart() {
-        ypjcActivity = (YpjcActivity) getActivity();
         super.onStart();
+        initView();
+        event();
         setDataToView(ypjcActivity.detectionReport);
 
 //        getActivity().findViewById(R.id.btSave).setOnClickListener((View.OnClickListener) getActivity());
 
+    }
+
+    private void event() {
+        btStartCheck.setOnClickListener(listener);
+        cbShowDrugParam.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ltDrugPara.setVisibility(View.VISIBLE);
+                } else {
+                    ltDrugPara.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+    }
+
+    private void initView() {
+        ypjcActivity = (YpjcActivity) getActivity();
+        etRotateNum = (EditText) view.findViewById(R.id.etRotateNum);
+        btStartCheck = (Button) view.findViewById(R.id.btStartCheck);
+        ltDrugPara = (LinearLayout) view.findViewById(R.id.ltDrugPara);
+        cbShowDrugParam = (CheckBox) view.findViewById(R.id.cbShowDrugParam);
+        tvDrugName = (TextView) view.findViewById(R.id.tvDrugName);
+        tvFactionName = (TextView) view.findViewById(R.id.tvFactionName);
+        tvDetectionBatch = (TextView) view.findViewById(R.id.tvDetectionBatch);
+        tvColorCoefficient = (TextView) view.findViewById(R.id.tvColorCoefficient);
+        tvEnName = (TextView) view.findViewById(R.id.tvEnName);
+        tvDetectionSn = (TextView) view.findViewById(R.id.tvDetectionSn);
+        tvDetectionNumber = (TextView) view.findViewById(R.id.tvDetectionNumber);
+        tvShapePara = (TextView) view.findViewById(R.id.tvShapePara);
     }
 
     @Override
@@ -107,9 +164,38 @@ public class YpjccFragment extends Fragment {
     }
 
     private void setDataToView(DetectionReport report) {
+        tvDrugName.setText(ypjcActivity.drugControl.getDrugName());
+        tvEnName.setText(ypjcActivity.drugControl.getEnname());
+        tvFactionName.setText(ypjcActivity.drugControl.getDrugFactory());
+        tvDetectionBatch.setText(ypjcActivity.detectionReport.getDetectionBatch());
+        tvDetectionNumber.setText(ypjcActivity.detectionReport.getDetectionNumber());
+        try {
+            tvDetectionSn.setText(ypjcActivity.mService.getDetectionSn());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            drugParamList = ypjcActivity.getDrugParams();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        for (DrugParam drugParam : drugParamList
+                ) {
+            switch (drugParam.getParamname()) {
+                case "shadeParam":
+                    tvShapePara.setText(drugParam.getParamvalue() + "");
+                    break;
+                case "sendparam":
+                    Toast.makeText(getActivity(), "abc", Toast.LENGTH_SHORT).show();
+                    if (tvColorCoefficient != null)
+                        tvColorCoefficient.setText(drugParam.getParamvalue() + "");
+                    break;
+
+
+            }
+        }
         ((TextView) getActivity().findViewById(R.id.tvDruginfoId)).setText(report.getDruginfo_id() + "");
         ((TextView) getActivity().findViewById(R.id.tvDetectionCount)).setText(report.getDetectionCount() + "");
-
 
     }
 

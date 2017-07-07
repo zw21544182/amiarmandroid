@@ -4,10 +4,10 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -27,22 +27,25 @@ public class YpjcFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private View view;
     private OnFragmentInteractionListener mListener;
+    private Button btStartCheck;
 
     public YpjcFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment YpjcFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btStartCheck:
+
+                    break;
+            }
+        }
+    };
+
     public static YpjcFragment newInstance(String param1, String param2) {
         YpjcFragment fragment = new YpjcFragment();
         Bundle args = new Bundle();
@@ -65,9 +68,11 @@ public class YpjcFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ypjc, container, false);
+        view = inflater.inflate(R.layout.fragment_ypjc, container, false);
+        return view;
     }
 
+    //
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -89,6 +94,11 @@ public class YpjcFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        btStartCheck = (Button) view.findViewById(R.id.btStartCheck);
+        event();
+    }
+
+    private void event() {
     }
 
     @Override
@@ -96,7 +106,6 @@ public class YpjcFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
 
     /**

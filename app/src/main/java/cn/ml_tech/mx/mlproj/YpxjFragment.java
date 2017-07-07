@@ -41,6 +41,7 @@ public class YpxjFragment extends Fragment {
     private List<FactoryControls> factoryControlses;
     List<String> factorydata;
     private EditText etMaxStatTime, etMaxStopTime, etImageDelayTime, etStopDelayTime, threshold40, threshold50, threshold60, threshold70;
+    private View v;
 
     public IMlService getmService() {
         return mService;
@@ -91,7 +92,36 @@ public class YpxjFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ypjcActivity = (YpjcActivity) getActivity();
-        View v = inflater.inflate(R.layout.fragment_ypxj, container, false);
+        v = inflater.inflate(R.layout.fragment_ypxj, container, false);
+
+        return v;
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        initView();
+        data = new HashMap<>();
+        super.onStart();
+        ypjcActivity = (YpjcActivity) getActivity();
+        getActivity().findViewById(R.id.btnypxjPre).setOnClickListener((View.OnClickListener) getActivity());
+        getActivity().findViewById(R.id.btnypxjNext).setOnClickListener((View.OnClickListener) getActivity());
+        try {
+            factoryControlses = mService.queryFactoryControl();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void initView() {
         etMaxStatTime = (EditText) v.findViewById(R.id.etMaxStatTime);
         etMaxStopTime = (EditText) v.findViewById(R.id.etMaxStopTime);
         etImageDelayTime = (EditText) v.findViewById(R.id.etImageDelayTime);
@@ -115,30 +145,6 @@ public class YpxjFragment extends Fragment {
         threshold70.addTextChangedListener(new ViewTextWatcher(threshold70));
         etImageDelayTime.addTextChangedListener(new ViewTextWatcher(etImageDelayTime));
         etStopDelayTime.addTextChangedListener(new ViewTextWatcher(etStopDelayTime));
-
-        return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onStart() {
-        data = new HashMap<>();
-        super.onStart();
-        ypjcActivity = (YpjcActivity) getActivity();
-        getActivity().findViewById(R.id.btnypxjPre).setOnClickListener((View.OnClickListener) getActivity());
-        getActivity().findViewById(R.id.btnypxjNext).setOnClickListener((View.OnClickListener) getActivity());
-        try {
-            factoryControlses = mService.queryFactoryControl();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
 
     }
 

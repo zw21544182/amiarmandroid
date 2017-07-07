@@ -149,6 +149,10 @@ public class YpjqFragment extends Fragment {
     private void initReciver() {
         receiverUtil = new ReceiverUtil(ReceiverUtil.ENTERBOTTLE, getActivity()) {
 
+            /**
+             * @param context
+             * @param intent
+             */
             @Override
             protected void operate(Context context, Intent intent) {
                 String statue = intent.getExtras().getString("state");
@@ -156,6 +160,7 @@ public class YpjqFragment extends Fragment {
                     //进瓶成功
                     isEnter = true;
                     btValidate.setEnabled(true);
+                    getActivity().findViewById(R.id.btSave).setEnabled(false);
                     btLeaveBottle.setEnabled(true);
                     btEntryBottle.setEnabled(false);
                     etShadLocation.setEnabled(true);
@@ -166,6 +171,7 @@ public class YpjqFragment extends Fragment {
                 } else if (statue.equals("leavebottlesucess")) {
                     //出瓶成功
                     isEnter = false;
+                    getActivity().findViewById(R.id.btSave).setEnabled(true);
                     getActivity().findViewById(R.id.btSave).setEnabled(true);
                 }
             }
@@ -244,7 +250,7 @@ public class YpjqFragment extends Fragment {
             etShadLocation.setText(drugContainer.getHeight() + "");
             if (drug_id != 0) {
                 Log.d("zw", "id!=0");
-                List<DrugParam> drugParams = ypjcActivity.mService.getDrugParamById(drug_id);
+                List<DrugParam> drugParams = ypjcActivity.getDrugParams();
                 for (DrugParam drugParam :
                         drugParams
                         ) {
@@ -343,6 +349,12 @@ public class YpjqFragment extends Fragment {
 
     }
 
+    /**
+     * 算法 通过遮光位置获得遮光参数
+     *
+     * @param location 遮光位置
+     * @return 遮光参数
+     */
     private double getShadParaByLocation(int location) {
         return location / 3 + 0.234;
     }

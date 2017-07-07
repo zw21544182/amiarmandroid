@@ -63,4 +63,6 @@ interface IMlService {
     void bottleTest(int num);
     void leaveBottle();
     void deleteDrugParamById(in int id);
+    void startCheck(in int drug_id,in int checkNum, in int rotateNum);
+    String getDetectionSn();
 }

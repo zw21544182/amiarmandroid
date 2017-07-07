@@ -74,7 +74,7 @@ public class DetectionDetail extends DataSupport implements Parcelable {
     @Column(nullable = false)
     private double data4;
     @Column(nullable = false)
-    private int colorFactor;
+    private int colorFactor;//色差系数
     @Column(nullable = false)
     private double scrTime;
     @Column(nullable = false)
@@ -88,7 +88,7 @@ public class DetectionDetail extends DataSupport implements Parcelable {
     @Column(nullable = false)
     private String videoMd5;
     @Column(nullable = false)
-    private boolean isPositive;
+    private boolean isPositive;//是否是阳性
     @Column(nullable = false)
     private boolean isValid;
     @Column(nullable = false)

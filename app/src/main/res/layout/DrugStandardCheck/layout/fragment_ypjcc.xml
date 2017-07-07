@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:background="@drawable/bgitme_layout"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_system_layout"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="检测信息" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <RadioGroup
+                        android:id="@+id/check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/cbFirstCheck"
+                            style="@style/CheckBox_Style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="初检"
+                            android:textColor="@color/colorBlack" />
+
+                        <RadioButton
+                            android:id="@+id/cbSecondCheck"
+
+                            style="@style/CheckBox_Style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="复检"
+                            android:textColor="@color/colorBlack" />
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="70dp"
+                        android:text="药品编号"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:id="@+id/tvDruginfoId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="1"
+                        android:textColor="@color/colorBlack" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="70dp"
+                            android:text="检测数量"
+
+                            android:textColor="@color/colorBlack" />
+
+                        <TextView
+                            android:id="@+id/tvDetectionCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="20"
+                            android:textColor="@color/colorBlack" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:text="旋瓶次数"
+                            android:textColor="@color/colorBlack" />
+
+                        <EditText
+                            android:id="@+id/etRotateNum"
+                            style="@style/EditTextStyle"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:textColor="@color/colorBlack" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_system_layout"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="检测结果" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/bg_factory_layout"
+                android:orientation="horizontal"
+                android:padding="1dp">
+
+                <include layout="@layout/result_topitme"></include>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvreslut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="5dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/bg_recyclerview"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <GridLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:background="#000"
+                        android:columnCount="3"
+                        android:padding="1dp"
+                        android:rowCount="10">
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="26dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="漂浮物检出次数" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="26dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_columnSpan="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="1dp"
+                            android:layout_rowSpan="1"
+                            android:text="阴性" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="速降物检出率(%)" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_columnSpan="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowSpan="2"
+                            android:text="阴性" />
+
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="速降物时间比例(%)" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="40-50um异物检出率(%)" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_columnSpan="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="1dp"
+                            android:layout_rowSpan="4"
+                            android:text="阴性" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="50-60um异物检出率(%)" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="60-70um异物检出率(%)" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="70um以上异物检出率(%)" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="40-50um异物检出数(颗)" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_columnSpan="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="1dp"
+                            android:layout_rowSpan="2"
+                            android:text="阴性" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+                            android:layout_rowSpan="1"
+                            android:text="50-70um" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="200dp"
+                            android:layout_columnSpan="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowSpan="1"
+                            android:text="70um以上异物检出数(颗)X" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
+                            android:layout_columnSpan="1"
+
+                            android:layout_rowSpan="1"
+                            android:text="0" />
+
+                        <TextView
+                            style="@style/GrideItme"
+                            android:layout_width="50dp"
+                            android:layout_columnSpan="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="1dp"
+                            android:layout_rowSpan="2"
+                            android:text="阴性" />
+                    </GridLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/ltDrugPara"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:visibility="invisible">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="药品名称:" />
+
+                            <TextView
+                                android:id="@+id/tvDrugName"
+                                style="@style/TextViewStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="luo" />
+
+                            <TextView
+                                style="@style/TextViewStyle"
+
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="药品英文名称" />
+
+                            <TextView
+                                android:id="@+id/tvEnName"
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="xiu" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="生产厂家:" />
+
+                            <TextView
+                                android:id="@+id/tvFactionName"
+                                style="@style/TextViewStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="luo" />
+
+                            <TextView
+                                style="@style/TextViewStyle"
+
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="检索编号:" />
+
+                            <TextView
+                                android:id="@+id/tvDetectionSn"
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="xiu" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="药品批号:" />
+
+                            <TextView
+                                android:id="@+id/tvDetectionBatch"
+                                style="@style/TextViewStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="luo" />
+
+                            <TextView
+                                style="@style/TextViewStyle"
+
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="检测编号:" />
+
+                            <TextView
+                                android:id="@+id/tvDetectionNumber"
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="xiu" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="药品规格:" />
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="luo" />
+
+                            <TextView
+                                style="@style/TextViewStyle"
+
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="遮光参数:" />
+
+                            <TextView
+                                android:id="@+id/tvShapePara"
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="xiu" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="色差系数:" />
+
+                            <TextView
+                                android:id="@+id/tvColorCoefficient"
+                                style="@style/TextViewStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="luo" />
+
+                            <TextView
+                                style="@style/TextViewStyle"
+
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="图像处理幅数:" />
+
+                            <TextView
+                                android:id="@+id/tvImage"
+                                style="@style/TextViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="180" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <Button
+                android:id="@+id/btStartCheck"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开始检测" />
+
+
+            <Button
+                android:id="@+id/btExportData"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="数据导出" />
+
+            <CheckBox
+                android:id="@+id/cbShowDrugParam"
+                style="@style/CheckBox_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示药品参数" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
