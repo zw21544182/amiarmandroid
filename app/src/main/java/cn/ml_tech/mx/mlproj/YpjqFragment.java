@@ -248,6 +248,10 @@ public class YpjqFragment extends Fragment {
             DrugContainer drugContainer = ypjcActivity.mService.getDrugContainer().get(pos);
             etBottlePara.setText(drugContainer.getRotatespeed() + "");
             etShadLocation.setText(drugContainer.getHeight() + "");
+            data.put("rotateSpeed", drugContainer.getRotatespeed() + "");
+            data.put("height", drugContainer.getHeight() + "");
+            data.put("sendparam", drugContainer.getSendparam() + "");
+            data.put("shadeParam", drugContainer.getShadeparam() + "");
             if (drug_id != 0) {
                 Log.d("zw", "id!=0");
                 List<DrugParam> drugParams = ypjcActivity.getDrugParams();
@@ -255,7 +259,6 @@ public class YpjqFragment extends Fragment {
                         drugParams
                         ) {
                     Log.d("zw", drugParam.toString());
-
                     switch (drugParam.getParamname()) {
                         case "rotateSpeed":
                             etBottlePara.setText(drugParam.getParamvalue() + "");

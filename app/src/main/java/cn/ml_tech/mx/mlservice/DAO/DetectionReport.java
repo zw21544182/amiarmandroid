@@ -12,26 +12,26 @@ import java.util.List;
 
 /**
  * CREATE TABLE drugContainer
- (
- id integer primary key AUTOINCREMENT   not null,
- name text not null unique,
- type  INTEGER not null,
- specification INTEGER not null,
- diameter REAL not null,
- height REAL,
- trayID INTEGER not null,
- srcTime REAL not null,
- stpTime REAL not null,
- channelValue1 REAL not null,
- channelValue2 REAL not null,
- channelValue3 REAL not null,
- channelValue4 REAL not null,
- shadeParam REAL not null,
- rotateSpeed INTEGER NOT NULL DEFAULT 4500,
- sendParam REAL not null,
- foreign key (specification) REFERENCES specificationType(id),
- foreign key (trayID) REFERENCES tray(id)
- );
+ * (
+ * id integer primary key AUTOINCREMENT   not null,
+ * name text not null unique,
+ * type  INTEGER not null,
+ * specification INTEGER not null,
+ * diameter REAL not null,
+ * height REAL,
+ * trayID INTEGER not null,
+ * srcTime REAL not null,
+ * stpTime REAL not null,
+ * channelValue1 REAL not null,
+ * channelValue2 REAL not null,
+ * channelValue3 REAL not null,
+ * channelValue4 REAL not null,
+ * shadeParam REAL not null,
+ * rotateSpeed INTEGER NOT NULL DEFAULT 4500,
+ * sendParam REAL not null,
+ * foreign key (specification) REFERENCES specificationType(id),
+ * foreign key (trayID) REFERENCES tray(id)
+ * );
  */
 /*
 *
@@ -50,33 +50,36 @@ import java.util.List;
     [ispdfdown] integer NOT NULL DEFAULT false,
     [user_id] integer,
     [druginfo_id] integer);
+
+
 */
+
 public class DetectionReport extends DataSupport implements Parcelable {
-    @Column(unique = true,nullable = false)
-    private  long id;
+    @Column(unique = true, nullable = false)
+    private long id;
     @Column(nullable = false)
-    private long user_id;//检测园id
+    private long user_id;
     @Column(nullable = false)
-    private long druginfo_id;//药品信息
+    private long druginfo_id;
     @Column(nullable = false)
-    private String detectionSn;//检索编号
-    @Column( nullable = false)
-    private String detectionNumber;//检测编号
+    private String detectionSn;
     @Column(nullable = false)
-    private  String detectionBatch;//批号
-    @Column( nullable = false)
-    private  int detectionCount;//数量
+    private String detectionNumber;
     @Column(nullable = false)
-    private  int detectionFirstCount;//初检
-    @Column( nullable = false)
-    private  int detectionSecondCount;//复检
+    private String detectionBatch;
     @Column(nullable = false)
-    private  Date date;//检测日期
-    @Column( nullable = false,defaultValue = "false")
-    private boolean deprecate;//是否可用
-    @Column( nullable = false,defaultValue = "false")
-    private boolean ispdfdown;//是否已经导出
-    private List<DetectionDetail>listDetail=new ArrayList<DetectionDetail>();
+    private int detectionCount;
+    @Column(nullable = false)
+    private int detectionFirstCount;
+    @Column(nullable = false)
+    private int detectionSecondCount;
+    @Column(nullable = false)
+    private Date date;
+    @Column(nullable = false, defaultValue = "false")
+    private boolean deprecate;
+    @Column(nullable = false, defaultValue = "false")
+    private boolean ispdfdown;
+    private List<DetectionDetail> listDetail = new ArrayList<DetectionDetail>();
     protected String drugName;
     protected String factoryName;
     protected String userName;
@@ -258,7 +261,7 @@ public class DetectionReport extends DataSupport implements Parcelable {
         this.userName = in.readString();
     }
 
-    public static final Creator<DetectionReport> CREATOR = new Creator<DetectionReport>() {
+    public static final Parcelable.Creator<DetectionReport> CREATOR = new Parcelable.Creator<DetectionReport>() {
         @Override
         public DetectionReport createFromParcel(Parcel source) {
             return new DetectionReport(source);

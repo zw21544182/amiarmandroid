@@ -106,8 +106,8 @@ public class YpxjFragment extends Fragment {
 
     @Override
     public void onStart() {
-        initView();
         data = new HashMap<>();
+        initView();
         super.onStart();
         ypjcActivity = (YpjcActivity) getActivity();
         getActivity().findViewById(R.id.btnypxjPre).setOnClickListener((View.OnClickListener) getActivity());
@@ -166,8 +166,22 @@ public class YpxjFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * @param pos
+     * @param drug_id
+     * @throws RemoteException
+     */
     public void setDataToViewByPos(int pos, int drug_id) throws RemoteException {
         DrugContainer drugContainer = mService.getDrugContainer().get(pos);
+        data.put("srcTime", drugContainer.getSrctime() + "");
+        data.put("stpTime", drugContainer.getStptime() + "");
+        data.put("imagetime", drugContainer.getImagetime() + "");
+        data.put("delaytime", drugContainer.getDelaytime() + "");
+        data.put("channelValue1", drugContainer.getChannelvalue1() + "");
+        data.put("channelValue2", drugContainer.getChannelvalue2() + "");
+        data.put("channelValue3", drugContainer.getChannelvalue3() + "");
+        data.put("channelValue4", drugContainer.getChannelvalue4() + "");
+
         etMaxStatTime.setText(drugContainer.getSrctime() + "");
         etMaxStopTime.setText(drugContainer.getStptime() + "");
         etImageDelayTime.setText(drugContainer.getImagetime() + "");

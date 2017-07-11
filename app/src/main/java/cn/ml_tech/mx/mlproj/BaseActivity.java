@@ -45,6 +45,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     protected FragmentTransaction mFragmentTransaction;
     protected FragmentManager mFragmentManager;
     protected MyReceiver receiver;
+    private AmiApp amiApp;
 
     public void showToast(String content) {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
@@ -54,9 +55,6 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         return mService;
     }
 
-    public void setmService(IMlService mService) {
-        this.mService = mService;
-    }
 
     public IMlService mService;
     public static final String FULL_SCREEN_EXPAND_STATUSBAR = "android.settings.FULL_SCREEN_EXPAND_STATUSBAR";
@@ -108,6 +106,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("zw", "oncreate");
         app = (AmiApp) getApplication();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -121,10 +120,10 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         logv("created\n");
         ActivityCollector.addActivity(this);
         mFragmentManager = getFragmentManager();
-        Intent serviceIntent = new Intent();
-        serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
-        serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
-        bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
+//        Intent serviceIntent = new Intent();
+//        serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
+//        serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
+//        bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
        /*
         try {
             List<User>list= mService.getUserList();
@@ -178,42 +177,55 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         }
     }
 
-    private ServiceConnection mConnection = new ServiceConnection() {
+//    private ServiceConnection mConnection = new ServiceConnection() {
+//
+//        @Override
+//        public void onServiceConnected(ComponentName className, IBinder service) {
+//            //mLog.append("Service binded!\n");Log.d("zw", "onServiceConnected");
+//            mService = IMlService.Stub.asInterface(service);
+//            if (mService != null) {
+//                showToast("不为空");
+//                Log.d("zw", "onServiceConnected");
+//            }
+//            amiApp.setmMLService(mService);
+//            try {
+//                performSomething();
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName className) {
+//            mService = null;
+//        }
+//    };
 
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            //mLog.append("Service binded!\n");
-            mService = IMlService.Stub.asInterface(service);
-
-            try {
-                performSomething();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName className) {
-            mService = null;
-        }
-    };
-
-    private void performSomething() throws RemoteException {
-        MotorControl mControl = null;
-        mService.addMotorControl(mControl);
-    }
+//    private void performSomething() throws RemoteException {
+//        MotorControl mControl = null;
+//        mService.addMotorControl(mControl);
+//    }
 
     @Override
     protected void onStart() {
         super.onStart();
+        amiApp = (AmiApp) getApplication();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                while (mService == null) {
+                    mService = amiApp.getmMLService();
+                }
+            }
+        }.start();
 
     }
 
     @Override
     protected void onDestroy() {
-        LogDebug("on destory " + this.getPackageName());
         super.onDestroy();
-        unbindService(mConnection);
+//        unbindService(mConnection);
         unregisterReceiver(receiver);
         ActivityCollector.removeActivity(this);
     }

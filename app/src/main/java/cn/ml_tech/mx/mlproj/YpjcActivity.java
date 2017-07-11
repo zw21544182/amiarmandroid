@@ -105,7 +105,6 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
         findViewById(R.id.btNext).setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -115,6 +114,10 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 String detectionNumber = YpjcjFragment.getDetectionNumber();
                 if (TextUtils.isEmpty(detecitonBatch) || TextUtils.isEmpty(detectionCount) || TextUtils.isEmpty(detectionNumber)) {
                     showToast("请将信息填写完整");
+                    return;
+                }
+                if (Integer.parseInt(detectionCount) > 20) {
+                    showToast("检测数量不能大于20");
                     return;
                 }
                 detectionReport.setDetectionBatch(detecitonBatch);
@@ -136,8 +139,13 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 this.finish();
                 break;
             case R.id.btNext:
-                ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
-                ypkFragment.setmService(mService);
+                if (!ypjcFragment.isContinue()) {
+                    ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+                    ypkFragment.setmService(mService);
+                } else {
+                    ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
+                    ypjccFragment.setState("continue");
+                }
                 break;
             case R.id.addphonetic:
                 druginfo_id = 0;
@@ -152,19 +160,15 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 ypxjFragment = (YpxjFragment) switchContentFragment(YpxjFragment.class.getSimpleName());
                 ypxjFragment.setmService(mService);
                 pos = ((Spinner) findViewById(R.id.etBottleType)).getSelectedItemPosition();
-
-
                 break;
             case R.id.btYpxxAddFactory:
                 ypxaFragment = (YpxaFragment) switchContentFragment(YpxaFragment.class.getSimpleName());
-
                 break;
             case R.id.btnSaveFactory:
                 Factory factory = ypxaFragment.getFactory();
                 try {
                     if (factory != null) {
                         mService.addFactory(factory.getName(), factory.getAddress(), factory.getPhone(), factory.getFax(), factory.getMail(), factory.getContactName(), factory.getContactPhone(), factory.getWebSite(), factory.getProvince_code(), factory.getCity_code(), factory.getArea_code());
-
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -177,7 +181,6 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 break;
             case R.id.btnypxjNext:
                 data = ypxjFragment.getData();
-
                 Log.d("zw", data.size() + "datasize");
                 ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
                 break;
@@ -187,7 +190,6 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                     Log.d("zw", "drugid" + druginfo_id);
                     mService.addDrugInfo(name, enName, pinyin, containnerid, factoryid, String.valueOf(druginfo_id));
                     saveDrugParams(data, druginfo_id);
-
                     Toast.makeText(this, data.size() + "size", Toast.LENGTH_SHORT).show();
                     showToast("保存成功");
                     ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());

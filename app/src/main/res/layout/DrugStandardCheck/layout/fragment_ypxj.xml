@@ -54,8 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:inputType="number"
-                    android:text="10" />
+                    android:inputType="number" />
             </LinearLayout>
 
             <LinearLayout
@@ -80,8 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:inputType="number"
-                    android:text="5" />
+                    android:inputType="number" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +90,6 @@
 
                 <TextView
                     android:layout_width="200dp"
-
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="end"
@@ -105,8 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:inputType="numberDecimal"
-                    android:text="0.19" />
+                    android:inputType="numberDecimal" />
             </LinearLayout>
 
             <LinearLayout
@@ -131,8 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:inputType="numberDecimal"
-                    android:text="0.00" />
+                    android:inputType="numberDecimal" />
             </LinearLayout>
         </LinearLayout>
 
@@ -193,8 +188,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal"
-                                android:text="60.00" />
+                                android:inputType="numberDecimal" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -218,8 +212,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal"
-                                android:text="5.00" />
+                                android:inputType="numberDecimal" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -242,8 +235,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal"
-                                android:text="3.00" />
+                                android:inputType="numberDecimal" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -252,6 +244,7 @@
                             android:layout_marginBottom="5dp"
                             android:layout_marginTop="5dp"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
@@ -266,8 +259,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal"
-                                android:text="6.00" />
+                                android:inputType="numberDecimal" />
                         </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -280,9 +272,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="360dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnypxjPre"

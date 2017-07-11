@@ -16,7 +16,6 @@ public class JcsjcxActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         jcsjcxFragment = (JcsjcxFragment) switchContentFragment(JcsjcxFragment.class.getSimpleName());
-//        jcsjcxmainFragment.setiMlService(mService);
     }
 
     @Override

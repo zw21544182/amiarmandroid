@@ -1,73 +1,31 @@
-<!--<FrameLayout-->
-<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--xmlns:tools="http://schemas.android.com/tools"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="match_parent"-->
-<!--android:layout_marginLeft="100dp"-->
-<!--android:layout_marginRight="100dp"-->
-<!--android:background="@color/colorBackgroud"-->
-<!--&gt;-->
-<!--&lt;!&ndash;tools:context="cn.ml_tech.mx.mlproj.YpkFragment"&ndash;&gt;-->
-<!--<LinearLayout-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="wrap_content"-->
-<!--android:orientation="horizontal"-->
-<!--android:layout_gravity="top"-->
-<!--android:gravity="right">-->
-<!--<Button-->
-<!--android:id="@+id/btBack"-->
-<!--android:layout_width="wrap_content"-->
-<!--android:layout_height="wrap_content"-->
-<!--android:text="返回"-->
-<!--/>-->
-<!--</LinearLayout>-->
-<!--<LinearLayout-->
-<!--android:layout_width="wrap_content"-->
-<!--android:layout_height="match_parent"-->
-<!--android:orientation="horizontal"-->
-<!--android:layout_gravity="top"-->
-<!--android:layout_marginTop="50dp">-->
-<!--<EditText-->
-<!--android:id="@+id/editText"-->
-<!--android:layout_width="800dp"-->
-<!--android:layout_marginLeft="30dp"-->
-<!--android:layout_height="wrap_content"-->
-<!--android:layout_weight="1"-->
-<!--android:hint="标准"/>-->
-
-<!--<Button-->
-<!--android:id="@+id/btSearch"-->
-<!--android:layout_width="wrap_content"-->
-<!--android:layout_height="wrap_content"-->
-<!--android:layout_marginLeft="50dp"-->
-<!--android:layout_weight="1"-->
-<!--android:text="查询" />-->
-<!--</LinearLayout>-->
-<!--</FrameLayout>-->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_margin="5dp"
         android:gravity="right"
-        >
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/btBack"
-            android:text="返回"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="返回" />
     </LinearLayout>
     <!--<include layout="@layout/fragment_reportitemlayout"/>-->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
         <include layout="@layout/fragment_reportdetaillayout" />
+
         <include layout="@layout/fragment_reportitemlayout" />
 
     </FrameLayout>

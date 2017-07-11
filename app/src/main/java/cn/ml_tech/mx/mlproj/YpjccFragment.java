@@ -2,9 +2,13 @@ package cn.ml_tech.mx.mlproj;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +20,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
+import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
+import cn.ml_tech.mx.mlservice.DAO.ResultModule;
+import cn.ml_tech.mx.mlservice.DrugControls;
 
 
 /**
@@ -48,6 +60,18 @@ public class YpjccFragment extends Fragment {
     private List<DrugParam> drugParamList = null;
     private Button btStartCheck;
     private EditText etRotateNum;
+    private RecyclerView rvreslut;
+    private ReceiverUtil receiverUtil;
+    private ResultAdapter resultAdapter;
+    private TextView tvPiaoFuNum, tvPiaoFuRes, tvSuJianPer, tvSuJianRes;
+    private JSONObject jsonObject;
+    private CheckBox cbFirstCheck, cbSecondCheck;
+    private String state = "";
+    private String detectionSn = "";
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public YpjccFragment() {
     }
@@ -63,7 +87,11 @@ public class YpjccFragment extends Fragment {
                         return;
                     }
                     try {
-                        ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate));
+                        if (state.equals("")) {
+                            ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate), ypjcActivity.detectionReport.getDetectionNumber(), ypjcActivity.detectionReport.getDetectionBatch(), cbFirstCheck.isChecked(), "");
+                        } else {
+                            ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate), ypjcActivity.detectionReport.getDetectionNumber(), ypjcActivity.detectionReport.getDetectionBatch(), cbFirstCheck.isChecked(), detectionSn);
+                        }
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -121,10 +149,114 @@ public class YpjccFragment extends Fragment {
         super.onStart();
         initView();
         event();
-        setDataToView(ypjcActivity.detectionReport);
+        if (state.equals("")) {
+            setDataToView(ypjcActivity.detectionReport);
+        } else {
+            DetectionReport detectionReport = null;
+            try {
+                detectionReport = ypjcActivity.mService.getLastReport();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            setPreDataToView(detectionReport);
+        }
+        initReceiver();
+    }
 
-//        getActivity().findViewById(R.id.btSave).setOnClickListener((View.OnClickListener) getActivity());
+    private void setPreDataToView(DetectionReport report) {
+        detectionSn = report.getDetectionSn();
+        ((TextView) getActivity().findViewById(R.id.tvDruginfoId)).setText(report.getDruginfo_id() + "");
+        ((TextView) getActivity().findViewById(R.id.tvDetectionCount)).setText(report.getDetectionCount() + "");
+        try {
+            Log.d("zw", "normal" + report.getDetectionCount() + " first" + report.getDetectionFirstCount());
+            if (report.getDetectionFirstCount() == report.getDetectionCount() && report.getDetectionSecondCount() == 0) {
+                cbFirstCheck.setChecked(false);
+                cbFirstCheck.setEnabled(false);
+                cbSecondCheck.setEnabled(true);
+            } else if (report.getDetectionFirstCount() < report.getDetectionCount()) {
+                cbFirstCheck.setChecked(true);
+            }
+            DrugControls drugControls = ypjcActivity.mService.queryDrugControlsById(report.getDruginfo_id());
+            List<DetectionDetail> detectionDetails = ypjcActivity.mService.queryDetectionDetailByReportId(report.getId());
+            for (DetectionDetail detectionDetail :
+                    detectionDetails) {
+                if (detectionDetail.isPositive()) {
+                    resultAdapter.addDataToView("阳性");
+                } else {
+                    resultAdapter.addDataToView("阴性");
 
+                }
+            }
+            tvDrugName.setText(drugControls.getDrugName());
+            tvEnName.setText(drugControls.getEnname());
+            tvFactionName.setText(drugControls.getDrugFactory());
+            tvDetectionBatch.setText(report.getDetectionBatch());
+            tvDetectionNumber.setText(report.getDetectionNumber());
+            tvDetectionSn.setText(report.getDetectionSn());
+            drugParamList = ypjcActivity.mService.getDrugParamById((int) report.getDruginfo_id());
+            for (DrugParam drugParam : drugParamList
+                    ) {
+                switch (drugParam.getParamname()) {
+                    case "shadeParam":
+                        tvShapePara.setText(drugParam.getParamvalue() + "");
+                        break;
+                    case "sendparam":
+                        Toast.makeText(getActivity(), "abc", Toast.LENGTH_SHORT).show();
+                        if (tvColorCoefficient != null)
+                            tvColorCoefficient.setText(drugParam.getParamvalue() + "");
+                        break;
+                }
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initReceiver() {
+        receiverUtil = new ReceiverUtil("com.checkfinsh", getActivity()) {
+            @Override
+            protected void operate(Context context, Intent intent) {
+                DetectionDetail detectionDetail = null;
+                try {
+                    detectionDetail = ypjcActivity.mService.getLastDetail();
+                    setReceivedData(detectionDetail);
+
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                String state = intent.getExtras().getString("state");
+                if (state.equals("process")) {
+
+                } else {
+                    cbFirstCheck.setEnabled(false);
+                    cbFirstCheck.setChecked(false);
+                    cbSecondCheck.setEnabled(true);
+
+                }
+            }
+        };
+        receiverUtil.inRegister();
+    }
+
+    private void setReceivedData(DetectionDetail detectionDetail) {
+        ResultModule resultModule = null;
+        JSONObject value = null;
+        try {
+            jsonObject = new JSONObject(detectionDetail.getNodeInfo());
+            value = jsonObject.getJSONObject("floatdta");
+            tvPiaoFuNum.setText(value.getDouble("data") + "");
+            tvPiaoFuRes.setText(value.getString("result"));
+            value = jsonObject.getJSONObject("glassprecent");
+            tvSuJianRes.setText(value.getString("result"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (detectionDetail.isPositive()) {
+            resultAdapter.addDataToView("阳性");
+        } else {
+            resultAdapter.addDataToView("阴性");
+        }
     }
 
     private void event() {
@@ -153,8 +285,19 @@ public class YpjccFragment extends Fragment {
         tvColorCoefficient = (TextView) view.findViewById(R.id.tvColorCoefficient);
         tvEnName = (TextView) view.findViewById(R.id.tvEnName);
         tvDetectionSn = (TextView) view.findViewById(R.id.tvDetectionSn);
+        cbSecondCheck = (CheckBox) view.findViewById(R.id.cbSecondCheck);
+        cbFirstCheck = (CheckBox) view.findViewById(R.id.cbFirstCheck);
+        cbFirstCheck.setChecked(true);
         tvDetectionNumber = (TextView) view.findViewById(R.id.tvDetectionNumber);
         tvShapePara = (TextView) view.findViewById(R.id.tvShapePara);
+        rvreslut = (RecyclerView) view.findViewById(R.id.rvreslut);
+        tvSuJianPer = (TextView) view.findViewById(R.id.tvSuJianPer);
+        tvSuJianRes = (TextView) view.findViewById(R.id.tvSuJianRes);
+        tvPiaoFuRes = (TextView) view.findViewById(R.id.tvPiaoFuRes);
+        tvPiaoFuNum = (TextView) view.findViewById(R.id.tvPiaoFuNum);
+        rvreslut.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        resultAdapter = new ResultAdapter(new ArrayList<String>(), getActivity());
+        rvreslut.setAdapter(resultAdapter);
     }
 
     @Override
@@ -164,6 +307,7 @@ public class YpjccFragment extends Fragment {
     }
 
     private void setDataToView(DetectionReport report) {
+        cbFirstCheck.setChecked(true);
         tvDrugName.setText(ypjcActivity.drugControl.getDrugName());
         tvEnName.setText(ypjcActivity.drugControl.getEnname());
         tvFactionName.setText(ypjcActivity.drugControl.getDrugFactory());
@@ -190,8 +334,6 @@ public class YpjccFragment extends Fragment {
                     if (tvColorCoefficient != null)
                         tvColorCoefficient.setText(drugParam.getParamvalue() + "");
                     break;
-
-
             }
         }
         ((TextView) getActivity().findViewById(R.id.tvDruginfoId)).setText(report.getDruginfo_id() + "");
@@ -199,6 +341,11 @@ public class YpjccFragment extends Fragment {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        receiverUtil.unRefister();
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -213,5 +360,48 @@ public class YpjccFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHold> {
+        List<String> data;
+        Context context;
+
+        public ResultAdapter(List<String> data, Context context) {
+            this.data = data;
+            this.context = context;
+        }
+
+        public void addDataToView(String content) {
+            data.add(content);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public ViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            return new ViewHold(LayoutInflater.from(getActivity()).inflate(R.layout.result_itmeitme, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHold holder, int position) {
+            holder.num.setText((position + 1) + "");
+            holder.result.setText(data.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        public class ViewHold extends RecyclerView.ViewHolder {
+            TextView num;
+            TextView result;
+
+            public ViewHold(View itemView) {
+                super(itemView);
+                num = (TextView) itemView.findViewById(R.id.num);
+                result = (TextView) itemView.findViewById(R.id.result);
+            }
+        }
     }
 }
