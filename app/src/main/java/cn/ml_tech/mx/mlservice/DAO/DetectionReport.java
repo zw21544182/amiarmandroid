@@ -12,26 +12,26 @@ import java.util.List;
 
 /**
  * CREATE TABLE drugContainer
- * (
- * id integer primary key AUTOINCREMENT   not null,
- * name text not null unique,
- * type  INTEGER not null,
- * specification INTEGER not null,
- * diameter REAL not null,
- * height REAL,
- * trayID INTEGER not null,
- * srcTime REAL not null,
- * stpTime REAL not null,
- * channelValue1 REAL not null,
- * channelValue2 REAL not null,
- * channelValue3 REAL not null,
- * channelValue4 REAL not null,
- * shadeParam REAL not null,
- * rotateSpeed INTEGER NOT NULL DEFAULT 4500,
- * sendParam REAL not null,
- * foreign key (specification) REFERENCES specificationType(id),
- * foreign key (trayID) REFERENCES tray(id)
- * );
+ (
+ id integer primary key AUTOINCREMENT   not null,
+ name text not null unique,
+ type  INTEGER not null,
+ specification INTEGER not null,
+ diameter REAL not null,
+ height REAL,
+ trayID INTEGER not null,
+ srcTime REAL not null,
+ stpTime REAL not null,
+ channelValue1 REAL not null,
+ channelValue2 REAL not null,
+ channelValue3 REAL not null,
+ channelValue4 REAL not null,
+ shadeParam REAL not null,
+ rotateSpeed INTEGER NOT NULL DEFAULT 4500,
+ sendParam REAL not null,
+ foreign key (specification) REFERENCES specificationType(id),
+ foreign key (trayID) REFERENCES tray(id)
+ );
  */
 /*
 *
@@ -55,31 +55,31 @@ import java.util.List;
 */
 
 public class DetectionReport extends DataSupport implements Parcelable {
-    @Column(unique = true, nullable = false)
-    private long id;
+    @Column(unique = true,nullable = false)
+    private  long id;
     @Column(nullable = false)
     private long user_id;
     @Column(nullable = false)
     private long druginfo_id;
     @Column(nullable = false)
     private String detectionSn;
-    @Column(nullable = false)
+    @Column( nullable = false)
     private String detectionNumber;
     @Column(nullable = false)
-    private String detectionBatch;
+    private  String detectionBatch;
+    @Column( nullable = false)
+    private  int detectionCount;
     @Column(nullable = false)
-    private int detectionCount;
+    private  int detectionFirstCount;
+    @Column( nullable = false)
+    private  int detectionSecondCount;
     @Column(nullable = false)
-    private int detectionFirstCount;
-    @Column(nullable = false)
-    private int detectionSecondCount;
-    @Column(nullable = false)
-    private Date date;
-    @Column(nullable = false, defaultValue = "false")
+    private  Date date;
+    @Column( nullable = false,defaultValue = "false")
     private boolean deprecate;
-    @Column(nullable = false, defaultValue = "false")
+    @Column( nullable = false,defaultValue = "false")
     private boolean ispdfdown;
-    private List<DetectionDetail> listDetail = new ArrayList<DetectionDetail>();
+    private List<DetectionDetail>listDetail=new ArrayList<DetectionDetail>();
     protected String drugName;
     protected String factoryName;
     protected String userName;
@@ -212,6 +212,7 @@ public class DetectionReport extends DataSupport implements Parcelable {
         this.userName = userName;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -231,7 +232,7 @@ public class DetectionReport extends DataSupport implements Parcelable {
         dest.writeLong(this.date != null ? this.date.getTime() : -1);
         dest.writeByte(this.deprecate ? (byte) 1 : (byte) 0);
         dest.writeByte(this.ispdfdown ? (byte) 1 : (byte) 0);
-        dest.writeList(this.listDetail);
+        dest.writeTypedList(this.listDetail);
         dest.writeString(this.drugName);
         dest.writeString(this.factoryName);
         dest.writeString(this.userName);
@@ -254,8 +255,7 @@ public class DetectionReport extends DataSupport implements Parcelable {
         this.date = tmpDate == -1 ? null : new Date(tmpDate);
         this.deprecate = in.readByte() != 0;
         this.ispdfdown = in.readByte() != 0;
-        this.listDetail = new ArrayList<DetectionDetail>();
-        in.readList(this.listDetail, DetectionDetail.class.getClassLoader());
+        this.listDetail = in.createTypedArrayList(DetectionDetail.CREATOR);
         this.drugName = in.readString();
         this.factoryName = in.readString();
         this.userName = in.readString();

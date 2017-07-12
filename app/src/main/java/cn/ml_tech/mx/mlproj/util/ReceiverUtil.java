@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -27,7 +28,8 @@ public abstract class ReceiverUtil {
     }
 
     public void unRefister() {
-        context.unregisterReceiver(receiver);
+        if (receiver != null)
+            context.unregisterReceiver(receiver);
     }
 
     public void inRegister() {
@@ -43,10 +45,14 @@ public abstract class ReceiverUtil {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("zw", "onReceive");
-            operate(context, intent);
+            try {
+                operate(context, intent);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
 
         }
     }
 
-    protected abstract void operate(Context context, Intent intent);
+    protected abstract void operate(Context context, Intent intent) throws RemoteException;
 }

@@ -7,9 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +20,7 @@ import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
  */
 
 public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implements View.OnClickListener {
-    private List<DetectionReport>detectionReportList=new ArrayList<DetectionReport>();
+    private List<DetectionReport> detectionReportList = new ArrayList<DetectionReport>();
     private Context mContext;
 
     public AdapterReport(List<DetectionReport> detectionReportList, Context mContext) {
@@ -31,30 +28,35 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
         this.mContext = mContext;
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void OnItemClick(View view, int position);
+    }
+
+    public void addDataToView(List<DetectionReport> list) {
+        detectionReportList.clear();
+        detectionReportList.addAll(list);
+        notifyDataSetChanged();
     }
 
     public void setmItemClickListener(OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 
-    OnItemClickListener mItemClickListener=null;
+    OnItemClickListener mItemClickListener = null;
 
     @Override
     public void onClick(View v) {
-        if(null!=mItemClickListener)
-        {
+        if (null != mItemClickListener) {
             mItemClickListener.OnItemClick(v, (Integer) v.getTag());
         }
     }
+
     @Override
     public ViewHolderReport onCreateViewHolder(ViewGroup viewGroup, int i) {
-       View view= LayoutInflater.from(this.mContext).inflate(R.layout.recylereport,viewGroup,false);
-        ViewHolderReport viewHolderReport=new ViewHolderReport(view);
+        View view = LayoutInflater.from(this.mContext).inflate(R.layout.recylereport, viewGroup, false);
+        ViewHolderReport viewHolderReport = new ViewHolderReport(view);
         viewHolderReport.chkBox.setChecked(false);
-        if(null!=mItemClickListener)
-        {
+        if (null != mItemClickListener) {
             viewHolderReport.txtPDF.setOnClickListener(this);
             viewHolderReport.txtDetDetail.setOnClickListener(this);
             viewHolderReport.txtDetDel.setOnClickListener(this);
@@ -64,21 +66,19 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
 
     @Override
     public void onBindViewHolder(ViewHolderReport viewHolder, int i) {
-           viewHolder.txtDetSn.setText(detectionReportList.get(i).getDetectionSn());
-           viewHolder.txtDetBatch.setText(detectionReportList.get(i).getDetectionBatch());
-           viewHolder.txtDetCode.setText(detectionReportList.get(i).getDetectionNumber());
-           viewHolder.txtDrugName.setText(detectionReportList.get(i).getDrugName());
-           viewHolder.txtFactory.setText(detectionReportList.get(i).getFactoryName());
-           viewHolder.txtFirstCount.setText(String.valueOf(detectionReportList.get(i).getDetectionFirstCount()));
-           viewHolder.txtSecondCount.setText(String.valueOf(detectionReportList.get(i).getDetectionSecondCount()));
-           viewHolder.txtDetDate.setText((new SimpleDateFormat("yyyy-MM-dd")).format(detectionReportList.get(i).getDate()));
-           viewHolder.txtDetOperator.setText(detectionReportList.get(i).getUserName());
-
+        viewHolder.txtDetSn.setText(detectionReportList.get(i).getDetectionSn());
+        viewHolder.txtDetBatch.setText(detectionReportList.get(i).getDetectionBatch());
+        viewHolder.txtDetCode.setText(detectionReportList.get(i).getDetectionNumber());
+        viewHolder.txtDrugName.setText(detectionReportList.get(i).getDrugName());
+        viewHolder.txtFactory.setText(detectionReportList.get(i).getFactoryName());
+        viewHolder.txtFirstCount.setText(String.valueOf(detectionReportList.get(i).getDetectionFirstCount()));
+        viewHolder.txtSecondCount.setText(String.valueOf(detectionReportList.get(i).getDetectionSecondCount()));
+        viewHolder.txtDetDate.setText((new SimpleDateFormat("yyyy-MM-dd")).format(detectionReportList.get(i).getDate()));
+        viewHolder.txtDetOperator.setText(detectionReportList.get(i).getUserName());
         viewHolder.txtPDF.setText("PDF");
-
-            viewHolder.txtPDF.setBackgroundColor(Color.RED);
-           viewHolder.txtDetDetail.setText("详情");
-           viewHolder.txtDetDel.setText("删除");
+        viewHolder.txtPDF.setBackgroundColor(Color.RED);
+        viewHolder.txtDetDetail.setText("详情");
+        viewHolder.txtDetDel.setText("删除");
         viewHolder.txtPDF.setTag(i);
         viewHolder.txtDetDetail.setTag(i);
         viewHolder.txtDetDel.setTag(i);
@@ -86,7 +86,7 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
 
     @Override
     public int getItemCount() {
-        Log.d(getClass().getSimpleName(), "getItemCount: "+String.valueOf(detectionReportList.size()));
+        Log.d(getClass().getSimpleName(), "getItemCount: " + String.valueOf(detectionReportList.size()));
         return detectionReportList.size();
     }
 }

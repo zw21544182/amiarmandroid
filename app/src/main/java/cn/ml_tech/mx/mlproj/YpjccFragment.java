@@ -68,6 +68,7 @@ public class YpjccFragment extends Fragment {
     private CheckBox cbFirstCheck, cbSecondCheck;
     private String state = "";
     private String detectionSn = "";
+    private DetectionReport report;
 
     public void setState(String state) {
         this.state = state;
@@ -86,11 +87,13 @@ public class YpjccFragment extends Fragment {
                         Toast.makeText(getActivity(), "旋转次数为空", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     try {
                         if (state.equals("")) {
                             ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate), ypjcActivity.detectionReport.getDetectionNumber(), ypjcActivity.detectionReport.getDetectionBatch(), cbFirstCheck.isChecked(), "");
                         } else {
-                            ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate), ypjcActivity.detectionReport.getDetectionNumber(), ypjcActivity.detectionReport.getDetectionBatch(), cbFirstCheck.isChecked(), detectionSn);
+                            Log.d("zw", detectionSn + "detectionSn");
+                            ypjcActivity.mService.startCheck((int) report.getDruginfo_id(), report.getDetectionCount(), Integer.parseInt(rotate), report.getDetectionNumber(), report.getDetectionBatch(), cbFirstCheck.isChecked(), detectionSn);
                         }
                     } catch (RemoteException e) {
                         e.printStackTrace();
@@ -108,7 +111,6 @@ public class YpjccFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +119,6 @@ public class YpjccFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,14 +126,11 @@ public class YpjccFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_ypjcc, container, false);
         return view;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -143,7 +141,6 @@ public class YpjccFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -152,17 +149,16 @@ public class YpjccFragment extends Fragment {
         if (state.equals("")) {
             setDataToView(ypjcActivity.detectionReport);
         } else {
-            DetectionReport detectionReport = null;
+            report = null;
             try {
-                detectionReport = ypjcActivity.mService.getLastReport();
+                report = ypjcActivity.mService.getLastReport();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            setPreDataToView(detectionReport);
+            setPreDataToView(report);
         }
         initReceiver();
     }
-
     private void setPreDataToView(DetectionReport report) {
         detectionSn = report.getDetectionSn();
         ((TextView) getActivity().findViewById(R.id.tvDruginfoId)).setText(report.getDruginfo_id() + "");
@@ -184,7 +180,6 @@ public class YpjccFragment extends Fragment {
                     resultAdapter.addDataToView("阳性");
                 } else {
                     resultAdapter.addDataToView("阴性");
-
                 }
             }
             tvDrugName.setText(drugControls.getDrugName());
@@ -228,11 +223,17 @@ public class YpjccFragment extends Fragment {
                 String state = intent.getExtras().getString("state");
                 if (state.equals("process")) {
 
-                } else {
+                } else if (state.equals("finish")) {
                     cbFirstCheck.setEnabled(false);
                     cbFirstCheck.setChecked(false);
                     cbSecondCheck.setEnabled(true);
-
+                } else if (state.equals("secondfinish")) {
+                    btStartCheck.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getActivity(), "已完成复检", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         };

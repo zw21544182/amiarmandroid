@@ -27,7 +27,6 @@ public class AmiApp extends Application {
     public static Context getInstance() {
         return context;
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,7 +39,6 @@ public class AmiApp extends Application {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mMLService = IMlService.Stub.asInterface(service);
-                Log.d("zw", "sssss");
             }
 
             @Override

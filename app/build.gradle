@@ -48,4 +48,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'org.litepal.android:core:1.5.1'
     compile project(':Three_levels')
+    compile files('libs/iTextpdf.jar')
 }
