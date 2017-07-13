@@ -80,6 +80,7 @@
         android:text="速降物时间比例(%)" />
 
     <TextView
+        android:id="@+id/tvsuJianTime"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
@@ -97,15 +98,16 @@
         android:text="40-50um异物检出率(%)" />
 
     <TextView
+        android:id="@+id/tvCheck40"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_columnSpan="1"
-
         android:layout_rowSpan="1"
         android:text="0" />
 
     <TextView
+        android:id="@+id/tvCheckRes"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_columnSpan="1"
@@ -123,11 +125,11 @@
         android:text="50-60um异物检出率(%)" />
 
     <TextView
+        android:id="@+id/tvCheck50"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_columnSpan="1"
-
         android:layout_rowSpan="1"
         android:text="0" />
 
@@ -140,11 +142,11 @@
         android:text="60-70um异物检出率(%)" />
 
     <TextView
+        android:id="@+id/tvCheck60"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_columnSpan="1"
-
         android:layout_rowSpan="1"
         android:text="0" />
 
@@ -157,11 +159,11 @@
         android:text="70um以上异物检出率(%)" />
 
     <TextView
+        android:id="@+id/tvCheck70"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_columnSpan="1"
-
         android:layout_rowSpan="1"
         android:text="0" />
 
@@ -174,15 +176,16 @@
         android:text="40-50um异物检出数(颗)" />
 
     <TextView
+        android:id="@+id/tvCheckNum40"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_columnSpan="1"
-
         android:layout_rowSpan="1"
         android:text="0" />
 
     <TextView
+        android:id="@+id/tvMinNumRes"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_columnSpan="1"
@@ -200,11 +203,11 @@
         android:text="50-70um" />
 
     <TextView
+        android:id="@+id/tvCheckNum50"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_columnSpan="1"
-
         android:layout_rowSpan="1"
         android:text="0" />
 
@@ -217,15 +220,16 @@
         android:text="70um以上异物检出数(颗)X" />
 
     <TextView
+        android:id="@+id/tvCheckNum70"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_columnSpan="1"
-
         android:layout_rowSpan="1"
         android:text="0" />
 
     <TextView
+        android:id="@+id/tvMaxCheckRes"
         style="@style/GrideItme"
         android:layout_width="50dp"
         android:layout_columnSpan="1"

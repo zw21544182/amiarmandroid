@@ -87,7 +87,6 @@ public class YpjccFragment extends Fragment {
                         Toast.makeText(getActivity(), "旋转次数为空", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     try {
                         if (state.equals("")) {
                             ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate), ypjcActivity.detectionReport.getDetectionNumber(), ypjcActivity.detectionReport.getDetectionBatch(), cbFirstCheck.isChecked(), "");
@@ -165,7 +164,7 @@ public class YpjccFragment extends Fragment {
         ((TextView) getActivity().findViewById(R.id.tvDetectionCount)).setText(report.getDetectionCount() + "");
         try {
             Log.d("zw", "normal" + report.getDetectionCount() + " first" + report.getDetectionFirstCount());
-            if (report.getDetectionFirstCount() == report.getDetectionCount() && report.getDetectionSecondCount() == 0) {
+            if (report.getDetectionFirstCount() == report.getDetectionCount()) {
                 cbFirstCheck.setChecked(false);
                 cbFirstCheck.setEnabled(false);
                 cbSecondCheck.setEnabled(true);

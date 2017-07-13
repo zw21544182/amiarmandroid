@@ -11,6 +11,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.ml_tech.mx.mlproj.R;
 
@@ -24,6 +28,27 @@ public class AmiDialog extends Dialog implements View.OnClickListener {
     private Context context;      // 上下文
     private int layoutResID;      // 布局文件id
     private int[] listenedItems;
+    private JSONObject jsonObject;
+    private TextView tvPiaoFuNum;
+    private TextView tvPiaoFuRes;
+    private TextView tvSuJianPer;
+    private TextView tvSuJianRes;
+    private TextView tvsuJianTime;
+    private TextView tvCheck40;
+    private TextView tvCheckRes;
+    private TextView tvCheck50;
+    private TextView tvCheck60;
+    private TextView tvCheck70;
+    private TextView tvCheckNum40;
+    private TextView tvMinNumRes;
+    private TextView tvCheckNum50;
+    private TextView tvCheckNum70;
+    private TextView tvMaxCheckRes;
+
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
 
     public AmiDialog(@NonNull Context context) {
         super(context, R.style.dialog_node);
@@ -58,6 +83,39 @@ public class AmiDialog extends Dialog implements View.OnClickListener {
         for (int id : listenedItems) {
             findViewById(id).setOnClickListener(this);
         }
+        initView();
+        setDataToView();
+    }
+
+    /**
+     *
+     */
+    private void setDataToView() {
+        try {
+            JSONObject floatdata = jsonObject.getJSONObject("floatdta");
+            tvPiaoFuNum.setText(floatdata.getDouble("data") + "");
+            tvPiaoFuRes.setText(floatdata.getString("result"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initView() {
+        tvPiaoFuNum = (TextView) findViewById(R.id.tvPiaoFuNum);
+        tvPiaoFuRes = (TextView) findViewById(R.id.tvPiaoFuRes);
+        tvSuJianPer = (TextView) findViewById(R.id.tvSuJianPer);
+        tvSuJianRes = (TextView) findViewById(R.id.tvSuJianRes);
+        tvsuJianTime = (TextView) findViewById(R.id.tvsuJianTime);
+        tvCheck40 = (TextView) findViewById(R.id.tvCheck40);
+        tvCheckRes = (TextView) findViewById(R.id.tvCheckRes);
+        tvCheck50 = (TextView) findViewById(R.id.tvCheck50);
+        tvCheck60 = (TextView) findViewById(R.id.tvCheck60);
+        tvCheck70 = (TextView) findViewById(R.id.tvCheck70);
+        tvCheckNum40 = (TextView) findViewById(R.id.tvCheckNum40);
+        tvMinNumRes = (TextView) findViewById(R.id.tvMinNumRes);
+        tvCheckNum50 = (TextView) findViewById(R.id.tvCheckNum50);
+        tvCheckNum70 = (TextView) findViewById(R.id.tvCheckNum70);
+        tvMaxCheckRes = (TextView) findViewById(R.id.tvMaxCheckRes);
     }
 
     private OnCenterItemClickListener listener;

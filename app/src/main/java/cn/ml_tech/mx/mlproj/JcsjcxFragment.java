@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -19,18 +21,25 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.util.Date;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.ml_tech.mx.mlproj.DetReport.AdapterDetail;
 import cn.ml_tech.mx.mlproj.DetReport.AdapterReport;
 import cn.ml_tech.mx.mlproj.Dialog.AmiDialog;
+import cn.ml_tech.mx.mlproj.util.PdfUtil;
 import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
+import cn.ml_tech.mx.mlservice.DAO.DevUuid;
+import cn.ml_tech.mx.mlservice.DrugControls;
 import cn.ml_tech.mx.mlservice.IMlService;
+
 
 public class JcsjcxFragment extends BaseFragment {
     private RecyclerView recyclerReport;
@@ -61,7 +70,21 @@ public class JcsjcxFragment extends BaseFragment {
     private EditText etStopDate;
     private Button btSearch;
     private Button btResver;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case PdfUtil.SUCESS:
+                    Toast.makeText(getActivity(), "导出pdf成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case PdfUtil.FAILURE:
+                    Toast.makeText(getActivity(), "导出pdf失败", Toast.LENGTH_SHORT).show();
 
+                    break;
+            }
+        }
+    };
 
     public boolean isReportLayout() {
         return isReportLayout;
@@ -140,7 +163,7 @@ public class JcsjcxFragment extends BaseFragment {
                         int i = (int) view.getTag();
                         try {
                             List<DetectionDetail> detectionDetails = mActivity.mService.queryDetectionDetailByReportId(detectionReports.get(i).getId());
-                            Toast.makeText(getActivity(), detectionDetails.size() + "ss", Toast.LENGTH_SHORT).show();
+                            outPutPdf(detectionDetails, detectionReports.get(i));
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
@@ -157,6 +180,16 @@ public class JcsjcxFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void outPutPdf(List<DetectionDetail> detectionDetails, DetectionReport detectionReport) {
+        try {
+            DevUuid devUuid = mService.getDevUuidInfo();
+            DrugControls drugControls = mService.queryDrugControlsById(detectionReport.getDruginfo_id());
+            new PdfUtil(getActivity(), devUuid, handler, drugControls, detectionReport, detectionDetails).createPdf();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void ShowDetailInfo(@Nullable String id) {
@@ -202,6 +235,11 @@ public class JcsjcxFragment extends BaseFragment {
                         break;
                     case R.id.txtDetailAllResult:
                         amiDialog = new AmiDialog(getActivity(), R.layout.dialog_node, new int[]{R.id.nodelayout});
+                        try {
+                            amiDialog.setJsonObject(new JSONObject(detectionDetailList.get(position).getNodeInfo()));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         amiDialog.setOnCenterItemClickListener(new AmiDialog.OnCenterItemClickListener() {
                             @Override
                             public void OnCenterItemClick(AmiDialog dialog, View view) {

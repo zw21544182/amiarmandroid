@@ -142,6 +142,7 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
         }
         bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
         headFragment = (HeadFragment) switchTopFragment(HeadFragment.class.getSimpleName());
+        Log.d("zw", "oncreate");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -201,7 +202,7 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
                 }
             }
         }.start();
-
+        Log.d("zw", "onstart");
     }
 
     @Override
@@ -347,7 +348,6 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
     }
 
     private class MyReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             String info = intent.getExtras().getString("info");
