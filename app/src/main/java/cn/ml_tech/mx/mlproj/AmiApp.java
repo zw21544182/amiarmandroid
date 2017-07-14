@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.util.Log;
 
 import cn.ml_tech.mx.mlservice.IMlService;
 
@@ -31,16 +30,15 @@ public class AmiApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("Debug", "onCreate: ");
+
         context = this;
         Intent intent = new Intent();
         intent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
         intent.setPackage("cn.ml_tech.mx.mlservice");
-        getApplicationContext().bindService(intent, new ServiceConnection() {
+        bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mMLService = IMlService.Stub.asInterface(service);
-                Log.d("zw", "onServiceConnected");
             }
 
             @Override

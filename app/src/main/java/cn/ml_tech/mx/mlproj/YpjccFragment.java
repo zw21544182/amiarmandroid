@@ -56,7 +56,7 @@ public class YpjccFragment extends Fragment {
     private View view;
     private LinearLayout ltDrugPara;
     private CheckBox cbShowDrugParam;
-    private TextView tvDrugName, tvFactionName, tvDetectionBatch, tvColorCoefficient, tvEnName, tvDetectionSn, tvDetectionNumber, tvShapePara;
+    private TextView tvDrugBottleType, tvDrugName, tvFactionName, tvDetectionBatch, tvColorCoefficient, tvEnName, tvDetectionSn, tvDetectionNumber, tvShapePara;
     private List<DrugParam> drugParamList = null;
     private Button btStartCheck;
     private EditText etRotateNum;
@@ -91,6 +91,9 @@ public class YpjccFragment extends Fragment {
                         if (state.equals("")) {
                             ypjcActivity.mService.startCheck(ypjcActivity.druginfo_id, ypjcActivity.detectionReport.getDetectionCount(), Integer.parseInt(rotate), ypjcActivity.detectionReport.getDetectionNumber(), ypjcActivity.detectionReport.getDetectionBatch(), cbFirstCheck.isChecked(), "");
                         } else {
+                            if (report.getDetectionSecondCount() == report.getDetectionCount()) {
+                                Toast.makeText(getActivity(), "已完成复检", Toast.LENGTH_SHORT).show();
+                            }
                             Log.d("zw", detectionSn + "detectionSn");
                             ypjcActivity.mService.startCheck((int) report.getDruginfo_id(), report.getDetectionCount(), Integer.parseInt(rotate), report.getDetectionNumber(), report.getDetectionBatch(), cbFirstCheck.isChecked(), detectionSn);
                         }
@@ -110,6 +113,7 @@ public class YpjccFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +122,7 @@ public class YpjccFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,11 +130,13 @@ public class YpjccFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_ypjcc, container, false);
         return view;
     }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -140,6 +147,7 @@ public class YpjccFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -158,6 +166,7 @@ public class YpjccFragment extends Fragment {
         }
         initReceiver();
     }
+
     private void setPreDataToView(DetectionReport report) {
         detectionSn = report.getDetectionSn();
         ((TextView) getActivity().findViewById(R.id.tvDruginfoId)).setText(report.getDruginfo_id() + "");
@@ -168,6 +177,7 @@ public class YpjccFragment extends Fragment {
                 cbFirstCheck.setChecked(false);
                 cbFirstCheck.setEnabled(false);
                 cbSecondCheck.setEnabled(true);
+                cbSecondCheck.setChecked(true);
             } else if (report.getDetectionFirstCount() < report.getDetectionCount()) {
                 cbFirstCheck.setChecked(true);
             }
@@ -187,6 +197,7 @@ public class YpjccFragment extends Fragment {
             tvDetectionBatch.setText(report.getDetectionBatch());
             tvDetectionNumber.setText(report.getDetectionNumber());
             tvDetectionSn.setText(report.getDetectionSn());
+            tvDrugBottleType.setText(report.getDrugBottleType());
             drugParamList = ypjcActivity.mService.getDrugParamById((int) report.getDruginfo_id());
             for (DrugParam drugParam : drugParamList
                     ) {
@@ -226,6 +237,7 @@ public class YpjccFragment extends Fragment {
                     cbFirstCheck.setEnabled(false);
                     cbFirstCheck.setChecked(false);
                     cbSecondCheck.setEnabled(true);
+                    cbSecondCheck.setChecked(true);
                 } else if (state.equals("secondfinish")) {
                     btStartCheck.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -275,6 +287,7 @@ public class YpjccFragment extends Fragment {
 
     private void initView() {
         ypjcActivity = (YpjcActivity) getActivity();
+        tvDrugBottleType = (TextView) view.findViewById(R.id.tvDrugBottleType);
         etRotateNum = (EditText) view.findViewById(R.id.etRotateNum);
         btStartCheck = (Button) view.findViewById(R.id.btStartCheck);
         ltDrugPara = (LinearLayout) view.findViewById(R.id.ltDrugPara);
@@ -313,6 +326,7 @@ public class YpjccFragment extends Fragment {
         tvFactionName.setText(ypjcActivity.drugControl.getDrugFactory());
         tvDetectionBatch.setText(ypjcActivity.detectionReport.getDetectionBatch());
         tvDetectionNumber.setText(ypjcActivity.detectionReport.getDetectionNumber());
+        tvDrugBottleType.setText(ypjcActivity.drugControl.getDrugBottleType());
         try {
             tvDetectionSn.setText(ypjcActivity.mService.getDetectionSn());
         } catch (RemoteException e) {

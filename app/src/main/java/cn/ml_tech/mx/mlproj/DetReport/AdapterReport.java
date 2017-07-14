@@ -28,6 +28,13 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
         this.mContext = mContext;
     }
 
+    public void setDataToView(List<DetectionReport> detectionReports) {
+        detectionReportList.clear();
+        ;
+        detectionReportList.addAll(detectionReports);
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
         void OnItemClick(View view, int position);
     }
@@ -71,6 +78,7 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
         viewHolder.txtDetCode.setText(detectionReportList.get(i).getDetectionNumber());
         viewHolder.txtDrugName.setText(detectionReportList.get(i).getDrugName());
         viewHolder.txtFactory.setText(detectionReportList.get(i).getFactoryName());
+        viewHolder.txtBottleType.setText(detectionReportList.get(i).getDrugBottleType());
         viewHolder.txtFirstCount.setText(String.valueOf(detectionReportList.get(i).getDetectionFirstCount()));
         viewHolder.txtSecondCount.setText(String.valueOf(detectionReportList.get(i).getDetectionSecondCount()));
         viewHolder.txtDetDate.setText((new SimpleDateFormat("yyyy-MM-dd")).format(detectionReportList.get(i).getDate()));
@@ -88,5 +96,10 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
     public int getItemCount() {
         Log.d(getClass().getSimpleName(), "getItemCount: " + String.valueOf(detectionReportList.size()));
         return detectionReportList.size();
+    }
+
+    public void deteleteItemByPos(int pos) {
+        detectionReportList.remove(pos);
+        notifyDataSetChanged();
     }
 }

@@ -4,8 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_factory_layout"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="1dp">
+
+    <include
+        layout="@layout/detailtopitme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerDetail"

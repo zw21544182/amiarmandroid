@@ -34,9 +34,9 @@
                     android:layout_gravity="center_vertical"
                     android:text="检测规格" />
 
-                <EditText
+                <Spinner
                     android:id="@+id/etCheckFormat"
-                    style="@style/EditTextStyle"
+                    style="@style/SpinnerStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="精确匹配药品规格" />
@@ -197,17 +197,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="1dp"
         android:background="@drawable/bg_factory_layout"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="1dp">
 
-        <include layout="@layout/reporttopitme"/>
+        <include layout="@layout/reporttopitme" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerReport"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_recyclerview"></android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerReport"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_recyclerview"></android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 </LinearLayout>

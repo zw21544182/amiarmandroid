@@ -107,7 +107,18 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("zw", "oncreate");
+        amiApp = (AmiApp) getApplication();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                while (mService == null) {
+                    mService = amiApp.getmMLService();
+                }
+                Log.d("zw", "getservice");
+            }
+        }.start();
+        Log.d("zw", "sonstart");
         app = (AmiApp) getApplication();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -192,17 +203,7 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
     @Override
     protected void onStart() {
         super.onStart();
-        amiApp = (AmiApp) getApplication();
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                while (mService == null) {
-                    mService = amiApp.getmMLService();
-                }
-            }
-        }.start();
-        Log.d("zw", "onstart");
+
     }
 
     @Override

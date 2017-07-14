@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import cn.ml_tech.mx.mlproj.R;
@@ -48,6 +49,7 @@ import cn.ml_tech.mx.mlservice.DrugControls;
 public class PdfUtil {
     public static final int SUCESS = 88;//成功时handler输出的what
     public static final int FAILURE = 99;//异常时handler输出的what
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private Activity activity;
     private Document document;
     private Font yaHeiFont;
@@ -316,13 +318,13 @@ public class PdfUtil {
                 pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("max").getDouble("data") + "颗", yaHeiFont));
                 pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("supers").getString("name"), yaHeiFont));
+                pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("super").getString("name"), yaHeiFont));
                 pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("supers").getDouble("data") + "颗", yaHeiFont));
+                pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("super").getDouble("data") + "颗", yaHeiFont));
                 pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("supers").getString("result"), yaHeiFont));
+                pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("super").getString("result"), yaHeiFont));
                 pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
                 document.add(pdfPTable);
@@ -401,11 +403,13 @@ public class PdfUtil {
             table.addCell(c1);
             if (i < b) {
                 if (negList.get(i).isPositive()) {
-                    yaHeiFont.setColor(BaseColor.RED);
                     c1 = new PdfPCell(new Phrase("阳性 ×", yaHeiFont));
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    c1.setBackgroundColor(BaseColor.RED);
                     table.addCell(c1);
-                    yaHeiFont.setColor(BaseColor.BLACK);
+                    c1.setBackgroundColor(BaseColor.BLACK);
+
+
                 } else {
                     c1 = new PdfPCell(new Phrase("阴性 √", yaHeiFont));
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -436,7 +440,7 @@ public class PdfUtil {
         orderedList.add(new ListItem("药品规格 " + drugControls.getDrugBottleType(), yaHeiFont));
         orderedList.add(new ListItem("药品厂家 " + report.getFactoryName(), yaHeiFont));
         orderedList.add(new ListItem("检测人员 " + report.getUserName(), yaHeiFont));
-        orderedList.add(new ListItem("检测日期 " + report.getDate(), yaHeiFont));
+        orderedList.add(new ListItem("检测日期 " + dateFormat.format(report.getDate()), yaHeiFont));
 
         try {
             document.add(orderedList);

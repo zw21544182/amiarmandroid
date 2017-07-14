@@ -20,7 +20,7 @@
                 android:id="@+id/chkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 />
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 
@@ -73,8 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:gravity="center"
-            android:text="@string/DetCode">
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/txtDrugName"
@@ -102,6 +101,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="批号" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorheadLine"></View>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/txtBottleType"
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="药品规格" />
 
         </LinearLayout>
 
@@ -268,6 +287,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorheadLine" />
+        android:background="@color/colorBlack" />
 
 </LinearLayout>

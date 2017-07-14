@@ -5,10 +5,13 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import cn.ml_tech.mx.mlservice.IMlService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +22,8 @@ public abstract class BaseFragment extends Fragment {
     public BaseActivity mActivity;
     public View view;
     public Context ct;
+    public AmiApp amiApp;
+    public IMlService mService;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -44,6 +49,10 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     public View getRootView() {
         return view;
