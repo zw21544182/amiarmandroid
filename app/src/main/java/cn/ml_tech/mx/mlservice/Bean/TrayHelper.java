@@ -1,6 +1,5 @@
 package cn.ml_tech.mx.mlservice.Bean;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.RemoteException;
 import android.text.TextUtils;
@@ -12,7 +11,6 @@ import cn.ml_tech.mx.mlservice.IMlService;
 /**
  * Created by ml on 2017/6/6.
  */
-
 public class TrayHelper {
     private static final String TAG ="TrayHelp" ;
     Tray tray;

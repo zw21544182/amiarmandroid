@@ -51,6 +51,8 @@ public class XtwhFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initFragment();
+        changeTab(0);
+
 //        initChildFragments();
         getActivity().findViewById(R.id.bt_back).setOnClickListener((View.OnClickListener) getActivity());
         ((RadioGroup) getActivity().findViewById(R.id.rootgroup)).setOnCheckedChangeListener((RadioGroup.OnCheckedChangeListener) getActivity());

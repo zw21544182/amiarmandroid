@@ -13,7 +13,7 @@ import java.util.List;
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
-import cn.ml_tech.mx.mlservice.Bean.User;
+import cn.ml_tech.mx.mlservice.DAO.User;
 
 /**
  * 创建时间: 2017/6/30

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import cn.ml_tech.mx.mlservice.Bean.User;
+import cn.ml_tech.mx.mlservice.DAO.User;
 
 public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener, OptionFragment.OnFragmentInteractionListener,
         BottomFragment.OnFragmentInteractionListener {
@@ -26,8 +26,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         super.onCreate(savedInstanceState);
         LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
-
-
     }
 
     @Override
@@ -39,7 +37,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         *create at  2017/4/27 14:42
         * the function maybe not use
         */
-
         if (loginFragment != null && loginFragment.getView() != null) {
             LogDebug(" on start loginfragment is not null");
             chkRember = (CheckBox) loginFragment.getView().findViewById(R.id.checkBoxRember);
@@ -106,10 +103,8 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
         View btn = this.findViewById(R.id.btLogin);
         if (btn != null) {
             btn.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
-
                     try {
                         List<User> list = mService.getUserList();
                         LogDebug(String.valueOf(list.size()));

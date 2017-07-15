@@ -24,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -75,6 +76,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     private EditText etStopDate;
     private Button btSearch;
     private Button btResver;
+    private int cuurentPage = 1, lastPage;
 
     private Handler handler = new Handler() {
         @Override
@@ -141,76 +143,22 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         setDateToEdit(startDate);
         btResver.setOnClickListener(this);
         btSearch.setOnClickListener(this);
-
+        view.findViewById(R.id.ibPre).setOnClickListener(this);
+        view.findViewById(R.id.ibNext).setOnClickListener(this);
+        view.findViewById(R.id.ibSearch).setOnClickListener(this);
 
     }
 
     private void initRecycleReport() {
         detectionReports = new ArrayList<DetectionReport>();
-        Log.d("zw", "initRecycleReport");
         try {
             if (mService != null) {
-                Log.d("zw", "mService != null");
                 detectionReports = mService.getAllDetectionReports();
             }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        adapterReport = new AdapterReport(detectionReports, mActivity);
-        if (recyclerReport != null) {
-            recyclerReport.setAdapter(adapterReport);
-        }
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerReport.setLayoutManager(linearLayoutManager);
-        adapterReport.setmItemClickListener(new AdapterReport.OnItemClickListener() {
-            @Override
-            public void OnItemClick(final View view, int position) {
-                switch (view.getId()) {
-                    case R.id.txtPDF:
-                        int i = (int) view.getTag();
-                        try {
-                            List<DetectionDetail> detectionDetails = mActivity.mService.queryDetectionDetailByReportId(detectionReports.get(i).getId());
-                            outPutPdf(detectionDetails, detectionReports.get(i));
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case R.id.txtDetDetail:
-                        ShowDetailInfo(String.valueOf(position));
-                        Toast.makeText(mActivity, String.format("txtDetDetail%d ", (int) view.getTag()), Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.txtDetDel:
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                                .setTitle("是否删除这条数据")
-                                .setPositiveButton("删除", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        try {
-                                            int s = (int) view.getTag();
-                                            mActivity.mService.deteleDetectionInfoById(detectionReports.get(s).getId());
-                                            adapterReport.deteleteItemByPos(s);
-                                        } catch (RemoteException e) {
-                                            e.printStackTrace();
-                                            Toast.makeText(getActivity(), "删除失败，请重试", Toast.LENGTH_SHORT).show();
-                                        }
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        builder.create().show();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+        setDataToView(detectionReports, true);
     }
 
     private void outPutPdf(List<DetectionDetail> detectionDetails, DetectionReport detectionReport) {
@@ -399,6 +347,119 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     }
 
+    public void setPreDataToView() throws RemoteException {
+        if (cuurentPage == 1) {
+            Toast.makeText(getActivity(), "已经是第一页了", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cuurentPage--;
+        adapterReport.setDataToView(mService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
+                etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
+                etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
+                etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), cuurentPage));
+        ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+    }
+
+    public void setNexTDataToView() throws RemoteException {
+        if (cuurentPage == lastPage) {
+            Toast.makeText(getActivity(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cuurentPage++;
+        adapterReport.setDataToView(mService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
+                etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
+                etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
+                etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), cuurentPage));
+        ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+    }
+
+    public void setSearchDataToView() throws RemoteException {
+        String content = ((EditText) getActivity().findViewById(R.id.etPage)).getEditableText().toString();
+        if (content.trim().equals("")) {
+            Toast.makeText(getActivity(), "请输入页码再进行查询", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cuurentPage = Integer.parseInt(content);
+        if (cuurentPage > lastPage) {
+            Toast.makeText(getActivity(), "已超过最大页", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        adapterReport.setDataToView(mService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
+                etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
+                etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
+                etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), cuurentPage));
+        ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+
+    }
+
+    public void setDataToView(List<DetectionReport> reportList, boolean isReseting) {
+        lastPage = ((int) Math.floor(reportList.size() / 20)) + 1;
+        ((TextView) getActivity().findViewById(R.id.tvAllPage)).setText(lastPage + "");
+        if (isReseting) {
+            cuurentPage = 1;
+            ((TextView) getActivity().findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+            for (int i = 20; i < reportList.size(); i++) {
+                reportList.remove(i);
+                i--;
+            }
+        }
+        adapterReport = new AdapterReport(detectionReports, mActivity);
+        if (recyclerReport != null) {
+            recyclerReport.setAdapter(adapterReport);
+        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerReport.setLayoutManager(linearLayoutManager);
+        adapterReport.setmItemClickListener(new AdapterReport.OnItemClickListener() {
+            @Override
+            public void OnItemClick(final View view, int position) {
+                switch (view.getId()) {
+                    case R.id.txtPDF:
+                        int i = (int) view.getTag();
+                        try {
+                            List<DetectionDetail> detectionDetails = mActivity.mService.queryDetectionDetailByReportId(detectionReports.get(i).getId());
+                            outPutPdf(detectionDetails, detectionReports.get(i));
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case R.id.txtDetDetail:
+                        ShowDetailInfo(String.valueOf(position));
+                        Toast.makeText(mActivity, String.format("txtDetDetail%d ", (int) view.getTag()), Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.txtDetDel:
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                                .setTitle("是否删除这条数据")
+                                .setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        try {
+                                            int s = (int) view.getTag();
+                                            mActivity.mService.deteleDetectionInfoById(detectionReports.get(s).getId());
+                                            adapterReport.deteleteItemByPos(s);
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(getActivity(), "删除失败，请重试", Toast.LENGTH_SHORT).show();
+                                        }
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        builder.create().show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -411,7 +472,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 etStopDate.setText("");
                 try {
                     List<DetectionReport> detectionReports = mService.getAllDetectionReports();
-                    adapterReport.setDataToView(detectionReports);
+                    setDataToView(detectionReports, true);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -422,7 +483,28 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                             etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
                             etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
                             etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), -1);
-                    adapterReport.addDataToView(detectionReports);
+                    setDataToView(detectionReports, true);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.ibPre:
+                try {
+                    setPreDataToView();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.ibNext:
+                try {
+                    setNexTDataToView();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.ibSearch:
+                try {
+                    setSearchDataToView();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
