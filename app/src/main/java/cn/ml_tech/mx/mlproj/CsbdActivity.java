@@ -39,12 +39,8 @@ public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragme
             LogDebug("btnback is not null ");
             btnBack.setOnClickListener(CsbdActivity.this);
             LinearLayout ll=(LinearLayout)view.findViewById(R.id.layoutworkflow);
-            //read from database
-
             List<String > list=new ArrayList<String>();
-
             list.add("自动进样");
-
             list.add("机械手取样");
             list.add("固定样品");
             list.add("高速旋瓶");

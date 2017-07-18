@@ -33,8 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:weightSum="12">
+            android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/rbUserManage"
@@ -126,6 +125,7 @@
                 android:text="审计追踪" />
 
             <RadioButton
+
                 android:id="@+id/rbpermissTrack"
                 style="@style/Bottom_Tab_Style"
                 android:layout_width="match_parent"

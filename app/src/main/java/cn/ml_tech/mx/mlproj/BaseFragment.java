@@ -52,6 +52,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        amiApp = (AmiApp) getActivity().getApplication();
+        mService = amiApp.getmMLService();
     }
 
     public View getRootView() {

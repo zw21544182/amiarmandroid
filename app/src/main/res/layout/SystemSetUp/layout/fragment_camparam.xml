@@ -130,18 +130,32 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/fpgaon"
+                    android:id="@+id/fpga1"
                     style="@style/Radio_Switch_Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/on" />
+                    android:text="1X" />
 
                 <RadioButton
-                    android:id="@+id/fpffoff"
+                    android:id="@+id/fpff2"
                     style="@style/Radio_Switch_Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/off" />
+                    android:text="2X" />
+
+                <RadioButton
+                    android:id="@+id/fpff3"
+                    style="@style/Radio_Switch_Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2X" />
+
+                <RadioButton
+                    android:id="@+id/fpff4"
+                    style="@style/Radio_Switch_Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2X" />
             </RadioGroup>
         </LinearLayout>
 
@@ -406,7 +420,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:text="3X" />
+                        android:text="4X" />
 
                     <RadioButton
                         android:id="@+id/analogplus4"
@@ -414,7 +428,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:text="4X" />
+                        android:text="8X" />
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>
