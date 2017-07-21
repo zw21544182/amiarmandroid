@@ -87,8 +87,8 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
         aecon = (RadioButton) view.findViewById(R.id.aecon);
         aecoff = (RadioButton) view.findViewById(R.id.aecoff);
         fpga = (RadioGroup) view.findViewById(R.id.fpga);
-        fpgaon = (RadioButton) view.findViewById(R.id.fpga1);
-        fpffoff = (RadioButton) view.findViewById(R.id.fpff2);
+        fpgaon = (RadioButton) view.findViewById(R.id.fpgaon);
+        fpffoff = (RadioButton) view.findViewById(R.id.fpffoff);
         etexposuretime = (EditText) view.findViewById(R.id.etexposuretime);
         btExTimeWrite = (Button) view.findViewById(R.id.btExTimeWrite);
         btExTimeRead = (Button) view.findViewById(R.id.btExTimeRead);
@@ -129,32 +129,14 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
         for (CameraParams config : listConfig
                 ) {
             switch (config.getParamName()) {
-                case "flashGain":
+                case "AGC":
                     if (config.getParamValue() == 1) {
                         agcoff.setChecked(true);
                     } else {
                         agcon.setChecked(true);
                     }
                     break;
-                case "x_addr_end":
-                    etXAddrEnd.setText(config.getParamValue() + "");
-                    break;
-                case "y_addr_end":
-                    etYAddrEnd.setText(config.getParamValue() + "");
 
-                    break;
-                case "Exposure":
-                    etexposuretime.setText(config.getParamValue() + "");
-                    break;
-                case "fpgaGain":
-                    break;
-                case "globalGain":
-                    break;
-                case "digitalGain":
-                    etNumPlus.setText(config.getParamValue() + "");
-                    break;
-                case "fpgaFilter":
-                    break;
                 default:
                     break;
             }

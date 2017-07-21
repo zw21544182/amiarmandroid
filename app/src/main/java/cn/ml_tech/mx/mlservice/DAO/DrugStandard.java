@@ -3,9 +3,6 @@ package cn.ml_tech.mx.mlservice.DAO;
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * CREATE TABLE "druginfo" (
  * id integer primary key AUTOINCREMENT not null,
@@ -19,42 +16,37 @@ import java.util.List;
  * );
 
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:17
+CREATE TABLE [drugstandard](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [deprecate] integer NOT NULL DEFAULT false,
+    [name] text NOT NULL UNIQUE,
+    [druginfo_id] integer);
+
+
+*/
 
 public class DrugStandard extends DataSupport {
 
-    @Column(nullable = false)
-    private int id;
-    @Column(unique = true,nullable = false)
+
+    @Column(unique = true, nullable = false)
+    private long id;
+    @Column(nullable = false, defaultValue = "false")
+    private boolean deprecate;
+    @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false)
-    private  String drugId;
-    @Column(nullable = false,defaultValue = "false")
-    private  boolean deprecate;
-    private DrugInfo info;
-    private  List<DrugParam>drugParamList=new ArrayList<DrugParam>();
+    private long druginfo_id;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDrugId() {
-        return drugId;
-    }
-
-    public void setDrugId(String drugId) {
-        this.drugId = drugId;
     }
 
     public boolean isDeprecate() {
@@ -65,19 +57,19 @@ public class DrugStandard extends DataSupport {
         this.deprecate = deprecate;
     }
 
-    public DrugInfo getInfo() {
-        return info;
+    public String getName() {
+        return name;
     }
 
-    public void setInfo(DrugInfo info) {
-        this.info = info;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<DrugParam> getDrugParamList() {
-        return drugParamList;
+    public long getDruginfo_id() {
+        return druginfo_id;
     }
 
-    public void setDrugParamList(List<DrugParam> drugParamList) {
-        this.drugParamList = drugParamList;
+    public void setDruginfo_id(long druginfo_id) {
+        this.druginfo_id = druginfo_id;
     }
 }

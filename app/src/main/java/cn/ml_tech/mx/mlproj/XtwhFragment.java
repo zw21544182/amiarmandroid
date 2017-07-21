@@ -6,15 +6,14 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 
-import java.util.ArrayList;
-
+import cn.ml_tech.mx.mlproj.SettingFragment.AddTypeFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.AuditTrackFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.CamParamsFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.DataManageFragment;
@@ -24,115 +23,128 @@ import cn.ml_tech.mx.mlproj.SettingFragment.ManchineManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.ParmanageFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.PerManageFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.SysConfigFragment;
-import cn.ml_tech.mx.mlproj.SettingFragment.SystemSetUpMainFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.TrayManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.UserManagerFragment;
 
-import static android.os.Build.VERSION_CODES.M;
-
-public class XtwhFragment extends Fragment {
-    private String[] arrayItemMenu;
-    private String[] arrayFragmentTag;
+public class XtwhFragment extends BaseFragment {
     private OnFragmentInteractionListener mListener;
     private FragmentManager mChildFragmentManager;
     private FragmentTransaction mfragmentTransaction;
-    private UserManagerFragment userManagerFragment = null;
-    private SystemSetUpMainFragment systemSetUpMainFragment;
+    private UserManagerFragment userManagerFragment;
+    private AuditTrackFragment auditTrackFragment;
+    private DataManageFragment dataManageFragment;
+    private PerManageFragment perManageFragment;
+    private InstrumManageFragment instrumManageFragment;
+    private LogShowFragment logShowFragment;
+    private CamParamsFragment camParamsFragment;
+    private TrayManagerFragment trayManagerFragment;
+    private SysConfigFragment sysConfigFragment;
+    private ParmanageFragment parmanageFragment;
     private ManchineManagerFragment manchineManagerFragment;
-    private int currentIndex = 0;//控制当前需要显示第几个Fragment
-    private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();//用List来存储Fragment,List的初始化没有写
+    private AddTypeFragment addTypeFragment;
     private Fragment mCurrentFrgment;//显示当前Fragment
-
-    public XtwhFragment() {
-        // Required empty public constructor
-    }
+    private ImageButton btBack;
+    private RadioGroup rootgroup;
 
     @Override
-    public void onStart() {
-        super.onStart();
-        initFragment();
-        changeTab(0);
-
-//        initChildFragments();
-        getActivity().findViewById(R.id.bt_back).setOnClickListener((View.OnClickListener) getActivity());
-        ((RadioGroup) getActivity().findViewById(R.id.rootgroup)).setOnCheckedChangeListener((RadioGroup.OnCheckedChangeListener) getActivity());
-
-    }
-
-    private void initFragment() {
-        fragmentArrayList.add(new UserManagerFragment());
-        fragmentArrayList.add(new InstrumManageFragment());
-        fragmentArrayList.add(new TrayManagerFragment());
-        fragmentArrayList.add(new ManchineManagerFragment());
-        fragmentArrayList.add(new ParmanageFragment());
-        fragmentArrayList.add(new DataManageFragment());
-        fragmentArrayList.add(new SysConfigFragment());
-        fragmentArrayList.add(new CamParamsFragment());
-        fragmentArrayList.add(new LogShowFragment());
-        fragmentArrayList.add(new AuditTrackFragment());
-        fragmentArrayList.add(new PerManageFragment());
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        arrayItemMenu=new String[]{
-//                getString(R.string.MenuSystemMain),
-//            getString(R.string.MenuUser),
-//                    getString(R.string.MenuDeviceDebug),
-//                    getString(R.string.MenuTray),
-//                    getString(R.string.MenuInformation),
-//                    getString(R.string.MenuDrugParam),
-//                    getString(R.string.MenuData),
-//                    getString(R.string.MenuSysConfig),
-//                    getString(R.string.MenuCaptureConfig),
-//                    getString(R.string.MenuAuditTrail),
-//                    getString(R.string.MenuRightManager),
-//                    getString(R.string.MenuProgramUpdate),
-//                    getString(R.string.MenuLogShow),
-//        };
-//        arrayFragmentTag=getResources().getStringArray(R.array.menufragment);
-        mChildFragmentManager = getFragmentManager();
-
-    }
-
-//    void initChildFragments() {
-//        mfragmentTransaction = mChildFragmentManager.beginTransaction();
-//        systemSetUpMainFragment = new SystemSetUpMainFragment();
-////        UserManagerFragment fragmentuser=new UserManagerFragment();
-////        ManchineManagerFragment fragmentmanchine=new ManchineManagerFragment();
-////        TrayManagerFragment trayManagerFragment=new TrayManagerFragment();
-////        DeviceDebugFragment deviceDeubgFragment=new DeviceDebugFragment();
-////        SysConfigFragment sysConfigFragment=new  SysConfigFragment();
-//        mfragmentTransaction.add(R.id.settingFragment, systemSetUpMainFragment);
-////        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentuser).commit();
-////        mfragmentTransaction.add(R.id.llSystemFragmentParent,fragmentmanchine).commit();
-////        mfragmentTransaction.add(R.id.llSystemFragmentParent,trayManagerFragment).commit();
-////        mfragmentTransaction.add(R.id.llSystemFragmentParent,deviceDeubgFragment).commit();
-////        mfragmentTransaction.add(R.id.llSystemFragmentParent,sysConfigFragment).commit();
-//        mfragmentTransaction.attach(systemSetUpMainFragment);
-//        mfragmentTransaction.commit();
-//    }
-
-    @RequiresApi(api = M)
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_xtwhactivity, container, false);
-        /*
-        LinearLayout llRoot= (LinearLayout) view.findViewById(R.id.llSystemRoot);
-        Log.d(getContext().getPackageName(), "onCreateView: "+String.valueOf(arrayFragmentTag.length)+" "+String.valueOf(arrayItemMenu.length));
-        for (int i=0;i<arrayItemMenu.length;i++)
-        {
-            MenuItemView itemView=new MenuItemView(getContext());
-            itemView.setFragmentTag(arrayFragmentTag[i]);
-            itemView.setTitle(arrayItemMenu[i]);
-            Log.d("debug", "onCreateView: "+arrayItemMenu[i] +" "+arrayFragmentTag[i]);
-            llRoot.addView(itemView);
-        }
-        return view;*/
+    public View initView(LayoutInflater inflater) {
+        View view = inflater.inflate(R.layout.activity_xtwhactivity, null);
+        initFindViewById(view);
         return view;
+    }
+
+    @Override
+    public void initFindViewById(View view) {
+        btBack = (ImageButton) view.findViewById(R.id.bt_back);
+        rootgroup = (RadioGroup) view.findViewById(R.id.rootgroup);
+    }
+
+    public void moveToAddType() {
+        if (addTypeFragment == null) addTypeFragment = new AddTypeFragment();
+        switchFragment(addTypeFragment);
+    }
+
+    public void moveToUserType() {
+        if (userManagerFragment == null)
+            userManagerFragment = new UserManagerFragment();
+        switchFragment(userManagerFragment);
+    }
+
+    @Override
+    protected void initEvent() {
+        rootgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.rbUserManage:
+                        if (userManagerFragment == null)
+                            userManagerFragment = new UserManagerFragment();
+                        switchFragment(userManagerFragment);
+                        break;
+                    case R.id.rbAuditTrack:
+                        if (auditTrackFragment == null)
+                            auditTrackFragment = new AuditTrackFragment();
+                        switchFragment(auditTrackFragment);
+                        break;
+                    case R.id.rbDataManage:
+                        if (dataManageFragment == null)
+                            dataManageFragment = new DataManageFragment();
+                        switchFragment(dataManageFragment);
+                        break;
+                    case R.id.rbpermissTrack:
+                        if (perManageFragment == null)
+                            perManageFragment = new PerManageFragment();
+                        switchFragment(perManageFragment);
+                        break;
+                    case R.id.rbInstrumManage:
+                        if (instrumManageFragment == null)
+                            instrumManageFragment = new InstrumManageFragment();
+                        switchFragment(instrumManageFragment);
+                        break;
+                    case R.id.rbLogShow:
+                        if (logShowFragment == null)
+                            logShowFragment = new LogShowFragment();
+                        switchFragment(logShowFragment);
+                        break;
+                    case R.id.rbCameraConfig:
+                        if (camParamsFragment == null)
+                            camParamsFragment = new CamParamsFragment();
+                        switchFragment(camParamsFragment);
+                        break;
+                    case R.id.rbSystemConfig:
+                        if (sysConfigFragment == null)
+                            sysConfigFragment = new SysConfigFragment();
+                        switchFragment(sysConfigFragment);
+                        break;
+                    case R.id.rbTrayManage:
+                        if (trayManagerFragment == null)
+                            trayManagerFragment = new TrayManagerFragment();
+                        switchFragment(trayManagerFragment);
+                        break;
+                    case R.id.rbInfoManage:
+                        if (manchineManagerFragment == null)
+                            manchineManagerFragment = new ManchineManagerFragment();
+                        switchFragment(manchineManagerFragment);
+                        break;
+                    case R.id.rbParaManage:
+                        if (parmanageFragment == null)
+                            parmanageFragment = new ParmanageFragment();
+                        switchFragment(parmanageFragment);
+                        break;
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+    }
+
+    private void initStartFragment() {
+        if (userManagerFragment == null) ;
+        userManagerFragment = new UserManagerFragment();
+        switchFragment(userManagerFragment);
     }
 
 
@@ -154,90 +166,36 @@ public class XtwhFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    private void changeTab(int index) {
-        currentIndex = index;
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        //判断当前的Fragment是否为空，不为空则隐藏
+
+    private void switchFragment(Fragment fragment) {
+        mfragmentTransaction = getFragmentManager().beginTransaction();
         if (null != mCurrentFrgment) {
-            ft.hide(mCurrentFrgment);
+            mfragmentTransaction.hide(mCurrentFrgment);
         }
-        //先根据Tag从FragmentTransaction事物获取之前添加的Fragment
-        Fragment fragment = getFragmentManager().findFragmentByTag(fragmentArrayList.get(currentIndex).getClass().getName());
-        Log.d("ZW", fragmentArrayList.get(currentIndex).getClass().getName());
-        if (null == fragment) {
-            //如fragment为空，则之前未添加此Fragment。便从集合中取出
-            fragment = fragmentArrayList.get(index);
-        }
-        mCurrentFrgment = fragment;
-
-        //判断此Fragment是否已经添加到FragmentTransaction事物中
         if (!fragment.isAdded()) {
-            ft.add(R.id.settingFragment, fragment, fragment.getClass().getName());
+            mfragmentTransaction.add(R.id.settingFragment, fragment, fragment.getClass().getName());
         } else {
-            ft.show(fragment);
+            mfragmentTransaction.show(fragment);
         }
-        ft.commit();
+        mfragmentTransaction.commit();
+
+
+        mCurrentFrgment = fragment;
     }
 
-    public void changeFragmentById(int id) {
-        switch (id) {
-            case R.id.rbUserManage:
-                changeTab(0);
-                break;
-            case R.id.rbInstrumManage:
-                changeTab(1);
-                break;
-            case R.id.rbTrayManage:
-                changeTab(2);
-                break;
-            case R.id.rbInfoManage:
-                changeTab(3);
-                break;
-            case R.id.rbParaManage:
-                changeTab(4);
-                break;
-            case R.id.rbDataManage:
-                changeTab(5);
-                break;
-            case R.id.rbSystemConfig:
-                changeTab(6);
-                break;
-            case R.id.rbCameraConfig:
-                changeTab(7);
-                break;
-            case R.id.rbLogShow:
-                changeTab(8);
-                break;
-            case R.id.rbAuditTrack:
-                changeTab(9);
-                break;
-            case R.id.rbpermissTrack:
-                changeTab(10);
-
-            default:
-                break;
-        }
+    @Override
+    public void onStart() {
+        super.onStart();
+        initStartFragment();
 
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

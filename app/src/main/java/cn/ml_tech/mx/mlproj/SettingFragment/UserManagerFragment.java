@@ -1,13 +1,12 @@
 package cn.ml_tech.mx.mlproj.SettingFragment;
 
-import android.app.Activity;
-import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -16,38 +15,36 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
-import cn.ml_tech.mx.mlproj.BaseActivity;
+import cn.ml_tech.mx.mlproj.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlproj.XtwhActivity;
+import cn.ml_tech.mx.mlproj.XtwhFragment;
 import cn.ml_tech.mx.mlservice.DAO.User;
 import cn.ml_tech.mx.mlservice.DAO.UserType;
+
 
 /**
  * Created by ml on 2017/5/18.
  */
 
-public class UserManagerFragment extends Fragment implements View.OnClickListener {
-    private final String TAG = "UserManagerFragment";
-    private static Activity mActivity;
+public class UserManagerFragment extends BaseFragment implements View.OnClickListener {
+    private static final int OPERATESUCESS = 11;
+    private static final int OPERATEFAILURE = 22;
+    private static final int INITDATASUCESS = 33;
+    private static final int INITDATAFAILURE = 44;
     private RecyleUserAdapter recyleUserAdapter;
-    private RecyclerView recylerView;
     private LinearLayoutManager layoutmanager;
     private List<User> listUser;
-    private static List<UserType> userTypes;
-    private LinearLayout llUserEdit;
-    private TextView nickname;
     private EditText etNickName;
     private EditText etUserName;
     private EditText etUserPwd;
@@ -56,108 +53,119 @@ public class UserManagerFragment extends Fragment implements View.OnClickListene
     private Spinner comUserType;
     private Button btSave;
     private Button btResver;
+    private Button btAddType;
+    private XtwhFragment xtwhFragment;
+    private RecyclerView rcvUser;
     private User mUser;
-    private int postion;
+    private ProgressDialog progressDialog;
+    private List<UserType> userTypes;
+    private List<String> typeName;
+    private StringAdapter typeNameAdapter;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (progressDialog != null) progressDialog.dismiss();
+            switch (msg.what) {
+                case OPERATEFAILURE:
+                    showToast("操作失败");
+                    break;
+                case OPERATESUCESS:
 
-    public UserManagerFragment() {
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "onActivityCreated: ");
-        mActivity = getActivity();
-        recylerView = (RecyclerView) (mActivity.findViewById(R.id.rcvUser));
-        List<String> listNickName = new ArrayList<String>();
-        List<String> listUserName = new ArrayList<String>();
-        listUser = new ArrayList<User>();
-        listUser.clear();
-        try {
-            listUser = ((BaseActivity) mActivity).mService.getUserList();
-            userTypes = ((BaseActivity) mActivity).mService.getAllUserType();
-        } catch (RemoteException e) {
-            e.printStackTrace();
+                    initUserTypeInfo();
+                    initUserInfo();
+                    break;
+                case INITDATASUCESS:
+                    initUserTypeInfo();
+                    initUserInfo();
+                    break;
+                case INITDATAFAILURE:
+                    showToast("加载失败");
+                    break;
+            }
         }
-        setDataToView();
+    };
 
-    }
-
-    private void clearText() {
-        etNickName.setText("");
-        etUserName.setText("");
-        etUserPwd.setText("");
-        etUserPwd2.setText("");
-    }
-
-    private void setDataToView() {
-        List<String> strings = new ArrayList<>();
+    private void initUserTypeInfo() {
+        typeName.clear();
         for (UserType userType :
                 userTypes) {
-            strings.add(userType.getTypeName());
+            typeName.add(userType.getTypeName());
         }
-        comUserType.setAdapter(new StringAdapter(strings, getActivity()));
-        recyleUserAdapter = new RecyleUserAdapter(mActivity, listUser, new RecyleUserAdapter.Operate() {
-            @Override
-            public void update(int pos) {
-                mUser = listUser.get(pos);
-                etUserName.setText(mUser.getUserName());
-                etUserPwd.setText(mUser.getUserPassword());
-                etUserPwd2.setText(mUser.getUserPassword());
-                chbEnable.setChecked(mUser.getIsEnable() == 1 ? true : false);
-                etNickName.setText(mUser.getUserId().trim());
-                comUserType.setSelection((int) (mUser.getUsertype_id() - 1));
-                for (int i = 0; i < userTypes.size(); i++) {
-                    UserType userType = userTypes.get(i);
-                    if (userType.getTypeId() == mUser.getUsertype_id()) {
-                        comUserType.setSelection(i);
+        typeNameAdapter = new StringAdapter(typeName, getActivity());
+        comUserType.setAdapter(typeNameAdapter);
+    }
+
+    private void initUserInfo() {
+        if (recyleUserAdapter == null) {
+            recyleUserAdapter = new RecyleUserAdapter(listUser, getActivity(), itmeClick);
+            rcvUser.setAdapter(recyleUserAdapter);
+            layoutmanager = new LinearLayoutManager(mActivity);
+            rcvUser.setLayoutManager(layoutmanager);
+        } else {
+            recyleUserAdapter.setDataToView(listUser);
+        }
+    }
+
+    private OnItmeClick itmeClick = new OnItmeClick() {
+        @Override
+        public void update(User user) {
+            mUser = user;
+            setUserInfoToView(user);
+        }
+
+        @Override
+        public void delete(final long id) {
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(getActivity());
+            }
+            progressDialog.setTitle("操作中...");
+            progressDialog.show();
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        Log.d("zw", "delete data");
+
+                        mlService.deleteUserById(id);
+                        listUser = mlService.getUserList();
+                        handler.sendEmptyMessage(OPERATESUCESS);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                        handler.sendEmptyMessage(OPERATEFAILURE);
+
                     }
-                }
-            }
-
-            @Override
-            public void delete(int pos) {
-                try {
-                    ((BaseActivity) mActivity).mService.deleteUserById(pos);
-                    listUser = ((BaseActivity) mActivity).mService.getUserList();
-                    recyleUserAdapter.setDataToView(listUser);
-                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
-
-                } catch (RemoteException e) {
-                    Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
-
 
                 }
-            }
-        });
-        recylerView.setAdapter(recyleUserAdapter);
-        layoutmanager = new LinearLayoutManager(mActivity);
-        recylerView.setLayoutManager(layoutmanager);
-    }
+            }.start();
+        }
+    };
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_usermanager, container, false);
-        initView(view);
-        event();
+    public View initView(LayoutInflater inflater) {
+        View view = inflater.inflate(R.layout.fragment_usermanager, null);
+        initFindViewById(view);
         return view;
+
     }
 
-    private void event() {
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void initEvent() {
+        super.initEvent();
         btSave.setOnClickListener(this);
-        btResver.setOnClickListener(this);
+        btAddType.setOnClickListener(this
+        );
+
     }
 
-    private void initView(View view) {
-        llUserEdit = (LinearLayout) view.findViewById(R.id.llUserEdit);
-        nickname = (TextView) view.findViewById(R.id.nickname);
+    @Override
+    public void initFindViewById(View view) {
         etNickName = (EditText) view.findViewById(R.id.etNickName);
         etUserName = (EditText) view.findViewById(R.id.etUserName);
         etUserPwd = (EditText) view.findViewById(R.id.etUserPwd);
@@ -166,7 +174,49 @@ public class UserManagerFragment extends Fragment implements View.OnClickListene
         comUserType = (Spinner) view.findViewById(R.id.comUserType);
         btSave = (Button) view.findViewById(R.id.btSave);
         btResver = (Button) view.findViewById(R.id.btResver);
-        comUserType.setSelection(0);
+        rcvUser = (RecyclerView) view.findViewById(R.id.rcvUser);
+        btAddType = (Button) view.findViewById(R.id.btAddType);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) initData(null);
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+        mlService = mActivity.getmService();
+        xtwhFragment = ((XtwhActivity) getActivity()).getXtwhFragment();
+        typeName = new ArrayList<>();
+        if (progressDialog == null)
+            progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("加载中...");
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    listUser = mlService.getUserList();
+                    userTypes = mlService.getAllUserType();
+                    handler.sendEmptyMessage(INITDATASUCESS);
+                } catch (RemoteException e) {
+                    handler.sendEmptyMessage(INITDATAFAILURE);
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+    }
+
+
+    public void setUserInfoToView(User user) {
+        etNickName.setText(user.getUserId());
+        etUserName.setText(user.getUserName());
+        etUserPwd.setText(user.getUserPassword());
+        etUserPwd2.setText(user.getUserPassword());
+        chbEnable.setChecked(user.getIsEnable() == 1 ? true : false);
     }
 
     /**
@@ -176,78 +226,76 @@ public class UserManagerFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSave:
-                if (!TextUtils.isEmpty(etNickName.getEditableText().toString().trim())) {
-                    mUser.setUserId(etNickName.getEditableText().toString().trim());
+                if (mUser == null) {
+                    mUser = new User();
                 }
-                if (!TextUtils.isEmpty(etUserName.getEditableText().toString().trim())) {
-                    mUser.setUserName(etUserName.getEditableText().toString().trim());
+                mUser.setIsEnable(chbEnable.isChecked() ? 1 : 0);
+                if (!TextUtils.isEmpty(etNickName.getEditableText().toString())) {
+                    mUser.setUserId(etNickName.getEditableText().toString());
+                } else {
+                    showToast("昵称尚未输入完整");
+                    return;
                 }
-                if (!etUserPwd.getEditableText().toString().trim().equals(etUserPwd2.getEditableText().toString().trim())) {
-                    Toast.makeText(getActivity(), "两次密码输入不一致,保存密码无效", Toast.LENGTH_SHORT).show();
-                } else if (!TextUtils.isEmpty(etUserName.getEditableText().toString().trim())) {
-                    Log.d("zw", "excute update passsword");
+                if (!TextUtils.isEmpty(etUserName.getEditableText().toString())) {
+                    mUser.setUserName(etUserName.getEditableText().toString());
+                } else {
+                    showToast("用户名尚未输入完整");
+                    return;
+                }
+                if (!TextUtils.isEmpty(etUserPwd.getEditableText().toString()) && (etUserPwd.getEditableText().toString().trim()
+                        .equals(etUserPwd2.getEditableText().toString().trim()))) {
                     mUser.setUserPassword(etUserPwd.getEditableText().toString().trim());
-                    Log.d("zw", "password:" + etUserPwd.getEditableText().toString().trim());
+                } else {
+                    showToast("密码为输入完整或两次密码输入不一致");
+                    return;
                 }
-                mUser.setIsEnable(chbEnable.isChecked() == true ? 1 : 0);
-                mUser.setDeparecate(chbEnable.isChecked());
-                String currenttype = comUserType.getSelectedItem().toString();
-                for (UserType userType :
-                        userTypes) {
-                    if (userType.getTypeName().equals(currenttype)) {
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setTitle("操作中...");
+                    progressDialog.show();
+                } else {
+                    progressDialog.show();
+                }
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            Log.d("zw", "save data");
+                            mlService.updateUser(mUser);
+                            listUser = mlService.getUserList();
+                            handler.sendEmptyMessage(OPERATESUCESS);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
 
-                        mUser.setUsertype_id(userType.getTypeId());
                     }
-                }
-
-                try {
-                    ((BaseActivity) mActivity).mService.updateUser(mUser);
-                    listUser = ((BaseActivity) mActivity).mService.getUserList();
-                    recyleUserAdapter.setDataToView(listUser);
-                    Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
-                } catch (RemoteException e) {
-                    Toast.makeText(getActivity(), "保存失败", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                }.start();
                 break;
-            case R.id.btResver:
+            case R.id.btAddType:
+                xtwhFragment.moveToAddType();
                 break;
         }
+
     }
 
-    static class RecyleUserAdapter extends RecyclerView.Adapter<RecyleUserAdapter.ViewHolder> implements View.OnClickListener {
+
+    class RecyleUserAdapter extends RecyclerView.Adapter<RecyleUserAdapter.ViewHolder> implements View.OnClickListener {
         private List<User> listUser;
         private Context context;
-        private AdapterView.OnItemClickListener mlistener;
-        private Operate operate;
+        private OnItmeClick itmeClick;
 
-        public RecyleUserAdapter(Context context, List<User> list, Operate operate) {
+
+        public RecyleUserAdapter(List<User> listUser, Context context, OnItmeClick itmeClick) {
+            this.listUser = listUser;
             this.context = context;
-            this.listUser = list;
-            this.operate = operate;
+            this.itmeClick = itmeClick;
         }
 
-        public void setDataToView(List<User> usertList) {
+        public void setDataToView(List<User> users) {
             listUser.clear();
-            listUser.addAll(usertList);
+            listUser.addAll(users);
             notifyDataSetChanged();
-        }
-
-        public void setMlistener(AdapterView.OnItemClickListener mlistener) {
-            this.mlistener = mlistener;
-        }
-
-        @Override
-        public void onClick(View v) {
-            int pos = (int) v.getTag();
-            switch (v.getId()) {
-                case R.id.txtDel:
-                    operate.delete(pos);
-                    break;
-                case R.id.txtEdit:
-                    operate.update(pos);
-                    break;
-            }
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -269,6 +317,8 @@ public class UserManagerFragment extends Fragment implements View.OnClickListene
                 txtUserEdit = (TextView) itemView.findViewById(R.id.txtEdit);
                 txtUserDel = (TextView) itemView.findViewById(R.id.txtDel);
             }
+
+
         }
 
         @Override
@@ -285,16 +335,32 @@ public class UserManagerFragment extends Fragment implements View.OnClickListene
             holder.txtUserDel.setText(Html.fromHtml("<u>" + "删除" + "</u>"));
             holder.txtUserEdit.setText(Html.fromHtml("<u>" + "修改" + "</u>"));
             holder.txtUserEnable.setText(listUser.get(position).getIsEnable() == 1 ? "可用" : "禁用");
-            holder.txtUserEdit.setTag(position);
-            holder.txtUserDel.setTag(position);
-            holder.txtUserDel.setOnClickListener(this);
+            holder.txtUserDel.setTag(listUser.get(position).getId());
+            holder.txtUserEdit.setTag(listUser.get(position));
             holder.txtUserEdit.setOnClickListener(this);
-            for (UserType userType :
-                    userTypes) {
-                if (userType.getTypeId() == listUser.get(position).getUsertype_id()) {
-                    holder.txtUserType.setText(userType.getTypeName());
-                }
+            holder.txtUserDel.setOnClickListener(this);
+            if (userTypes != null) {
+                for (UserType userType :
+                        userTypes) {
+                    if (userType.getTypeId() == listUser.get(position).getUsertype_id()) {
+                        holder.txtUserType.setText(userType.getTypeName());
 
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.txtEdit:
+                    User user = (User) v.getTag();
+                    itmeClick.update(user);
+                    break;
+                case R.id.txtDel:
+                    long id = (long) v.getTag();
+                    itmeClick.delete(id);
+                    break;
             }
         }
 
@@ -303,13 +369,12 @@ public class UserManagerFragment extends Fragment implements View.OnClickListene
             return listUser.size();
         }
 
-        private interface Operate {
-            void update(int pos);
+    }
 
-            void delete(int pos);
-        }
+    interface OnItmeClick {
+        void update(User user);
 
-
+        void delete(long id);
     }
 
 }

@@ -106,6 +106,7 @@
                         android:id="@+id/tvColorCoefficient"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:text="36"
                         android:textSize="15dp" />
                 </LinearLayout>
 

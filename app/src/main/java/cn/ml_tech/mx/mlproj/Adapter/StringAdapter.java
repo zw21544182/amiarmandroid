@@ -29,6 +29,12 @@ public class StringAdapter extends BaseAdapter {
     private StringAdapter() {
     }
 
+    public void setDataToView(List<String> value) {
+        data.clear();
+        data.addAll(value);
+        notifyDataSetChanged();
+    }
+
     public StringAdapter(List<String> data) {
         this.data = data;
     }

@@ -139,17 +139,12 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 this.finish();
                 break;
             case R.id.btNext:
-
-                try {
-                    if ((!ypjcFragment.isContinue())||(null==mService.getLastReport())) {
-                        ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
-                        ypkFragment.setmService(mService);
-                    } else {
-                        ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
-                        ypjccFragment.setState("continue");
-                    }
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+                if (!ypjcFragment.isContinue()) {
+                    ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+                    ypkFragment.setmService(mService);
+                } else {
+                    ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
+                    ypjccFragment.setState("continue");
                 }
                 break;
             case R.id.addphonetic:

@@ -26,10 +26,24 @@ import org.litepal.crud.DataSupport;
  foreign key (trayID) REFERENCES tray(id)
  );
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:03
+CREATE TABLE [dev_addr_def](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [access] integer NOT NULL,
+    [address] integer NOT NULL,
+    [convert] integer NOT NULL DEFAULT 0,
+    [name] text NOT NULL,
+    [size] integer NOT NULL);
+
+
+*/
 
 public class Dev_Addr_Def extends DataSupport {
     @Column(unique = true,nullable = false)
-   private int id;
+   private long id;
     @Column( nullable = false)
     private  String name;
     @Column( nullable = false)
@@ -38,12 +52,14 @@ public class Dev_Addr_Def extends DataSupport {
     private int address;
     @Column(nullable = false)
     private int access;
+    @Column( nullable = false,defaultValue = "0")
+    private  int convert;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -86,8 +102,4 @@ public class Dev_Addr_Def extends DataSupport {
     public void setConvert(int convert) {
         this.convert = convert;
     }
-
-    @Column( nullable = false,defaultValue = "0")
-    int convert;
-
 }

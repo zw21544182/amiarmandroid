@@ -12,10 +12,8 @@ import java.io.Serializable;
  */
 
 public class ResultModule implements Parcelable, Serializable {
-
     double data;
     String result;
-
     public ResultModule(double data, String result) {
         this.data = data;
         this.result = result;
@@ -61,7 +59,7 @@ public class ResultModule implements Parcelable, Serializable {
         this.result = in.readString();
     }
 
-    public static final Parcelable.Creator<ResultModule> CREATOR = new Parcelable.Creator<ResultModule>() {
+    public static final Creator<ResultModule> CREATOR = new Creator<ResultModule>() {
         @Override
         public ResultModule createFromParcel(Parcel source) {
             return new ResultModule(source);

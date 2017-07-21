@@ -17,39 +17,33 @@ import org.litepal.crud.DataSupport;
  webSite text
  , province_code TEXT default NULL, city_code TEXT default NULL, area_code TEXT default NULL, contactName text, contactPhone text);
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:26
+CREATE TABLE [p_usertypepermission](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [righttype] integer NOT NULL,
+    [usertype] integer NOT NULL,
+    [p_sourceoperator_id] integer);
+
+
+*/
 
 public class P_UserTypePermission extends DataSupport {
-    @Column(unique = true,nullable = false)
-    private String id;
-    @Column(nullable = false)
-    private  int usertype;
-    @Column(nullable = false)
-    private  int sourceoperatorid;
+    @Column(unique = true, nullable = false)
+    private long id;
     @Column(nullable = false)
     private int righttype;
-
-    public String getId() {
+    @Column(nullable = false)
+    private long usertype;
+    @Column(nullable = false)
+    private long p_sourceoperator_id;
+    public long getId() {
         return id;
     }
-
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public int getUsertype() {
-        return usertype;
-    }
-
-    public void setUsertype(int usertype) {
-        this.usertype = usertype;
-    }
-
-    public int getSourceoperatorid() {
-        return sourceoperatorid;
-    }
-
-    public void setSourceoperatorid(int sourceoperatorid) {
-        this.sourceoperatorid = sourceoperatorid;
     }
 
     public int getRighttype() {
@@ -58,5 +52,21 @@ public class P_UserTypePermission extends DataSupport {
 
     public void setRighttype(int righttype) {
         this.righttype = righttype;
+    }
+
+    public long getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(long usertype) {
+        this.usertype = usertype;
+    }
+
+    public long getP_sourceoperator_id() {
+        return p_sourceoperator_id;
+    }
+
+    public void setP_sourceoperator_id(long p_sourceoperator_id) {
+        this.p_sourceoperator_id = p_sourceoperator_id;
     }
 }

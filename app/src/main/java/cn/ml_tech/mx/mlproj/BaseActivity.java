@@ -1,27 +1,26 @@
 package cn.ml_tech.mx.mlproj;
 
-import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -33,8 +32,9 @@ import android.widget.Toast;
 import java.lang.reflect.Method;
 
 import cn.ml_tech.mx.mlservice.IMlService;
+import cn.ml_tech.mx.mlservice.MotorControl;
 
-public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFragmentInteractionListener {
+public class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener {
     public static final int OVERLAY_PERMISSION_REQ_CODE = 4545;
     protected AmiApp app = null;
     protected BottomFragment bottomFragment = null;
@@ -46,7 +46,6 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
     protected FragmentManager mFragmentManager;
     protected MyReceiver receiver;
     private AmiApp amiApp;
-    private boolean granted;
 
     public void showToast(String content) {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
@@ -107,18 +106,7 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        amiApp = (AmiApp) getApplication();
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                while (mService == null) {
-                    mService = amiApp.getmMLService();
-                }
-                Log.d("zw", "getservice");
-            }
-        }.start();
-        Log.d("zw", "sonstart");
+        Log.d("zw", "oncreate");
         app = (AmiApp) getApplication();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -132,7 +120,26 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
         logv("created\n");
         ActivityCollector.addActivity(this);
         mFragmentManager = getFragmentManager();
-        initPermission();
+//        Intent serviceIntent = new Intent();
+//        serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
+//        serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
+//        bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
+       /*
+        try {
+            List<User>list= mService.getUserList();
+            Log.d("fer", String.valueOf(list.size()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        LogDebug("mService get userlist");
+        app.setmMLService(mService);
+        try {
+            List<User> list= app.getmMLService().getUserList();
+            //LogDebug("User Size is "+list.size());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        */
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         hideBottomUIMenu();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -153,7 +160,6 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
         }
         bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
         headFragment = (HeadFragment) switchTopFragment(HeadFragment.class.getSimpleName());
-        Log.d("zw", "oncreate");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -203,6 +209,16 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
     @Override
     protected void onStart() {
         super.onStart();
+        amiApp = (AmiApp) getApplication();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                while (mService == null) {
+                    mService = amiApp.getmMLService();
+                }
+            }
+        }.start();
 
     }
 
@@ -349,6 +365,7 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
     }
 
     private class MyReceiver extends BroadcastReceiver {
+
         @Override
         public void onReceive(Context context, Intent intent) {
             String info = intent.getExtras().getString("info");
@@ -362,63 +379,6 @@ public class BaseActivity extends AppCompatActivity implements HeadFragment.OnFr
 
         }
 
-    }
-
-    private void initPermission() {
-        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            //需不需要解释的dialog
-            if (shouldRequest()) return;
-            //请求权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        } else {
-        }
-    }
-
-    private boolean shouldRequest() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
-            //显示一个对话框，给用户解释
-            explainDialog();
-            return true;
-        }
-        return false;
-    }
-
-    private void explainDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("应用需要获取您的读写权限,是否授权？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //请求权限
-                        ActivityCompat.requestPermissions(BaseActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-                    }
-                }).setNegativeButton("取消", null)
-                .create().show();
-    }
-
-    /**
-     * 请求权限的回调
-     * <p>
-     * 参数1：requestCode-->是requestPermissions()方法传递过来的请求码。
-     * 参数2：permissions-->是requestPermissions()方法传递过来的需要申请权限
-     * 参数3：grantResults-->是申请权限后，系统返回的结果，PackageManager.PERMISSION_GRANTED表示授权成功，PackageManager.PERMISSION_DENIED表示授权失败。
-     * grantResults和permissions是一一对应的
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1 && grantResults.length > 0) {
-            granted = grantResults[0] == PackageManager.PERMISSION_GRANTED;//是否授权，可以根据permission作为标记
-            if (granted) {
-                try {
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     public class customViewGroup extends ViewGroup {

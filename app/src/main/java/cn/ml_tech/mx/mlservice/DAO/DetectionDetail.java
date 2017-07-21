@@ -8,26 +8,26 @@ import org.litepal.crud.DataSupport;
 
 /**
  * CREATE TABLE drugContainer
- * (
- * id integer primary key AUTOINCREMENT   not null,
- * name text not null unique,
- * type  INTEGER not null,
- * specification INTEGER not null,
- * diameter REAL not null,
- * height REAL,
- * trayID INTEGER not null,
- * srcTime REAL not null,
- * stpTime REAL not null,
- * channelValue1 REAL not null,
- * channelValue2 REAL not null,
- * channelValue3 REAL not null,
- * channelValue4 REAL not null,
- * shadeParam REAL not null,
- * rotateSpeed INTEGER NOT NULL DEFAULT 4500,
- * sendParam REAL not null,
- * foreign key (specification) REFERENCES specificationType(id),
- * foreign key (trayID) REFERENCES tray(id)
- * );
+ (
+ id integer primary key AUTOINCREMENT   not null,
+ name text not null unique,
+ type  INTEGER not null,
+ specification INTEGER not null,
+ diameter REAL not null,
+ height REAL,
+ trayID INTEGER not null,
+ srcTime REAL not null,
+ stpTime REAL not null,
+ channelValue1 REAL not null,
+ channelValue2 REAL not null,
+ channelValue3 REAL not null,
+ channelValue4 REAL not null,
+ shadeParam REAL not null,
+ rotateSpeed INTEGER NOT NULL DEFAULT 4500,
+ sendParam REAL not null,
+ foreign key (specification) REFERENCES specificationType(id),
+ foreign key (trayID) REFERENCES tray(id)
+ );
  */
 /*
 *
@@ -55,40 +55,40 @@ import org.litepal.crud.DataSupport;
 
 
 */
-//检测描述
+
 public class DetectionDetail extends DataSupport implements Parcelable {
-    @Column(unique = true, nullable = false)
+    @Column(unique = true,nullable = false)
     private long id;
     @Column(nullable = false)
-    private long detectionreport_id;//检测报告id号
+    private  long detectionreport_id;
     @Column(nullable = false)
-    private int detIndex;
+    private  int detIndex;
     @Column(nullable = false)
-    private int repIndex;
+    private  int repIndex;
     @Column(nullable = false)
-    private double data1;
-    @Column(nullable = false)
+    private  double data1;
+    @Column( nullable = false)
     private double data2;
     @Column(nullable = false)
     private double data3;
-    @Column(nullable = false)
+    @Column( nullable = false)
     private double data4;
     @Column(nullable = false)
-    private int colorFactor;//色差系数
-    @Column(nullable = false)
+    private  int colorFactor;
+    @Column( nullable = false)
     private double scrTime;
     @Column(nullable = false)
     private double stpTime;
-    @Column(nullable = false)
+    @Column( nullable = false)
     private String scrTimeText;
     @Column(nullable = false)
     private String stpTimeText;
-    @Column(nullable = false)
+    @Column( nullable = false)
     private String video;
     @Column(nullable = false)
     private String videoMd5;
-    @Column(nullable = false)
-    private boolean isPositive;//是否是阳性
+    @Column( nullable = false)
+    private boolean isPositive;
     @Column(nullable = false)
     private boolean isValid;
     @Column(nullable = false)
@@ -163,6 +163,7 @@ public class DetectionDetail extends DataSupport implements Parcelable {
     public void setDetectionreport_id(long detectionreport_id) {
         this.detectionreport_id = detectionreport_id;
     }
+
 
 
     public int getDetIndex() {

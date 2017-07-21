@@ -17,8 +17,31 @@ import org.litepal.crud.DataSupport;
  webSite text
  , province_code TEXT default NULL, city_code TEXT default NULL, area_code TEXT default NULL, contactName text, contactPhone text);
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:21
+CREATE TABLE [factory](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [address] text NOT NULL,
+    [area_code] text DEFAULT 'null',
+    [city_code] text DEFAULT 'null',
+    [contactname] text,
+    [contactphone] text,
+    [deprecate] integer NOT NULL DEFAULT false,
+    [fax] text,
+    [mail] text,
+    [name] text NOT NULL UNIQUE,
+    [phone] text,
+    [province_code] text DEFAULT 'null',
+    [website] text,
+    [user_id] integer);
+
+
+*/
 
 public class Factory extends DataSupport {
+
     @Column(nullable = false, unique = true)
     private int id;
     @Column(nullable = false, unique = true)
@@ -39,7 +62,6 @@ public class Factory extends DataSupport {
     private  String area_code;
     @Column(defaultValue = "false",nullable = false)
     private  boolean deprecate;
-
     public int getId() {
         return id;
     }
@@ -143,6 +165,5 @@ public class Factory extends DataSupport {
     public void setArea_code(String area_code) {
         this.area_code = area_code;
     }
-
 
 }

@@ -180,7 +180,7 @@ public class DrugInfo extends DataSupport implements Parcelable {
         this.factory_id = in.readLong();
     }
 
-    public static final Parcelable.Creator<DrugInfo> CREATOR = new Parcelable.Creator<DrugInfo>() {
+    public static final Creator<DrugInfo> CREATOR = new Creator<DrugInfo>() {
         @Override
         public DrugInfo createFromParcel(Parcel source) {
             return new DrugInfo(source);

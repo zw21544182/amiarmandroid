@@ -4,8 +4,9 @@ package cn.ml_tech.mx.mlproj;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,8 @@ import cn.ml_tech.mx.mlservice.IMlService;
 public abstract class BaseFragment extends Fragment {
     public BaseActivity mActivity;
     public View view;
-    public Context ct;
+    public IMlService mlService;
     public AmiApp amiApp;
-    public IMlService mService;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -33,7 +33,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ct = getActivity();
+
     }
 
     public void showToast(String content) {
@@ -44,7 +44,6 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mActivity = (BaseActivity) getActivity();
         view = initView(inflater);
         return view;
     }
@@ -52,8 +51,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        amiApp = (AmiApp) getActivity().getApplication();
-        mService = amiApp.getmMLService();
+
     }
 
     public View getRootView() {
@@ -67,6 +65,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mActivity = (BaseActivity) getActivity();
+        mlService = mActivity.getmService();
         initData(savedInstanceState);
         initEvent();
     }
@@ -81,6 +81,5 @@ public abstract class BaseFragment extends Fragment {
 
     //子类在此方法中实现数据的初始化
     public abstract void initData(@Nullable Bundle savedInstanceState);
-
 
 }

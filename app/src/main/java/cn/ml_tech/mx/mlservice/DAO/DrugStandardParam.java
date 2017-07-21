@@ -16,34 +16,38 @@ import org.litepal.crud.DataSupport;
  * );
 
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:19
+CREATE TABLE [drugstandardparam](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [paramname] text NOT NULL,
+    [paramvalue] real NOT NULL,
+    [type] integer NOT NULL DEFAULT 0,
+    [drugstandard_id] integer);
+
+
+*/
 
 public class DrugStandardParam extends DataSupport {
-    @Column(unique = true,nullable = false)
-    private int id;
-    @Column(nullable = false)
-    private int standardId;
+    @Column(unique = true, nullable = false)
+    private long id;
     @Column(nullable = false)
     private String paramName;
     @Column(nullable = false)
     private double paramValue;
-    @Column(nullable = false,defaultValue = "0")
+    @Column(nullable = false, defaultValue = "0")
     private int type;
-    private DrugStandard drugStandard;
+    @Column(nullable = false)
+    private long drugstandard_id;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public int getStandardId() {
-        return standardId;
-    }
-
-    public void setStandardId(int standardId) {
-        this.standardId = standardId;
     }
 
     public String getParamName() {
@@ -70,11 +74,11 @@ public class DrugStandardParam extends DataSupport {
         this.type = type;
     }
 
-    public DrugStandard getDrugStandard() {
-        return drugStandard;
+    public long getDrugstandard_id() {
+        return drugstandard_id;
     }
 
-    public void setDrugStandard(DrugStandard drugStandard) {
-        this.drugStandard = drugStandard;
+    public void setDrugstandard_id(long drugstandard_id) {
+        this.drugstandard_id = drugstandard_id;
     }
 }

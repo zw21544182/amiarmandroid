@@ -56,7 +56,6 @@ public class User extends DataSupport implements Parcelable {
     @Column(nullable = false)
     private String createDate;
     private Date loginDate;
-
     public long getId() {
         return id;
     }
@@ -165,7 +164,7 @@ public class User extends DataSupport implements Parcelable {
         this.loginDate = (Date) in.readSerializable();
     }
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+    public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);

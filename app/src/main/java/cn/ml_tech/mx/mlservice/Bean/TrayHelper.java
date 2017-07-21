@@ -55,7 +55,7 @@ public class TrayHelper {
 
         boolean flag=false;
         try {
-           flag= mlService.setTray(tray);
+            flag= mlService.setTray(tray);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

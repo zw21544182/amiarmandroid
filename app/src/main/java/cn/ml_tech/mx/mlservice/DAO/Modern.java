@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 创建时间: 2017/7/17
  * 创建人: zhongwang
- * 功能描述:
+ * 功能描述:传递Map集合
  */
 
 public class Modern implements Parcelable {
@@ -52,7 +52,7 @@ public class Modern implements Parcelable {
         }
     }
 
-    public static final Parcelable.Creator<Modern> CREATOR = new Parcelable.Creator<Modern>() {
+    public static final Creator<Modern> CREATOR = new Creator<Modern>() {
         @Override
         public Modern createFromParcel(Parcel source) {
             return new Modern(source);

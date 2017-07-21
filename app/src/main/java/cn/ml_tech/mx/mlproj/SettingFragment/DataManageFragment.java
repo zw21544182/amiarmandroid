@@ -1,7 +1,10 @@
 package cn.ml_tech.mx.mlproj.SettingFragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,35 +22,73 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import cn.ml_tech.mx.CustomView.SystemSetUp.DataParamView;
+import cn.ml_tech.mx.CustomView.SystemSetUp.DataItmeView;
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlservice.DAO.Modern;
+import cn.ml_tech.mx.mlservice.IMlService;
+
+import static cn.ml_tech.mx.mlproj.util.CommonUtil.FAILURE;
+import static cn.ml_tech.mx.mlproj.util.CommonUtil.SUCESS;
 
 /**
  * 创建时间: 2017/6/30
  * 创建人: zhongwang
  * 功能描述:数据管理fragment
  */
+
 public class DataManageFragment extends BaseFragment implements View.OnClickListener {
+    private static final int DELETESUCESS = 99;
+    private static final int DELETEFAILURE = 33;
+    private ProgressDialog progressDialog = null;
     private Spinner spDataTyle;
     private Button btAdd;
     private Button btDelete;
     private Button btRevoke;
     private Button btSubmit;
-    private LinearLayout datalayout;
-    private List<String> tableList = new ArrayList<>();
-    private List<String> itemList = new ArrayList<>();
+    private LinearLayout toplayout;
+    private RecyclerView rvData;
+    private IMlService mlService;
+    private List<String> tabNames;
+    private List<String> filedNames;
+    private StringAdapter tabNameAdapter;
+    private String tableName;
     private Modern modern;
-    private RecyclerView rvdata;
-    private DataAdapter adapter;
+    private TableAdapter tableAdapter;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            switch (msg.what) {
+                case SUCESS:
+                    initFiledInfo();
+                    Map<Integer, List<String>> data = modern.getMap();
+                    if (tableAdapter == null) {
+                        tableAdapter = new TableAdapter(getActivity(), data);
+                    } else {
+                        tableAdapter.setDataToView(data);
+                    }
+                    rvData.setAdapter(tableAdapter);
+                    break;
+                case FAILURE:
+                    showToast("数据加载失败");
+                    break;
+                case DELETEFAILURE:
+                    break;
+                case DELETESUCESS:
+                    initTableData();
+                    break;
+            }
+        }
+    };
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -64,294 +104,267 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         btDelete = (Button) view.findViewById(R.id.btDelete);
         btRevoke = (Button) view.findViewById(R.id.btRevoke);
         btSubmit = (Button) view.findViewById(R.id.btSubmit);
-        datalayout = (LinearLayout) view.findViewById(R.id.datalayout);
-        rvdata = (RecyclerView) view.findViewById(R.id.rvdata);
-        btSubmit.setOnClickListener(this);
-        btDelete.setOnClickListener(this);
-        btRevoke.setOnClickListener(this);
-        btAdd.setOnClickListener(this);
-    }
-
-    @Override
-    protected void initEvent() {
-        super.initEvent();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+        toplayout = (LinearLayout) view.findViewById(R.id.toplayout);
+        rvData = (RecyclerView) view.findViewById(R.id.rvData);
+        rvData.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        try {
-            tableList = mActivity.mService.getAllTableName();
-            spDataTyle.setAdapter(new StringAdapter(tableList, getActivity()));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        event();
+        mlService = mActivity.getmService();
+        initTableInfo();
     }
 
-
-    private void event() {
+    @Override
+    protected void initEvent() {
+        super.initEvent();
+        btSubmit.setOnClickListener(this);
+        btDelete.setOnClickListener(this);
+        btAdd.setOnClickListener(this);
         spDataTyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String tableName = tableList.get(position);
-                try {
-                    itemList = mActivity.mService.getFieldByName(tableName);
-                    modern = mActivity.mService.getDataByTableName(tableName);
-                    addTopView(itemList, modern);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                tableName = spDataTyle.getSelectedItem().toString();
+                initTableData();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+    }
+
+    private void initTableData() {
+        if (progressDialog == null)
+            progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("数据加载中......");
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    filedNames = mlService.getFieldByName(tableName);
+
+                    modern = mlService.getDataByTableName(tableName);
+                    handler.sendEmptyMessage(SUCESS);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(FAILURE);
+
+                }
+
+            }
+        }.start();
 
     }
 
-
-    private void addTopView(List<String> itemList, Modern modern) {
-        datalayout.removeAllViews();
-        addCheckBox();
-        for (int i = 0; i < itemList.size(); i++) {
-            String content = itemList.get(i);
-            DataParamView dataParamView = new DataParamView(getActivity(), null, content);
-            dataParamView.setEditEnable(false);
-            dataParamView.setBackgroundColor(R.color.colorWhite);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-            dataParamView.setLayoutParams(layoutParams);
-            datalayout.addView(dataParamView);
-        }
-        if (null != modern.getMap().get(0)) {
-            Log.d("zw", "sucess");
-        }
-        if (adapter != null) {
-            adapter.setDataToView(modern.getMap());
-        } else {
-            adapter = new DataAdapter(modern.getMap(), getActivity());
-        }
-        rvdata.setAdapter(adapter);
-        rvdata.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
-    private void addCheckBox() {
+    private void initFiledInfo() {
+        toplayout.removeAllViews();
+        LinearLayout linearLayout = new LinearLayout(getActivity());
         CheckBox checkBox = new CheckBox(getActivity());
-        LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        checkBox.setGravity(Gravity.CENTER);
-        checkBox.setBackgroundColor(R.color.colorheadLine);
+        checkBox.setBackgroundResource(R.color.colorheadLine);
+        linearLayout.setBackgroundResource(R.color.colorheadLine);
         checkBox.setVisibility(View.INVISIBLE);
+        LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         checkBox.setLayoutParams(checkParams);
-        datalayout.addView(checkBox);
+        linearLayout.addView(checkBox);
+        toplayout.addView(linearLayout);
+        if (filedNames != null) {
+            for (String name : filedNames) {
+                Log.d("zw", name);
+                DataItmeView dataItmeView = new DataItmeView(getActivity(), null);
+                dataItmeView.setContentValue(name);
+                dataItmeView.setContentEdit(false);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
+                dataItmeView.setLayoutParams(layoutParams);
+                toplayout.addView(dataItmeView);
+            }
+        }
+
     }
 
-    /**
-     * @param v
-     */
+    private void initTableInfo() {
+        try {
+            tabNames = mlService.getAllTableName();
+            if (tabNames != null) {
+                tabNameAdapter = new StringAdapter(tabNames, getActivity());
+                spDataTyle.setAdapter(tabNameAdapter);
+                spDataTyle.setSelection(0);
+            }
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSubmit:
-                modern = new Modern();
-                modern.setMap(adapter.getData());
+                if (modern == null)
+                    modern = new Modern();
+                modern.setMap(tableAdapter.getData());
                 try {
-                    mActivity.mService.updateData(spDataTyle.getSelectedItem().toString().trim(), modern);
-                    Toast.makeText(getActivity(), "sucess", Toast.LENGTH_SHORT).show();
-                    modern = mActivity.mService.getDataByTableName(spDataTyle.getSelectedItem().toString().trim());
-                    adapter.setDataToView(modern.getMap());
+                    mlService.updateData(tableName, modern);
+                    initTableData();
                 } catch (RemoteException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "false", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btDelete:
-                List<String> ids = adapter.getIdList();
-                if (ids.size() == 0) {
-                    Toast.makeText(getActivity(), "请选中", Toast.LENGTH_SHORT).show();
-
-                    return;
-                }
-                try {
-                    mActivity.mService.deleteData(spDataTyle.getSelectedItem().toString().trim(), ids);
-                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
-                    modern = mActivity.mService.getDataByTableName(spDataTyle.getSelectedItem().toString());
-                    adapter.setDataToView(modern.getMap());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.btRevoke:
-                try {
-                    if (adapter != null) {
-
-
-                        adapter.setDataToView(mActivity.mService.getDataByTableName(spDataTyle.getSelectedItem().toString()).getMap());
-
-                    } else {
-                        adapter = new DataAdapter(mActivity.mService.getDataByTableName(spDataTyle.getSelectedItem().toString()).getMap(), getActivity());
-                        rvdata.setAdapter(adapter);
-                        rvdata.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    }
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+                final List<String> ids = tableAdapter.getPos();
+                if (ids != null && ids.size() != 0) {
+                    if (progressDialog == null)
+                        progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setTitle("删除中....");
+                    progressDialog.show();
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            try {
+                                mlService.deleteData(tableName, ids);
+                                handler.sendEmptyMessage(DELETESUCESS);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                                handler.sendEmptyMessage(DELETEFAILURE);
+                            }
+                        }
+                    }.start();
+                } else {
+                    showToast("尚未选中");
                 }
                 break;
             case R.id.btAdd:
-                rvdata.smoothScrollToPosition(modern.getMap().size());
-                adapter.addNewDataToView();
+                rvData.scrollToPosition(tableAdapter.getItemCount() - 1);
+                tableAdapter.addNewDataToView();
                 break;
         }
-
     }
 
+    public class TableAdapter extends RecyclerView.Adapter<TableAdapter.MyViewHolder> {
+        private Context context;
+        private Map<Integer, List<String>> data;
+        private List<String> pos;
 
-    private class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
-        Map<Integer, List<String>> data;
-        Context context;
-        List<String> id = new ArrayList<>();
-        List<Boolean> isCheck = new ArrayList<>();
+        public List<String> getPos() {
+            return pos;
+        }
 
-        public DataAdapter(Map<Integer, List<String>> data, Context context) {
-            this.data = data;
+        public TableAdapter(Context context, Map<Integer, List<String>> data) {
+            pos = new ArrayList<>();
             this.context = context;
-            for (int i = 0; i < data.size(); i++) {
-                isCheck.add(false);
-            }
-        }
+            this.data = data;
 
-        public List<String> getIdList() {
-            return id;
-        }
-
-        public void setDataToView(Map<Integer, List<String>> data) {
-            this.data.clear();
-            this.data.putAll(data);
-            isCheck.clear();
-            for (int i = 0; i < data.size(); i++) {
-                isCheck.add(false);
-            }
-            notifyDataSetChanged();
         }
 
         public void addNewDataToView() {
-            String id = "1";
-            if (data.get(data.size() - 1) != null) {
-                id = (Integer.parseInt(data.get(data.size() - 1).get(0)) + 1) + "";
-                List<String> list = new ArrayList<>();
-                for (int i = 0; i < data.get(0).size(); i++) {
-                    if (i == 0) {
-                        list.add(id);
-                    } else {
-                        list.add("");
-                    }
-                }
-                data.put(data.size(), list);
-                isCheck.clear();
-                for (int i = 0; i < data.size(); i++) {
-                    isCheck.add(false);
-                }
-            } else {
-                List list = new ArrayList();
-                for (int i = 0; i < itemList.size(); i++) {
-                    if (i == 0) {
-                        list.add(id);
-                    } else {
-                        list.add("");
-                    }
-                }
-                data.put(0, list);
-                isCheck.clear();
-                for (int i = 0; i < data.size(); i++) {
-                    isCheck.add(false);
+            List<String> newData = new ArrayList<>();
+            for (int i = 0; i < data.get(data.size() - 1).size(); i++) {
+                if (i == 0) {
+                    String id = (Integer.parseInt(data.get(data.size() - 1).get(0)) + 1) + "";
+                    newData.add(id);
+                } else {
+                    newData.add("");
                 }
             }
+            data.put(data.size(), newData);
+            notifyDataSetChanged();
+        }
 
+        public void setDataToView(Map<Integer, List<String>> data) {
+            Log.d("zw", "setDataToView");
+            this.data.clear();
+            pos.clear();
+            this.data.putAll(data);
             notifyDataSetChanged();
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.dataitmelayout, parent, false);
+            return new MyViewHolder(view);
+        }
 
-            return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.linearlayout, parent, false));
+        public Map<Integer, List<String>> getData() {
+            return data;
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
+        public void onBindViewHolder(MyViewHolder holder, final int position) {
             holder.linearLayout.removeAllViews();
-            CheckBox checkBox = new CheckBox(getActivity());
-
+            final CheckBox checkBox = new CheckBox(getActivity());
+            checkBox.setBackgroundResource(R.color.colorheadLine);
             LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            checkBox.setGravity(Gravity.CENTER);
             checkBox.setLayoutParams(checkParams);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Log.d("zw", "start --------------------");
+                    if (isChecked) {
+                        pos.add(data.get(position).get(0));
+                    } else {
+                        pos.remove(data.get(position).get(0));
+                    }
+                    for (String value :
+                            pos) {
+                        Log.d("zw", "posid " + value);
+                    }
+                    Log.d("zw", "end --------------------");
+
+                }
+            });
             holder.linearLayout.addView(checkBox);
-            EditText content = null;
-            List<String> strings = data.get(position);
-            for (int i = 0; i < strings.size(); i++) {
-                DataParamView dataParamView = new DataParamView(getActivity(), null, strings.get(i));
+            final List<String> datas = data.get(position);
+            for (int i = 0; i < datas.size(); i++) {
+                String value = datas.get(i);
+                DataItmeView dataItmeView = new DataItmeView(getActivity(), null);
+                dataItmeView.setContentValue(value);
                 if (i == 0)
-                    dataParamView.setEditEnable(false);
-                dataParamView.setBackgroud(R.color.colorWhite);
+                    dataItmeView.setContentEdit(false);
+                dataItmeView.setBackGroudColor(R.color.colorWhite);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-                dataParamView.setLayoutParams(layoutParams);
+                dataItmeView.setLayoutParams(layoutParams);
+                holder.linearLayout.addView(dataItmeView);
+                EditText content = dataItmeView.getContentView();
                 final int finalI = i;
-                content = dataParamView.getEditText();
                 content.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                        data.get(position).set(finalI, s.toString());
                     }
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        data.get(position).set(finalI, s.toString());
-                        Log.d("zw", data.get(position).get(finalI));
+
                     }
                 });
-                holder.linearLayout.addView(dataParamView);
 
             }
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    isCheck.set(position, isChecked);
-                    if (isChecked) {
-                        id.add(data.get(position).get(0));
-                    } else {
-                        id.remove(data.get(position).get(0));
-                    }
-                }
-            });
-            checkBox.setChecked(isCheck.get(position));
+
         }
 
-        public Map<Integer, List<String>> getData() {
-            return this.data;
-        }
-
+        /**
+         * @return
+         */
         @Override
         public int getItemCount() {
             return data.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
             LinearLayout linearLayout;
 
-            public ViewHolder(View itemView) {
+            public MyViewHolder(View itemView) {
                 super(itemView);
-                linearLayout = (LinearLayout) itemView.findViewById(R.id.datalayout);
+                linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
             }
         }
     }

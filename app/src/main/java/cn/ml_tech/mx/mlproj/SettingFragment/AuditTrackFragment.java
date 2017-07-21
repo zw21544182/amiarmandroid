@@ -223,25 +223,11 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
     }
 
     public int getEventId() {
-        int result = 1;
-        for (int i = 0; i < eventTypes.size(); i++) {
-            AuditTrailEventType eventType = eventTypes.get(i);
-            if (eventType.getName().trim().equals(speventtype.getSelectedItem().toString().toString().trim())) {
-                result = (int) eventType.getId();
-            }
-        }
-        return result;
+        return speventtype.getSelectedItemPosition() + 1;
     }
 
     public int getInfoId() {
-        int result = 1;
-        for (int i = 0; i < infoTypes.size(); i++) {
-            AuditTrailInfoType infoType = infoTypes.get(i);
-            if (infoType.getName().trim().equals(spinfotype.getSelectedItem().toString().toString().trim())) {
-                result = (int) infoType.getId();
-            }
-        }
-        return result;
+        return spinfotype.getSelectedItemPosition() + 1;
     }
 
 

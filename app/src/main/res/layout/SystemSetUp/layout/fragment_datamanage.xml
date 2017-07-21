@@ -32,7 +32,6 @@
             style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginLeft="20dp"
             android:text="删除" />
 
@@ -63,27 +62,22 @@
         android:padding="1dp">
 
         <LinearLayout
-            android:layout_width="1300dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="fill"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/datalayout"
+                android:id="@+id/toplayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
                 android:orientation="horizontal"></LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#000" />
-
+                android:background="@color/colorBlack" />
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvdata"
+                android:id="@+id/rvData"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </LinearLayout>

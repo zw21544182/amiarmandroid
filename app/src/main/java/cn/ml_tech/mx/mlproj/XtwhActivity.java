@@ -3,10 +3,8 @@ package cn.ml_tech.mx.mlproj;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 
 import cn.ml_tech.mx.mlproj.SettingFragment.ManchineManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.SysConfigFragment;
@@ -14,8 +12,12 @@ import cn.ml_tech.mx.mlproj.SettingFragment.TrayManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.UserManagerFragment;
 
 public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener
-        , View.OnClickListener, RadioGroup.OnCheckedChangeListener {
-    XtwhFragment xtwhFragment = null;
+        , View.OnClickListener {
+    public XtwhFragment getXtwhFragment() {
+        return xtwhFragment;
+    }
+
+    public XtwhFragment xtwhFragment = null;
     LinearLayout mllSysSetUpContent = null;
 
     @Override
@@ -90,9 +92,4 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
     }
 
 
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-        xtwhFragment.changeFragmentById(checkedId);
-    }
 }

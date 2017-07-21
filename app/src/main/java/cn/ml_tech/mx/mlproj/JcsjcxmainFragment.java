@@ -61,22 +61,22 @@ public class JcsjcxmainFragment extends BaseFragment {
 
     @Override
     public void initFindViewById(View view) {
-        checkDrug = (RecyclerView) view.findViewById(R.id.rvCheckDrug);
-        resver = (Button) view.findViewById(R.id.btResver);
-        search = (Button) view.findViewById(R.id.btSearch);
-        stopDate = (EditText) view.findViewById(R.id.etStopDate);
-        startDate = (EditText) view.findViewById(R.id.etStartDate);
-        retrieveNum = (EditText) view.findViewById(R.id.etRetrieveNum);
-        checkNum = (EditText) view.findViewById(R.id.etCheckNum);
-        drugFactory = (EditText) view.findViewById(R.id.etDrugFactory);
-        drugName = (EditText) view.findViewById(R.id.etDrugName);
-        checkFormat = (EditText) view.findViewById(R.id.etCheckFormat);
+//        checkDrug = (RecyclerView) view.findViewById(R.id.rvCheckDrug);
+//        resver = (Button) view.findViewById(R.id.btResver);
+//        search = (Button) view.findViewById(R.id.btSearch);
+//        stopDate = (EditText) view.findViewById(R.id.etStopDate);
+//        startDate = (EditText) view.findViewById(R.id.etStartDate);
+//        retrieveNum = (EditText) view.findViewById(R.id.etRetrieveNum);
+//        checkNum = (EditText) view.findViewById(R.id.etCheckNum);
+//        drugFactory = (EditText) view.findViewById(R.id.etDrugFactory);
+//        drugName = (EditText) view.findViewById(R.id.etDrugName);
+//        checkFormat = (EditText) view.findViewById(R.id.etCheckFormat);
         event();
     }
 
     private void event() {
-        setDateToEdit(stopDate);
-        setDateToEdit(startDate);
+//        setDateToEdit(stopDate);
+//        setDateToEdit(startDate);
 
     }
 

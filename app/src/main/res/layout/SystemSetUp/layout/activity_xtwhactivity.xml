@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="571dp"
     android:layout_marginLeft="50dp"
     android:layout_marginRight="50dp"
     android:background="@drawable/bgitme_layout"
@@ -33,7 +33,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="12">
 
             <RadioButton
                 android:id="@+id/rbUserManage"
@@ -138,7 +139,7 @@
         <FrameLayout
             android:id="@+id/settingFragment"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="520dp"
             android:layout_marginLeft="15dp"
             android:layout_weight="9"></FrameLayout>
     </LinearLayout>

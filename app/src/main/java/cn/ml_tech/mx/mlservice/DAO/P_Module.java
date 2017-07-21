@@ -1,5 +1,8 @@
 package cn.ml_tech.mx.mlservice.DAO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
@@ -17,36 +20,57 @@ import org.litepal.crud.DataSupport;
  webSite text
  , province_code TEXT default NULL, city_code TEXT default NULL, area_code TEXT default NULL, contactName text, contactPhone text);
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:22
+CREATE TABLE [p_module](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [title] text NOT NULL,
+    [url] text NOT NULL);
 
-public class P_Module extends DataSupport {
-    @Column(unique = true,nullable = false)
-    private String id;
+
+*/
+
+public class P_Module extends DataSupport implements Parcelable {
+
+    @Column(unique = true, nullable = false)
+    private long id;
     @Column(nullable = false)
-    private  String url;
+    private String url;
     @Column(nullable = false)
     private String title;
 
-    public String getId() {
-        return id;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.url);
+        dest.writeString(this.title);
     }
 
-    public String getUrl() {
-        return url;
+    public P_Module() {
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    protected P_Module(Parcel in) {
+        this.id = in.readLong();
+        this.url = in.readString();
+        this.title = in.readString();
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public static final Creator<P_Module> CREATOR = new Creator<P_Module>() {
+        @Override
+        public P_Module createFromParcel(Parcel source) {
+            return new P_Module(source);
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+        @Override
+        public P_Module[] newArray(int size) {
+            return new P_Module[size];
+        }
+    };
 }

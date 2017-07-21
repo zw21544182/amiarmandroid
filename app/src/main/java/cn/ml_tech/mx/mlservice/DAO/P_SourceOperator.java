@@ -1,5 +1,8 @@
 package cn.ml_tech.mx.mlservice.DAO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
@@ -17,54 +20,83 @@ import org.litepal.crud.DataSupport;
  webSite text
  , province_code TEXT default NULL, city_code TEXT default NULL, area_code TEXT default NULL, contactName text, contactPhone text);
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:24
+CREATE TABLE [p_sourceoperator](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [operatorid] text NOT NULL,
+    [sourceid] text NOT NULL,
+    [p_source_id] integer,
+    [p_operator_id] integer);
 
-public class P_SourceOperator extends DataSupport {
-    @Column(unique = true,nullable = false)
-    private String id;
-    @Column(nullable = false)
-    private String sourceid;
-    @Column(nullable = false)
-    private  String operatorid;
-    private P_Source p_source;
-    private P_Operator p_operator;
 
-    public String getId() {
+*/
+
+public class P_SourceOperator extends DataSupport implements Parcelable {
+
+    @Column(unique = true, nullable = false)
+    private long id;
+    @Column(nullable = false)
+    private long p_source_id;
+    @Column(nullable = false)
+    private long p_operator_id;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getSourceid() {
-        return sourceid;
+    public long getP_source_id() {
+        return p_source_id;
     }
 
-    public void setSourceid(String sourceid) {
-        this.sourceid = sourceid;
+    public void setP_source_id(long p_source_id) {
+        this.p_source_id = p_source_id;
     }
 
-    public String getOperatorid() {
-        return operatorid;
+    public long getP_operator_id() {
+        return p_operator_id;
     }
 
-    public void setOperatorid(String operatorid) {
-        this.operatorid = operatorid;
+    public void setP_operator_id(long p_operator_id) {
+        this.p_operator_id = p_operator_id;
     }
 
-    public P_Source getP_source() {
-        return p_source;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setP_source(P_Source p_source) {
-        this.p_source = p_source;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeLong(this.p_source_id);
+        dest.writeLong(this.p_operator_id);
     }
 
-    public P_Operator getP_operator() {
-        return p_operator;
+    public P_SourceOperator() {
     }
 
-    public void setP_operator(P_Operator p_operator) {
-        this.p_operator = p_operator;
+    protected P_SourceOperator(Parcel in) {
+        this.id = in.readLong();
+        this.p_source_id = in.readLong();
+        this.p_operator_id = in.readLong();
     }
+
+    public static final Creator<P_SourceOperator> CREATOR = new Creator<P_SourceOperator>() {
+        @Override
+        public P_SourceOperator createFromParcel(Parcel source) {
+            return new P_SourceOperator(source);
+        }
+
+        @Override
+        public P_SourceOperator[] newArray(int size) {
+            return new P_SourceOperator[size];
+        }
+    };
 }

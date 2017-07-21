@@ -17,6 +17,7 @@ import org.litepal.crud.DataSupport;
  * foreign key(containerId) REFERENCES drugContainer(id),
  * foreign key (factoryId) REFERENCES factory(id)
  * );
+
  */
 /*
 *
@@ -33,6 +34,16 @@ CREATE TABLE [drugparam](
 */
 
 public class DrugParam extends DataSupport implements Parcelable {
+    @Override
+    public String toString() {
+        return "DrugParam{" +
+                "id=" + id +
+                ", paramname='" + paramname + '\'' +
+                ", paramvalue=" + paramvalue +
+                ", type=" + type +
+                ", druginfo_id=" + druginfo_id +
+                '}';
+    }
 
     @Column(unique = true, nullable = false)
     private long id;
@@ -40,7 +51,7 @@ public class DrugParam extends DataSupport implements Parcelable {
     private String paramname;
     @Column(nullable = false)
     private double paramvalue;
-    @Column(nullable = false, defaultValue = "0")
+    @Column(nullable = false,defaultValue = "0")
     private int type;
     @Column(nullable = false)
     private long druginfo_id;
@@ -110,18 +121,7 @@ public class DrugParam extends DataSupport implements Parcelable {
         this.druginfo_id = in.readLong();
     }
 
-    @Override
-    public String toString() {
-        return "DrugParam{" +
-                "id=" + id +
-                ", paramname='" + paramname + '\'' +
-                ", paramvalue=" + paramvalue +
-                ", type=" + type +
-                ", druginfo_id=" + druginfo_id +
-                '}';
-    }
-
-    public static final Parcelable.Creator<DrugParam> CREATOR = new Parcelable.Creator<DrugParam>() {
+    public static final Creator<DrugParam> CREATOR = new Creator<DrugParam>() {
         @Override
         public DrugParam createFromParcel(Parcel source) {
             return new DrugParam(source);

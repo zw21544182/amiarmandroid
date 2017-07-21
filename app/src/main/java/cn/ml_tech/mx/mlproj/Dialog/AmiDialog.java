@@ -1,22 +1,22 @@
 package cn.ml_tech.mx.mlproj.Dialog;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
+        import android.app.Activity;
+        import android.app.Dialog;
+        import android.content.Context;
+        import android.os.Bundle;
+        import android.support.annotation.NonNull;
+        import android.support.annotation.StyleRes;
+        import android.view.Display;
+        import android.view.Gravity;
+        import android.view.View;
+        import android.view.Window;
+        import android.view.WindowManager;
+        import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import cn.ml_tech.mx.mlproj.R;
+        import cn.ml_tech.mx.mlproj.R;
 
 /**
  * 创建时间: 2017/7/12

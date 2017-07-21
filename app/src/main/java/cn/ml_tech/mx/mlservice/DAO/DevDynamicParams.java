@@ -29,17 +29,19 @@ import org.litepal.crud.DataSupport;
 
 public class DevDynamicParams extends DataSupport {
     @Column(unique = true,nullable = false)
-    private  int id;
+    private  long id;
     @Column( nullable = false)
     private   String paramName;
     @Column(nullable = false)
     private double paramValue;
+    @Column( nullable = false,defaultValue = "0")
+    private int type;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -66,8 +68,4 @@ public class DevDynamicParams extends DataSupport {
     public void setType(int type) {
         this.type = type;
     }
-
-    @Column( nullable = false,defaultValue = "0")
-    int type;
-
 }

@@ -67,6 +67,7 @@
                 android:id="@+id/etUserName"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
@@ -152,6 +153,14 @@
                 style="@style/SpinnerStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"></Spinner>
+
+            <Button
+                android:id="@+id/btAddType"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="添加用户类型" />
         </LinearLayout>
 
         <LinearLayout

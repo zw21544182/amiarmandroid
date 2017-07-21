@@ -16,6 +16,21 @@ import org.litepal.crud.DataSupport;
  * );
 
  */
+/*
+*
+*@author wl
+*create at  2017/5/24 13:19
+CREATE TABLE [drugstandardimgmod](
+    [id] integer PRIMARY KEY AUTOINCREMENT,
+    [imgmod0] text NOT NULL,
+    [imgmod1] text NOT NULL,
+    [imgmod2] text NOT NULL,
+    [imgmod3] text NOT NULL,
+    [imgmod4] text NOT NULL,
+    [imgmod5] text NOT NULL);
+
+
+*/
 
 public class DrugStandardImgMod extends DataSupport {
     @Column(unique = true,nullable = false)
