@@ -2,9 +2,12 @@ package cn.ml_tech.mx.mlproj;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,34 +16,57 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DAO.User;
 
-
-public class LoginActivity extends BaseActivity implements LoginFragment.OnFragmentInteractionListener, OptionFragment.OnFragmentInteractionListener,
-        BottomFragment.OnFragmentInteractionListener {
+public class LoginActivity extends BaseActivity implements BottomFragment.OnFragmentInteractionListener {
     private LoginFragment loginFragment = null;
     private OptionFragment optionFragment = null;
     private CheckBox chkRember;
+    private Permission permission;
+    private ProgressDialog progressDialog;
+    private boolean isPermission;
+    private static final int RESTARTSUCESS = 123;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
+            switch (msg.what) {
+                case GETPERMISSIONSUCESS:
+                    isPermission = true;
+                    optionFragment = (OptionFragment) switchContentFragment(OptionFragment.class.getSimpleName());
+                    break;
+                case RESTARTSUCESS:
+                    optionFragment.restart();
+                case GETPERMISSIONFAILURE:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         if (loginFragment != null && loginFragment.getView() != null) {
-            LogDebug(" on start loginfragment is not null");
             chkRember = (CheckBox) loginFragment.getView().findViewById(R.id.checkBoxRember);
             if (chkRember != null)
-                chkRember.setVisibility(View.INVISIBLE);//set the rember password invisible
+                chkRember.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void doAfterGetService() {
+
     }
 
     @Override
@@ -51,6 +77,19 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
     @Override
     protected void onRestart() {
         super.onRestart();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    permission = mService.getPermissonByUrl("", true);
+                    handler.sendEmptyMessage(RESTARTSUCESS);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(GETPERMISSIONFAILURE);
+                }
+            }
+        }.start();
 
     }
 
@@ -94,6 +133,13 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
                 }).show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null)
+            progressDialog.dismiss();
+    }
+
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         final EditText etUserName = (EditText) this.findViewById(R.id.etUserName);
@@ -104,7 +150,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
 
                 @Override
                 public void onClick(View v) {
-
                     try {
                         List<User> list = mService.getUserList();
                         LogDebug(String.valueOf(list.size()));
@@ -113,27 +158,56 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
-                    logv("login....");
                     String userName = etUserName.getText().toString();
                     String password = etPassword.getText().toString();
-                    logv(userName);
-                    logv(password);
                     boolean result = false;
                     try {
                         result = mService.checkAuthority(userName, password);
-                        result = true;//the result set true on debug
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
                     String msg = "login failed";
                     if (result) {
+                        if (progressDialog == null)
+                            progressDialog = new ProgressDialog(LoginActivity.this);
+                        progressDialog.setTitle("载入数据中....");
+                        progressDialog.show();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                super.run();
+                                try {
+                                    permission = mService.getPermissonByUrl("", true);
+                                    handler.sendEmptyMessage(GETPERMISSIONSUCESS);
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                    handler.sendEmptyMessage(GETPERMISSIONFAILURE);
+                                }
+                            }
+                        }.start();
                         msg = "login success";
-                        optionFragment = (OptionFragment) switchContentFragment(OptionFragment.class.getSimpleName());
                         app.setUserName(userName);
                         app.setLogined(true);
                         bottomFragment.updateDisplay();
                     }
                     Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
+                    final String finalMsg = msg;
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            try {
+                                if (finalMsg.equals("login success"))
+                                    mService.addAudittrail(4, 1, "1", CommonUtil.LOGINSUCESS);
+                                else
+
+                                    mService.addAudittrail(4, 1, "1", CommonUtil.LOGINREFUSE);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }.start();
                 }
             });
         }
@@ -141,6 +215,13 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
 
     }
 
+    public boolean isPermission() {
+        return isPermission;
+    }
+
+    public Permission getPermission() {
+        return permission;
+    }
 }
 
 

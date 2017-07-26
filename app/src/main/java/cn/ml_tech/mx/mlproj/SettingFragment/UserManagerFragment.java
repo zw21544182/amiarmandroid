@@ -29,6 +29,8 @@ import cn.ml_tech.mx.mlproj.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.XtwhActivity;
 import cn.ml_tech.mx.mlproj.XtwhFragment;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DAO.User;
 import cn.ml_tech.mx.mlservice.DAO.UserType;
 
@@ -61,6 +63,7 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
     private List<UserType> userTypes;
     private List<String> typeName;
     private StringAdapter typeNameAdapter;
+    private Permission permission;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -71,13 +74,18 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     showToast("操作失败");
                     break;
                 case OPERATESUCESS:
-
+                    mUser = null;
+                    clearText();
                     initUserTypeInfo();
                     initUserInfo();
                     break;
                 case INITDATASUCESS:
-                    initUserTypeInfo();
-                    initUserInfo();
+                    if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(2))) {
+                        initUserTypeInfo();
+                        initUserInfo();
+                    }else {
+
+                    }
                     break;
                 case INITDATAFAILURE:
                     showToast("加载失败");
@@ -85,6 +93,13 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
             }
         }
     };
+
+    private void clearText() {
+        etNickName.setText("");
+        etUserName.setText("");
+        etUserPwd.setText("");
+        etUserPwd2.setText("");
+    }
 
     private void initUserTypeInfo() {
         typeName.clear();
@@ -110,37 +125,52 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
     private OnItmeClick itmeClick = new OnItmeClick() {
         @Override
         public void update(User user) {
-            mUser = user;
-            setUserInfoToView(user);
+            if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(4))) {
+                mUser = user;
+                setUserInfoToView(user);
+            } else {
+                showRefuseTip();
+            }
         }
 
         @Override
         public void delete(final long id) {
-            if (progressDialog == null) {
-                progressDialog = new ProgressDialog(getActivity());
-            }
-            progressDialog.setTitle("操作中...");
-            progressDialog.show();
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    try {
-                        Log.d("zw", "delete data");
+            if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(5))) {
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(getActivity());
+                }
+                progressDialog.setTitle("操作中...");
+                progressDialog.show();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            Log.d("zw", "delete data");
+                            mlService.deleteUserById(id);
+                            listUser = mlService.getUserList();
+                            handler.sendEmptyMessage(OPERATESUCESS);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                            handler.sendEmptyMessage(OPERATEFAILURE);
 
-                        mlService.deleteUserById(id);
-                        listUser = mlService.getUserList();
-                        handler.sendEmptyMessage(OPERATESUCESS);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                        handler.sendEmptyMessage(OPERATEFAILURE);
+                        }
 
                     }
-
-                }
-            }.start();
+                }.start();
+            } else {
+                showRefuseTip();
+            }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -197,10 +227,27 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void run() {
                 super.run();
+                String url = "";
                 try {
-                    listUser = mlService.getUserList();
-                    userTypes = mlService.getAllUserType();
-                    handler.sendEmptyMessage(INITDATASUCESS);
+                    for (P_Source p_source : amiApp.getP_sources()
+                            ) {
+                        if (p_source.getId() == 27) {
+                            url = p_source.getUrl();
+                            Log.d("zw", url);
+                            break;
+                        }
+                    }
+                    permission = mlService.getPermissonByUrl(url, false);
+                    if (mlService != null) {
+                        listUser = mlService.getUserList();
+                        userTypes = mlService.getAllUserType();
+                        handler.sendEmptyMessage(INITDATASUCESS);
+                    } else {
+                        handler.sendEmptyMessage(INITDATAFAILURE);
+
+                    }
+
+
                 } catch (RemoteException e) {
                     handler.sendEmptyMessage(INITDATAFAILURE);
                     e.printStackTrace();
@@ -249,6 +296,11 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     showToast("密码为输入完整或两次密码输入不一致");
                     return;
                 }
+                for (UserType userType :
+                        userTypes) {
+                    if (userType.getTypeName().trim().equals(comUserType.getSelectedItem().toString().trim()))
+                        mUser.setUsertype_id(userType.getTypeId());
+                }
                 if (progressDialog == null) {
                     progressDialog = new ProgressDialog(getActivity());
                     progressDialog.setTitle("操作中...");
@@ -267,6 +319,8 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                             handler.sendEmptyMessage(OPERATESUCESS);
                         } catch (RemoteException e) {
                             e.printStackTrace();
+                            handler.sendEmptyMessage(OPERATEFAILURE);
+
                         }
 
                     }
@@ -274,6 +328,9 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.btAddType:
                 xtwhFragment.moveToAddType();
+                break;
+            case R.id.btResver:
+                clearText();
                 break;
         }
 

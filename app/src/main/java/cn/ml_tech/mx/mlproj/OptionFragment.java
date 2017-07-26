@@ -1,147 +1,110 @@
 package cn.ml_tech.mx.mlproj;
 
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OptionFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link OptionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class OptionFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public OptionFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OptionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static OptionFragment newInstance(String param1, String param2) {
-        OptionFragment fragment = new OptionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class OptionFragment extends BaseFragment implements View.OnClickListener {
+    private ImageButton ibCsbd;
+    private ImageButton ibYpjc;
+    private ImageButton ibSjcx;
+    private ImageButton ibXtwh;
+    private Permission permission;
+    private boolean isPermission;
+    private Map<String, Boolean> perData;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_option, container, false);
-
+    public View initView(LayoutInflater inflater) {
+        View v = inflater.inflate(R.layout.fragment_option, null);
+        initFindViewById(v);
         return v;
-
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-
+    public void initFindViewById(View view) {
+        ibCsbd = (ImageButton) view.findViewById(R.id.ibCsbd);
+        ibYpjc = (ImageButton) view.findViewById(R.id.ibYpjc);
+        ibSjcx = (ImageButton) view.findViewById(R.id.ibSjcx);
+        ibXtwh = (ImageButton) view.findViewById(R.id.ibXtwh);
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    protected void initEvent() {
+        super.initEvent();
+        ibCsbd.setOnClickListener(this);
+        ibYpjc.setOnClickListener(this);
+        ibSjcx.setOnClickListener(this);
+        ibXtwh.setOnClickListener(this);
     }
 
     @Override
-    public  void onStart() {
-        super.onStart();
-        getActivity().findViewById(R.id.ibCsbd).setOnClickListener(this);
-        getActivity().findViewById(R.id.ibYpjc).setOnClickListener(this);
-        getActivity().findViewById(R.id.ibSjcx).setOnClickListener(this);
-        getActivity().findViewById(R.id.ibXtwh).setOnClickListener(this);
+    public void initData(@Nullable Bundle savedInstanceState) {
+        permission = ((LoginActivity) getActivity()).getPermission();
+        isPermission = ((LoginActivity) getActivity()).isPermission();
+        perData = permission.getPermissiondata();
+        if (!perData.get(getTitleById(6) + getOperateNameById(1)))
+            ibCsbd.setVisibility(View.INVISIBLE);
+        else
+            ibCsbd.setVisibility(View.VISIBLE);
+        if (!perData.get(getTitleById(15) + getOperateNameById(1)))
+            ibYpjc.setVisibility(View.INVISIBLE);
+        else
+            ibYpjc.setVisibility(View.VISIBLE);
+        if (!perData.get(getTitleById(19) + getOperateNameById(1)))
+            ibSjcx.setVisibility(View.INVISIBLE);
+        else
+            ibSjcx.setVisibility(View.VISIBLE);
+        if (!perData.get(getTitleById(27) + getOperateNameById(1)))
+            ibXtwh.setVisibility(View.INVISIBLE);
+        else
+            ibXtwh.setVisibility(View.VISIBLE);
     }
-    
+
     @Override
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.ibCsbd:
-                intent = new Intent(getActivity(), CsbdActivity.class);
-                startActivity(intent);
+                if (perData.get(getTitleById(6) + getOperateNameById(8))) {
+                    intent = new Intent(getActivity(), CsbdActivity.class);
+                    startActivity(intent);
+                } else {
+                    showRefuseTip();
+                }
                 break;
             case R.id.ibYpjc:
-                intent = new Intent(getActivity(), YpjcActivity.class);
-                startActivity(intent);
+                if (perData.get(getTitleById(15) + getOperateNameById(8))) {
+                    intent = new Intent(getActivity(), YpjcActivity.class);
+                    startActivity(intent);
+                } else {
+                    showRefuseTip();
+                }
                 break;
             case R.id.ibSjcx:
-                intent = new Intent(getActivity(), JcsjcxActivity.class);
-                startActivity(intent);
+                if (perData.get(getTitleById(19) + getOperateNameById(8))) {
+                    intent = new Intent(getActivity(), JcsjcxActivity.class);
+                    startActivity(intent);
+                } else showRefuseTip();
                 break;
             case R.id.ibXtwh:
-                intent = new Intent(getActivity(), XtwhActivity.class);
-                startActivity(intent);
+                if (perData.get(getTitleById(27) + getOperateNameById(8))) {
+                    intent = new Intent(getActivity(), XtwhActivity.class);
+                    startActivity(intent);
+                } else showRefuseTip();
                 break;
             default:
         }
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public void restart() {
+        initData(null);
+        initEvent();
     }
 }

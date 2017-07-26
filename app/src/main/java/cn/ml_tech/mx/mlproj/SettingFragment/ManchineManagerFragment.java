@@ -42,7 +42,6 @@ public class ManchineManagerFragment extends Fragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_machinemanager,container,false);
-
         mActivity = (BaseActivity) getActivity();
         return view;
     }

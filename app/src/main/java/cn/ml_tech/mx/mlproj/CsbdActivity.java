@@ -1,88 +1,88 @@
 package cn.ml_tech.mx.mlproj;
+
 import android.app.Fragment;
-import android.graphics.Color;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.os.Handler;
+import android.os.Message;
+import android.os.RemoteException;
+import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 
-import cn.ml_tech.mx.CustomView.DrugStandardCheck.workflowitemView;
-
-public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener, View.OnClickListener {
+public class CsbdActivity extends BaseActivity implements BottomFragment.OnFragmentInteractionListener {
     CsbdFragment csbdFragment = null;
     BottomFragment bottomFragment = null;
+    private static final int PERMISSIONSUCESS = 47;
+    private static final int PERMISSIONFAILURE = 48;
+    Permission permission;
+    private AmiApp amiApp;//
+    private boolean isPermissionSucess = false;
+    private ProgressDialog progressDialog;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
+            switch (msg.what) {
+                case PERMISSIONSUCESS:
+                    isPermissionSucess = true;
+                    csbdFragment = (CsbdFragment) switchContentFragment(CsbdFragment.class.getSimpleName());
+                    bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
+                    break;
+                case PERMISSIONFAILURE:
+                    showToast("权限验证失败");
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void doAfterGetService() {
+        amiApp = (AmiApp) getApplication();
+        if (progressDialog == null)
+            progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("权限加载中....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                String url = "";
+                try {
+                    for (P_Source p_source : amiApp.getP_sources()
+                            ) {
+                        if (p_source.getId() == 6) {
+                            url = p_source.getUrl();
+                            Log.d("zw", url);
+                            break;
+                        }
+                    }
+                    if (mService != null)
+                        permission = mService.getPermissonByUrl(url, false);
+                    handler.sendEmptyMessage(PERMISSIONSUCESS);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(PERMISSIONFAILURE);
+                }
+            }
+        }.start();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_csbd);
-        LogDebug(CsbdFragment.class.getSimpleName());
-        csbdFragment = (CsbdFragment) switchContentFragment(CsbdFragment.class.getSimpleName());
-        bottomFragment = (BottomFragment) switchBottomFragment(BottomFragment.class.getSimpleName());
-    }
+  }
+
     protected void onStart() {
         super.onStart();
-        switchTopFragment("");//hiden powerbutton on this Activity
-        CsbdFragment f=(CsbdFragment) getFragment(CsbdFragment.class.getSimpleName());
-        if(f!=null)
-        {
-           View view= f.getView();
-          Button btnBack= (Button) view.findViewById(R.id.btBack);
-            if(btnBack!=null)
-            LogDebug("btnback is not null ");
-            btnBack.setOnClickListener(CsbdActivity.this);
-            LinearLayout ll=(LinearLayout)view.findViewById(R.id.layoutworkflow);
-            //read from database
+        switchTopFragment("");
 
-            List<String > list=new ArrayList<String>();
-
-            list.add("自动进样");
-
-            list.add("机械手取样");
-            list.add("固定样品");
-            list.add("高速旋瓶");
-            list.add("激光扫描");
-            list.add("结果显示");
-            list.add("自动分拣");
-            for (int var =0;var<list.size();var++)
-            {
-               String[]temp= list.get(var).split("");
-                String string= TextUtils.join("\n",temp);
-                string=string.substring(1,string.length());
-                list.set(var,string);
-            }
-            LinearLayout.LayoutParams llp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            for(int var=0;var<list.size();var++){
-                workflowitemView w=new workflowitemView(CsbdActivity.this,null,list.get(var),Color.BLACK,Color.BLUE);
-                w.setHeight(160);
-              w.setMinWidth(60);
-              w.setMaxWidth(80);
-                w.getPaint().setFakeBoldText(true);
-                w.setGravity(Gravity.CENTER);
-                w.setTextSize(22);
-                w.setBackgroundColor(Color.BLUE);
-                w.setTextcolor(Color.RED);
-                llp.setMargins(0,0,20,0);
-                w.setLayoutParams(llp);
-                ll.addView(w);
-                if(var<list.size()-1){
-                 ImageView imageView=new ImageView(CsbdActivity.this);
-                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.arrowright));
-                    llp.setMargins(20,0,0,0);
-                    imageView.setLayoutParams(llp);
-                     ll.addView(imageView);
-                }
-            }
-        }
 
     }
 
@@ -108,15 +108,5 @@ public class CsbdActivity  extends BaseActivity implements CsbdFragment.OnFragme
     public void onFragmentInteraction(Uri uri) {
 
     }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btBack:
-             //   this.getFragment(csbdFragment.getClass().getSimpleName()).onDetach();
-                LogDebug("the onclick is btnBack");
-                this.finish();
-                break;
-            default:
-        }
-    }
+
 }

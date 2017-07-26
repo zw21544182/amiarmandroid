@@ -270,7 +270,6 @@ public class YpjqFragment extends Fragment {
                             tvShadPara.setText(drugParam.getParamvalue() + "");
                             break;
                         case "sendparam":
-                            Toast.makeText(getActivity(), "abc", Toast.LENGTH_SHORT).show();
                             if (tvColorCoefficient != null)
                                 tvColorCoefficient.setText(drugParam.getParamvalue() + "");
                             break;

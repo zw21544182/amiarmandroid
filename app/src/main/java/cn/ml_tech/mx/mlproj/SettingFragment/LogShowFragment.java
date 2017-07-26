@@ -33,14 +33,12 @@ public class LogShowFragment extends BaseFragment {
     private RecyclerView rvlogdata;
     private SimpleDateFormat dateFormat;
     private String currenttime;
-
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.fragment_logshow, null);
         initFindViewById(view);
         return view;
     }
-
     @Override
     protected void initEvent() {
         super.initEvent();
@@ -56,14 +54,11 @@ public class LogShowFragment extends BaseFragment {
             }
         });
     }
-
     @Override
     public void initFindViewById(View view) {
-
         etLogShow = (EditText) view.findViewById(R.id.etLogShow);
         rvlogdata = (RecyclerView) view.findViewById(R.id.rvlogdata);
     }
-
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,11 +67,9 @@ public class LogShowFragment extends BaseFragment {
         loadData(currenttime);
 
     }
-
     private void loadData(String currenttime) {
         showToast("加载" + currenttime + "的数据");
     }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void showDatePickDlg(final EditText dateView) {
         Calendar calendar = Calendar.getInstance();
@@ -102,5 +95,11 @@ public class LogShowFragment extends BaseFragment {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
 
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            initData(null);
     }
 }

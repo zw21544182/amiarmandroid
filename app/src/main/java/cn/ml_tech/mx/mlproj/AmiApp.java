@@ -6,8 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 
+import java.util.List;
+
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
+import cn.ml_tech.mx.mlservice.DAO.P_Operator;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.IMlService;
 
 /**
@@ -16,7 +22,8 @@ import cn.ml_tech.mx.mlservice.IMlService;
 public class AmiApp extends Application {
     private IMlService mMLService;
     private static Context context;
-
+    private List<P_Source> p_sources;
+    private List<P_Operator> p_operators;
 
     public AmiApp() {
         this.isLogined = false;
@@ -31,7 +38,6 @@ public class AmiApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("Debug", "onCreate: ");
         context = this;
         Intent intent = new Intent();
         intent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
@@ -39,8 +45,17 @@ public class AmiApp extends Application {
         getApplicationContext().bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
+                Log.d("zw","service connect");
                 mMLService = IMlService.Stub.asInterface(service);
-                Log.d("zw", "sssss");
+                try {
+                    mMLService.addAudittrail(5, 5, "", CommonUtil.POWERON);
+                    p_operators = mMLService.getAllP_Operator();
+                    p_sources = mMLService.getAllP_Source();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
             @Override
@@ -78,6 +93,14 @@ public class AmiApp extends Application {
 
     public void setLogined(Boolean logined) {
         isLogined = logined;
+    }
+
+    public List<P_Source> getP_sources() {
+        return p_sources;
+    }
+
+    public List<P_Operator> getP_operators() {
+        return p_operators;
     }
 
     private String userName;

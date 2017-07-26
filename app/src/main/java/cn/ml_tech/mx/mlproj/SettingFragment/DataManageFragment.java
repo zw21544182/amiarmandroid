@@ -117,6 +117,22 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            initData(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
     protected void initEvent() {
         super.initEvent();
         btSubmit.setOnClickListener(this);
@@ -166,9 +182,14 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         CheckBox checkBox = new CheckBox(getActivity());
         checkBox.setBackgroundResource(R.color.colorheadLine);
         linearLayout.setBackgroundResource(R.color.colorheadLine);
-        checkBox.setVisibility(View.INVISIBLE);
         LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         checkBox.setLayoutParams(checkParams);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                tableAdapter.setAllChecked(isChecked);
+            }
+        });
         linearLayout.addView(checkBox);
         toplayout.addView(linearLayout);
         if (filedNames != null) {
@@ -193,7 +214,6 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                 spDataTyle.setAdapter(tabNameAdapter);
                 spDataTyle.setSelection(0);
             }
-
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -248,6 +268,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         private Context context;
         private Map<Integer, List<String>> data;
         private List<String> pos;
+        private List<Boolean> checks;
 
         public List<String> getPos() {
             return pos;
@@ -255,8 +276,25 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
 
         public TableAdapter(Context context, Map<Integer, List<String>> data) {
             pos = new ArrayList<>();
+            checks = new ArrayList<>();
             this.context = context;
             this.data = data;
+
+            for (int i = 0; i < data.size(); i++) {
+                checks.add(false);
+            }
+        }
+
+        public void setAllChecked(boolean checked) {
+            pos.clear();
+            for (int i = 0; i < checks.size(); i++)
+                checks.set(i, checked);
+            if (checked) {
+                for (int c = 0; c < data.size(); c++) {
+                    pos.add(data.get(c).get(0));
+                }
+            }
+            notifyDataSetChanged();
 
         }
 
@@ -271,6 +309,10 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                 }
             }
             data.put(data.size(), newData);
+            checks.clear();
+            for (int i = 0; i < data.size(); i++) {
+                checks.add(false);
+            }
             notifyDataSetChanged();
         }
 
@@ -279,6 +321,10 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             this.data.clear();
             pos.clear();
             this.data.putAll(data);
+            checks.clear();
+            for (int i = 0; i < data.size(); i++) {
+                checks.add(false);
+            }
             notifyDataSetChanged();
         }
 
@@ -299,10 +345,12 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             checkBox.setBackgroundResource(R.color.colorheadLine);
             LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             checkBox.setLayoutParams(checkParams);
+            checkBox.setChecked(checks.get(position));
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Log.d("zw", "start --------------------");
+                    checks.set(position, isChecked);
                     if (isChecked) {
                         pos.add(data.get(position).get(0));
                     } else {

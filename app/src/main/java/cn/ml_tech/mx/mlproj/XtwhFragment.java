@@ -6,6 +6,9 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.RemoteException;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -25,8 +28,12 @@ import cn.ml_tech.mx.mlproj.SettingFragment.PerManageFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.SysConfigFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.TrayManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.UserManagerFragment;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class XtwhFragment extends BaseFragment {
+    private static final int PERSUCESS = 300;
+    private static final int PERFAILURE = 400;
     private OnFragmentInteractionListener mListener;
     private FragmentManager mChildFragmentManager;
     private FragmentTransaction mfragmentTransaction;
@@ -45,6 +52,38 @@ public class XtwhFragment extends BaseFragment {
     private Fragment mCurrentFrgment;//显示当前Fragment
     private ImageButton btBack;
     private RadioGroup rootgroup;
+    private Permission permission;
+    private AmiApp amiApp;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case PERSUCESS:
+                    initStartFragment();
+                    initPermission();
+                    break;
+                case PERFAILURE:
+                    break;
+            }
+        }
+
+
+    };
+
+    /**
+     * 根据权限设置子模块是否可见
+     */
+    private void initPermission() {
+        view.findViewById(R.id.rbUserManage).setVisibility(permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.rbTrayManage).setVisibility(permission.getPermissiondata().get(getTitleById(21) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.rbSystemConfig).setVisibility(permission.getPermissiondata().get(getTitleById(22) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.rbAuditTrack).setVisibility(permission.getPermissiondata().get(getTitleById(23) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.rbpermissTrack).setVisibility(permission.getPermissiondata().get(getTitleById(24) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.rbProgramUpdate).setVisibility(permission.getPermissiondata().get(getTitleById(25) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.rbLogShow).setVisibility(permission.getPermissiondata().get(getTitleById(26) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
+    }
+
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -139,15 +178,43 @@ public class XtwhFragment extends BaseFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        amiApp = (AmiApp) getActivity().getApplication();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                String url = "";
+                for (P_Source p_source :
+                        amiApp.getP_sources()) {
+                    if (p_source.getId() == 27) {
+                        url = p_source.getUrl();
+                        break;
+                    }
+                }
+                try {
+                    permission = mlService.getPermissonByUrl(url, false);
+                    handler.sendEmptyMessage(PERSUCESS);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(PERFAILURE);
+
+                }
+            }
+        }.start();
     }
 
     private void initStartFragment() {
-        if (userManagerFragment == null) ;
-        userManagerFragment = new UserManagerFragment();
-        switchFragment(userManagerFragment);
+        if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(1))) {
+            if (userManagerFragment == null) ;
+            userManagerFragment = new UserManagerFragment();
+            switchFragment(userManagerFragment);
+        } else {
+            if (instrumManageFragment == null)
+                instrumManageFragment = new InstrumManageFragment();
+            switchFragment(instrumManageFragment);
+        }
+
     }
-
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -164,12 +231,6 @@ public class XtwhFragment extends BaseFragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
 
@@ -189,12 +250,6 @@ public class XtwhFragment extends BaseFragment {
         mCurrentFrgment = fragment;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        initStartFragment();
-
-    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

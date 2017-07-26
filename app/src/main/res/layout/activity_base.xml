@@ -2,33 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/linearlayout_top"
         android:layout_width="match_parent"
         android:layout_height="149dp"
-        android:orientation="horizontal"
-        android:background="@drawable/head">
+        android:background="@drawable/head"
+        android:orientation="horizontal">
 
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/linearlayout_middle"
         android:layout_width="match_parent"
         android:layout_height="571dp"
-        android:orientation="vertical"
-        android:background="@drawable/bodys">
-
-    </LinearLayout>
+        android:background="@drawable/bodys"
+        android:gravity="center"
+        android:orientation="vertical"></LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearlayout_bottom"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="vertical"
-        android:background="@drawable/bottom">
-
-    </LinearLayout>
-
+        android:background="@drawable/bottom"
+        android:orientation="vertical"></LinearLayout>
 </LinearLayout>

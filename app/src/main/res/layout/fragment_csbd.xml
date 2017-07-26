@@ -1,10 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="571dp"
     android:layout_margin="@dimen/nomargin"
-    android:layout_marginLeft="100dp"
-    android:layout_marginRight="100dp"
     android:background="@color/colorBackgroud"
     android:padding="@dimen/default_edittext_height"
     android:paddingBottom="@dimen/nopadding"
@@ -42,54 +40,56 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/nomargin"
             android:orientation="horizontal"
-            android:layout_gravity="center"
             android:padding="@dimen/nopadding">
+
             <LinearLayout
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/nomargin"
-                android:orientation="vertical"
-                android:padding="@dimen/nopadding"
                 android:layout_weight="3"
-                >
+                android:orientation="vertical"
+                android:padding="@dimen/nopadding">
+
                 <LinearLayout
                     android:id="@+id/layoutworkflow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="left|center_vertical"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    />
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/nomargin"
-                    android:orientation="vertical"
                     android:layout_gravity="left|center_vertical"
+                    android:layout_margin="@dimen/nomargin"
                     android:layout_weight="1"
+                    android:orientation="vertical"
                     android:padding="@dimen/nopadding">
+
                     <TextView
                         android:id="@+id/tvNotice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="请放入安瓶10ml 40um标准粒子瓶，开始标定!"
                         android:textColor="#e73f56"
-                        android:textSize="20sp"
-                        />
+                        android:textSize="20sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="@dimen/nomargin"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/nopadding"
+                    android:layout_weight="1"
                     android:gravity="bottom|left"
-                    >
+                    android:orientation="horizontal"
+                    android:padding="@dimen/nopadding">
+
                     <Button
                         android:id="@+id/btStart"
                         android:layout_width="wrap_content"
@@ -109,34 +109,39 @@
                         android:text="数据导出" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
+               android:id="@+id/resultLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_margin="@dimen/nomargin"
                 android:layout_weight="1"
-              android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:padding="@dimen/nopadding">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_gravity="right"
-                    android:gravity="right"
                     android:layout_weight="1"
-                    >
+                    android:gravity="right"
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/labResult"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="标定结果" />
+
                     <TextView
                         android:id="@+id/lab40um"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="40um标准" />
+
                     <TextView
                         android:id="@+id/lab50um"
                         android:layout_width="wrap_content"
@@ -185,82 +190,84 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="色差系数" />
-                    </LinearLayout>
+                </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/nomargin"
-                        android:paddingLeft="20dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/nomargin"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:orientation="vertical"
+                    android:padding="@dimen/nopadding"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:id="@+id/txtResult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                          android:gravity="left"
-                        android:orientation="vertical"
-                        android:padding="@dimen/nopadding">
-                            <TextView
-                                android:id="@+id/txtResult"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="标定结果" />
-                            <TextView
-                                android:id="@+id/txt40um"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="40um标准" />
+                        android:text="标定结果" />
 
-                            <TextView
-                                android:id="@+id/txt50um"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="50um标准" />
+                    <TextView
+                        android:id="@+id/txt40um"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="40um标准" />
 
-                            <TextView
-                                android:id="@+id/txt60um"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="60um标准" />
+                    <TextView
+                        android:id="@+id/txt50um"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="50um标准" />
 
-                            <TextView
-                                android:id="@+id/txt40umvariance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="40um方差" />
+                    <TextView
+                        android:id="@+id/txt60um"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="60um标准" />
 
-                            <TextView
-                                android:id="@+id/txt60umvariance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="60um方差" />
+                    <TextView
+                        android:id="@+id/txt40umvariance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="40um方差" />
 
-                            <TextView
-                                android:id="@+id/txtrotatetime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="旋屏时间" />
+                    <TextView
+                        android:id="@+id/txt60umvariance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="60um方差" />
 
-                            <TextView
-                                android:id="@+id/txtstoptime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="停瓶时间" />
+                    <TextView
+                        android:id="@+id/txtrotatetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="旋屏时间" />
 
-                            <TextView
-                                android:id="@+id/txtcolorfactor"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="色差系数" />
+                    <TextView
+                        android:id="@+id/txtstoptime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="停瓶时间" />
 
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtcolorfactor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="色差系数" />
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

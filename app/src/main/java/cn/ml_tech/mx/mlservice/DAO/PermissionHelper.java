@@ -3,7 +3,7 @@ package cn.ml_tech.mx.mlservice.DAO;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,13 +14,13 @@ import java.util.Map;
 
 public class PermissionHelper implements Parcelable {
 
-    Map<Long, P_Operator> p_operatorMap;
+    LinkedHashMap<Long, P_Operator> p_operatorMap;
 
-    public Map<Long, P_Operator> getP_operatorMap() {
+    public LinkedHashMap<Long, P_Operator> getP_operatorMap() {
         return p_operatorMap;
     }
 
-    public void setP_operatorMap(Map<Long, P_Operator> p_operatorMap) {
+    public void setP_operatorMap(LinkedHashMap<Long, P_Operator> p_operatorMap) {
         this.p_operatorMap = p_operatorMap;
     }
 
@@ -43,7 +43,7 @@ public class PermissionHelper implements Parcelable {
 
     protected PermissionHelper(Parcel in) {
         int p_operatorMapSize = in.readInt();
-        this.p_operatorMap = new HashMap<Long, P_Operator>(p_operatorMapSize);
+        this.p_operatorMap = new LinkedHashMap<Long, P_Operator>(p_operatorMapSize);
         for (int i = 0; i < p_operatorMapSize; i++) {
             Long key = (Long) in.readValue(Long.class.getClassLoader());
             P_Operator value = in.readParcelable(P_Operator.class.getClassLoader());
@@ -51,7 +51,7 @@ public class PermissionHelper implements Parcelable {
         }
     }
 
-    public static final Creator<PermissionHelper> CREATOR = new Creator<PermissionHelper>() {
+    public static final Parcelable.Creator<PermissionHelper> CREATOR = new Parcelable.Creator<PermissionHelper>() {
         @Override
         public PermissionHelper createFromParcel(Parcel source) {
             return new PermissionHelper(source);

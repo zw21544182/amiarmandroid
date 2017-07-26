@@ -1,8 +1,11 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,12 +23,14 @@ import java.util.Map;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DrugControls;
 
-public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmentInteractionListener, View.OnClickListener,
+public class YpjcActivity extends BaseActivity implements View.OnClickListener,
         View.OnTouchListener, YpjqFragment.OnFragmentInteractionListener, YpxjFragment.OnFragmentInteractionListener,
         YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener, YpxaFragment.OnFragmentInteractionListener
-        , YpjccFragment.OnFragmentInteractionListener, YpjcjFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
+        , YpjcjFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
     YpxxFragment ypxxFragment = null;
@@ -43,15 +48,70 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     public int pos, druginfo_id;
     public DrugControls drugControl = new DrugControls();
     public DetectionReport detectionReport = new DetectionReport();
-
-
+    private static final int PERMISSIONSUCESS = 47;
+    private static final int PERMISSIONFAILURE = 48;
+    Permission permission;
+    private AmiApp amiApp;
+    private boolean isPermissionSucess = false;
+    private ProgressDialog progressDialog;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
+            switch (msg.what) {
+                case PERMISSIONSUCESS:
+                    isPermissionSucess = true;
+                    ypjcFragment = (YpjcFragment) switchContentFragment(YpjcFragment.class.getSimpleName());
+                    break;
+                case PERMISSIONFAILURE:
+                    showToast("权限验证失败");
+                    break;
+            }
+        }
+    };
     private List<DrugParam> drugParams = null;
+
+    @Override
+    public void doAfterGetService() {
+        amiApp = (AmiApp) getApplication();
+        if (progressDialog == null)
+            progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("权限加载中....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                String url = "";
+                try {
+                    for (P_Source p_source : amiApp.getP_sources()
+                            ) {
+                        if (p_source.getId() == 15) {
+                            url = p_source.getUrl();
+                            Log.d("zw", url);
+                            break;
+                        }
+                    }
+                    if (mService != null)
+                        permission = mService.getPermissonByUrl(url, false);
+                    handler.sendEmptyMessage(PERMISSIONSUCESS);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(PERMISSIONFAILURE);
+
+                }
+            }
+        }.start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         data = new HashMap<>();
         super.onCreate(savedInstanceState);
-        ypjcFragment = (YpjcFragment) switchContentFragment(YpjcFragment.class.getSimpleName());
     }
 
     @Override
@@ -90,7 +150,6 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
 
     public void moveToMainFragment() {
@@ -101,8 +160,7 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
     public void onStart() {
         super.onStart();
         switchTopFragment("");//hiden powerbutton on this Activity
-        findViewById(R.id.btPre).setOnClickListener(this);
-        findViewById(R.id.btNext).setOnClickListener(this);
+
     }
 
     @Override
@@ -139,12 +197,17 @@ public class YpjcActivity extends BaseActivity implements YpjcFragment.OnFragmen
                 this.finish();
                 break;
             case R.id.btNext:
-                if (!ypjcFragment.isContinue()) {
-                    ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
-                    ypkFragment.setmService(mService);
-                } else {
-                    ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
-                    ypjccFragment.setState("continue");
+
+                try {
+                    if ((!ypjcFragment.isContinue()) || (null == mService.getLastReport())) {
+                        ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+                        ypkFragment.setmService(mService);
+                    } else {
+                        ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
+                        ypjccFragment.setState("continue");
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
                 break;
             case R.id.addphonetic:

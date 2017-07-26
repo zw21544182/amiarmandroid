@@ -45,6 +45,7 @@ import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.DAO.DevUuid;
 import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DrugControls;
 import cn.ml_tech.mx.mlservice.IMlService;
 
@@ -77,7 +78,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     private Button btSearch;
     private Button btResver;
     private int cuurentPage = 1, lastPage;
-
+    private Permission permission;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -175,7 +176,6 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         Log.d("zw", "showDetailInfo");
         setReportLayout(false);
         InitDetailData(id);
-
         llDetail.setVisibility(View.VISIBLE);
         llReport.setVisibility(View.INVISIBLE);
     }
@@ -187,19 +187,16 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void InitDetailData(@Nullable String info) {
-
         try {
             detectionDetailList = mService.queryDetectionDetailByReportId(detectionReports.get(Integer.parseInt(info)).getId());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
         adapterDetail.UpdateData(detectionDetailList);
     }
 
     private void initRecycleDetail(@Nullable String prefix) {
         adapterDetail = new AdapterDetail(mActivity, detectionDetailList);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerDetail.setLayoutManager(linearLayoutManager);

@@ -15,8 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.BaseFragment;
@@ -26,11 +27,6 @@ import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.PermissionHelper;
 import cn.ml_tech.mx.mlservice.DAO.UserType;
 
-/**
- * 创建时间: 2017/6/30
- * 创建人: zhongwang
- * 功能描述: 权限管理Fragment
- */
 
 public class PerManageFragment extends BaseFragment {
     private Spinner spUser;
@@ -41,7 +37,7 @@ public class PerManageFragment extends BaseFragment {
     private List<P_Source> p_sources;
     private List<LinearLayout> sourceLayouts;
     private List<LinearLayout> rootSourceLayouts;
-    private List<LinearLayout> layoutList;
+    private List<LinearLayout> horLayout;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -50,12 +46,10 @@ public class PerManageFragment extends BaseFragment {
         return view;
     }
 
-
     @Override
     public void initFindViewById(View view) {
         spUser = (Spinner) view.findViewById(R.id.spUser);
         rootLayout = (LinearLayout) view.findViewById(R.id.rootLayout);
-
     }
 
     @Override
@@ -64,12 +58,15 @@ public class PerManageFragment extends BaseFragment {
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                initSource();
+                try {
+                    initOperate();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -77,9 +74,63 @@ public class PerManageFragment extends BaseFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initSpinnerData();
-        init();
         initRootSource();
         initSource();
+        try {
+            initOperate();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initOperate() throws RemoteException {
+        final long typeId = getUserTypeId();
+        int layoutIndex = 0;
+        for (int i = 0; i < rootP_sources.size(); i++) {
+            P_Source p_source = rootP_sources.get(i);
+            p_sources = mActivity.getmService().getP_SourceByUrl(p_source.getUrl());
+            for (int z = 0; z < p_sources.size(); z++) {
+                P_Source source = p_sources.get(z);
+                LinearLayout horlayout = horLayout.get(layoutIndex);
+                layoutIndex++;
+                for (int c = 0; c < horlayout.getChildCount(); c++) {
+                    View child = horlayout.getChildAt(c);
+                    if (child instanceof CheckBox) {
+                        horlayout.removeView(child);
+                        c--;
+                    }
+                }
+                PermissionHelper permissionHelper = mActivity.mService.getP_OperatorBySourceId(source.getId());
+                LinkedHashMap<Long, P_Operator> pOperatorMap = permissionHelper.getP_operatorMap();
+                Iterator<Long> iter = pOperatorMap.keySet().iterator();
+                while (iter.hasNext()) {
+                    final long sourceoperateid = iter.next();
+                    P_Operator p_operator = pOperatorMap.get(sourceoperateid);
+                    final CheckBox checkBox = new CheckBox(getActivity());
+                    checkBox.setText(p_operator.getTitle());
+                    boolean result = mActivity.getmService().isOperate(sourceoperateid, typeId);
+                    checkBox.setChecked(result);
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            try {
+                                if (isChecked) {
+                                    mActivity.getmService().addPermission(sourceoperateid, typeId);
+                                } else {
+                                    mActivity.getmService().deletePermission(sourceoperateid, typeId);
+                                }
+
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                    horlayout.addView(checkBox);
+                }
+
+            }
+        }
     }
 
     private void initSpinnerData() {
@@ -91,7 +142,6 @@ public class PerManageFragment extends BaseFragment {
                 usernames.add(user.getTypeName());
             }
             spUser.setAdapter(new StringAdapter(usernames, mActivity));
-            spUser.setSelection(0);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -102,21 +152,15 @@ public class PerManageFragment extends BaseFragment {
         return user.getTypeId();
     }
 
-    private void init() {
-        if (layoutList == null)
-            layoutList = new ArrayList<>();
-        layoutList.clear();
-    }
-
     private void initSource() {
         final long typeId = getUserTypeId();
         sourceLayouts = new ArrayList<>();
+        horLayout = new ArrayList<>();
         p_sources = new ArrayList<>();
         for (int i = 0; i < rootP_sources.size(); i++) {
             try {
                 P_Source p_source = rootP_sources.get(i);
                 LinearLayout linearLayout = rootSourceLayouts.get(i);
-                linearLayout.removeAllViews();
                 p_sources = mActivity.getmService().getP_SourceByUrl(p_source.getUrl());
                 LinearLayout layout = new LinearLayout(getActivity());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -128,36 +172,12 @@ public class PerManageFragment extends BaseFragment {
                     horlayout.setOrientation(LinearLayout.HORIZONTAL);
                     horlayout.setLayoutParams(layoutParams);
                     TextView tvSource = new TextView(getActivity());
+                    LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(150, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    tvSource.setLayoutParams(textParams);
                     tvSource.setTextAppearance(getActivity(), R.style.TextViewStyle);//设置控件的style
                     tvSource.setText(source.getTitle());
                     horlayout.addView(tvSource);
-                    PermissionHelper permissionHelper = mActivity.mService.getP_OperatorBySourceId(source.getId());
-                    Map<Long, P_Operator> pOperatorMap = permissionHelper.getP_operatorMap();
-                    for (Map.Entry<Long, P_Operator> entry2 : pOperatorMap.entrySet()) {
-                        final long sourceoperateid = entry2.getKey();
-                        P_Operator p_operator = entry2.getValue();
-                        final CheckBox checkBox = new CheckBox(getActivity());
-                        checkBox.setText(p_operator.getTitle());
-                        boolean result = mActivity.getmService().isOperate(sourceoperateid, typeId);
-                        checkBox.setChecked(result);
-                        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                try {
-                                    if (isChecked) {
-                                        mActivity.getmService().addPermission(sourceoperateid, typeId);
-                                    } else {
-                                        mActivity.getmService().deletePermission(sourceoperateid, typeId);
-                                    }
-
-                                } catch (RemoteException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        });
-                        horlayout.addView(checkBox);
-                    }
+                    horLayout.add(horlayout);
                     layout.addView(horlayout);
                 }
                 linearLayout.addView(layout);
@@ -179,8 +199,10 @@ public class PerManageFragment extends BaseFragment {
                 linearLayout.setLayoutParams(rootSourceParams);
                 TextView tvRootSource = new TextView(getActivity());
                 tvRootSource.setGravity(Gravity.END);
-                tvRootSource.setTextAppearance(getActivity(), R.style.TextViewStyle);//设置控件的style
+                tvRootSource.setTextAppearance(getActivity(), R.style.TextViewStyle);
                 tvRootSource.setText(p_source.getTitle());
+                LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(150, ViewGroup.LayoutParams.WRAP_CONTENT);
+                tvRootSource.setLayoutParams(textParams);
                 linearLayout.addView(tvRootSource);
                 rootSourceLayouts.add(linearLayout);
                 rootLayout.addView(linearLayout);
@@ -194,6 +216,10 @@ public class PerManageFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden)
-            initData(null);
+            try {
+                initOperate();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
     }
 }

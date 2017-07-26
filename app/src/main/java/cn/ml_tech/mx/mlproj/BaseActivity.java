@@ -5,20 +5,19 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -32,10 +31,11 @@ import android.widget.Toast;
 import java.lang.reflect.Method;
 
 import cn.ml_tech.mx.mlservice.IMlService;
-import cn.ml_tech.mx.mlservice.MotorControl;
 
-public class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener {
+public abstract class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener {
     public static final int OVERLAY_PERMISSION_REQ_CODE = 4545;
+    public static final int GETPERMISSIONSUCESS = 11;
+    public static final int GETPERMISSIONFAILURE = 22;
     protected AmiApp app = null;
     protected BottomFragment bottomFragment = null;
     protected HeadFragment headFragment = null;
@@ -46,6 +46,22 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     protected FragmentManager mFragmentManager;
     protected MyReceiver receiver;
     private AmiApp amiApp;
+    private final static int SERVICESUCESS = 100;
+    private final static int SERVICWFAILURE = 200;
+    private ProgressDialog progressDialog;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SERVICESUCESS:
+                    doAfterGetService();
+                    break;
+            }
+        }
+    };
+
+    public abstract void doAfterGetService();
 
     public void showToast(String content) {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
@@ -71,7 +87,7 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     @Override
     protected void onResume() {
         super.onResume();
-        LogDebug("Base Resume");
+        Log.d("zw", "Base Resume");
 
     }
 
@@ -120,26 +136,6 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         logv("created\n");
         ActivityCollector.addActivity(this);
         mFragmentManager = getFragmentManager();
-//        Intent serviceIntent = new Intent();
-//        serviceIntent.setAction("cn.ml_tech.mx.mlservice.MotorServices");
-//        serviceIntent.setPackage("cn.ml_tech.mx.mlservice");
-//        bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
-       /*
-        try {
-            List<User>list= mService.getUserList();
-            Log.d("fer", String.valueOf(list.size()));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        LogDebug("mService get userlist");
-        app.setmMLService(mService);
-        try {
-            List<User> list= app.getmMLService().getUserList();
-            //LogDebug("User Size is "+list.size());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        */
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         hideBottomUIMenu();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -177,39 +173,16 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
         }
     }
 
-//    private ServiceConnection mConnection = new ServiceConnection() {
-//
-//        @Override
-//        public void onServiceConnected(ComponentName className, IBinder service) {
-//            //mLog.append("Service binded!\n");Log.d("zw", "onServiceConnected");
-//            mService = IMlService.Stub.asInterface(service);
-//            if (mService != null) {
-//                showToast("不为空");
-//                Log.d("zw", "onServiceConnected");
-//            }
-//            amiApp.setmMLService(mService);
-//            try {
-//                performSomething();
-//            } catch (RemoteException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName className) {
-//            mService = null;
-//        }
-//    };
-
-//    private void performSomething() throws RemoteException {
-//        MotorControl mControl = null;
-//        mService.addMotorControl(mControl);
-//    }
 
     @Override
     protected void onStart() {
         super.onStart();
         amiApp = (AmiApp) getApplication();
+        if (progressDialog == null)
+            progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("加载中...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
         new Thread() {
             @Override
             public void run() {
@@ -217,6 +190,8 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
                 while (mService == null) {
                     mService = amiApp.getmMLService();
                 }
+
+                handler.sendEmptyMessage(SERVICESUCESS);
             }
         }.start();
 
@@ -225,9 +200,10 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        unbindService(mConnection);
         unregisterReceiver(receiver);
         ActivityCollector.removeActivity(this);
+        if (progressDialog != null)
+            progressDialog.dismiss();
     }
 
     protected Fragment getFragment(String tag) {
@@ -397,4 +373,5 @@ public class BaseActivity extends Activity implements HeadFragment.OnFragmentInt
             return true;
         }
     }
+
 }

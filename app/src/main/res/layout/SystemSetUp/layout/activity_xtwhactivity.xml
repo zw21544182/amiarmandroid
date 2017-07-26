@@ -126,7 +126,6 @@
                 android:text="审计追踪" />
 
             <RadioButton
-
                 android:id="@+id/rbpermissTrack"
                 style="@style/Bottom_Tab_Style"
                 android:layout_width="match_parent"

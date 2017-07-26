@@ -172,6 +172,14 @@ public class SysConfigFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            initData(null);
+        }
+    }
+
+    @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         LoadData();
     }

@@ -3,6 +3,10 @@ package cn.ml_tech.mx.mlproj;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.RemoteException;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -10,6 +14,8 @@ import cn.ml_tech.mx.mlproj.SettingFragment.ManchineManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.SysConfigFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.TrayManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.UserManagerFragment;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener
         , View.OnClickListener {
@@ -17,28 +23,63 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
         return xtwhFragment;
     }
 
+    private static final int PERMISSIONSUCESS = 47;
+    private static final int PERMISSIONFAILURE = 48;
+    private boolean isPermissionSucess = false;
+    public Permission permission;
+    private AmiApp amiApp;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case PERMISSIONSUCESS:
+                    isPermissionSucess = true;
+                    xtwhFragment = (XtwhFragment) switchContentFragment(XtwhFragment.class.getSimpleName());
+                    break;
+                case PERMISSIONFAILURE:
+                    showToast("权限验证失败");
+                    break;
+            }
+        }
+    };
     public XtwhFragment xtwhFragment = null;
     LinearLayout mllSysSetUpContent = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        xtwhFragment = (XtwhFragment) switchContentFragment(XtwhFragment.class.getSimpleName());
-        LogDebug(XtwhFragment.class.getSimpleName());
+    public void doAfterGetService() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                String url = "";
+                try {
+                    for (P_Source p_source : amiApp.getP_sources()
+                            ) {
+                        if (p_source.getId() == 27) {
+                            url = p_source.getUrl();
+                            Log.d("zw", url);
+                            break;
+                        }
+                    }
+                    permission = mService.getPermissonByUrl(url, false);
+                    handler.sendEmptyMessage(PERMISSIONSUCESS);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(PERMISSIONFAILURE);
+
+                }
+            }
+        }.start();
     }
 
-//    @Override
-//    public Fragment switchContentFragment(String tag) {
-//        Fragment f = null;
-//        if(!tag.equals(mCurrentContentFragmentTag)){
-//            if (mCurrentContentFragmentTag != null) detachFragment(getFragment(mCurrentContentFragmentTag));
-//            attachFragment(R.id.llSysSetUpContent,  f=getFragment(tag), tag);
-//            mCurrentContentFragmentTag = tag;
-//            commitTransactions();
-//        }
-//        return f;
-////        return super.switchContentFragment(tag);
-//    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        amiApp = (AmiApp) getApplication();
+
+    }
+
 
     @Override
     protected void onStart() {

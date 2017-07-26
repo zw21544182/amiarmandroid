@@ -2,28 +2,27 @@ package cn.ml_tech.mx.mlproj;
 
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+
+import cn.ml_tech.mx.mlservice.DAO.P_Operator;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.IMlService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BaseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public abstract class BaseFragment extends Fragment {
     public BaseActivity mActivity;
     public View view;
     public IMlService mlService;
     public AmiApp amiApp;
+    public List<P_Operator> p_operators;
+    public List<P_Source> p_sources;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -66,9 +65,42 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
-        mlService = mActivity.getmService();
+        amiApp = (AmiApp) mActivity.getApplication();
+        mlService = amiApp.getmMLService();
+        p_operators = amiApp.getP_operators();
+        p_sources = amiApp.getP_sources();
         initData(savedInstanceState);
         initEvent();
+    }
+
+    public void showRefuseTip() {
+        showToast("拒绝访问");
+    }
+
+    public String getTitleById(long id) {
+        String result = "";
+        for (P_Source p_source :
+                p_sources
+                ) {
+            if (p_source.getId() == id) {
+                result = p_source.getTitle();
+                break;
+            }
+
+        }
+        return result;
+    }
+
+    public String getOperateNameById(long id) {
+        String result = "";
+        for (P_Operator p_operator :
+                p_operators) {
+            if (p_operator.getId() == id) {
+                result = p_operator.getTitle();
+                break;
+            }
+        }
+        return result;
     }
 
     /*

@@ -8,6 +8,7 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,14 +82,13 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
             }
         }
     };
-
+    private ArrayList<LinearLayout> horLayout;
     @Override
     public View initView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.fragment_addtype, null);
         initFindViewById(view);
         return view;
     }
-
     @Override
     public void initFindViewById(View view) {
         etTypeName = (EditText) view.findViewById(R.id.etTypeName);
@@ -96,10 +96,7 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
         rootLayout = (LinearLayout) view.findViewById(R.id.rootLayout);
         btSave = (Button) view.findViewById(R.id.btSave);
         btBack = (Button) view.findViewById(R.id.btBack);
-
-
     }
-
     @Override
     protected void initEvent() {
         super.initEvent();
@@ -109,7 +106,6 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
         etTypeName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -119,11 +115,9 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
-
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mlService = mActivity.getmService();
@@ -132,6 +126,56 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
         init();
         initRootSource();
         initSource();
+        initOperate();
+    }
+    private void initOperate() {
+        int layoutIndex = 0;
+        for (int i = 0; i < rootP_sources.size(); i++) {
+            P_Source p_source = rootP_sources.get(i);
+            try {
+                p_sources = mActivity.getmService().getP_SourceByUrl(p_source.getUrl());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+            for (int z = 0; z < p_sources.size(); z++) {
+                P_Source source = p_sources.get(z);
+                LinearLayout horlayout = horLayout.get(layoutIndex);
+                layoutIndex++;
+                for (int c = 0; c < horlayout.getChildCount(); c++) {
+                    View child = horlayout.getChildAt(c);
+                    if (child instanceof CheckBox) {
+                        horlayout.removeView(child);
+                        c--;
+                    }
+                }
+                PermissionHelper permissionHelper = null;
+                try {
+                    permissionHelper = mActivity.mService.getP_OperatorBySourceId(source.getId());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                Map<Long, P_Operator> pOperatorMap = permissionHelper.getP_operatorMap();
+                for (Map.Entry<Long, P_Operator> entry2 : pOperatorMap.entrySet()) {
+                    final long sourceoperateid = entry2.getKey();
+                    P_Operator p_operator = entry2.getValue();
+                    final CheckBox checkBox = new CheckBox(getActivity());
+                    checkBox.setText(p_operator.getTitle());
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                sourceoperateId.add(sourceoperateid + "");
+                            } else {
+                                sourceoperateId.remove(sourceoperateid + "");
+                            }
+                        }
+                    });
+                    horlayout.addView(checkBox);
+                }
+
+            }
+        }
     }
 
     private void init() {
@@ -165,12 +209,12 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
 
     private void initSource() {
         sourceLayouts = new ArrayList<>();
+        horLayout = new ArrayList<>();
         p_sources = new ArrayList<>();
         for (int i = 0; i < rootP_sources.size(); i++) {
             try {
                 P_Source p_source = rootP_sources.get(i);
                 LinearLayout linearLayout = rootSourceLayouts.get(i);
-                linearLayout.removeAllViews();
                 p_sources = mActivity.getmService().getP_SourceByUrl(p_source.getUrl());
                 LinearLayout layout = new LinearLayout(getActivity());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -185,25 +229,8 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
                     tvSource.setTextAppearance(getActivity(), R.style.TextViewStyle);//设置控件的style
                     tvSource.setText(source.getTitle());
                     horlayout.addView(tvSource);
-                    PermissionHelper permissionHelper = mActivity.mService.getP_OperatorBySourceId(source.getId());
-                    Map<Long, P_Operator> pOperatorMap = permissionHelper.getP_operatorMap();
-                    for (Map.Entry<Long, P_Operator> entry2 : pOperatorMap.entrySet()) {
-                        final long sourceoperateid = entry2.getKey();
-                        P_Operator p_operator = entry2.getValue();
-                        final CheckBox checkBox = new CheckBox(getActivity());
-                        checkBox.setText(p_operator.getTitle());
-                        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                if (isChecked) {
-                                    sourceoperateId.add(sourceoperateid + "");
-                                } else {
-                                    sourceoperateId.remove(sourceoperateId + "");
-                                }
-                            }
-                        });
-                        horlayout.addView(checkBox);
-                    }
+                    horLayout.add(horlayout);
+                    Log.d("zw", "horLayout Size " + horLayout.size());
                     layout.addView(horlayout);
                 }
                 linearLayout.addView(layout);

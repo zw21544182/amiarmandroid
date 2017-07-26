@@ -17,6 +17,7 @@ import org.litepal.crud.DataSupport;
  * [userlogicid] text ,
  * [audittraileventtype_id] integer,
  * [audittrailinfotype_id] integer);
+ * audittrail
  */
 
 public class AuditTrail extends DataSupport implements Parcelable {

@@ -84,6 +84,7 @@ public class YpkFragment extends Fragment {
             getActivity().findViewById(R.id.btnypxNext).setEnabled(isNext);
             ypjcActivity.drugControl = drugControl;
             ypjcActivity.druginfo_id = (int) drugControl.getId();
+
         }
 
         @Override
