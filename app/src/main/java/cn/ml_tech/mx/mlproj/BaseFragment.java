@@ -1,6 +1,5 @@
 package cn.ml_tech.mx.mlproj;
 
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +12,13 @@ import java.util.List;
 
 import cn.ml_tech.mx.mlservice.DAO.P_Operator;
 import cn.ml_tech.mx.mlservice.DAO.P_Source;
+import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.IMlService;
 
 
+/**
+ *
+ */
 public abstract class BaseFragment extends Fragment {
     public BaseActivity mActivity;
     public View view;
@@ -23,6 +26,7 @@ public abstract class BaseFragment extends Fragment {
     public AmiApp amiApp;
     public List<P_Operator> p_operators;
     public List<P_Source> p_sources;
+    private Permission permission;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -50,7 +54,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     public View getRootView() {
@@ -73,6 +76,20 @@ public abstract class BaseFragment extends Fragment {
         initEvent();
     }
 
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
+
+    /**
+     * 在调用次方法之前必须先通过set方法传递Permissoin
+     * @param sourceId
+     * @param operateId
+     * @return
+     */
+    public boolean getPermissionById(long sourceId, long operateId) {
+      return  permission.getPermissiondata().get(getPermissionTextById(sourceId, operateId));
+    }
+
     public void showRefuseTip() {
         showToast("拒绝访问");
     }
@@ -86,9 +103,12 @@ public abstract class BaseFragment extends Fragment {
                 result = p_source.getTitle();
                 break;
             }
-
         }
         return result;
+    }
+
+    public String getPermissionTextById(long sourceId, long operateId) {
+        return getTitleById(sourceId) + getOperateNameById(operateId);
     }
 
     public String getOperateNameById(long id) {

@@ -14,10 +14,11 @@ import cn.ml_tech.mx.mlproj.SettingFragment.ManchineManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.SysConfigFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.TrayManagerFragment;
 import cn.ml_tech.mx.mlproj.SettingFragment.UserManagerFragment;
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
 import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
-public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener
+public class XtwhActivity extends BaseActivity implements  BottomFragment.OnFragmentInteractionListener
         , View.OnClickListener {
     public XtwhFragment getXtwhFragment() {
         return xtwhFragment;
@@ -62,6 +63,7 @@ public class XtwhActivity extends BaseActivity implements XtwhFragment.OnFragmen
                             break;
                         }
                     }
+                    mService.addAudittrail(5,5,"", CommonUtil.ENTERSYSTEMSETUP);
                     permission = mService.getPermissonByUrl(url, false);
                     handler.sendEmptyMessage(PERMISSIONSUCESS);
                 } catch (RemoteException e) {

@@ -28,11 +28,14 @@ import java.util.List;
 
 import cn.ml_tech.mx.mlproj.Adapter.AuditTrackAdapter;
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
+import cn.ml_tech.mx.mlproj.AmiApp;
 import cn.ml_tech.mx.mlproj.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlproj.XtwhActivity;
 import cn.ml_tech.mx.mlservice.DAO.AuditTrail;
 import cn.ml_tech.mx.mlservice.DAO.AuditTrailEventType;
 import cn.ml_tech.mx.mlservice.DAO.AuditTrailInfoType;
+import cn.ml_tech.mx.mlservice.DAO.User;
 
 /**
  * 创建时间: 2017/6/29
@@ -43,7 +46,7 @@ import cn.ml_tech.mx.mlservice.DAO.AuditTrailInfoType;
 public class AuditTrackFragment extends BaseFragment implements View.OnClickListener {
     private Spinner speventtype;
     private Spinner spinfotype;
-    private EditText etuser;
+    private Spinner etuser;
     private Button btsearch;
     private Button btresver;
     private RecyclerView rvaudiotdata;
@@ -51,12 +54,15 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
     private List<AuditTrailInfoType> infoTypes;
     private List<String> eventstrings;
     private List<String> infostrings;
+    private List<User> userList;
     private EditText startDate;
     private EditText stopDate;
     private long staDate = 0, stoDate = 0;
     private SimpleDateFormat dateFormat;
     private List<AuditTrail> auditTrails;
     private AuditTrackAdapter auditTrackAdapter;
+    private List<String> username;
+    private XtwhActivity xtwhActivity;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -76,7 +82,7 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
     public void initFindViewById(View view) {
         speventtype = (Spinner) view.findViewById(R.id.speventtype);
         spinfotype = (Spinner) view.findViewById(R.id.spinfotype);
-        etuser = (EditText) view.findViewById(R.id.etuser);
+        etuser = (Spinner) view.findViewById(R.id.etuser);
         btsearch = (Button) view.findViewById(R.id.btsearch);
         btresver = (Button) view.findViewById(R.id.btresver);
         rvaudiotdata = (RecyclerView) view.findViewById(R.id.rvaudiotdata);
@@ -87,33 +93,57 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        xtwhActivity = (XtwhActivity) getActivity();
+        setPermission(xtwhActivity.permission);
         speventtype.setSelection(0);
         spinfotype.setSelection(0);
+        username = new ArrayList<>();
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         eventTypes = new ArrayList<>();
         eventstrings = new ArrayList<>();
         infoTypes = new ArrayList<>();
         infostrings = new ArrayList<>();
-
         try {
-            eventTypes = mActivity.getmService().getAuditTrailEventType();
-            infoTypes = mActivity.getmService().getAuditTrailInfoType();
-
+            userList = mlService.getUserList();
+            eventTypes = mlService.getAuditTrailEventType();
+            infoTypes = mlService.getAuditTrailInfoType();
         } catch (RemoteException e) {
             e.printStackTrace();
+        }
+        for (User user :
+                userList) {
+            username.add(user.getUserName());
         }
         for (AuditTrailEventType eventType :
                 eventTypes) {
             eventstrings.add(eventType.getName());
-
         }
         for (AuditTrailInfoType infoType :
                 infoTypes) {
             infostrings.add(infoType.getName());
 
         }
+        etuser.setAdapter(new StringAdapter(username, getActivity()));
         speventtype.setAdapter(new StringAdapter(eventstrings, getActivity()));
         spinfotype.setAdapter(new StringAdapter(infostrings, getActivity()));
+        if (getPermissionById(23, 9)) {
+            long selfId = ((AmiApp) xtwhActivity.getApplication()).getUserid();
+            for (int i = 0; i < userList.size(); i++) {
+                User user = userList.get(i);
+                if (user.getId() == selfId) {
+                    etuser.setSelection(i);
+                }
+
+            }
+        }
+        etuser.setEnabled(!getPermissionById(23, 9));
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            initData(null);
     }
 
     private void setDateToEdit(final EditText dateView) {
@@ -189,7 +219,7 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btsearch:
-                if (TextUtils.isEmpty(etuser.getEditableText().toString()) ||
+                if (TextUtils.isEmpty(etuser.getSelectedItem().toString()) ||
                         TextUtils.isEmpty(stopDate.getEditableText().toString()) ||
                         TextUtils.isEmpty(startDate.getEditableText().toString())) {
                     showToast("请检查信息是否填写完整");
@@ -219,7 +249,7 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
     }
 
     public String getUserName() {
-        return etuser.getEditableText().toString();
+        return etuser.getSelectedItem().toString();
     }
 
     public int getEventId() {

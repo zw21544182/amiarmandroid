@@ -25,20 +25,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
+import cn.ml_tech.mx.mlproj.AmiApp;
 import cn.ml_tech.mx.mlproj.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.XtwhActivity;
 import cn.ml_tech.mx.mlproj.XtwhFragment;
 import cn.ml_tech.mx.mlservice.DAO.P_Source;
-import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DAO.User;
 import cn.ml_tech.mx.mlservice.DAO.UserType;
-
 
 /**
  * Created by ml on 2017/5/18.
  */
-
 public class UserManagerFragment extends BaseFragment implements View.OnClickListener {
     private static final int OPERATESUCESS = 11;
     private static final int OPERATEFAILURE = 22;
@@ -63,7 +61,6 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
     private List<UserType> userTypes;
     private List<String> typeName;
     private StringAdapter typeNameAdapter;
-    private Permission permission;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,16 +77,26 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     initUserInfo();
                     break;
                 case INITDATASUCESS:
-                    if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(2))) {
+                    if (getPermissionById(20, 2)) {
                         initUserTypeInfo();
                         initUserInfo();
-                    }else {
+                    } else {
+                        if (recyleUserAdapter == null) {
+                            recyleUserAdapter = new RecyleUserAdapter(listUser, getActivity(), itmeClick);
+                            rcvUser.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            rcvUser.setAdapter(recyleUserAdapter);
+                            recyleUserAdapter.clearAll();
+                        } else {
+                            recyleUserAdapter.clearAll();
 
+
+                        }
                     }
                     break;
                 case INITDATAFAILURE:
                     showToast("加载失败");
                     break;
+
             }
         }
     };
@@ -119,13 +126,21 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
             rcvUser.setLayoutManager(layoutmanager);
         } else {
             recyleUserAdapter.setDataToView(listUser);
+
         }
+
     }
 
     private OnItmeClick itmeClick = new OnItmeClick() {
         @Override
         public void update(User user) {
-            if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(4))) {
+            if (getPermissionById(20, 4)) {
+                if (getPermissionById(20, 9)) {
+                    if (user.getId() != ((AmiApp) getActivity().getApplication()).getUserid()) {
+                        showToast("仅能操作自身张账号");
+                        return;
+                    }
+                }
                 mUser = user;
                 setUserInfoToView(user);
             } else {
@@ -135,7 +150,13 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
 
         @Override
         public void delete(final long id) {
-            if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(5))) {
+            if (getPermissionById(20, 5)) {
+                if (getPermissionById(20, 9)) {
+                    if (id != ((AmiApp) getActivity().getApplication()).getUserid()) {
+                        showToast("仅能操作自身张账号");
+                        return;
+                    }
+                }
                 if (progressDialog == null) {
                     progressDialog = new ProgressDialog(getActivity());
                 }
@@ -233,15 +254,15 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                             ) {
                         if (p_source.getId() == 27) {
                             url = p_source.getUrl();
-                            Log.d("zw", url);
                             break;
                         }
                     }
-                    permission = mlService.getPermissonByUrl(url, false);
+                    setPermission(mlService.getPermissonByUrl(url, false));
                     if (mlService != null) {
                         listUser = mlService.getUserList();
                         userTypes = mlService.getAllUserType();
                         handler.sendEmptyMessage(INITDATASUCESS);
+
                     } else {
                         handler.sendEmptyMessage(INITDATAFAILURE);
 
@@ -264,17 +285,22 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
         etUserPwd.setText(user.getUserPassword());
         etUserPwd2.setText(user.getUserPassword());
         chbEnable.setChecked(user.getIsEnable() == 1 ? true : false);
+        for (int i = 0; i < userTypes.size(); i++) {
+            UserType userType = userTypes.get(i);
+            if (userType.getTypeId() == mUser.getUsertype_id())
+                comUserType.setSelection(i);
+        }
     }
 
-    /**
-     * @param v
-     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSave:
-                if (mUser == null) {
+                if (mUser == null && getPermissionById(20, 3)) {
                     mUser = new User();
+                } else if (mUser == null && !getPermissionById(20, 3)) {
+                    showRefuseTip();
+                    return;
                 }
                 mUser.setIsEnable(chbEnable.isChecked() ? 1 : 0);
                 if (!TextUtils.isEmpty(etNickName.getEditableText().toString())) {
@@ -313,14 +339,16 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     public void run() {
                         super.run();
                         try {
-                            Log.d("zw", "save data");
                             mlService.updateUser(mUser);
+                            Thread.sleep(1000);
                             listUser = mlService.getUserList();
                             handler.sendEmptyMessage(OPERATESUCESS);
                         } catch (RemoteException e) {
                             e.printStackTrace();
                             handler.sendEmptyMessage(OPERATEFAILURE);
 
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
 
                     }
@@ -352,6 +380,11 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
         public void setDataToView(List<User> users) {
             listUser.clear();
             listUser.addAll(users);
+            notifyDataSetChanged();
+        }
+
+        public void clearAll() {
+            this.listUser.clear();
             notifyDataSetChanged();
         }
 
@@ -415,8 +448,13 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     itmeClick.update(user);
                     break;
                 case R.id.txtDel:
-                    long id = (long) v.getTag();
-                    itmeClick.delete(id);
+                    if (getPermissionById(20, 5)) {
+                        long id = (long) v.getTag();
+                        itmeClick.delete(id);
+                    } else {
+                        showRefuseTip();
+
+                    }
                     break;
             }
         }

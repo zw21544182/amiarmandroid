@@ -349,19 +349,12 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Log.d("zw", "start --------------------");
                     checks.set(position, isChecked);
                     if (isChecked) {
                         pos.add(data.get(position).get(0));
                     } else {
                         pos.remove(data.get(position).get(0));
                     }
-                    for (String value :
-                            pos) {
-                        Log.d("zw", "posid " + value);
-                    }
-                    Log.d("zw", "end --------------------");
-
                 }
             });
             holder.linearLayout.addView(checkBox);

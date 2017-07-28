@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
@@ -29,8 +30,7 @@ import cn.ml_tech.mx.mlservice.DrugControls;
 
 public class YpjcActivity extends BaseActivity implements View.OnClickListener,
         View.OnTouchListener, YpjqFragment.OnFragmentInteractionListener, YpxjFragment.OnFragmentInteractionListener,
-        YpkFragment.OnFragmentInteractionListener, YpxxFragment.OnFragmentInteractionListener, YpxaFragment.OnFragmentInteractionListener
-        , YpjcjFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
+        YpjcjFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
     YpxxFragment ypxxFragment = null;
@@ -88,6 +88,7 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 super.run();
                 String url = "";
                 try {
+                    mService.addAudittrail(5, 5, "", CommonUtil.ENTERDRUGDETECTION);
                     for (P_Source p_source : amiApp.getP_sources()
                             ) {
                         if (p_source.getId() == 15) {
@@ -184,10 +185,15 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
                 break;
             case R.id.btnypxNext:
-                detectionReport.setDruginfo_id(drugControl.getId());
-                detectionReport.setDrugName(drugControl.getDrugName());
-                detectionReport.setFactoryName(drugControl.getDrugFactory());
-                YpjcjFragment = (YpjcjFragment) switchContentFragment(YpjcjFragment.class.getSimpleName());
+                if (ypkFragment.getPermissionById(10, 8)) {
+                    detectionReport.setDruginfo_id(drugControl.getId());
+                    detectionReport.setDrugName(drugControl.getDrugName());
+                    detectionReport.setFactoryName(drugControl.getDrugFactory());
+                    YpjcjFragment = (YpjcjFragment) switchContentFragment(YpjcjFragment.class.getSimpleName());
+
+                } else {
+                    showToast("拒绝访问");
+                }
                 break;
             case R.id.bt_back:
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
@@ -197,12 +203,22 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 this.finish();
                 break;
             case R.id.btNext:
-
                 try {
                     if ((!ypjcFragment.isContinue()) || (null == mService.getLastReport())) {
                         ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
                         ypkFragment.setmService(mService);
                     } else {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                super.run();
+                                try {
+                                    mService.addAudittrail(4, 1, mService.getLastReport().getId() + "", CommonUtil.CONTINUINGDETECTION);
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
                         ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
                         ypjccFragment.setState("continue");
                     }
@@ -228,16 +244,20 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 ypxaFragment = (YpxaFragment) switchContentFragment(YpxaFragment.class.getSimpleName());
                 break;
             case R.id.btnSaveFactory:
-                Factory factory = ypxaFragment.getFactory();
-                try {
-                    if (factory != null) {
-                        mService.addFactory(factory.getName(), factory.getAddress(), factory.getPhone(), factory.getFax(), factory.getMail(), factory.getContactName(), factory.getContactPhone(), factory.getWebSite(), factory.getProvince_code(), factory.getCity_code(), factory.getArea_code());
+                if (ypxaFragment.getPermissionById(12, 3)) {
+                    Factory factory = ypxaFragment.getFactory();
+                    try {
+                        if (factory != null) {
+                            mService.addFactory(factory.getName(), factory.getAddress(), factory.getPhone(), factory.getFax(), factory.getMail(), factory.getContactName(), factory.getContactPhone(), factory.getWebSite(), factory.getProvince_code(), factory.getCity_code(), factory.getArea_code());
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+                    ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+                    ypxxFragment.setmService(mService);
+                } else {
+                    showToast("拒绝访问");
                 }
-                ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
-                ypxxFragment.setmService(mService);
                 break;
             case R.id.btnypxjPre:
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
@@ -323,6 +343,22 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
             String val = entry.getValue().toString();
             Log.d("zw", "key" + key + " val" + val);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    mService.addAudittrail(5, 1, "", CommonUtil.EXITDRUGDETECTION);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     private void saveDrugParams(Map<String, String> map, int id) throws RemoteException {

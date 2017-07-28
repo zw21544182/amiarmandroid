@@ -11,21 +11,27 @@
     android:columnCount="5"
     >
     <TextView
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorOutPut10mlStandardParam1"
         />
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorOutPut10mlStandardParam2"
         />
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorOutPut10mlStandardDiameter"
         />
     <EditText
+        style="@style/EditTextStyle"
         android:layout_row="1"
         android:layout_column="0"
         android:id="@+id/etOutPut10mlStandardParam1"
@@ -34,24 +40,32 @@
         android:inputType="numberDecimal"
         />
     <EditText
+        style="@style/EditTextStyle"
+
         android:id="@+id/etOutPut10mlStandardParam2"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
+        style="@style/EditTextStyle"
+
         android:id="@+id/etOutPut10mlStandardParamDiameter"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <Button
+        style="@style/ButtonStyle"
+
         android:id="@+id/btnOutPutCal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorCatchCal"
         />
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_row="2"
         android:layout_column="0"
         android:layout_width="wrap_content"
@@ -59,24 +73,29 @@
         android:text="@string/motorSendSpeed"
         />
     <TextView
+        style="@style/TextViewStyle"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorOutPut10mlStandardParam1"
         />
     <TextView
+        style="@style/TextViewStyle"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorOutPut10mlStandardParam2"
         />
     <TextView
+        style="@style/TextViewStyle"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorRunState"
         />
     <EditText
+        style="@style/EditTextStyle"
+
         android:layout_row="3"
         android:layout_column="0"
         android:id="@+id/etOutPut10mlStandardSpeed"
@@ -85,24 +104,32 @@
         android:inputType="numberDecimal"
         />
     <EditText
+        style="@style/EditTextStyle"
+
         android:id="@+id/etOutPutParam1"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <EditText
+        style="@style/EditTextStyle"
+
         android:id="@+id/etOutPutParam2"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         />
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtOutPutRunState"
         />
 
     <Button
+        style="@style/ButtonStyle"
+
         android:layout_row="4"
         android:layout_column="3"
         android:text="@string/motorStart"
@@ -111,6 +138,7 @@
         android:id="@+id/btnOutPutStart"
         />
     <Button
+        style="@style/ButtonStyle"
         android:text="@string/motorWrite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

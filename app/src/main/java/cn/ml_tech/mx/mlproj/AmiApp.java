@@ -102,6 +102,15 @@ public class AmiApp extends Application {
     public List<P_Operator> getP_operators() {
         return p_operators;
     }
+    private long userid ;
+
+    public long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(long userid) {
+        this.userid = userid;
+    }
 
     private String userName;
     private Boolean isLogined;

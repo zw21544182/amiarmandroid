@@ -14,7 +14,6 @@ public class YpjcFragment extends BaseFragment {
     private RadioButton rbContinue;
     private Button btPre;
     private Button btNext;
-
     public boolean isContinue() {
         return rbContinue.isChecked();
     }

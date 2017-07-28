@@ -17,7 +17,13 @@ public class CommonUtil {
     public static final String EXITDRUGDETECTION = "Exit DrugDetection model widget";
     public static final String ENTERSYSTEMSETUP = "Enter SystemSetUp model widget";
     public static final String ENTERMENUBTNUSER = "Enter the system management subsystem MenuBtnUser";
-    public static final String ENTERMENUBTNPROGRAMUPDAT = "Enter the system management subsystem MenuBtnProgramUpdat";
+    public static final String ENTERMENUBTNPROGRAMUPDAT = "Enter the system management subsystem MenuBtnProgramUpdate";
+    public static final String ENTERMENUBTNAUDITRAIL = "Enter the system management subsystem MenuBtnAuditTrail";
+    public static final String ENTERMENUBTNSYSCONFIG = "Enter the system management subsystem MenuBtnSysConfig";
+    public static final String ENTERMENUBTNLOGSHOW = "Enter the system management subsystem MenuBtnLogShow";
+    public static final String EXITSYSTEMSETUP = "Exit SystemSetUp model widget";
+    public static final String ENTERCAPTURECONFIG = "Enter the system management subsystem MenuBtnCaptureConfig";
+    public static final String ENTERDEVICEDEBUG = "Enter the system management subsystem MenuBtnDeviceDebug";
     public static final String POWERON = "Power on";
     public static final String QUERYDRUGRECORD = "Query the drug testing records";
     public static final String CONTINUINGDETECTION = "Continuing last detection";
@@ -26,7 +32,8 @@ public class CommonUtil {
     public static final String ENTERMENUBTNRIGHTMANAGER = "Enter the system management subsystem MenuBtnRightManager";
     public static final String EXITDETECTIONG = "Exits abnormally, detecting invalid";
     public static final String AUTOMATICOPENER = "Automatic bottle opener bottle slots into the bottle after testing";
-    public static final String ENTERMENUBTNPROGRAMUPDATE = "Enter the system management subsystem MenuBtnProgramUpdate";
+    public static final String ENTERDRUGSTANDARD = "Enter DrugStandardization model widget";
+
 
 
 }

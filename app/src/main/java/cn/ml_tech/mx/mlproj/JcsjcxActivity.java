@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
 import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
@@ -48,7 +49,7 @@ public class JcsjcxActivity extends BaseActivity implements
         amiApp = (AmiApp) getApplication();
         if (progressDialog == null)
             progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("权限加载中....");
+        progressDialog.setTitle("数据加载中....");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -58,6 +59,7 @@ public class JcsjcxActivity extends BaseActivity implements
                 super.run();
                 String url = "";
                 try {
+                    mService.addAudittrail(5, 5, "", CommonUtil.ENTERDRUGSTANDARD);
                     for (P_Source p_source : amiApp.getP_sources()
                             ) {
                         if (p_source.getId() == 19) {

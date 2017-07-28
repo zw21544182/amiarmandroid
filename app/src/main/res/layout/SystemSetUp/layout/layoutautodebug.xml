@@ -10,14 +10,17 @@
 
     <Button
         android:id="@+id/btnAutoRun"
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/machineAutoDebug" />
 
     <EditText
         android:id="@+id/etAutoCount"
+        style="@style/EditTextStyle"
         android:layout_width="100dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -34,29 +37,11 @@
 
     <Button
         android:id="@+id/btnAutoSet"
+
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorAutoDebugSet" />
-
-    <!--<TextView-->
-    <!--android:id="@+id/txtRegValue"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--/>-->
-    <!--<EditText-->
-    <!--android:id="@+id/etRegAddress"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/motorAutoDebugReadReg"-->
-    <!--/>-->
-    <!--<Button-->
-    <!--android:layout_row="3"-->
-    <!--android:layout_column=""-->
-    <!--android:id="@+id/btnShowMotorVersion"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/motorAutoDebugShowMotorVersion"-->
-    <!--/>-->
 
 
 </GridLayout>

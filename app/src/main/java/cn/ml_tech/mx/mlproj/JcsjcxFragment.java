@@ -47,7 +47,6 @@ import cn.ml_tech.mx.mlservice.DAO.DevUuid;
 import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DrugControls;
-import cn.ml_tech.mx.mlservice.IMlService;
 
 public class JcsjcxFragment extends BaseFragment implements View.OnClickListener {
     private RecyclerView recyclerReport;
@@ -62,7 +61,6 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     private List<DetectionReport> detectionReports;
     private JcsjcxActivity jcsjcxActivity;
     private AmiApp amiApp;
-    private IMlService mService;
     private AmiDialog amiDialog;
     private EditText stopDate;
     private EditText startDate;
@@ -105,15 +103,9 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public View initView(LayoutInflater inflater) {
-        Log.d("zw", "initView");
         view = inflater.inflate(R.layout.fragment_jcsjcx, null);
         initFindViewById(view);
         return view;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -147,14 +139,13 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.ibPre).setOnClickListener(this);
         view.findViewById(R.id.ibNext).setOnClickListener(this);
         view.findViewById(R.id.ibSearch).setOnClickListener(this);
-
     }
 
     private void initRecycleReport() {
         detectionReports = new ArrayList<DetectionReport>();
         try {
-            if (mService != null) {
-                detectionReports = mService.getAllDetectionReports();
+            if (mlService != null) {
+                detectionReports = mlService.getAllDetectionReports(getPermissionById(17, 9));
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -164,8 +155,8 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     private void outPutPdf(List<DetectionDetail> detectionDetails, DetectionReport detectionReport) {
         try {
-            DevUuid devUuid = mService.getDevUuidInfo();
-            DrugControls drugControls = mService.queryDrugControlsById(detectionReport.getDruginfo_id());
+            DevUuid devUuid = mlService.getDevUuidInfo();
+            DrugControls drugControls = mlService.queryDrugControlsById(detectionReport.getDruginfo_id());
             new PdfUtil(getActivity(), devUuid, handler, drugControls, detectionReport, detectionDetails).createPdf();
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -173,7 +164,6 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void ShowDetailInfo(@Nullable String id) {
-        Log.d("zw", "showDetailInfo");
         setReportLayout(false);
         InitDetailData(id);
         llDetail.setVisibility(View.VISIBLE);
@@ -188,7 +178,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     private void InitDetailData(@Nullable String info) {
         try {
-            detectionDetailList = mService.queryDetectionDetailByReportId(detectionReports.get(Integer.parseInt(info)).getId());
+            detectionDetailList = mlService.queryDetectionDetailByReportId(detectionReports.get(Integer.parseInt(info)).getId());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -243,23 +233,15 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        jcsjcxActivity = (JcsjcxActivity) getActivity();
+        setPermission(jcsjcxActivity.getPermission());
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         detectionDetailList = new ArrayList<DetectionDetail>();
-        Log.d(JcsjcxFragment.class.getSimpleName(), "initData: ");
-
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        amiApp = (AmiApp) getActivity().getApplication();
-        mService = amiApp.getmMLService();
-        if (mService != null) {
-            Log.d("zw", "jsc不为空");
-        }
+        btSearch.setVisibility(getPermissionById(17, 1) == true ? View.VISIBLE : View.INVISIBLE);
+        btSearch.setEnabled(getPermissionById(17, 8));
         try {
             List<String> strings = new ArrayList<>();
-            List<DrugContainer> drugContainers = mService.getDrugContainer();
+            List<DrugContainer> drugContainers = mlService.getDrugContainer();
             for (DrugContainer drugContainer :
                     drugContainers) {
                 strings.add(drugContainer.getName());
@@ -268,8 +250,11 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        initRecycle();
+        if (getPermissionById(17, 2))
+            initRecycle();
+
     }
+
 
     @Override
     public void onStart() {
@@ -350,7 +335,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             return;
         }
         cuurentPage--;
-        adapterReport.setDataToView(mService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
+        adapterReport.setDataToView(mlService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
                 etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
                 etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
                 etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), cuurentPage));
@@ -363,7 +348,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             return;
         }
         cuurentPage++;
-        adapterReport.setDataToView(mService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
+        adapterReport.setDataToView(mlService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
                 etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
                 etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
                 etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), cuurentPage));
@@ -381,7 +366,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             Toast.makeText(getActivity(), "已超过最大页", Toast.LENGTH_SHORT).show();
             return;
         }
-        adapterReport.setDataToView(mService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
+        adapterReport.setDataToView(mlService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
                 etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
                 etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
                 etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), cuurentPage));
@@ -414,7 +399,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                     case R.id.txtPDF:
                         int i = (int) view.getTag();
                         try {
-                            List<DetectionDetail> detectionDetails = mActivity.mService.queryDetectionDetailByReportId(detectionReports.get(i).getId());
+                            List<DetectionDetail> detectionDetails = mlService.queryDetectionDetailByReportId(detectionReports.get(i).getId());
                             outPutPdf(detectionDetails, detectionReports.get(i));
                         } catch (RemoteException e) {
                             e.printStackTrace();
@@ -433,7 +418,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                                     public void onClick(DialogInterface dialog, int which) {
                                         try {
                                             int s = (int) view.getTag();
-                                            mActivity.mService.deteleDetectionInfoById(detectionReports.get(s).getId());
+                                            mlService.deteleDetectionInfoById(detectionReports.get(s).getId());
                                             adapterReport.deteleteItemByPos(s);
                                         } catch (RemoteException e) {
                                             e.printStackTrace();
@@ -468,7 +453,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 etStartDate.setText("");
                 etStopDate.setText("");
                 try {
-                    List<DetectionReport> detectionReports = mService.getAllDetectionReports();
+                    List<DetectionReport> detectionReports = mlService.getAllDetectionReports(getPermissionById(17, 9));
                     setDataToView(detectionReports, true);
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -476,7 +461,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btSearch:
                 try {
-                    detectionReports = mService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
+                    detectionReports = mlService.queryDetectionReport(etRetrieveNum.getEditableText().toString().trim(),
                             etDrugName.getEditableText().toString().trim(), etDrugFactory.getEditableText().toString().trim(),
                             etCheckFormat.getSelectedItem().toString().trim(), etCheckNum.getEditableText().toString().trim(),
                             etStartDate.getEditableText().toString().trim(), etStopDate.getEditableText().toString().trim(), -1);

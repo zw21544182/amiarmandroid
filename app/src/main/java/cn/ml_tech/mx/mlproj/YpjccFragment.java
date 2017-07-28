@@ -50,6 +50,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     private String state = "";
     private String detectionSn = "";
     private DetectionReport report;
+    private Button btExportData;
 
     public void setState(String state) {
         this.state = state;
@@ -95,10 +96,14 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         rvreslut.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         resultAdapter = new ResultAdapter(new ArrayList<String>(), getActivity());
         rvreslut.setAdapter(resultAdapter);
+        btExportData = (Button) view.findViewById(R.id.btExportData);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        setPermission(((YpjcActivity) getActivity()).permission);
+        btExportData.setVisibility(getPermissionById(11, 1) == true ? View.VISIBLE : View.INVISIBLE);
+        etRotateNum.setEnabled(getPermissionById(13, 4));
         if (state.equals("")) {
             setDataToView(ypjcActivity.detectionReport);
         } else {
@@ -219,6 +224,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     @Override
     protected void initEvent() {
         btStartCheck.setOnClickListener(this);
+        btExportData.setOnClickListener(this);
         cbShowDrugParam.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -275,6 +281,13 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btExportData:
+                if (getPermissionById(11, 8)) {
+                    showToast("导出数据");
+                } else {
+                    showRefuseTip();
+                }
+                break;
             case R.id.btStartCheck:
                 String rotate = etRotateNum.getEditableText().toString().trim();
                 if (rotate.equals("")) {

@@ -1,5 +1,4 @@
 package cn.ml_tech.mx.mlproj;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,7 +21,6 @@ import java.util.List;
 import cn.ml_tech.mx.CustomView.DrugStandardCheck.workflowitemView;
 import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
-
 public class CsbdFragment extends BaseFragment implements View.OnClickListener {
     private View view;
     private Button btBack;
@@ -44,14 +42,12 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
     private ReceiverUtil receiverUtil;
     private LinearLayout ltresult;
     private List<workflowitemView> workflowitemViewList;
-
     @Override
     public View initView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.fragment_csbd, null);
         initFindViewById(view);
         return view;
     }
-
     @Override
     public void initFindViewById(View view) {
         btBack = (Button) view.findViewById(R.id.btBack);
@@ -70,7 +66,6 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
         txtcolorfactor = (TextView) view.findViewById(R.id.txtcolorfactor);
         ltresult = (LinearLayout) view.findViewById(R.id.resultLayout);
     }
-
     @Override
     protected void initEvent() {
         super.initEvent();
@@ -79,7 +74,6 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
         btStart.setOnClickListener(this);
         btApply.setOnClickListener(this);
     }
-
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         csbdActivity = (CsbdActivity) getActivity();
@@ -96,7 +90,6 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
         ltresult.setVisibility(permission.getPermissiondata().get(getTitleById(5) + getOperateNameById(1)) == true ? View.VISIBLE : View.INVISIBLE);
         initReceiver();
     }
-
     private void loadView() {
         workflowitemViewList = new ArrayList<>();
         List<String> list = new ArrayList<String>();
@@ -190,7 +183,9 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
                     txtcolorfactor.setText(intent.getExtras().getString("18.29"));
                     intent.putExtra("stpstate", "normal");
                     intent.putExtra("stostate", "normal");
-
+                }
+                if (state == 8) {
+                    showToast("标定结束");
                 }
             }
         };

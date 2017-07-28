@@ -177,6 +177,8 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
                             public void run() {
                                 super.run();
                                 try {
+                                    long userid = mService.getUserId();
+                                    app.setUserid(userid);
                                     permission = mService.getPermissonByUrl("", true);
                                     handler.sendEmptyMessage(GETPERMISSIONSUCESS);
                                 } catch (RemoteException e) {

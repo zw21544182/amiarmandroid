@@ -27,7 +27,8 @@ public abstract class ReceiverUtil {
     }
 
     public void unRefister() {
-        context.unregisterReceiver(receiver);
+        if (receiver != null)
+            context.unregisterReceiver(receiver);
     }
 
     public void inRegister() {

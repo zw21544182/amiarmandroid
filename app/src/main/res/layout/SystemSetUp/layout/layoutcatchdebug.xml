@@ -9,6 +9,7 @@
     android:rowCount="5">
 
     <TextView
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorMachineHandCatchMaxDistance"
@@ -16,17 +17,22 @@
         />
 
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorCatchPutterMoveDistance" />
 
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorMachineHandOpenDistance" />
 
     <EditText
         android:id="@+id/etCatchMaxDiatance"
+        style="@style/EditTextStyle"
         android:layout_width="100dp"
         android:layout_column="0"
 
@@ -35,22 +41,30 @@
 
     <EditText
         android:id="@+id/etCatchPutterDistance"
+
+        style="@style/EditTextStyle"
         android:layout_width="100dp"
 
         android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/etCatchOpenDistance"
+
+        style="@style/EditTextStyle"
         android:layout_width="100dp"
         android:inputType="numberDecimal" />
 
     <Button
         android:id="@+id/btnCatchCal"
+
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorCatchCal" />
 
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
@@ -58,59 +72,80 @@
         android:text="@string/motorSendSpeed" />
 
     <TextView
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorCatchParam1" />
 
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorCatchParam2" />
 
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorCatchDelayTime" />
 
     <TextView
+        style="@style/TextViewStyle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/motorRunState" />
 
     <EditText
         android:id="@+id/etCatchSpeed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/etCatchParam1"
+        style="@style/EditTextStyle"
         android:layout_width="100dp"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/etCatchParam2"
+
+        style="@style/EditTextStyle"
         android:layout_width="100dp"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/etCatchDelayTime"
+        style="@style/EditTextStyle"
         android:layout_width="100dp"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/txtCatchRunState"
+
+        style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnCatchMotorStart"
+
+        style="@style/ButtonStyle"
         android:layout_column="3"
         android:layout_row="4"
         android:text="@string/motorStart" />
 
+
     <Button
         android:id="@+id/btnCatchMotorWrite"
+        style="@style/ButtonStyle"
         android:layout_column="4"
         android:layout_row="4"
         android:text="@string/motorWrite" />
+
+    <EditText
+        android:id="@+id/etCatchParam1"
+        style="@style/EditTextStyle"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_row="4" />
 </GridLayout>

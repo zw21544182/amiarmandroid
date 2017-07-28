@@ -80,7 +80,7 @@
         DetectionReport getLastReport();
         DrugControls queryDrugControlsById(long id);
         DevUuid getDevUuidInfo();
-        List<DetectionReport> getAllDetectionReports();
+        List<DetectionReport> getAllDetectionReports(boolean isSelf);
         List<UserType> getAllUserType();
         void updateUser(in User user);
         UserType getUserTypeById(long id);
@@ -102,6 +102,10 @@
         Permission getPermissonByUrl(String title,boolean isRoot);
         List<P_Source> getAllP_Source();
         List<P_Operator> getAllP_Operator();
-
-
+        List<DevParam> getDevParamByType(int type);
+        void saveDevParam(in List<DevParam> devParams);
+        void deleteDevParamByIds(in List<String> ids);
+        void backUpDevParam();
+        void recoveryParam();
+        long getUserId();
    }
