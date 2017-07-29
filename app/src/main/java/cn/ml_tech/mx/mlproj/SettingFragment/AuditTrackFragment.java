@@ -35,6 +35,7 @@ import cn.ml_tech.mx.mlproj.XtwhActivity;
 import cn.ml_tech.mx.mlservice.DAO.AuditTrail;
 import cn.ml_tech.mx.mlservice.DAO.AuditTrailEventType;
 import cn.ml_tech.mx.mlservice.DAO.AuditTrailInfoType;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.User;
 
 /**
@@ -94,7 +95,20 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         xtwhActivity = (XtwhActivity) getActivity();
-        setPermission(xtwhActivity.permission);
+        String url = "";
+        try {
+            for (P_Source p_source : amiApp.getP_sources()
+                    ) {
+                if (p_source.getId() == 27) {
+                    url = p_source.getUrl();
+                    break;
+                }
+            }
+            setPermission(mlService.getPermissonByUrl(url, false));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        btsearch.setEnabled(getPermissionById(23, 8));
         speventtype.setSelection(0);
         spinfotype.setSelection(0);
         username = new ArrayList<>();
@@ -219,6 +233,10 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btsearch:
+                if (!getPermissionById(23, 2)) {
+                    showRefuseTip();
+                    return;
+                }
                 if (TextUtils.isEmpty(etuser.getSelectedItem().toString()) ||
                         TextUtils.isEmpty(stopDate.getEditableText().toString()) ||
                         TextUtils.isEmpty(startDate.getEditableText().toString())) {

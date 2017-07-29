@@ -108,4 +108,6 @@
         void backUpDevParam();
         void recoveryParam();
         long getUserId();
+        long geTypeId();
+        void updateCamereParam(String name,double value);
    }

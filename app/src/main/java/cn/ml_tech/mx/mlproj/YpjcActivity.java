@@ -268,6 +268,10 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
                 break;
             case R.id.btSave:
+                ypjcFragment.setPermission(permission);
+                if(!ypjcFragment.getPermissionById(8,3)){
+                    showToast("拒绝访问");
+                }
                 try {
                     data.putAll(ypjqFragment.getData());
                     Log.d("zw", "drugid" + druginfo_id);

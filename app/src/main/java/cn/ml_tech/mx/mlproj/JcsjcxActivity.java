@@ -21,7 +21,6 @@ public class JcsjcxActivity extends BaseActivity implements
     private static final int PERMISSIONSUCESS = 47;
     private static final int PERMISSIONFAILURE = 48;
     private boolean isPermissionSucess = false;
-    JcsjcxmainFragment jcsjcxmainFragment = null;
     Permission permission;
     private AmiApp amiApp;
     private ProgressDialog progressDialog;
@@ -100,8 +99,6 @@ public class JcsjcxActivity extends BaseActivity implements
             if (tag.equals("content")) {
             } else if (tag.equals("JcsjcxFragment")) {
                 f = new JcsjcxFragment();
-            } else if (tag.equals("JcsjcxmainFragment")) {
-                f = new JcsjcxmainFragment();
             } else {
                 f = super.getFragment(tag);
             }

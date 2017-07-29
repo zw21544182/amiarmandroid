@@ -397,6 +397,10 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             public void OnItemClick(final View view, int position) {
                 switch (view.getId()) {
                     case R.id.txtPDF:
+                        if (getPermissionById(18, 6)) {
+                            showRefuseTip();
+                            return;
+                        }
                         int i = (int) view.getTag();
                         try {
                             List<DetectionDetail> detectionDetails = mlService.queryDetectionDetailByReportId(detectionReports.get(i).getId());
@@ -406,11 +410,17 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                         }
                         break;
                     case R.id.txtDetDetail:
+                        if (!getPermissionById(18, 10)) {
+                            showRefuseTip();
+                            return;
+                        }
                         ShowDetailInfo(String.valueOf(position));
-                        Toast.makeText(mActivity, String.format("txtDetDetail%d ", (int) view.getTag()), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.txtDetDel:
-
+                        if (!getPermissionById(18, 5)) {
+                            showRefuseTip();
+                            return;
+                        }
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                                 .setTitle("是否删除这条数据")
                                 .setPositiveButton("删除", new DialogInterface.OnClickListener() {

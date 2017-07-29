@@ -83,7 +83,7 @@ public class PdfUtil {
             @Override
             public void run() {
                 super.run();
-                path = Environment.getRootDirectory().getPath() + "/" + report.getDetectionSn() + ".pdf";
+                path = activity.getFilesDir().getPath() + "/" + report.getDetectionSn() + ".pdf";
                 posList = new ArrayList<>();
                 negList = new ArrayList<>();
                 if (allDetailList != null) {

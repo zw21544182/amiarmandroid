@@ -73,6 +73,11 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
     protected void initEvent() {
         super.initEvent();
         btExTimeWrite.setOnClickListener(this);
+        btXAddrWrite.setOnClickListener(this);
+        btYAddrWrite.setOnClickListener(this);
+        btExTimeWrite.setOnClickListener(this);
+        btNumPlusWrite.setOnClickListener(this);
+
     }
 
     @Override
@@ -129,14 +134,24 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
         for (CameraParams config : listConfig
                 ) {
             switch (config.getParamName()) {
-                case "AGC":
-                    if (config.getParamValue() == 1) {
-                        agcoff.setChecked(true);
-                    } else {
-                        agcon.setChecked(true);
-                    }
+                case "x_addr_end":
+                    etXAddrEnd.setText(config.getParamValue() + "");
                     break;
-
+                case "y_addr_end":
+                    etYAddrEnd.setText(config.getParamValue() + "");
+                    break;
+                case "Exposure":
+                    etexposuretime.setText(config.getParamValue() + "");
+                    break;
+                case "fpgaGain":
+                    break;
+                case "digitalGain":
+                    etNumPlus.setText(config.getParamValue() + "");
+                    break;
+                case "globalGain":
+                    break;
+                case "fpgaFilter":
+                    break;
                 default:
                     break;
             }
@@ -152,21 +167,34 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
      * @param id
      */
     private void saveData(int id) {
-        showToast("保存数据");
-        CameraParams cameraParams = new CameraParams();
-        switch (id) {
-            case R.id.btExTimeWrite:
-                cameraParams.setParamName("testname");
-                cameraParams.setParamValue(2);
-                break;
-        }
         try {
+            CameraParams cameraParams = new CameraParams();
+            switch (id) {
+                case R.id.btXAddrWrite:
+                    cameraParams.setParamName("x_addr_end");
+                    cameraParams.setParamValue(Double.valueOf(etXAddrEnd.getEditableText().toString()));
+                    break;
+                case R.id.btYAddrWrite:
+                    cameraParams.setParamName("y_addr_end");
+                    cameraParams.setParamValue(Double.valueOf(etYAddrEnd.getEditableText().toString()));
+                    break;
+                case R.id.btExTimeWrite:
+                    cameraParams.setParamName("Exposure");
+                    cameraParams.setParamValue(Double.valueOf(etexposuretime.getEditableText().toString()));
+                    break;
+                case R.id.btNumPlusWrite:
+                    cameraParams.setParamName("digitalGain");
+                    cameraParams.setParamValue(Double.valueOf(etNumPlus.getEditableText().toString()));
+                    break;
+            }
+
             if (mActivity.getmService().setCameraParam(cameraParams) > 0) {
                 showToast("保存成功");
             }
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (NumberFormatException
+                e) {
         }
-
     }
 }

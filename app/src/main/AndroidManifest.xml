@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.ml_tech.mx.mlproj">
-
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     <uses-permission android:name="android.permission.STATUS_BAR" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <application
         android:name=".AmiApp"
         android:allowBackup="true"
@@ -41,12 +39,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".XtwhActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <!--<receiver android:name=".BroadBootCompleteReceiver">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
         <receiver android:name=".BroadBootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

@@ -18,6 +18,7 @@ import java.util.Map;
 
 import cn.ml_tech.mx.mlproj.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.SystemConfig;
 
 /**
@@ -81,7 +82,16 @@ public class SysConfigFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void LoadData() {
+        String url = "";
         try {
+            for (P_Source p_source : amiApp.getP_sources()
+                    ) {
+                if (p_source.getId() == 27) {
+                    url = p_source.getUrl();
+                    break;
+                }
+            }
+            setPermission(mlService.getPermissonByUrl(url, false));
             listConfig = mActivity.getmService().getSystemConfig();
             Log.d("LoadData: ", String.valueOf(listConfig.size()));
         } catch (RemoteException e) {
@@ -130,6 +140,7 @@ public class SysConfigFragment extends BaseFragment implements View.OnClickListe
                     break;
             }
         }
+        btnApply.setEnabled(getPermissionById(22, 8));
     }
 
     private void SaveData() {
@@ -137,7 +148,10 @@ public class SysConfigFragment extends BaseFragment implements View.OnClickListe
             Toast.makeText(mActivity, "请检查信息是否填写完整 ", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (!getPermissionById(22, 4)) {
+            showRefuseTip();
+            return;
+        }
         List<SystemConfig> list = new ArrayList<SystemConfig>();
         mapConfig.put("StandardDrugRotateCount", etStandRotateNum.getText().toString());
         mapConfig.put("FloatMax", etFloatMaxCount.getText().toString());

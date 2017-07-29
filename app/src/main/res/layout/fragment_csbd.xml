@@ -30,6 +30,7 @@
 
             <Button
                 android:id="@+id/btBack"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="返回" />
@@ -92,18 +93,24 @@
 
                     <Button
                         android:id="@+id/btStart"
+
+                        style="@style/ButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="开始标定" />
 
                     <Button
                         android:id="@+id/btApply"
+
+                        style="@style/ButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="应用" />
 
                     <Button
                         android:id="@+id/btExport"
+
+                        style="@style/ButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="数据导出" />
@@ -111,7 +118,7 @@
             </LinearLayout>
 
             <LinearLayout
-               android:id="@+id/resultLayout"
+                android:id="@+id/resultLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
