@@ -32,7 +32,7 @@ import java.lang.reflect.Method;
 
 import cn.ml_tech.mx.mlservice.IMlService;
 
-public abstract class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener {
+public abstract class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
     public static final int OVERLAY_PERMISSION_REQ_CODE = 4545;
     public static final int GETPERMISSIONSUCESS = 11;
     public static final int GETPERMISSIONFAILURE = 22;
@@ -87,8 +87,6 @@ public abstract class BaseActivity extends Activity implements HeadFragment.OnFr
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("zw", "Base Resume");
-
     }
 
     //禁止下拉
@@ -124,10 +122,10 @@ public abstract class BaseActivity extends Activity implements HeadFragment.OnFr
         super.onCreate(savedInstanceState);
         Log.d("zw", "oncreate");
         app = (AmiApp) getApplication();
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
+       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        }
         setContentView(R.layout.activity_base);
         receiver = new MyReceiver();
         IntentFilter filter = new IntentFilter();

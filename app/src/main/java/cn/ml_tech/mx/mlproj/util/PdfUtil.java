@@ -3,6 +3,7 @@ package cn.ml_tech.mx.mlproj.util;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
@@ -82,7 +83,7 @@ public class PdfUtil {
             @Override
             public void run() {
                 super.run();
-                path = activity.getFilesDir().getPath().toString() + "/" + report.getDetectionSn() + ".pdf";
+                path = Environment.getRootDirectory().getPath() + "/" + report.getDetectionSn() + ".pdf";
                 posList = new ArrayList<>();
                 negList = new ArrayList<>();
                 if (allDetailList != null) {

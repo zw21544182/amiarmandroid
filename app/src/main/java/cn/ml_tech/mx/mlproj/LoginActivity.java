@@ -190,7 +190,7 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
                         msg = "login success";
                         app.setUserName(userName);
                         app.setLogined(true);
-                        bottomFragment.updateDisplay();
+//                        bottomFragment.updateDisplay();
                     }
                     Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
                     final String finalMsg = msg;
