@@ -39,7 +39,7 @@ import java.util.List;
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.DetReport.AdapterDetail;
 import cn.ml_tech.mx.mlproj.DetReport.AdapterReport;
-import cn.ml_tech.mx.mlproj.Dialog.AmiDialog;
+import cn.ml_tech.mx.mlproj.Dialog.NodeInfoDialog;
 import cn.ml_tech.mx.mlproj.util.PdfUtil;
 import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
@@ -61,7 +61,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     private List<DetectionReport> detectionReports;
     private JcsjcxActivity jcsjcxActivity;
     private AmiApp amiApp;
-    private AmiDialog amiDialog;
+    private NodeInfoDialog amiDialog;
     private EditText stopDate;
     private EditText startDate;
     private SimpleDateFormat dateFormat;
@@ -201,15 +201,15 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                         startActivity(intent);
                         break;
                     case R.id.txtDetailAllResult:
-                        amiDialog = new AmiDialog(getActivity(), R.layout.dialog_node, new int[]{R.id.nodelayout});
+                        amiDialog = new NodeInfoDialog(getActivity(), R.layout.dialog_node, new int[]{R.id.nodelayout});
                         try {
                             amiDialog.setJsonObject(new JSONObject(detectionDetailList.get(position).getNodeInfo()));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        amiDialog.setOnCenterItemClickListener(new AmiDialog.OnCenterItemClickListener() {
+                        amiDialog.setOnCenterItemClickListener(new NodeInfoDialog.OnCenterItemClickListener() {
                             @Override
-                            public void OnCenterItemClick(AmiDialog dialog, View view) {
+                            public void OnCenterItemClick(NodeInfoDialog dialog, View view) {
                                 switch (view.getId()) {
                                     case R.id.nodelayout:
                                         break;
@@ -255,12 +255,9 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
     private void setDateToEdit(final EditText dateView) {
@@ -397,7 +394,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             public void OnItemClick(final View view, int position) {
                 switch (view.getId()) {
                     case R.id.txtPDF:
-                        if (getPermissionById(18, 6)) {
+                        if (!getPermissionById(18, 6)) {
                             showRefuseTip();
                             return;
                         }

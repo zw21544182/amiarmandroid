@@ -184,6 +184,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
                 if (state.equals("process")) {
 
                 } else if (state.equals("finish")) {
+                    btStartCheck.setEnabled(true);
                     cbFirstCheck.setEnabled(false);
                     cbFirstCheck.setChecked(false);
                     cbSecondCheck.setEnabled(true);
@@ -289,6 +290,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
                 }
                 break;
             case R.id.btStartCheck:
+                btStartCheck.setEnabled(false);
                 String rotate = etRotateNum.getEditableText().toString().trim();
                 if (rotate.equals("")) {
                     Toast.makeText(getActivity(), "旋转次数为空", Toast.LENGTH_SHORT).show();

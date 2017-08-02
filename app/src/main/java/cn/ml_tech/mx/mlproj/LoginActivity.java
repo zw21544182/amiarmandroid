@@ -1,14 +1,18 @@
 package cn.ml_tech.mx.mlproj;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,6 +21,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import cn.ml_tech.mx.mlproj.util.CommonUtil;
+import cn.ml_tech.mx.mlproj.util.SharedPreferencesUtils;
+import cn.ml_tech.mx.mlproj.util.VerSionUtil;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DAO.User;
 
@@ -28,6 +34,7 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
     private ProgressDialog progressDialog;
     private boolean isPermission;
     private static final int RESTARTSUCESS = 123;
+    private VerSionUtil verSionUtil;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -40,7 +47,8 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
                     optionFragment = (OptionFragment) switchContentFragment(OptionFragment.class.getSimpleName());
                     break;
                 case RESTARTSUCESS:
-                    optionFragment.restart();
+                    if (optionFragment != null)
+                        optionFragment.restart();
                 case GETPERMISSIONFAILURE:
                     break;
             }
@@ -50,6 +58,19 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    32);
+        } else {
+            if ((boolean) SharedPreferencesUtils.getParam(this, CommonUtil.ISUPDATE, true)) {
+                verSionUtil = new VerSionUtil(this);
+                verSionUtil.updateVersion();
+            }
+
+        }
         LogDebug(LoginFragment.class.getSimpleName());
         loginFragment = (LoginFragment) switchContentFragment(LoginFragment.class.getSimpleName());
     }
@@ -215,6 +236,27 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
         }
 
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 32: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if ((boolean) SharedPreferencesUtils.getParam(this, CommonUtil.ISUPDATE, true))
+                        new VerSionUtil(this).updateVersion();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+        }
     }
 
     public boolean isPermission() {

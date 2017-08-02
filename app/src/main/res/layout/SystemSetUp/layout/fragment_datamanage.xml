@@ -53,12 +53,14 @@
             android:text="提交" />
     </LinearLayout>
 
-    <HorizontalScrollView
+    <cn.ml_tech.mx.CustomView.MyHorizontalScrollView
+        android:id="@+id/horizon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:background="@drawable/bg_factory_layout"
         android:fillViewport="true"
+        android:focusable="false"
         android:padding="1dp">
 
         <LinearLayout
@@ -76,10 +78,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorBlack" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvData"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </LinearLayout>
-    </HorizontalScrollView>
+    </cn.ml_tech.mx.CustomView.MyHorizontalScrollView>
 </LinearLayout>

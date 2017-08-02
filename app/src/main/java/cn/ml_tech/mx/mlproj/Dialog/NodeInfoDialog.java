@@ -24,7 +24,7 @@ package cn.ml_tech.mx.mlproj.Dialog;
  * 功能描述: 显示DetectionDetail nodeInfo对话框
  */
 
-public class AmiDialog extends Dialog implements View.OnClickListener {
+public class NodeInfoDialog extends Dialog implements View.OnClickListener {
     private Context context;      // 上下文
     private int layoutResID;      // 布局文件id
     private int[] listenedItems;
@@ -50,15 +50,15 @@ public class AmiDialog extends Dialog implements View.OnClickListener {
         this.jsonObject = jsonObject;
     }
 
-    public AmiDialog(@NonNull Context context) {
+    public NodeInfoDialog(@NonNull Context context) {
         super(context, R.style.dialog_node);
     }
 
-    public AmiDialog(@NonNull Context context, @StyleRes int themeResId) {
+    public NodeInfoDialog(@NonNull Context context, @StyleRes int themeResId) {
         super(context, themeResId);
     }
 
-    public AmiDialog(Context context, int layoutResID, int[] listenedItems) {
+    public NodeInfoDialog(Context context, int layoutResID, int[] listenedItems) {
         super(context, R.style.dialog_node); //dialog的样式
         this.context = context;
         this.layoutResID = layoutResID;
@@ -72,11 +72,10 @@ public class AmiDialog extends Dialog implements View.OnClickListener {
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
         window.setWindowAnimations(R.style.bottom_menu_animation); // 添加动画效果
         setContentView(layoutResID);
-
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.width = display.getWidth() * 2 / 10; // 设置dialog宽度为屏幕的4/5
+        lp.width = display.getWidth() * 4 / 10;
         getWindow().setAttributes(lp);
         setCanceledOnTouchOutside(true);// 点击Dialog外部消失
         //遍历控件id,添加点击事件
@@ -87,9 +86,6 @@ public class AmiDialog extends Dialog implements View.OnClickListener {
         setDataToView();
     }
 
-    /**
-     *
-     */
     private void setDataToView() {
         try {
             JSONObject floatdata = jsonObject.getJSONObject("floatdta");
@@ -121,7 +117,7 @@ public class AmiDialog extends Dialog implements View.OnClickListener {
     private OnCenterItemClickListener listener;
 
     public interface OnCenterItemClickListener {
-        void OnCenterItemClick(AmiDialog dialog, View view);
+        void OnCenterItemClick(NodeInfoDialog dialog, View view);
     }
 
     public void setOnCenterItemClickListener(OnCenterItemClickListener listener) {

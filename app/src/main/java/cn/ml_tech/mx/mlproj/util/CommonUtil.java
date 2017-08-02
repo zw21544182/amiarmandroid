@@ -9,7 +9,8 @@ package cn.ml_tech.mx.mlproj.util;
 public class CommonUtil {
     public static final int SUCESS = 100;
     public static final int FAILURE = 200;
-
+    public static final String ISUPDATE = "isupdate";
+    public static final String UPDATEINDO = "updateinfo";
     public static final String LOGINSUCESS = "User login success";
     public static final String ENTERDRUGDETECTION = "Enter DrugDetection model widget";
     public static final String SAVEINFORMATION = "Save the new information";
@@ -33,7 +34,6 @@ public class CommonUtil {
     public static final String EXITDETECTIONG = "Exits abnormally, detecting invalid";
     public static final String AUTOMATICOPENER = "Automatic bottle opener bottle slots into the bottle after testing";
     public static final String ENTERDRUGSTANDARD = "Enter DrugStandardization model widget";
-
 
 
 }

@@ -30,7 +30,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -50,7 +50,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -70,7 +70,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -90,7 +90,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -110,7 +110,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/colorheadLine"></View>
+            android:background="@color/colorBlack"></View>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -129,4 +129,8 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBlack"></View>
 </LinearLayout>

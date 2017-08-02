@@ -252,8 +252,6 @@ public class AuditTrackFragment extends BaseFragment implements View.OnClickList
 
                 AuditTrackAdapter auditTrackAdapter = new AuditTrackAdapter(auditTrails, getActivity());
                 rvaudiotdata.setAdapter(auditTrackAdapter);
-
-
                 break;
         }
     }

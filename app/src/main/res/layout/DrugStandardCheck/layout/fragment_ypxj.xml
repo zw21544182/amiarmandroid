@@ -3,12 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginTop="150dp"
     android:background="@color/colorBackgroud"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="600dp"
+        android:layout_width="800dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="5">
@@ -41,7 +40,7 @@
                 android:layout_marginTop="5dp">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="end"
@@ -66,7 +65,7 @@
                 <TextView
                     android:id="@+id/textView"
 
-                    android:layout_width="200dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="end"
@@ -89,7 +88,7 @@
                 android:layout_marginTop="5dp">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="end"
@@ -113,12 +112,12 @@
                 android:layout_marginTop="5dp">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="300dp"
 
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="end"
-                    android:text="图像采集延迟时间延迟时间(秒)" />
+                    android:text="图像采集延迟时间(秒)" />
 
                 <EditText
                     android:id="@+id/etImageDelayTime"
@@ -174,7 +173,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="100dp"
+                                android:layout_width="150dp"
 
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -198,7 +197,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="100dp"
+                                android:layout_width="150dp"
 
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -222,7 +221,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="100dp"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="end"
@@ -246,7 +245,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="100dp"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="end"

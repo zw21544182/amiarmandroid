@@ -138,7 +138,6 @@ public class PdfUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 添加一行包含中文的信息到PDF测试
 
     }
 

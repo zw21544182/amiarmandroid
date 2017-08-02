@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
+import cn.ml_tech.mx.mlproj.util.VerSionUtil;
 import cn.ml_tech.mx.mlservice.IMlService;
 
 public abstract class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
@@ -122,10 +123,11 @@ public abstract class BaseActivity extends Activity implements HeadFragment.OnFr
         super.onCreate(savedInstanceState);
         Log.d("zw", "oncreate");
         app = (AmiApp) getApplication();
-       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 //        }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_base);
         receiver = new MyReceiver();
         IntentFilter filter = new IntentFilter();

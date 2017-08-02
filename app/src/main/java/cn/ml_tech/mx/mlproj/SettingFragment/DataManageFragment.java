@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.ml_tech.mx.CustomView.MyHorizontalScrollView;
 import cn.ml_tech.mx.CustomView.SystemSetUp.DataItmeView;
 import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.BaseFragment;
@@ -42,7 +44,6 @@ import static cn.ml_tech.mx.mlproj.util.CommonUtil.SUCESS;
  * 创建人: zhongwang
  * 功能描述:数据管理fragment
  */
-
 public class DataManageFragment extends BaseFragment implements View.OnClickListener {
     private static final int DELETESUCESS = 99;
     private static final int DELETEFAILURE = 33;
@@ -61,6 +62,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
     private String tableName;
     private Modern modern;
     private TableAdapter tableAdapter;
+    private HorizontalScrollView horizon;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -107,7 +109,10 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         toplayout = (LinearLayout) view.findViewById(R.id.toplayout);
         rvData = (RecyclerView) view.findViewById(R.id.rvData);
         rvData.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        horizon = (MyHorizontalScrollView ) view.findViewById(R.id.horizon);
+        horizon.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        horizon.setFocusable(false);
+        horizon.setFocusableInTouchMode(false);
     }
 
     @Override
@@ -343,7 +348,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             holder.linearLayout.removeAllViews();
             final CheckBox checkBox = new CheckBox(getActivity());
             checkBox.setBackgroundResource(R.color.colorheadLine);
-            LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
             checkBox.setLayoutParams(checkParams);
             checkBox.setChecked(checks.get(position));
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
