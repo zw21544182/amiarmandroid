@@ -3,6 +3,7 @@ package cn.ml_tech.mx.mlproj;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +55,8 @@ public class YpjqFragment extends Fragment {
     YpjcActivity ypjcActivity;
     private HashMap<String, String> data;
     private boolean isEnter = false;
+    private RelativeLayout imageLayout;
+
     private View view;
 
     public Map<String, String> getData() {
@@ -223,6 +228,7 @@ public class YpjqFragment extends Fragment {
         btBottlePara = (Button) view.findViewById(R.id.btBottlePara);
         btLeaveBottle = (Button) view.findViewById(R.id.btLeaveBottle);
         btresver = (Button) view.findViewById(R.id.btresver);
+        imageLayout = (RelativeLayout) view.findViewById(R.id.imagelayout);
         etBottlePara.addTextChangedListener(new ViewTextWatcher(etBottlePara));
         etShadLocation.addTextChangedListener(new ViewTextWatcher(etShadLocation));
         tvShadPara.addTextChangedListener(new ViewTextWatcher(tvShadPara));
@@ -332,9 +338,17 @@ public class YpjqFragment extends Fragment {
                     data.put("rotateSpeed", s.toString());
                     break;
                 case R.id.etShadLocation:
+
                     data.put("height", s.toString());
                     try {
+
                         tvShadPara.setText(String.valueOf(getShadParaByLocation(Integer.parseInt(s.toString()))));
+                        View view = new View(getActivity());
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2);
+                        layoutParams.setMargins(0, Integer.parseInt(s.toString()), 0, 0);
+                        view.setLayoutParams(layoutParams);
+                        view.setBackgroundColor(Color.BLUE);
+                        imageLayout.addView(view);
                     } catch (Exception e) {
 
                     }

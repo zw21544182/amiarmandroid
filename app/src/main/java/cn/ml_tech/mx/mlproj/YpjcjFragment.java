@@ -1,12 +1,11 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 
@@ -18,86 +17,52 @@ import android.widget.EditText;
  * Use the {@link YpjcjFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class YpjcjFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public YpjcjFragment() {
-    }
-
-    public static YpjcjFragment newInstance(String param1, String param2) {
-        YpjcjFragment fragment = new YpjcjFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+public class YpjcjFragment extends BaseFragment {
+    private View view;
+    private EditText etDetectionBatch;
+    private EditText etdetectionCount;
+    private EditText etdetectionNumber;
+    private Button ypjcjPre;
+    private Button ypjcjNext;
+    @Override
+    public View initView(LayoutInflater inflater) {
+        view = inflater.inflate(R.layout.fragment_ypjcj, null);
+        initFindViewById(view);
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ypjcj, container, false);
-    }
-
-     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().findViewById(R.id.ypjcjNext).setOnClickListener((View.OnClickListener) getActivity());
+    public void initFindViewById(View view) {
+        etDetectionBatch = (EditText) view.findViewById(R.id.etDetectionBatch);
+        etdetectionCount = (EditText) view.findViewById(R.id.etdetectionCount);
+        etdetectionNumber = (EditText) view.findViewById(R.id.etdetectionNumber);
+        ypjcjPre = (Button) view.findViewById(R.id.ypjcjPre);
+        ypjcjNext = (Button) view.findViewById(R.id.ypjcjNext);
 
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    protected void initEvent() {
+        super.initEvent();
+        ypjcjNext.setOnClickListener((View.OnClickListener) getActivity());
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+
     }
 
     public String getDetectionBatch() {
-        return ((EditText) getActivity().findViewById(R.id.etDetectionBatch)).getEditableText().toString();
+        return etDetectionBatch.getEditableText().toString();
     }
 
     /**
      * 检测数量
+     *
      * @return 检测数量
      */
     public String getDetectionCount() {
-        return ((EditText) getActivity().findViewById(R.id.etdetectionCount)).getEditableText().toString();
+        return etdetectionCount.getEditableText().toString();
     }
 
     /**
@@ -106,12 +71,7 @@ public class YpjcjFragment extends Fragment {
      * @return 检测编号
      */
     public String getDetectionNumber() {
-        return ((EditText) getActivity().findViewById(R.id.etdetectionNumber)).getEditableText().toString();
+        return etdetectionNumber.getEditableText().toString();
     }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

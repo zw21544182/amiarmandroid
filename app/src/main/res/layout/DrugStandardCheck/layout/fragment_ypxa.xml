@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="100dp"
-    android:layout_marginRight="100dp"
+    android:layout_gravity="center"
     android:background="@drawable/bgitme_layout"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="571dp">
 
 
         <LinearLayout
@@ -21,30 +20,29 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
                 <TextView
+                    style="@style/TextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="厂家信息添加" />
 
-                <ImageButton
+                <Button
                     android:id="@+id/bt_back"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
-                    android:background="@drawable/back" />
+                    style="@style/ButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="返回" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -54,6 +52,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextViewStyle"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -115,6 +114,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                style="@style/TextViewStyle"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -149,9 +149,8 @@
                                 android:id="@+id/etMachineFactoryAddress"
                                 style="@style/EditTextStyle"
                                 android:layout_width="500dp"
-
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="110dp" />
+                                android:layout_marginLeft="115dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -173,6 +172,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextViewStyle"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -207,6 +207,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextViewStyle"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -241,7 +242,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-
+                        style="@style/TextViewStyle"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -279,6 +280,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextViewStyle"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -314,6 +316,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextViewStyle"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

@@ -123,7 +123,6 @@ public class PerManageFragment extends BaseFragment {
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     });
                     horlayout.addView(checkBox);
@@ -221,5 +220,6 @@ public class PerManageFragment extends BaseFragment {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+
     }
 }

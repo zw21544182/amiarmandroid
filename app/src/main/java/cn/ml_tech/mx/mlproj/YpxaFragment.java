@@ -1,40 +1,23 @@
 package cn.ml_tech.mx.mlproj;
 
-import android.app.Fragment;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.jeesoft.widget.pickerview.CharacterPickerWindow;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
-
-import static android.view.View.Y;
-
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link YpxaFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link YpxaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class YpxaFragment extends BaseFragment {
     private String province_code;
     private String city_code;
     private String area_code;
     private View view;
-    private ImageButton btBack;
+    private Button btBack;
     private EditText etMachineFactoryName;
     private EditText etMachineFactoryAddr;
     private EditText etMachineFactoryAddress;
@@ -56,7 +39,7 @@ public class YpxaFragment extends BaseFragment {
 
     @Override
     public void initFindViewById(View view) {
-        btBack = (ImageButton) view.findViewById(R.id.bt_back);
+        btBack = (Button) view.findViewById(R.id.bt_back);
         etMachineFactoryName = (EditText) view.findViewById(R.id.etMachineFactoryName);
         etMachineFactoryAddr = (EditText) view.findViewById(R.id.etMachineFactoryAddr);
         etMachineFactoryAddress = (EditText) view.findViewById(R.id.etMachineFactoryAddress);

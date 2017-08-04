@@ -30,7 +30,7 @@ import cn.ml_tech.mx.mlservice.DrugControls;
 
 public class YpjcActivity extends BaseActivity implements View.OnClickListener,
         View.OnTouchListener, YpjqFragment.OnFragmentInteractionListener, YpxjFragment.OnFragmentInteractionListener,
-        YpjcjFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
+        BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
     YpxxFragment ypxxFragment = null;

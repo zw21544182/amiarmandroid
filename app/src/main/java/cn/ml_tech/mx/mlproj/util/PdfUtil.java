@@ -183,9 +183,7 @@ public class PdfUtil {
             e.printStackTrace();
             Log.d("zw", "false");
         }
-
     }
-
     private void addDetailInfo() throws DocumentException {
         yaHeiFont.setSize(10);
         int i = 0;
@@ -193,15 +191,11 @@ public class PdfUtil {
                 allDetailList) {
             if (i % 4 == 0&&i!= 0) {
                 document.newPage();
-
                     document.add(emptyParagraph);
                     document.add(emptyParagraph);
                 }
-
-
             try {
                 jsonObject = new JSONObject(detail.getNodeInfo());
-
                 PdfPTable pdfPTable = new PdfPTable(5);
                 pdfPTable.setWidthPercentage(70); // Width 100%
                 float[] columnWidths = {2f, 1f, 1f, 1f, 0.8f};

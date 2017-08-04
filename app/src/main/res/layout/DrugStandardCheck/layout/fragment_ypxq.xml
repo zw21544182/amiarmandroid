@@ -2,219 +2,241 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="100dp"
-    android:layout_marginRight="100dp"
-    android:background="@drawable/bg_system_layout"
+    android:background="@drawable/bg_settingitme"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:orientation="horizontal"
-        android:weightSum="8">
+        android:layout_height="571dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/imagelayout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5.5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="8">
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/imagelayout"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5.5"
-                android:background="#000" />
-        </RelativeLayout>
+                android:layout_weight="5.5">
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2.5"
-            android:padding="10dp">
+                <RelativeLayout
+                    android:id="@+id/imageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5.5"
+                    android:background="#000" />
+            </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:gravity="end"
-                        android:text="遮光位置"
-                        android:textSize="15dp" />
-
-                    <EditText
-                        android:id="@+id/etShadLocation"
-                        style="@style/EditTextStyle"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:inputType="number" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="60dp"
-
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:gravity="end"
-                        android:text="遮光参数"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:id="@+id/tvShadPara"
-
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="20.00"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="60dp"
-
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:text="色差系数"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:id="@+id/tvColorCoefficient"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="36"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
-                <Button
-
-                    android:id="@+id/btValidate"
-                    style="@style/ButtonStyle"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:text="遮光验证" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btBottlePara"
-                        style="@style/ButtonStyle"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="5dp"
-
-                        android:text="旋瓶测试" />
-
-                    <EditText
-                        android:id="@+id/etBottlePara"
-                        style="@style/EditTextStyle"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:inputType="number" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btEntryBottle"
-                        style="@style/ButtonStyle"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-
-                        android:text="进瓶" />
-
-                    <Button
-                        android:id="@+id/btLeaveBottle"
-                        style="@style/ButtonStyle"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:enabled="false"
-                        android:text="出瓶" />
-
-                </LinearLayout>
+                android:layout_weight="2.5"
+                android:background="@drawable/bg_factory_layout"
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
 
-                    <Spinner
-                        android:id="@+id/spParaType"
-                        style="@style/SpinnerStyle"
+                    android:orientation="vertical">
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:entries="@array/ParaType"></Spinner>
+
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:gravity="end"
+                                android:text="遮光位置"
+                                android:textSize="15dp" />
+
+                            <EditText
+                                android:id="@+id/etShadLocation"
+                                style="@style/EditTextStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:inputType="number" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="60dp"
+
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:gravity="end"
+                                android:text="遮光参数"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:id="@+id/tvShadPara"
+                                style="@style/TextViewStyle"
+
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="20.00"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle"
+                                android:layout_width="60dp"
+
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:text="色差系数"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:id="@+id/tvColorCoefficient"
+                                style="@style/TextViewStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="36"
+
+                                android:textSize="15dp" />
+                        </LinearLayout>
+
+                        <Button
+
+                            android:id="@+id/btValidate"
+                            style="@style/ButtonStyle"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="遮光验证" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btBottlePara"
+                                style="@style/ButtonStyle"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp"
+
+                                android:text="旋瓶测试" />
+
+                            <EditText
+                                android:id="@+id/etBottlePara"
+                                style="@style/EditTextStyle"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:inputType="number" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btEntryBottle"
+                                style="@style/ButtonStyle"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+
+                                android:text="进瓶" />
+
+                            <Button
+                                android:id="@+id/btLeaveBottle"
+                                style="@style/ButtonStyle"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:enabled="false"
+                                android:text="出瓶" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/spParaType"
+                                style="@style/SpinnerStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:entries="@array/ParaType"></Spinner>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btSave"
+                                style="@style/ButtonStyle"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="5dp"
+
+                                android:text="保存" />
+
+                            <Button
+                                android:id="@+id/btresver"
+                                style="@style/ButtonStyle"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="5dp"
+                                android:text="取消" />
+
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
 
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btSave"
-                        style="@style/ButtonStyle"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="5dp"
-
-                        android:text="保存" />
-
-                    <Button
-                        android:id="@+id/btresver"
-                        style="@style/ButtonStyle"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="5dp"
-                        android:text="取消" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-        </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

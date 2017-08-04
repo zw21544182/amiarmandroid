@@ -24,8 +24,6 @@ import cn.ml_tech.mx.mlservice.IMlService;
 import static cn.ml_tech.mx.mlproj.R.id.me_name;
 
 public class YpkFragment extends BaseFragment{
-
-
     private List<DrugControls> drugList = new ArrayList<>();
     private DrugControls drugControls = null;
     private DrugAdapter adapter;
@@ -45,14 +43,10 @@ public class YpkFragment extends BaseFragment{
     private TextView tvAllPage;
     private ImageButton ibSearch;
     private Button btnypxNext;
-
-
     public IMlService getmService() {
         return mService;
     }
-
     private int cuurentPage = 1, lastPage;
-
     public void setmService(IMlService mService) {
         this.mService = mService;
     }
