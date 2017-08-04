@@ -54,6 +54,7 @@ public class PdfUtil {
     private Activity activity;
     private Document document;
     private Font yaHeiFont;
+    private Font redFont;
     private Paragraph paragraph;
     private Paragraph emptyParagraph;
     private PdfPCell pdfPCell;
@@ -130,9 +131,14 @@ public class PdfUtil {
     private void setFont() {
         String yaHeiFontName = activity.getResources().getString(R.raw.simsun);
         yaHeiFontName += ",1";
+        String redFontName = activity.getResources().getString(R.raw.simsun);
+        redFontName += ",1";
         try {
             yaHeiFont = new Font(BaseFont.createFont(yaHeiFontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED));
             yaHeiFont.setSize(20);
+            redFont = new Font(BaseFont.createFont(redFontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED));
+            redFont.setColor(BaseColor.RED);
+            redFont.setSize(13);
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -185,6 +191,14 @@ public class PdfUtil {
         int i = 0;
         for (DetectionDetail detail :
                 allDetailList) {
+            if (i % 4 == 0&&i!= 0) {
+                document.newPage();
+
+                    document.add(emptyParagraph);
+                    document.add(emptyParagraph);
+                }
+
+
             try {
                 jsonObject = new JSONObject(detail.getNodeInfo());
 
@@ -200,6 +214,7 @@ public class PdfUtil {
                 }
                 pdfPCell.setRowspan(1);
                 pdfPCell.setColspan(5);
+
                 pdfPTable.addCell(pdfPCell);
                 pdfPCell = new PdfPCell(new Paragraph(jsonObject.getJSONObject("floatdta").getString("name"), yaHeiFont));
                 pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -286,7 +301,7 @@ public class PdfUtil {
                 pdfPCell.setColspan(1);
                 pdfPTable.addCell(pdfPCell);
                 if (detail.isPositive()) {
-                    pdfPCell = new PdfPCell(new Paragraph("阳性", yaHeiFont));
+                    pdfPCell = new PdfPCell(new Paragraph("阳性", redFont));
                 } else {
                     pdfPCell = new PdfPCell(new Paragraph("阴性", yaHeiFont));
 
@@ -351,23 +366,33 @@ public class PdfUtil {
 
     private void addTable() throws DocumentException {
         PdfPTable table = new PdfPTable(4); // 3 columns.
-        table.setWidthPercentage(80); // Width 100%
+        table.setWidthPercentage(70); // Width 100%
         table.setSpacingBefore(10f); // Space before table
         table.setSpacingAfter(10f); // Space after table
         // Set Column widths
         float[] columnWidths = {1f, 1f, 1f, 1f};
         table.setWidths(columnWidths);
         PdfPCell c1 = new PdfPCell(new Phrase("初检序号", yaHeiFont));
+        c1.setMinimumHeight(15);
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setVerticalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("综合结果", yaHeiFont));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1.setMinimumHeight(15);
+        c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
         table.addCell(c1);
         c1 = new PdfPCell(new Phrase("复检序号", yaHeiFont));
+        c1.setMinimumHeight(15);
+        c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
         c1 = new PdfPCell(new Phrase("综合结果", yaHeiFont));
+        c1.setMinimumHeight(15);
+
 
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
@@ -375,48 +400,68 @@ public class PdfUtil {
         int a = posList.size();
         int b = negList.size();
         for (int i = 0; i < 20; i++) {
+
             c1 = new PdfPCell(new Phrase((i + 1) + "", yaHeiFont));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
             if (i < a) {
                 if (posList.get(i).isPositive()) {
                     yaHeiFont.setColor(BaseColor.RED);
-                    c1 = new PdfPCell(new Phrase("阳性 ×", yaHeiFont));
+                    c1 = new PdfPCell(new Phrase("阳性 ×", redFont));
+                    c1.setMinimumHeight(15);
+                    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBackgroundColor(BaseColor.RED);
                     table.addCell(c1);
                     yaHeiFont.setColor(BaseColor.BLACK);
                     c1.setBackgroundColor(BaseColor.BLACK);
 
                 } else {
                     c1 = new PdfPCell(new Phrase("阴性 √", yaHeiFont));
+                    c1.setMinimumHeight(15);
+                    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                     table.addCell(c1);
                 }
             } else {
                 c1 = new PdfPCell(new Phrase(" ", yaHeiFont));
+                c1.setMinimumHeight(15);
+                c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(c1);
             }
             c1 = new PdfPCell(new Phrase((i + 1) + "", yaHeiFont));
+            c1.setMinimumHeight(15);
+            c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
             if (i < b) {
                 if (negList.get(i).isPositive()) {
-                    c1 = new PdfPCell(new Phrase("阳性 ×", yaHeiFont));
+                    c1 = new PdfPCell(new Phrase("阳性 ×", redFont));
+                    c1.setMinimumHeight(15);
+                    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBackgroundColor(BaseColor.RED);
+
                     table.addCell(c1);
-                    c1.setBackgroundColor(BaseColor.BLACK);
 
 
                 } else {
                     c1 = new PdfPCell(new Phrase("阴性 √", yaHeiFont));
+                    c1.setMinimumHeight(15);
+                    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                     table.addCell(c1);
                 }
             } else {
                 c1 = new PdfPCell(new Phrase(" ", yaHeiFont));
+                c1.setMinimumHeight(15);
+                c1.setVerticalAlignment(Element.ALIGN_CENTER);
+
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(c1);
             }
@@ -427,9 +472,8 @@ public class PdfUtil {
 
     private void addInfo() {
         paragraph.add(emptyParagraph);
-        yaHeiFont.setSize(10);
+        yaHeiFont.setSize(13);
         List orderedList = new List(List.UNORDERED);
-
         orderedList.add(new ListItem("仪器编号 " + devUuid.getDevID(), yaHeiFont));
         orderedList.add(new ListItem("药品名称 " + drugControls.getDrugName(), yaHeiFont));
         orderedList.add(new ListItem("检测编号 " + report.getDetectionBatch(), yaHeiFont));
@@ -441,7 +485,6 @@ public class PdfUtil {
         orderedList.add(new ListItem("药品厂家 " + report.getFactoryName(), yaHeiFont));
         orderedList.add(new ListItem("检测人员 " + report.getUserName(), yaHeiFont));
         orderedList.add(new ListItem("检测日期 " + dateFormat.format(report.getDate()), yaHeiFont));
-
         try {
             document.add(orderedList);
 
@@ -458,7 +501,7 @@ public class PdfUtil {
         try {
             document.add(paragraph);
             paragraph.add(emptyParagraph);
-            yaHeiFont.setSize(50);
+            yaHeiFont.setSize(30);
             paragraph = new Paragraph("检测报告", yaHeiFont);
             paragraph.setAlignment(Element.ALIGN_CENTER);
             paragraph.add(emptyParagraph);

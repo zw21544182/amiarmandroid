@@ -22,6 +22,7 @@
 
             <TextView
                 android:id="@+id/tvDrugName"
+                style="@style/TextViewStyle"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="药品名称 " />
@@ -44,6 +45,8 @@
 
             <TextView
                 android:id="@+id/tvPinYin"
+
+                style="@style/TextViewStyle"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="拼音缩写 " />
@@ -67,6 +70,8 @@
 
             <TextView
                 android:id="@+id/tvEnName"
+
+                style="@style/TextViewStyle"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="药品英文 " />
@@ -90,13 +95,15 @@
 
             <TextView
                 android:id="@+id/tvBottleType"
+
+                style="@style/TextViewStyle"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="药瓶类型 " />
 
             <Spinner
                 android:id="@+id/etBottleType"
-                style="@style/EditTextStyle"
+                style="@style/SpinnerStyle"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content" />
 
@@ -112,13 +119,15 @@
 
             <TextView
                 android:id="@+id/tvFactory"
+
+                style="@style/TextViewStyle"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="药品厂家 " />
 
             <Spinner
                 android:id="@+id/etFactory"
-                style="@style/EditTextStyle"
+                style="@style/SpinnerStyle"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
 
@@ -151,16 +160,16 @@
 
             <TextView
                 android:id="@+id/tvThreshold"
+                style="@style/TextViewStyle"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="检测标准阈值 " />
 
             <Spinner
                 android:id="@+id/etThreshold"
-                style="@style/EditTextStyle"
+                style="@style/SpinnerStyle"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-
                 android:text=" " />
 
         </LinearLayout>

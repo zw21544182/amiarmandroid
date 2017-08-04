@@ -3,9 +3,6 @@
     android:id="@+id/toplayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="1dp"
-    android:layout_marginRight="1dp"
-    android:layout_marginTop="1dp"
     android:background="#fff"
     android:orientation="vertical">
 
@@ -13,6 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
+        <CheckBox
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tvDrugName"
@@ -27,7 +29,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvDrugBottleType"
@@ -41,7 +43,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvChinese"
@@ -56,7 +58,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvEnglish"
@@ -71,7 +73,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
         <TextView
             android:id="@+id/tvDrugFactory"
@@ -85,42 +87,40 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#D6D7D7" />
+            android:background="#000" />
 
 
+        <TextView
+            android:id="@+id/update"
+            style="@style/TextViewStyle"
+            android:layout_width="0dp"
 
-            <TextView
-                android:id="@+id/update"
-                style="@style/TextViewStyle"
-                android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autoLink="all"
+            android:gravity="center"
+            android:text="修改"
+            android:textColor="@color/textview" />
 
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:autoLink="all"
-                android:gravity="center"
-                android:text="修改"
-                android:textColor="@color/textview" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#000" />
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#D6D7D7" />
-
-            <TextView
-                android:id="@+id/delete"
-                style="@style/TextViewStyle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:autoLink="all"
-                android:gravity="center"
-                android:text="删除"
-                android:textColor="@color/textview" />
+        <TextView
+            android:id="@+id/delete"
+            style="@style/TextViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autoLink="all"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/textview" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#000" />
-
 </LinearLayout>

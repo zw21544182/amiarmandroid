@@ -159,9 +159,6 @@ public class YpkFragment extends BaseFragment{
         view.findViewById(R.id.addphonetic).setOnClickListener((View.OnClickListener) getActivity());
     }
 
-    /**
-     * @param savedInstanceState
-     */
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         setPermission(((YpjcActivity) getActivity()).permission);

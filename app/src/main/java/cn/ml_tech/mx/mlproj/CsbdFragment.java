@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ml_tech.mx.CustomView.DrugStandardCheck.workflowitemView;
+import cn.ml_tech.mx.CustomView.DrugStandardCheck.WorkflowitemView;
 import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 public class CsbdFragment extends BaseFragment implements View.OnClickListener {
@@ -41,7 +41,7 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout layoutworkflow;
     private ReceiverUtil receiverUtil;
     private LinearLayout ltresult;
-    private List<workflowitemView> workflowitemViewList;
+    private List<WorkflowitemView> workflowitemViewList;
     @Override
     public View initView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.fragment_csbd, null);
@@ -109,8 +109,8 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         for (int var = 0; var < list.size(); var++) {
-            workflowitemView w = new workflowitemView(getActivity(), null, list.get(var), Color.BLACK, Color.BLUE);
-            w.setHeight(160);
+            WorkflowitemView w = new WorkflowitemView(getActivity(), null, list.get(var), Color.BLACK, Color.BLUE);
+            w.setHeight(200);
             w.setMinWidth(60);
             w.setMaxWidth(80);
             w.getPaint().setFakeBoldText(true);

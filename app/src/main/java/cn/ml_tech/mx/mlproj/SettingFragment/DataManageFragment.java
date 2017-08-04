@@ -109,7 +109,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         toplayout = (LinearLayout) view.findViewById(R.id.toplayout);
         rvData = (RecyclerView) view.findViewById(R.id.rvData);
         rvData.setLayoutManager(new LinearLayoutManager(getActivity()));
-        horizon = (MyHorizontalScrollView ) view.findViewById(R.id.horizon);
+        horizon = (MyHorizontalScrollView) view.findViewById(R.id.horizon);
         horizon.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         horizon.setFocusable(false);
         horizon.setFocusableInTouchMode(false);
@@ -187,7 +187,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         CheckBox checkBox = new CheckBox(getActivity());
         checkBox.setBackgroundResource(R.color.colorheadLine);
         linearLayout.setBackgroundResource(R.color.colorheadLine);
-        LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         checkBox.setLayoutParams(checkParams);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

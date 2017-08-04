@@ -3,10 +3,10 @@ package cn.ml_tech.mx.mlproj;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -22,11 +22,17 @@ import static org.junit.Assert.assertTrue;
 public class TestDemo {
     @Test
     public void useAppContext() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("versionCode", 2);
-        jsonObject.put("updateInfo", "test update");
-        jsonObject.put("downloadUrl", "new.apk");
-        Log.d("zw", jsonObject.toString());
+        Class<?> ServiceManager = Class
+                .forName("android.os.PowerManager");
+        Method[] methods = ServiceManager.getDeclaredMethods();
+        for (int i = 0; i < methods.length; i++) {
+            if (methods[i].getName().equals("shutdown")) {
+                Class<?>[] params = methods[i].getParameterTypes();
+                for (int c = 0; c < params.length; c++) {
+                    Log.d("zw", params[c].getName());
+                }
+            }
+        }
     }
 
     @Test

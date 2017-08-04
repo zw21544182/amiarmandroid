@@ -45,7 +45,7 @@ public class CsbdActivity extends BaseActivity implements BottomFragment.OnFragm
         amiApp = (AmiApp) getApplication();
         if (progressDialog == null)
             progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("权限加载中....");
+        progressDialog.setTitle("数据加载中....");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -77,7 +77,7 @@ public class CsbdActivity extends BaseActivity implements BottomFragment.OnFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-  }
+    }
 
     protected void onStart() {
         super.onStart();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.ml_tech.mx.mlproj">
+    package="cn.ml_tech.mx.mlproj"
+   >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
@@ -18,8 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-        android:versionCode="5"
-        android:versionName="1.4">
+        android:versionCode="6"
+        android:versionName="1.5">
         <activity android:name=".BaseActivity" />
         <activity
             android:name=".LoginActivity"
@@ -52,6 +53,7 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+
         <receiver android:name=".BroadBootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

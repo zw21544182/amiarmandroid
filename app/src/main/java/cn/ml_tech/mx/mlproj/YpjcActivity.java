@@ -78,7 +78,7 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
         amiApp = (AmiApp) getApplication();
         if (progressDialog == null)
             progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("权限加载中....");
+        progressDialog.setTitle("数据加载中....");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -269,7 +269,7 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btSave:
                 ypjcFragment.setPermission(permission);
-                if(!ypjcFragment.getPermissionById(8,3)){
+                if (!ypjcFragment.getPermissionById(8, 3)) {
                     showToast("拒绝访问");
                 }
                 try {
@@ -332,6 +332,8 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
+                break;
+
             default:
                 break;
         }

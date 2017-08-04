@@ -14,6 +14,7 @@ public class YpjcFragment extends BaseFragment {
     private RadioButton rbContinue;
     private Button btPre;
     private Button btNext;
+
     public boolean isContinue() {
         return rbContinue.isChecked();
     }
@@ -31,15 +32,18 @@ public class YpjcFragment extends BaseFragment {
         btPre = (Button) view.findViewById(R.id.btPre);
         btNext = (Button) view.findViewById(R.id.btNext);
     }
-
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
     }
-
     protected void initEvent() {
-        btPre.setOnClickListener((YpjcActivity) getActivity());
+        btPre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
         btNext.setOnClickListener((YpjcActivity) getActivity());
+
     }
 
 }

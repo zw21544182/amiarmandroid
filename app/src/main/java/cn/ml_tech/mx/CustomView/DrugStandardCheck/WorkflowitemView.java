@@ -11,7 +11,7 @@ import android.widget.TextView;
  * Created by ml on 2017/4/22.
  */
 
-public class workflowitemView extends TextView{
+public class WorkflowitemView extends TextView{
     private String title;
     private int bgcolor;
     private int textcolor;
@@ -32,17 +32,17 @@ public class workflowitemView extends TextView{
         isHightLight = hightLight;
     }
 
-    public workflowitemView(Context context) {
+    public WorkflowitemView(Context context) {
         super(context);
     }
-    public  workflowitemView(Context context,@Nullable AttributeSet attrs,String text,int textcolor,int bgcolor){
+    public WorkflowitemView(Context context, @Nullable AttributeSet attrs, String text, int textcolor, int bgcolor){
         super(context,attrs);
 
         this.setTextcolor(textcolor);
         this.setText(text);
         this.setBgcolor(bgcolor);
     }
-    public workflowitemView(Context context, @Nullable AttributeSet attrs) {
+    public WorkflowitemView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
     }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<string name="SERVERURL">"http://10.0.3.2:8080/version.txt"</string>-->
-    <string name="SERVERURL">http://192.168.0.34:8080/version.txt</string>
-    <string name="SERVERROOT">http://192.168.0.34:8080</string>
-    <string name="UPDATEINFO">测试应用更新</string>
+    <string name="SERVERURL">http://192.168.0.159:8080/version.txt</string>
+    <string name="SERVERROOT">http://192.168.0.159:8080</string>
+    <string name="UPDATEINFO">修复数据管理界面Bug 界面优化</string>
 </resources>

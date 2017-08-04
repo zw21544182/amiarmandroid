@@ -1,15 +1,19 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 /**
@@ -90,10 +94,27 @@ public class HeadFragment extends Fragment {
                             .setPositiveButton("关机", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // 点击“确认”后的操作
-//                                    ((BaseActivity)getActivity()).activityCollector.finishAll();
-                                    ActivityCollector.finishAll();
-
+//                                    Intent intent = new Intent("android.intent.action.REBOOT");
+//                                    intent.putExtra("android.intent.action.ACTION_REQUEST_SHUTDOWN", false);
+//                                    //其中false换成true,会弹出是否关机的确认窗口
+//                                    startActivity(intent);
+                                    PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
+                                    try {
+                                        Class<?> ServiceManager = Class
+                                                .forName("android.os.PowerManager");
+                                        Method[] methods = ServiceManager.getDeclaredMethods();
+                                        for (int i = 0; i < methods.length; i++) {
+                                            if (methods[i].getName().equals("shutdown")) {
+                                                methods[i].invoke(pm, true,true);
+                                            }
+                                        }
+                                    } catch (ClassNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (InvocationTargetException e) {
+                                        e.printStackTrace();
+                                    } catch (IllegalAccessException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             })
                             .setNeutralButton("退出APP", new DialogInterface.OnClickListener() {

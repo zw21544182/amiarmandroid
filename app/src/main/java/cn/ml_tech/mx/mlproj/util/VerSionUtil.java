@@ -103,10 +103,12 @@ public class VerSionUtil {
     }
 
     private void openFile(File c, Context context) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(c),
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setDataAndType(Uri.fromFile(c),
                 "application/vnd.android.package-archive");
-        context.startActivity(intent);
+        context.startActivity(i);
+        android.os.Process.killProcess(android.os.Process.myPid());
 
 
     }
@@ -132,7 +134,7 @@ public class VerSionUtil {
                     downLoadUrl = jsonObject.getString("downloadUrl");
                     int clientcode = getVersionCode();
                     Log.d("zb", "clientcode" + clientcode);
-                    if (serverCode > clientcode) {
+                    if (serverCode != clientcode) {
                         handler.sendEmptyMessage(UPDATETIP);
                     }
                 } catch (JSONException e) {

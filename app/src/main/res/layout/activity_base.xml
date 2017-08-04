@@ -16,7 +16,7 @@
     <LinearLayout
         android:id="@+id/linearlayout_middle"
         android:layout_width="match_parent"
-        android:layout_height="571dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bodys"
         android:gravity="center"
         android:orientation="vertical"></LinearLayout>

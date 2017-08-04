@@ -1,27 +1,24 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:anroid="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="100dp"
-    android:layout_marginRight="100dp"
+    android:layout_height="fill_parent"
     android:background="@color/colorBackgroud"
     tools:context="cn.ml_tech.mx.mlproj.YpjcFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="571dp"
         android:background="@drawable/bgitme_layout"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvType"
+            style="@style/TextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="检测类型：" />
-        <!--android:layout_marginLeft="300dp"-->
-        <!--android:layout_marginBottom="30dp"-->
+
         <RadioGroup
             android:id="@+id/rgType"
             android:layout_width="wrap_content"
