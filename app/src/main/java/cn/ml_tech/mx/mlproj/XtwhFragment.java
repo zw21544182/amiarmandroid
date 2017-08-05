@@ -1,7 +1,6 @@
 package cn.ml_tech.mx.mlproj;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +10,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -35,7 +34,6 @@ import cn.ml_tech.mx.mlservice.DAO.Permission;
 public class XtwhFragment extends BaseFragment {
     private static final int PERSUCESS = 300;
     private static final int PERFAILURE = 400;
-    private FragmentManager mChildFragmentManager;
     private FragmentTransaction mfragmentTransaction;
     private UserManagerFragment userManagerFragment;
     private AuditTrackFragment auditTrackFragment;
@@ -51,7 +49,7 @@ public class XtwhFragment extends BaseFragment {
     private AddTypeFragment addTypeFragment;
     private ProjectUpdateFragment projectUpdateFragment;
     private Fragment mCurrentFrgment;//显示当前Fragment
-    private ImageButton btBack;
+    private Button btBack;
     private RadioGroup rootgroup;
     private Permission permission;
     private AmiApp amiApp;
@@ -94,7 +92,7 @@ public class XtwhFragment extends BaseFragment {
 
     @Override
     public void initFindViewById(View view) {
-        btBack = (ImageButton) view.findViewById(R.id.bt_back);
+        btBack = (Button) view.findViewById(R.id.bt_back);
         rootgroup = (RadioGroup) view.findViewById(R.id.rootgroup);
     }
 

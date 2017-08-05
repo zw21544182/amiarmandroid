@@ -12,13 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
 
-        <ImageButton
+        <Button
             android:id="@+id/bt_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:background="@drawable/ic_back" />
+            android:text="返回" />
     </RelativeLayout>
 
     <LinearLayout

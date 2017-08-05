@@ -47,6 +47,19 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     private TextView tvPiaoFuNum, tvPiaoFuRes, tvSuJianPer, tvSuJianRes;
     private JSONObject jsonObject;
     private CheckBox cbFirstCheck, cbSecondCheck;
+    private TextView tvYi40;
+    private TextView tvYi50;
+    private TextView tvYi60;
+    private TextView tvYi70;
+    private TextView tvNum40;
+    private TextView tvNum50;
+    private TextView tvNum70;
+    private TextView tvYiRes;
+    private TextView tvNumRes;
+    private TextView tvMaxRes;
+    private TextView tvsuJianTime;
+
+
     private String state = "";
     private String detectionSn = "";
     private DetectionReport report;
@@ -54,12 +67,6 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
 
     public void setState(String state) {
         this.state = state;
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -75,6 +82,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         tvDrugBottleType = (TextView) view.findViewById(R.id.tvDrugBottleType);
         etRotateNum = (EditText) view.findViewById(R.id.etRotateNum);
         btStartCheck = (Button) view.findViewById(R.id.btStartCheck);
+        tvsuJianTime = (TextView) view.findViewById(R.id.tvsuJianTime);
         ltDrugPara = (LinearLayout) view.findViewById(R.id.ltDrugPara);
         cbShowDrugParam = (CheckBox) view.findViewById(R.id.cbShowDrugParam);
         tvDrugName = (TextView) view.findViewById(R.id.tvDrugName);
@@ -85,6 +93,17 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         tvDetectionSn = (TextView) view.findViewById(R.id.tvDetectionSn);
         cbSecondCheck = (CheckBox) view.findViewById(R.id.cbSecondCheck);
         cbFirstCheck = (CheckBox) view.findViewById(R.id.cbFirstCheck);
+
+        tvYi40 = (TextView) view.findViewById(R.id.tvYi40);
+        tvYi50 = (TextView) view.findViewById(R.id.tvYi50);
+        tvYi60 = (TextView) view.findViewById(R.id.tvYi60);
+        tvYi70 = (TextView) view.findViewById(R.id.tvYi70);
+        tvNum40 = (TextView) view.findViewById(R.id.tvNum40);
+        tvNum50 = (TextView) view.findViewById(R.id.tvNum50);
+        tvNum70 = (TextView) view.findViewById(R.id.tvNum70);
+        tvYiRes = (TextView) view.findViewById(R.id.tvYiRes);
+        tvNumRes = (TextView) view.findViewById(R.id.tvNumRes);
+        tvMaxRes = (TextView) view.findViewById(R.id.tvMaxRes);
         cbFirstCheck.setChecked(true);
         tvDetectionNumber = (TextView) view.findViewById(R.id.tvDetectionNumber);
         tvShapePara = (TextView) view.findViewById(R.id.tvShapePara);
@@ -109,11 +128,14 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         } else {
             report = null;
             try {
-                report = ypjcActivity.mService.getLastReport();
+                report = mlService.getLastReport();
+                List<DetectionDetail> detectionDetails = mlService.queryDetectionDetailByReportId(report.getId());
+                setReceivedData(detectionDetails.get(detectionDetails.size() - 1));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
             setPreDataToView(report);
+
         }
         initReceiver();
     }
@@ -179,7 +201,6 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-
                 String state = intent.getExtras().getString("state");
                 if (state.equals("process")) {
 
@@ -212,6 +233,18 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
             tvPiaoFuRes.setText(value.getString("result"));
             value = jsonObject.getJSONObject("glassprecent");
             tvSuJianRes.setText(value.getString("result"));
+            tvSuJianPer.setText(value.getDouble("data") + "");
+            tvsuJianTime.setText(jsonObject.getJSONObject("glasstime").getDouble("data") + "");
+            tvYi40.setText(jsonObject.getJSONObject("statistics40").getDouble("data") + "");
+            tvYi50.setText(jsonObject.getJSONObject("statistics50").getDouble("data") + "");
+            tvYi60.setText(jsonObject.getJSONObject("statistics60").getDouble("data") + "");
+            tvYi70.setText(jsonObject.getJSONObject("statistics70").getDouble("data") + "");
+            tvNum40.setText(jsonObject.getJSONObject("min").getDouble("data") + "");
+            tvNum50.setText(jsonObject.getJSONObject("max").getDouble("data") + "");
+            tvNum70.setText(jsonObject.getJSONObject("super").getDouble("data") + "");
+            tvYiRes.setText(jsonObject.getJSONObject("statistics40").getString("result") + "");
+            tvNumRes.setText(jsonObject.getJSONObject("min").getString("result") + "");
+            tvMaxRes.setText(jsonObject.getJSONObject("max").getString("result") + "");
         } catch (JSONException e) {
             e.printStackTrace();
         }

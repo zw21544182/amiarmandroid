@@ -1,8 +1,5 @@
 package cn.ml_tech.mx.mlproj;
-
 import android.app.Fragment;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
@@ -13,97 +10,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.FactoryControls;
 import cn.ml_tech.mx.mlservice.IMlService;
-
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link YpxjFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link YpxjFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class YpxjFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private IMlService mService;
     private List<FactoryControls> factoryControlses;
-    List<String> factorydata;
     private EditText etMaxStatTime, etMaxStopTime, etImageDelayTime, etStopDelayTime, threshold40, threshold50, threshold60, threshold70;
     private View v;
-
     public IMlService getmService() {
         return mService;
     }
-
     public void setmService(IMlService mService) {
         this.mService = mService;
     }
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private Map<String, String> data = null;
-    private OnFragmentInteractionListener mListener;
     YpjcActivity ypjcActivity;
-
-
     public Map<String, String> getData() {
         return data;
     }
-
     public void setData(HashMap<String, String> data) {
         this.data = data;
     }
-
-    public static YpxjFragment newInstance(String param1, String param2) {
-        YpxjFragment fragment = new YpxjFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         ypjcActivity = (YpjcActivity) getActivity();
         v = inflater.inflate(R.layout.fragment_ypxj, container, false);
-
         return v;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onStart() {
         data = new HashMap<>();
@@ -131,7 +70,6 @@ public class YpxjFragment extends Fragment {
         threshold60 = (EditText) v.findViewById(R.id.threshold60);
         threshold70 = (EditText) v.findViewById(R.id.threshold70);
         try {
-
             setDataToViewByPos(ypjcActivity.pos, ypjcActivity.druginfo_id);
 
         } catch (RemoteException e) {
@@ -149,28 +87,6 @@ public class YpxjFragment extends Fragment {
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * @param pos
-     * @param drug_id
-     * @throws RemoteException
-     */
     public void setDataToViewByPos(int pos, int drug_id) throws RemoteException {
         DrugContainer drugContainer = mService.getDrugContainer().get(pos);
         data.put("srcTime", drugContainer.getSrctime() + "");
@@ -227,20 +143,6 @@ public class YpxjFragment extends Fragment {
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 
     /**
      * 创建时间: 2017/7/4

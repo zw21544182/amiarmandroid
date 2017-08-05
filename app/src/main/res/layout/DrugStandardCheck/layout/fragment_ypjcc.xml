@@ -262,7 +262,7 @@
                                     android:text="速降物时间比例(%)" />
 
                                 <TextView
-
+                                    android:id="@+id/tvsuJianTime"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -282,7 +282,7 @@
                                     android:text="40-50um异物检出率(%)" />
 
                                 <TextView
-
+                                    android:id="@+id/tvYi40"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -302,7 +302,7 @@
                                     android:text="50-60um异物检出率(%)" />
 
                                 <TextView
-
+                                    android:id="@+id/tvYi50"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -322,7 +322,7 @@
                                     android:text="60-70um异物检出率(%)" />
 
                                 <TextView
-
+                                    android:id="@+id/tvYi60"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -342,7 +342,7 @@
                                     android:text="70um以上异物检出率(%)" />
 
                                 <TextView
-
+                                    android:id="@+id/tvYi70"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -362,7 +362,7 @@
                                     android:text="40-50um异物检出数(颗)" />
 
                                 <TextView
-
+                                    android:id="@+id/tvNum40"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -383,7 +383,7 @@
                                     android:text="50-70um异物检出数(颗)" />
 
                                 <TextView
-
+                                    android:id="@+id/tvNum50"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -404,7 +404,7 @@
                                     android:text="70um以上异物检出数(颗)X" />
 
                                 <TextView
-
+                                    android:id="@+id/tvNum70"
                                     style="@style/GrideItme"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
@@ -435,6 +435,7 @@
                                 android:text="阴性" />
 
                             <TextView
+                                android:id="@+id/tvYiRes"
                                 style="@style/GrideItme"
                                 android:layout_width="50dp"
                                 android:layout_height="103dp"
@@ -442,6 +443,7 @@
                                 android:text="阴性" />
 
                             <TextView
+                                android:id="@+id/tvNumRes"
                                 style="@style/GrideItme"
                                 android:layout_width="50dp"
                                 android:layout_height="51dp"
@@ -449,6 +451,7 @@
                                 android:text="阴性" />
 
                             <TextView
+                                android:id="@+id/tvMaxRes"
                                 style="@style/GrideItme"
                                 android:layout_width="50dp"
                                 android:layout_height="25dp"

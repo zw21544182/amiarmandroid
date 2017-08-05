@@ -58,7 +58,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
         window.setWindowAnimations(R.style.bottom_menu_animation); // 添加动画效果
         setContentView(layoutResID);
         TextView updateInfo = (TextView) findViewById(R.id.tvUpdateInfo);
-        updateInfo.setText(this.updateInfo);
+        updateInfo.setText(this.updateInfo.replace("\\n", "\n"));
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();

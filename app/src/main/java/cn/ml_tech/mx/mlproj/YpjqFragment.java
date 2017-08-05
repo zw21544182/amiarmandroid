@@ -1,12 +1,11 @@
 package cn.ml_tech.mx.mlproj;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,43 +20,29 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link YpjqFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link YpjqFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class YpjqFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class YpjqFragment extends BaseFragment {
     private EditText etBottlePara, etShadLocation;
     private TextView tvShadPara, tvColorCoefficient;
     private Spinner spParaType;
-    private Button btEntryBottle, btValidate, btresver, btLeaveBottle, btBottlePara;
-    private OnFragmentInteractionListener mListener;
+    private Button btEntryBottle, btValidate, btresver, btLeaveBottle, btBottlePara, btSave;
     YpjcActivity ypjcActivity;
     private HashMap<String, String> data;
     private boolean isEnter = false;
     private RelativeLayout imageLayout;
-
+    private List<String> paramType;
     private View view;
+    private StringAdapter stringAdapter;
 
     public Map<String, String> getData() {
         return data;
@@ -67,20 +52,9 @@ public class YpjqFragment extends Fragment {
         this.data = data;
     }
 
-    public YpjqFragment() {
-        // Required empty public constructor
-    }
 
     private ReceiverUtil receiverUtil = null;
 
-    public static YpjqFragment newInstance(String param1, String param2) {
-        YpjqFragment fragment = new YpjqFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -130,34 +104,10 @@ public class YpjqFragment extends Fragment {
         }
     };
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        ypjcActivity = (YpjcActivity) getActivity();
-        initReciver();
-        view = inflater.inflate(R.layout.fragment_ypxq, container, false);
-        Log.d("zw", "onCreateView");
-
-        return view;
-    }
 
     private void initReciver() {
         receiverUtil = new ReceiverUtil(ReceiverUtil.ENTERBOTTLE, getActivity()) {
 
-            /**
-             * @param context
-             * @param intent
-             */
             @Override
             protected void operate(Context context, Intent intent) {
                 String statue = intent.getExtras().getString("state");
@@ -185,7 +135,40 @@ public class YpjqFragment extends Fragment {
         ;
     }
 
-    private void event() {
+
+    @Override
+    public View initView(LayoutInflater inflater) {
+        view = inflater.inflate(R.layout.fragment_ypxq, null);
+        initFindViewById(view);
+        return view;
+
+    }
+
+    @Override
+    public void initFindViewById(View view) {
+        etBottlePara = (EditText) view.findViewById(R.id.etBottlePara);
+        etShadLocation = (EditText) view.findViewById(R.id.etShadLocation);
+        tvShadPara = (TextView) view.findViewById(R.id.tvShadPara);
+        spParaType = (Spinner) view.findViewById(R.id.spParaType);
+        tvColorCoefficient = (TextView) view.findViewById(R.id.tvColorCoefficient);
+        btEntryBottle = (Button) view.findViewById(R.id.btEntryBottle);
+        btValidate = (Button) view.findViewById(R.id.btValidate);
+        btBottlePara = (Button) view.findViewById(R.id.btBottlePara);
+        btLeaveBottle = (Button) view.findViewById(R.id.btLeaveBottle);
+        btresver = (Button) view.findViewById(R.id.btresver);
+        btSave = (Button) view.findViewById(R.id.btSave);
+        imageLayout = (RelativeLayout) view.findViewById(R.id.imagelayout);
+        etBottlePara.addTextChangedListener(new ViewTextWatcher(etBottlePara));
+        etShadLocation.addTextChangedListener(new ViewTextWatcher(etShadLocation));
+        tvShadPara.addTextChangedListener(new ViewTextWatcher(tvShadPara));
+        tvColorCoefficient.addTextChangedListener(new ViewTextWatcher(tvColorCoefficient));
+
+    }
+
+    @Override
+    protected void initEvent() {
+        super.initEvent();
+        btSave.setOnClickListener((View.OnClickListener) getActivity());
         btEntryBottle.setOnClickListener(listener);
         btValidate.setOnClickListener(listener);
         btresver.setOnClickListener(listener);
@@ -193,47 +176,20 @@ public class YpjqFragment extends Fragment {
         btLeaveBottle.setOnClickListener(listener);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("zw", "onstart");
+    public void initData(@Nullable Bundle savedInstanceState) {
         data = new HashMap<>();
-        getActivity().findViewById(R.id.btSave).setOnClickListener((View.OnClickListener) getActivity());
-        etBottlePara = (EditText) view.findViewById(R.id.etBottlePara);
-        etShadLocation = (EditText) view.findViewById(R.id.etShadLocation);
-        tvShadPara = (TextView) view.findViewById(R.id.tvShadPara);
-        spParaType = (Spinner) view.findViewById(R.id.spParaType);
-        tvColorCoefficient = (TextView) view.findViewById(R.id.tvColorCoefficient);
+        paramType = new ArrayList<>();
+        ypjcActivity = (YpjcActivity) getActivity();
+        initReciver();
         setDataToView(ypjcActivity.pos, ypjcActivity.druginfo_id);
-        btEntryBottle = (Button) view.findViewById(R.id.btEntryBottle);
-        btValidate = (Button) view.findViewById(R.id.btValidate);
-        btBottlePara = (Button) view.findViewById(R.id.btBottlePara);
-        btLeaveBottle = (Button) view.findViewById(R.id.btLeaveBottle);
-        btresver = (Button) view.findViewById(R.id.btresver);
-        imageLayout = (RelativeLayout) view.findViewById(R.id.imagelayout);
-        etBottlePara.addTextChangedListener(new ViewTextWatcher(etBottlePara));
-        etShadLocation.addTextChangedListener(new ViewTextWatcher(etShadLocation));
-        tvShadPara.addTextChangedListener(new ViewTextWatcher(tvShadPara));
-        tvColorCoefficient.addTextChangedListener(new ViewTextWatcher(tvColorCoefficient));
-        event();
+
+        paramType.add("参数类型1");
+        paramType.add("参数类型2");
+        paramType.add("参数类型3");
+        paramType.add("参数类型4");
+        stringAdapter = new StringAdapter(paramType, getActivity());
+        spParaType.setAdapter(stringAdapter);
     }
 
     @Override
@@ -241,15 +197,7 @@ public class YpjqFragment extends Fragment {
         super.onDestroy();
         receiverUtil.unRefister();
     }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     public void setDataToView(int pos, int drug_id) {
-        Log.d("zw", "drugid" + drug_id);
         try {
             DrugContainer drugContainer = ypjcActivity.mService.getDrugContainer().get(pos);
             etBottlePara.setText(drugContainer.getRotatespeed() + "");
@@ -287,50 +235,27 @@ public class YpjqFragment extends Fragment {
 
         {
             e.printStackTrace();
-            Log.d("zw", "exception");
         }
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     private class ViewTextWatcher implements TextWatcher {
         private View view;
         private int id;
-
         public ViewTextWatcher(View view) {
             this.view = view;
             id = view.getId();
         }
-
         public int getId() {
             return id;
         }
-
         public void setId(int id) {
             this.id = id;
         }
-
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
-
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
-
         @Override
         public void afterTextChanged(Editable s) {
             switch (id) {
@@ -338,10 +263,8 @@ public class YpjqFragment extends Fragment {
                     data.put("rotateSpeed", s.toString());
                     break;
                 case R.id.etShadLocation:
-
                     data.put("height", s.toString());
                     try {
-
                         tvShadPara.setText(String.valueOf(getShadParaByLocation(Integer.parseInt(s.toString()))));
                         View view = new View(getActivity());
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2);
@@ -350,7 +273,6 @@ public class YpjqFragment extends Fragment {
                         view.setBackgroundColor(Color.BLUE);
                         imageLayout.addView(view);
                     } catch (Exception e) {
-
                     }
                     break;
                 case R.id.tvShadPara:
@@ -358,19 +280,12 @@ public class YpjqFragment extends Fragment {
                     break;
                 case R.id.tvColorCoefficient:
                     data.put("sendparam", s.toString());
-                    Toast.makeText(getActivity(), "tvColorCoefficient", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
 
     }
 
-    /**
-     * 算法 通过遮光位置获得遮光参数
-     *
-     * @param location 遮光位置
-     * @return 遮光参数
-     */
     private double getShadParaByLocation(int location) {
         return location / 3 + 0.234;
     }

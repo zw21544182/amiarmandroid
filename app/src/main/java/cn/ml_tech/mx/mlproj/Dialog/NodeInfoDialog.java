@@ -1,22 +1,23 @@
 package cn.ml_tech.mx.mlproj.Dialog;
 
-        import android.app.Activity;
-        import android.app.Dialog;
-        import android.content.Context;
-        import android.os.Bundle;
-        import android.support.annotation.NonNull;
-        import android.support.annotation.StyleRes;
-        import android.view.Display;
-        import android.view.Gravity;
-        import android.view.View;
-        import android.view.Window;
-        import android.view.WindowManager;
-        import android.widget.TextView;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StyleRes;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlproj.R;
 
 /**
  * 创建时间: 2017/7/12
@@ -29,21 +30,22 @@ public class NodeInfoDialog extends Dialog implements View.OnClickListener {
     private int layoutResID;      // 布局文件id
     private int[] listenedItems;
     private JSONObject jsonObject;
+    private RelativeLayout nodelayout;
     private TextView tvPiaoFuNum;
-    private TextView tvPiaoFuRes;
     private TextView tvSuJianPer;
-    private TextView tvSuJianRes;
     private TextView tvsuJianTime;
-    private TextView tvCheck40;
-    private TextView tvCheckRes;
-    private TextView tvCheck50;
-    private TextView tvCheck60;
-    private TextView tvCheck70;
-    private TextView tvCheckNum40;
-    private TextView tvMinNumRes;
-    private TextView tvCheckNum50;
-    private TextView tvCheckNum70;
-    private TextView tvMaxCheckRes;
+    private TextView tvYi40;
+    private TextView tvYi50;
+    private TextView tvYi60;
+    private TextView tvYi70;
+    private TextView tvNum40;
+    private TextView tvNum50;
+    private TextView tvNum70;
+    private TextView tvPiaoFuRes;
+    private TextView tvSuJianRes;
+    private TextView tvYiRes;
+    private TextView tvNumRes;
+    private TextView tvMaxRes;
 
 
     public void setJsonObject(JSONObject jsonObject) {
@@ -68,10 +70,12 @@ public class NodeInfoDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(layoutResID);
+        initView();
+        setDataToView();
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
         window.setWindowAnimations(R.style.bottom_menu_animation); // 添加动画效果
-        setContentView(layoutResID);
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -82,36 +86,49 @@ public class NodeInfoDialog extends Dialog implements View.OnClickListener {
         for (int id : listenedItems) {
             findViewById(id).setOnClickListener(this);
         }
-        initView();
-        setDataToView();
     }
 
     private void setDataToView() {
         try {
-            JSONObject floatdata = jsonObject.getJSONObject("floatdta");
-            tvPiaoFuNum.setText(floatdata.getDouble("data") + "");
-            tvPiaoFuRes.setText(floatdata.getString("result"));
+            JSONObject value = jsonObject.getJSONObject("floatdta");
+            tvPiaoFuNum.setText(value.getDouble("data") + "");
+            tvPiaoFuRes.setText(value.getString("result"));
+            value = jsonObject.getJSONObject("glassprecent");
+            tvSuJianRes.setText(value.getString("result"));
+            tvSuJianPer.setText(value.getDouble("data") + "");
+            tvsuJianTime.setText(jsonObject.getJSONObject("glasstime").getDouble("data") + "");
+            tvYi40.setText(jsonObject.getJSONObject("statistics40").getDouble("data") + "");
+            tvYi50.setText(jsonObject.getJSONObject("statistics50").getDouble("data") + "");
+            tvYi60.setText(jsonObject.getJSONObject("statistics60").getDouble("data") + "");
+            tvYi70.setText(jsonObject.getJSONObject("statistics70").getDouble("data") + "");
+            tvNum40.setText(jsonObject.getJSONObject("min").getDouble("data") + "");
+            tvNum50.setText(jsonObject.getJSONObject("max").getDouble("data") + "");
+            tvNum70.setText(jsonObject.getJSONObject("super").getDouble("data") + "");
+            tvYiRes.setText(jsonObject.getJSONObject("statistics40").getString("result") + "");
+            tvNumRes.setText(jsonObject.getJSONObject("min").getString("result") + "");
+            tvMaxRes.setText(jsonObject.getJSONObject("max").getString("result") + "");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void initView() {
+        nodelayout = (RelativeLayout) findViewById(R.id.nodelayout);
         tvPiaoFuNum = (TextView) findViewById(R.id.tvPiaoFuNum);
-        tvPiaoFuRes = (TextView) findViewById(R.id.tvPiaoFuRes);
         tvSuJianPer = (TextView) findViewById(R.id.tvSuJianPer);
-        tvSuJianRes = (TextView) findViewById(R.id.tvSuJianRes);
         tvsuJianTime = (TextView) findViewById(R.id.tvsuJianTime);
-        tvCheck40 = (TextView) findViewById(R.id.tvCheck40);
-        tvCheckRes = (TextView) findViewById(R.id.tvCheckRes);
-        tvCheck50 = (TextView) findViewById(R.id.tvCheck50);
-        tvCheck60 = (TextView) findViewById(R.id.tvCheck60);
-        tvCheck70 = (TextView) findViewById(R.id.tvCheck70);
-        tvCheckNum40 = (TextView) findViewById(R.id.tvCheckNum40);
-        tvMinNumRes = (TextView) findViewById(R.id.tvMinNumRes);
-        tvCheckNum50 = (TextView) findViewById(R.id.tvCheckNum50);
-        tvCheckNum70 = (TextView) findViewById(R.id.tvCheckNum70);
-        tvMaxCheckRes = (TextView) findViewById(R.id.tvMaxCheckRes);
+        tvYi40 = (TextView) findViewById(R.id.tvYi40);
+        tvYi50 = (TextView) findViewById(R.id.tvYi50);
+        tvYi60 = (TextView) findViewById(R.id.tvYi60);
+        tvYi70 = (TextView) findViewById(R.id.tvYi70);
+        tvNum40 = (TextView) findViewById(R.id.tvNum40);
+        tvNum50 = (TextView) findViewById(R.id.tvNum50);
+        tvNum70 = (TextView) findViewById(R.id.tvNum70);
+        tvPiaoFuRes = (TextView) findViewById(R.id.tvPiaoFuRes);
+        tvSuJianRes = (TextView) findViewById(R.id.tvSuJianRes);
+        tvYiRes = (TextView) findViewById(R.id.tvYiRes);
+        tvNumRes = (TextView) findViewById(R.id.tvNumRes);
+        tvMaxRes = (TextView) findViewById(R.id.tvMaxRes);
     }
 
     private OnCenterItemClickListener listener;

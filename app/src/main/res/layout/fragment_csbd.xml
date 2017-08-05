@@ -10,7 +10,6 @@
     android:paddingRight="@dimen/nopadding"
     android:paddingTop="@dimen/nopadding"
     tools:context="cn.ml_tech.mx.mlproj.CsbdFragment">
-
     <LinearLayout
         android:id="@+id/layoutmain"
         android:layout_width="match_parent"
@@ -35,10 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="返回" />
         </LinearLayout>
-        <!-- content left state right result-->
         <LinearLayout
-
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -47,7 +43,6 @@
             android:padding="@dimen/nopadding">
 
             <LinearLayout
-
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/nomargin"
@@ -137,6 +132,7 @@
 
                     <TextView
                         android:id="@+id/labResult"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -144,6 +140,7 @@
 
                     <TextView
                         android:id="@+id/lab40um"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -151,6 +148,7 @@
 
                     <TextView
                         android:id="@+id/lab50um"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -158,6 +156,7 @@
 
                     <TextView
                         android:id="@+id/lab60um"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -165,6 +164,7 @@
 
                     <TextView
                         android:id="@+id/lab40umvariance"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -172,6 +172,7 @@
 
                     <TextView
                         android:id="@+id/lab60umvariance"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -179,6 +180,7 @@
 
                     <TextView
                         android:id="@+id/labrotatetime"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -186,6 +188,7 @@
 
                     <TextView
                         android:id="@+id/labstoptime"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -193,6 +196,7 @@
 
                     <TextView
                         android:id="@+id/labcolorfactor"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -211,13 +215,14 @@
 
                     <TextView
                         android:id="@+id/txtResult"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="标定结果" />
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/txt40um"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -225,6 +230,7 @@
 
                     <TextView
                         android:id="@+id/txt50um"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -232,6 +238,7 @@
 
                     <TextView
                         android:id="@+id/txt60um"
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -239,6 +246,8 @@
 
                     <TextView
                         android:id="@+id/txt40umvariance"
+
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -246,6 +255,8 @@
 
                     <TextView
                         android:id="@+id/txt60umvariance"
+
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -253,6 +264,8 @@
 
                     <TextView
                         android:id="@+id/txtrotatetime"
+
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -260,6 +273,8 @@
 
                     <TextView
                         android:id="@+id/txtstoptime"
+
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -267,6 +282,8 @@
 
                     <TextView
                         android:id="@+id/txtcolorfactor"
+
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

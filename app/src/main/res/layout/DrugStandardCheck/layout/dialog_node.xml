@@ -5,16 +5,15 @@
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
-    android:layout_gravity="center"
-  >
+    android:layout_gravity="center">
+
     <LinearLayout
         android:layout_width="304dp"
         android:layout_height="262dp"
+        android:layout_centerInParent="true"
         android:background="@color/colorBlack"
         android:orientation="horizontal"
-        android:padding="1dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:padding="1dp">
 
         <LinearLayout
             android:layout_width="251dp"
@@ -77,7 +76,6 @@
 
                 <TextView
                     android:id="@+id/tvsuJianTime"
-
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -97,7 +95,7 @@
                     android:text="40-50um异物检出率(%)" />
 
                 <TextView
-                    android:id="@+id/tvCheck40"
+                    android:id="@+id/tvYi40"
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -117,8 +115,7 @@
                     android:text="50-60um异物检出率(%)" />
 
                 <TextView
-                    android:id="@+id/tvCheck50"
-
+                    android:id="@+id/tvYi50"
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -138,8 +135,7 @@
                     android:text="60-70um异物检出率(%)" />
 
                 <TextView
-                    android:id="@+id/tvCheck60"
-
+                    android:id="@+id/tvYi60"
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -159,8 +155,7 @@
                     android:text="70um以上异物检出率(%)" />
 
                 <TextView
-                    android:id="@+id/tvCheck70"
-
+                    android:id="@+id/tvYi70"
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -180,8 +175,7 @@
                     android:text="40-50um异物检出数(颗)" />
 
                 <TextView
-                    android:id="@+id/tvCheckNum40"
-
+                    android:id="@+id/tvNum40"
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -202,8 +196,7 @@
                     android:text="50-70um异物检出数(颗)" />
 
                 <TextView
-                    android:id="@+id/tvCheckNum50"
-
+                    android:id="@+id/tvNum50"
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -224,8 +217,7 @@
                     android:text="70um以上异物检出数(颗)X" />
 
                 <TextView
-                    android:id="@+id/tvCheckNum70"
-
+                    android:id="@+id/tvNum70"
                     style="@style/GrideItme"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -249,7 +241,6 @@
 
             <TextView
                 android:id="@+id/tvSuJianRes"
-
                 style="@style/GrideItme"
                 android:layout_width="50dp"
                 android:layout_height="51dp"
@@ -257,24 +248,23 @@
                 android:text="阴性" />
 
             <TextView
-                android:id="@+id/tvCheckRes"
-
+                android:id="@+id/tvYiRes"
                 style="@style/GrideItme"
                 android:layout_width="50dp"
                 android:layout_height="103dp"
                 android:layout_marginTop="1dp"
                 android:text="阴性" />
-            <TextView
-                android:id="@+id/tvMinNumRes"
 
+            <TextView
+                android:id="@+id/tvNumRes"
                 style="@style/GrideItme"
                 android:layout_width="50dp"
                 android:layout_height="51dp"
                 android:layout_marginTop="1dp"
                 android:text="阴性" />
-            <TextView
-                android:id="@+id/tvMaxCheckRes"
 
+            <TextView
+                android:id="@+id/tvMaxRes"
                 style="@style/GrideItme"
                 android:layout_width="50dp"
                 android:layout_height="25dp"
@@ -282,10 +272,6 @@
                 android:text="阴性" />
         </LinearLayout>
     </LinearLayout>
-
-
-
-
 
 
 </RelativeLayout>

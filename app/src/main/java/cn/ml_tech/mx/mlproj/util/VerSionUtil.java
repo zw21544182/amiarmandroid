@@ -1,5 +1,6 @@
 package cn.ml_tech.mx.mlproj.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -32,7 +33,7 @@ import okhttp3.Response;
  * Created by zhongwang on 2017/8/1.
  */
 public class VerSionUtil {
-    private Context context;
+    private Activity context;
     private static String url;
     private static OkHttpClient okHttpClient;
     private int serverCode;
@@ -47,7 +48,7 @@ public class VerSionUtil {
     private UpdateDialog updateDialog;
     private static final int PACKAGE_NAME_START_INDEX = 8;
 
-    public VerSionUtil(final Context context) {
+    public VerSionUtil(final Activity context) {
         this.context = context;
         url = context.getResources().getString(R.string.SERVERURL);
         rootUrl = context.getResources().getString(R.string.SERVERROOT);
@@ -109,7 +110,6 @@ public class VerSionUtil {
                 "application/vnd.android.package-archive");
         context.startActivity(i);
         android.os.Process.killProcess(android.os.Process.myPid());
-
 
     }
 
