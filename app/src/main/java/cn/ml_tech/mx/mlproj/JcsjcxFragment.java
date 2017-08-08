@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -51,7 +53,6 @@ import cn.ml_tech.mx.mlservice.DrugControls;
 public class JcsjcxFragment extends BaseFragment implements View.OnClickListener {
     private RecyclerView recyclerReport;
     private AdapterReport adapterReport;
-    private AdapterReport.OnItemClickListener mOnItemClickListener;
     private RecyclerView recyclerDetail;
     private AdapterDetail adapterDetail;
     private List<DetectionDetail> detectionDetailList = null;
@@ -75,6 +76,8 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     private EditText etStopDate;
     private Button btSearch;
     private Button btResver;
+    private Button btDelete;
+    private CheckBox chkBox;
     private int cuurentPage = 1, lastPage;
     private Permission permission;
     private Handler handler = new Handler() {
@@ -110,7 +113,6 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initFindViewById(View view) {
-        Log.d("zw", "findid");
         btSearch = (Button) view.findViewById(R.id.btSearch);
         recyclerReport = (RecyclerView) view.findViewById(R.id.recyclerReport);
         recyclerDetail = (RecyclerView) view.findViewById(R.id.recyclerDetail);
@@ -128,10 +130,13 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         etStopDate = (EditText) view.findViewById(R.id.etStopDate);
         btSearch = (Button) view.findViewById(R.id.btSearch);
         btResver = (Button) view.findViewById(R.id.btResver);
-        event();
+        chkBox = (CheckBox) view.findViewById(R.id.chkBox);
+        btDelete = (Button) view.findViewById(R.id.btDelete);
     }
 
-    private void event() {
+    @Override
+    protected void initEvent() {
+        super.initEvent();
         setDateToEdit(stopDate);
         setDateToEdit(startDate);
         btResver.setOnClickListener(this);
@@ -139,6 +144,13 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.ibPre).setOnClickListener(this);
         view.findViewById(R.id.ibNext).setOnClickListener(this);
         view.findViewById(R.id.ibSearch).setOnClickListener(this);
+        btDelete.setOnClickListener(this);
+        chkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                adapterReport.operateAll(isChecked);
+            }
+        });
     }
 
     private void initRecycleReport() {
@@ -158,6 +170,8 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             DevUuid devUuid = mlService.getDevUuidInfo();
             DrugControls drugControls = mlService.queryDrugControlsById(detectionReport.getDruginfo_id());
             new PdfUtil(getActivity(), devUuid, handler, drugControls, detectionReport, detectionDetails).createPdf();
+            detectionReport.setIspdfdown(true);
+            mlService.saveDetectionReport(detectionReport);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -255,10 +269,6 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     private void setDateToEdit(final EditText dateView) {
         dateView.setOnTouchListener(new View.OnTouchListener() {
@@ -425,6 +435,10 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                                     public void onClick(DialogInterface dialog, int which) {
                                         try {
                                             int s = (int) view.getTag();
+                                            if (!detectionReports.get(s).ispdfdown()) {
+                                                showToast("数据尚未导出,无法删除");
+                                                return;
+                                            }
                                             mlService.deteleDetectionInfoById(detectionReports.get(s).getId());
                                             adapterReport.deteleteItemByPos(s);
                                         } catch (RemoteException e) {
@@ -497,6 +511,37 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.btDelete:
+                final List<String> ids = adapterReport.getIds();
+                if (ids.size() == 0) {
+                    showToast("尚未选中");
+                    return;
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                        .setTitle("是否删除选中数据")
+                        .setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    mlService.deleteDetectionReportsById(ids);
+                                    showToast("删除成功");
+                                    adapterReport.setDataToView(mlService.getAllDetectionReports(getPermissionById(17, 9)));
+                                    chkBox.setChecked(false);
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                    showToast("删除失败");
+                                }
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.create().show();
                 break;
         }
     }

@@ -104,10 +104,11 @@
         List<P_Operator> getAllP_Operator();
         List<DevParam> getDevParamByType(int type);
         void saveDevParam(in List<DevParam> devParams);
+        void saveDetectionReport(in DetectionReport detectionReport);
         void deleteDevParamByIds(in List<String> ids);
         void backUpDevParam();
         void recoveryParam();
         long getUserId();
         long geTypeId();
-        void updateCamereParam(String name,double value);
+        void deleteDetectionReportsById(in List<String> ids);
    }

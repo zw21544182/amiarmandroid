@@ -5,6 +5,7 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ import cn.ml_tech.mx.mlservice.IMlService;
 
 import static cn.ml_tech.mx.mlproj.R.id.me_name;
 
-public class YpkFragment extends BaseFragment{
+public class YpkFragment extends BaseFragment {
     private List<DrugControls> drugList = new ArrayList<>();
     private DrugControls drugControls = null;
     private DrugAdapter adapter;
@@ -43,10 +44,13 @@ public class YpkFragment extends BaseFragment{
     private TextView tvAllPage;
     private ImageButton ibSearch;
     private Button btnypxNext;
+
     public IMlService getmService() {
         return mService;
     }
+
     private int cuurentPage = 1, lastPage;
+
     public void setmService(IMlService mService) {
         this.mService = mService;
     }
@@ -118,7 +122,6 @@ public class YpkFragment extends BaseFragment{
 
     @Override
     public void initFindViewById(View view) {
-
         meName = (EditText) view.findViewById(R.id.me_name);
         query = (Button) view.findViewById(R.id.query);
         mePhonetic = (EditText) view.findViewById(R.id.me_phonetic);
@@ -225,9 +228,21 @@ public class YpkFragment extends BaseFragment{
             }
             adapter = new DrugAdapter(drugList, getActivity(), operateToData);
             recyclerView.setAdapter(adapter);
+            Log.d("zw", "set data to view");
         }
     }
 
+    public void setDataByName(String name) {
+        meName.setText(name);
+        Log.d("zw", " name " + name);
+        try {
+            List<cn.ml_tech.mx.mlservice.DrugControls> drugControlses = mlService.queryDrugControlByInfo(name, "", "", -1);
+            Log.d("zw", " drugcontrol size " + drugControlses.size());
+            setDataToView(drugControlses, true);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onDetach() {

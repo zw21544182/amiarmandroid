@@ -156,6 +156,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
             }
             DrugControls drugControls = ypjcActivity.mService.queryDrugControlsById(report.getDruginfo_id());
             List<DetectionDetail> detectionDetails = ypjcActivity.mService.queryDetectionDetailByReportId(report.getId());
+            resultAdapter.clearData();
             for (DetectionDetail detectionDetail :
                     detectionDetails) {
                 if (detectionDetail.isPositive()) {
@@ -353,6 +354,11 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         public ResultAdapter(List<String> data, Context context) {
             this.data = data;
             this.context = context;
+        }
+
+        public void clearData() {
+            data.clear();
+            notifyDataSetChanged();
         }
 
         public void addDataToView(String content) {

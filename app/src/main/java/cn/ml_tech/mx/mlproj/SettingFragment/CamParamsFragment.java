@@ -3,7 +3,6 @@ package cn.ml_tech.mx.mlproj.SettingFragment;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +35,6 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
     private RadioButton aecon;
     private RadioButton aecoff;
     private RadioGroup fpga;
-    private RadioButton fpgaon;
-    private RadioButton fpffoff;
     private EditText etexposuretime;
     private Button btExTimeWrite;
     private Button btExTimeRead;
@@ -60,15 +57,12 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
     private RadioButton analogplus4;
     private EditText etSensortem;
     private Button btSensorRead;
-
-
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.fragment_camparam, null);
         initFindViewById(view);
         return view;
     }
-
     @Override
     protected void initEvent() {
         super.initEvent();
@@ -79,7 +73,6 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
         btNumPlusWrite.setOnClickListener(this);
 
     }
-
     @Override
     public void initFindViewById(View view) {
         agc = (RadioGroup) view.findViewById(R.id.agc);
@@ -92,8 +85,6 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
         aecon = (RadioButton) view.findViewById(R.id.aecon);
         aecoff = (RadioButton) view.findViewById(R.id.aecoff);
         fpga = (RadioGroup) view.findViewById(R.id.fpga);
-        fpgaon = (RadioButton) view.findViewById(R.id.fpgaon);
-        fpffoff = (RadioButton) view.findViewById(R.id.fpffoff);
         etexposuretime = (EditText) view.findViewById(R.id.etexposuretime);
         btExTimeWrite = (Button) view.findViewById(R.id.btExTimeWrite);
         btExTimeRead = (Button) view.findViewById(R.id.btExTimeRead);
@@ -117,20 +108,16 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
         etSensortem = (EditText) view.findViewById(R.id.etSensortem);
         btSensorRead = (Button) view.findViewById(R.id.btSensorRead);
     }
-
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         loadData();
     }
-
     private void loadData() {
         try {
             listConfig = mActivity.getmService().getCameraParams();
-            Log.d("LoadData: ", String.valueOf(listConfig.size()));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        //参数有待补全
         for (CameraParams config : listConfig
                 ) {
             switch (config.getParamName()) {
@@ -157,15 +144,10 @@ public class CamParamsFragment extends BaseFragment implements View.OnClickListe
             }
         }
     }
-
     @Override
     public void onClick(View v) {
         saveData(v.getId());
     }
-
-    /**
-     * @param id
-     */
     private void saveData(int id) {
         try {
             CameraParams cameraParams = new CameraParams();

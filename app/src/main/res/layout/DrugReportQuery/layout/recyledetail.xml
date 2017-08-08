@@ -155,11 +155,11 @@
 
                 <TextView
                     android:id="@+id/txtDetailAllResult"
-
                     style="@style/TextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="结果详情" />
+                    android:text="结果详情"
+                    android:textColor="@color/textview" />
 
             </LinearLayout>
 
@@ -196,7 +196,7 @@
 
                 <TextView
                     android:id="@+id/txtDetailVideo"
-
+                    android:textColor="@color/textview"
                     style="@style/TextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -1,6 +1,5 @@
 package cn.ml_tech.mx.mlproj;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,14 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link YpjcjFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link YpjcjFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class YpjcjFragment extends BaseFragment {
     private View view;
     private EditText etDetectionBatch;
@@ -24,6 +15,7 @@ public class YpjcjFragment extends BaseFragment {
     private EditText etdetectionNumber;
     private Button ypjcjPre;
     private Button ypjcjNext;
+
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.fragment_ypjcj, null);
@@ -45,6 +37,7 @@ public class YpjcjFragment extends BaseFragment {
     protected void initEvent() {
         super.initEvent();
         ypjcjNext.setOnClickListener((View.OnClickListener) getActivity());
+        ypjcjPre.setOnClickListener((View.OnClickListener) getActivity());
     }
 
     @Override

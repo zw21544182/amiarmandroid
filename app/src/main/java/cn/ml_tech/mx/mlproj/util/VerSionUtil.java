@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import cn.ml_tech.mx.mlproj.ActivityCollector;
 import cn.ml_tech.mx.mlproj.Dialog.UpdateDialog;
 import cn.ml_tech.mx.mlproj.R;
 import okhttp3.Call;
@@ -109,7 +110,7 @@ public class VerSionUtil {
         i.setDataAndType(Uri.fromFile(c),
                 "application/vnd.android.package-archive");
         context.startActivity(i);
-        android.os.Process.killProcess(android.os.Process.myPid());
+        ActivityCollector.finishAll();
 
     }
 

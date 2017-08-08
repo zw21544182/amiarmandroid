@@ -1,303 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/colorBackgroud"
+    android:background="@drawable/bgitme_layout"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="600dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="5">
+        android:layout_width="match_parent"
+        android:layout_height="571dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="3"
-            android:background="@drawable/bg_factory_layout"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="旋瓶参数" />
-            </RelativeLayout>
-
+            android:layout_width="600dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp">
-
-                <TextView
-                    style="@style/TextViewStyle"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="end"
-                    android:text="最大旋瓶时间(秒)" />
-
-                <EditText
-                    android:id="@+id/etMaxStatTime"
-                    style="@style/EditTextStyle"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:inputType="number" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp">
-
-                <TextView
-                    android:id="@+id/textView"
-                    style="@style/TextViewStyle"
-
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="end"
-                    android:text="最大停瓶时间(秒)" />
-
-                <EditText
-                    android:id="@+id/etMaxStopTime"
-                    style="@style/EditTextStyle"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:inputType="number" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp">
-
-                <TextView
-                    style="@style/TextViewStyle"
-                    android:layout_width="180dp"
-
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="end"
-                    android:text="停瓶延迟时间(秒)" />
-
-                <EditText
-                    android:id="@+id/etStopDelayTime"
-                    style="@style/EditTextStyle"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:inputType="numberDecimal" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp">
-
-                <TextView
-                    style="@style/TextViewStyle"
-                    android:layout_width="180dp"
-
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="end"
-                    android:text="图像采集延迟时间(秒)" />
-
-                <EditText
-                    android:id="@+id/etImageDelayTime"
-                    style="@style/EditTextStyle"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:inputType="numberDecimal" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="3"
                 android:background="@drawable/bg_factory_layout"
                 android:orientation="vertical">
 
                 <RelativeLayout
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal">
 
                     <TextView
+                        style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="通道参数" />
+                        android:text="旋瓶参数" />
                 </RelativeLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:orientation="vertical">
+                        android:layout_gravity="center_vertical"
+                        android:gravity="end"
+                        android:text="最大旋瓶时间(秒)" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/etMaxStatTime"
+                        style="@style/EditTextStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:inputType="number" />
+                </LinearLayout>
 
-                            <TextView
-                                style="@style/TextViewStyle"
-                                android:layout_width="120dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp">
 
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:text="40um通道阈值" />
+                    <TextView
+                        android:id="@+id/textView"
+                        style="@style/TextViewStyle"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="end"
+                        android:text="最大停瓶时间(秒)" />
 
-                            <EditText
-                                android:id="@+id/threshold40"
-                                style="@style/EditTextStyle"
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal" />
-                        </LinearLayout>
+                    <EditText
+                        android:id="@+id/etMaxStopTime"
+                        style="@style/EditTextStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:inputType="number" />
+                </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp">
 
-                            <TextView
-                                style="@style/TextViewStyle"
-                                android:layout_width="120dp"
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="end"
+                        android:text="停瓶延迟时间(秒)" />
 
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:text="50um通道阈值" />
+                    <EditText
+                        android:id="@+id/etStopDelayTime"
+                        style="@style/EditTextStyle"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
 
-                            <EditText
-                                android:id="@+id/threshold50"
-                                style="@style/EditTextStyle"
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal" />
-                        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="end"
+                        android:text="图像采集延迟时间(秒)" />
 
-                            <TextView
-                                style="@style/TextViewStyle"
-
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:text="60um通道阈值" />
-
-                            <EditText
-                                android:id="@+id/threshold60"
-                                style="@style/EditTextStyle"
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/TextViewStyle"
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-
-                                android:text="70um通道阈值" />
-
-                            <EditText
-                                android:id="@+id/threshold70"
-                                style="@style/EditTextStyle"
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:inputType="numberDecimal" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </RelativeLayout>
+                    <EditText
+                        android:id="@+id/etImageDelayTime"
+                        style="@style/EditTextStyle"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_factory_layout"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            style="@style/TextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="通道参数" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/TextViewStyle"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="end"
+                                    android:text="40um通道阈值" />
+
+                                <EditText
+                                    android:id="@+id/threshold40"
+                                    style="@style/EditTextStyle"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="5dp"
+                                    android:inputType="numberDecimal" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/TextViewStyle"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="end"
+                                    android:text="50um通道阈值" />
+
+                                <EditText
+                                    android:id="@+id/threshold50"
+                                    style="@style/EditTextStyle"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="5dp"
+                                    android:inputType="numberDecimal" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/TextViewStyle"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="end"
+                                    android:text="60um通道阈值" />
+
+                                <EditText
+                                    android:id="@+id/threshold60"
+                                    style="@style/EditTextStyle"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="5dp"
+                                    android:inputType="numberDecimal" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/TextViewStyle"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="end"
+                                    android:text="70um通道阈值" />
+
+                                <EditText
+                                    android:id="@+id/threshold70"
+                                    style="@style/EditTextStyle"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="5dp"
+                                    android:inputType="numberDecimal" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="360dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnypxjPre"
-            style="@style/ButtonStyle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="上一步" />
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="200dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnypxjNext"
-            style="@style/ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下一步" />
+            <Button
+                android:id="@+id/btnypxjPre"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上一步" />
+
+            <Button
+                android:id="@+id/btnypxjNext"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下一步" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

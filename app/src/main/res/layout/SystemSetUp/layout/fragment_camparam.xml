@@ -130,18 +130,31 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/fpgaon"
+                    android:id="@+id/fpga1"
                     style="@style/Radio_Switch_Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/on" />
+                    android:text="1X" />
 
                 <RadioButton
-                    android:id="@+id/fpffoff"
+                    android:id="@+id/fpff2"
                     style="@style/Radio_Switch_Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/off" />
+                    android:text="2X" />
+                <RadioButton
+                    android:id="@+id/fpga3"
+                    style="@style/Radio_Switch_Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3X" />
+
+                <RadioButton
+                    android:id="@+id/fpff4"
+                    style="@style/Radio_Switch_Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4X" />
             </RadioGroup>
         </LinearLayout>
 

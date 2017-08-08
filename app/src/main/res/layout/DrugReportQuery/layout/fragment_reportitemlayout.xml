@@ -264,7 +264,12 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/ic_search" />
 
-
+            <Button
+                android:id="@+id/btDelete"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="刪除" />
         </LinearLayout>
 
     </LinearLayout>

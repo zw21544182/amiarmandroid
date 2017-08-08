@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.DrugControls;
 
 public class YpjcActivity extends BaseActivity implements View.OnClickListener,
-        View.OnTouchListener,
+        View.OnTouchListener,YpxxFragment.OnFragmentInteractionListener,
         BottomFragment.OnFragmentInteractionListener {
     YpjcFragment ypjcFragment = null;
     YpkFragment ypkFragment = null;
@@ -167,6 +166,9 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ypjcjPre:
+                ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+                break;
             case R.id.ypjcjNext:
                 String detecitonBatch = YpjcjFragment.getDetectionBatch();
                 String detectionCount = YpjcjFragment.getDetectionCount();
@@ -264,7 +266,6 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btnypxjNext:
                 data = ypxjFragment.getData();
-                Log.d("zw", data.size() + "datasize");
                 ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
                 break;
             case R.id.btSave:
@@ -277,11 +278,10 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                     Log.d("zw", "drugid" + druginfo_id);
                     mService.addDrugInfo(name, enName, pinyin, containnerid, factoryid, String.valueOf(druginfo_id));
                     saveDrugParams(data, druginfo_id);
-                    Toast.makeText(this, data.size() + "size", Toast.LENGTH_SHORT).show();
                     showToast("保存成功");
                     ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
+                    ypkFragment.setDataByName(name.trim());
                 } catch (RemoteException e) {
-                    e.printStackTrace();
                     showToast("保存失败");
                 }
                 break;

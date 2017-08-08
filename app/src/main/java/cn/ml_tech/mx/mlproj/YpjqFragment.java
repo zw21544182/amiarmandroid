@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -43,6 +44,7 @@ public class YpjqFragment extends BaseFragment {
     private List<String> paramType;
     private View view;
     private StringAdapter stringAdapter;
+    private LinearLayout zheLayout;
 
     public Map<String, String> getData() {
         return data;
@@ -182,14 +184,13 @@ public class YpjqFragment extends BaseFragment {
         paramType = new ArrayList<>();
         ypjcActivity = (YpjcActivity) getActivity();
         initReciver();
-        setDataToView(ypjcActivity.pos, ypjcActivity.druginfo_id);
-
         paramType.add("参数类型1");
         paramType.add("参数类型2");
         paramType.add("参数类型3");
         paramType.add("参数类型4");
         stringAdapter = new StringAdapter(paramType, getActivity());
         spParaType.setAdapter(stringAdapter);
+        setDataToView(ypjcActivity.pos, ypjcActivity.druginfo_id);
     }
 
     @Override
@@ -197,11 +198,12 @@ public class YpjqFragment extends BaseFragment {
         super.onDestroy();
         receiverUtil.unRefister();
     }
+
     public void setDataToView(int pos, int drug_id) {
         try {
             DrugContainer drugContainer = ypjcActivity.mService.getDrugContainer().get(pos);
             etBottlePara.setText(drugContainer.getRotatespeed() + "");
-            etShadLocation.setText(drugContainer.getHeight() + "");
+            etShadLocation.setText((int) drugContainer.getHeight() + "");
             data.put("rotateSpeed", drugContainer.getRotatespeed() + "");
             data.put("height", drugContainer.getHeight() + "");
             data.put("sendparam", drugContainer.getSendparam() + "");
@@ -237,25 +239,32 @@ public class YpjqFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
+
     private class ViewTextWatcher implements TextWatcher {
         private View view;
         private int id;
+
         public ViewTextWatcher(View view) {
             this.view = view;
             id = view.getId();
         }
+
         public int getId() {
             return id;
         }
+
         public void setId(int id) {
             this.id = id;
         }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
+
         @Override
         public void afterTextChanged(Editable s) {
             switch (id) {
@@ -265,13 +274,19 @@ public class YpjqFragment extends BaseFragment {
                 case R.id.etShadLocation:
                     data.put("height", s.toString());
                     try {
+                        if (imageLayout != null)
+                            imageLayout.removeView(zheLayout);
+                        ImageView imageView = new ImageView(getActivity());
+                        LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                        imageView.setBackground(); 设置图片
+                        imageView.setLayoutParams(imageLayoutParams);
+                        imageLayout.addView(imageView);
                         tvShadPara.setText(String.valueOf(getShadParaByLocation(Integer.parseInt(s.toString()))));
-                        View view = new View(getActivity());
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2);
-                        layoutParams.setMargins(0, Integer.parseInt(s.toString()), 0, 0);
-                        view.setLayoutParams(layoutParams);
-                        view.setBackgroundColor(Color.BLUE);
-                        imageLayout.addView(view);
+                        zheLayout = new LinearLayout(getActivity());
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Integer.parseInt(s.toString()));
+                        zheLayout.setLayoutParams(layoutParams);
+                        zheLayout.setBackgroundColor(Color.BLUE);
+                        imageLayout.addView(zheLayout);
                     } catch (Exception e) {
                     }
                     break;

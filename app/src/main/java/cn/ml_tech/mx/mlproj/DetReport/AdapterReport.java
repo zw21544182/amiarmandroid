@@ -1,12 +1,13 @@
 package cn.ml_tech.mx.mlproj.DetReport;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,23 +16,45 @@ import java.util.List;
 import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 
-/**
- * Created by ml on 2017/6/15.
- */
-
 public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implements View.OnClickListener {
     private List<DetectionReport> detectionReportList = new ArrayList<DetectionReport>();
     private Context mContext;
+    private List<Boolean> checks;
+    private List<String> ids;
 
     public AdapterReport(List<DetectionReport> detectionReportList, Context mContext) {
         this.detectionReportList = detectionReportList;
         this.mContext = mContext;
+        ids = new ArrayList<>();
+        ids = new ArrayList<>();
+        checks = new ArrayList<>();
+        for (DetectionReport detectionReport :
+                detectionReportList) {
+            checks.add(false);
+        }
+    }
+
+    public List<String> getIds() {
+        return ids;
+    }
+
+    public void operateAll(boolean b) {
+        for (int i = 0; i < checks.size(); i++)
+            checks.set(i, b);
+        ids.clear();
+        notifyDataSetChanged();
+        Log.d("zw", " ids Size " + ids.size());
     }
 
     public void setDataToView(List<DetectionReport> detectionReports) {
         detectionReportList.clear();
-        ;
+        checks.clear();
+        ids.clear();
         detectionReportList.addAll(detectionReports);
+        for (DetectionReport detectionReport :
+                detectionReportList) {
+            checks.add(false);
+        }
         notifyDataSetChanged();
     }
 
@@ -39,11 +62,6 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
         void OnItemClick(View view, int position);
     }
 
-    public void addDataToView(List<DetectionReport> list) {
-        detectionReportList.clear();
-        detectionReportList.addAll(list);
-        notifyDataSetChanged();
-    }
 
     public void setmItemClickListener(OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
@@ -72,7 +90,7 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
     }
 
     @Override
-    public void onBindViewHolder(ViewHolderReport viewHolder, int i) {
+    public void onBindViewHolder(ViewHolderReport viewHolder, final int i) {
         viewHolder.txtDetSn.setText(detectionReportList.get(i).getDetectionSn());
         viewHolder.txtDetBatch.setText(detectionReportList.get(i).getDetectionBatch());
         viewHolder.txtDetCode.setText(detectionReportList.get(i).getDetectionNumber());
@@ -83,13 +101,26 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
         viewHolder.txtSecondCount.setText(String.valueOf(detectionReportList.get(i).getDetectionSecondCount()));
         viewHolder.txtDetDate.setText((new SimpleDateFormat("yyyy-MM-dd")).format(detectionReportList.get(i).getDate()));
         viewHolder.txtDetOperator.setText(detectionReportList.get(i).getUserName());
-        viewHolder.txtPDF.setText("PDF");
-        viewHolder.txtPDF.setBackgroundColor(Color.RED);
-        viewHolder.txtDetDetail.setText("详情");
-        viewHolder.txtDetDel.setText("删除");
+        viewHolder.txtPDF.setText(Html.fromHtml("<u>" + "PDF" + "</u>"));
+        viewHolder.txtDetDetail.setText(Html.fromHtml("<u>" + "详情" + "</u>"));
+        viewHolder.txtDetDel.setText(Html.fromHtml("<u>" + "删除" + "</u>"));
         viewHolder.txtPDF.setTag(i);
         viewHolder.txtDetDetail.setTag(i);
         viewHolder.txtDetDel.setTag(i);
+        viewHolder.chkBox.setChecked(checks.get(i));
+        viewHolder.chkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checks.set(i, isChecked);
+                if (isChecked) {
+                    ids.add(detectionReportList.get(i).getId() + "");
+                    Log.d("zw", " ids Size " + ids.size());
+                } else {
+                    ids.remove(detectionReportList.get(i).getId() + "");
+                    Log.d("zw", " ids Size " + ids.size());
+                }
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="SERVERURL">http://192.168.0.159:8080/version.txt</string>
-    <string name="SERVERROOT">http://192.168.0.159:8080</string>
-    <string name="UPDATEINFO">修复数据管理界面Bug 界面优化</string>
+    <string name="SERVERURL">http://192.168.3.18:8080/version.txt</string>
+    <string name="SERVERROOT">http://192.168.3.18:8080</string>
+    <string name="UPDATEINFO">调试最后版本</string>
 </resources>
