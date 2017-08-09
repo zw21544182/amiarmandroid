@@ -183,7 +183,6 @@ public class YpxxFragment extends Fragment {
 
         }
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -194,7 +193,6 @@ public class YpxxFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();

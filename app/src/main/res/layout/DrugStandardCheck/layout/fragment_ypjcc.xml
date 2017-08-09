@@ -625,7 +625,7 @@
                                 style="@style/TextViewStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="xiu" />
+                                android:text="20" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -648,7 +648,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="10dp"
-                                android:text="luo" />
+                                android:text="20" />
 
                             <TextView
                                 style="@style/TextViewStyle"

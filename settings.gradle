@@ -1,2 +1,3 @@
 include ':app', ':Three_levels'
 project(':Three_levels').projectDir = new File('Three_levels_library')
+include ':openCVLibrary'

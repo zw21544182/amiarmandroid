@@ -1,5 +1,4 @@
 package cn.ml_tech.mx.mlproj;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +28,6 @@ import cn.ml_tech.mx.mlproj.Adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
-
-
 public class YpjqFragment extends BaseFragment {
     private EditText etBottlePara, etShadLocation;
     private TextView tvShadPara, tvColorCoefficient;
@@ -45,19 +41,13 @@ public class YpjqFragment extends BaseFragment {
     private View view;
     private StringAdapter stringAdapter;
     private LinearLayout zheLayout;
-
     public Map<String, String> getData() {
         return data;
     }
-
     public void setData(HashMap<String, String> data) {
         this.data = data;
     }
-
-
     private ReceiverUtil receiverUtil = null;
-
-
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -105,16 +95,12 @@ public class YpjqFragment extends BaseFragment {
             }
         }
     };
-
-
     private void initReciver() {
         receiverUtil = new ReceiverUtil(ReceiverUtil.ENTERBOTTLE, getActivity()) {
-
             @Override
             protected void operate(Context context, Intent intent) {
                 String statue = intent.getExtras().getString("state");
                 if (statue.equals("sucess")) {
-                    //进瓶成功
                     isEnter = true;
                     btValidate.setEnabled(true);
                     getActivity().findViewById(R.id.btSave).setEnabled(false);
@@ -122,30 +108,22 @@ public class YpjqFragment extends BaseFragment {
                     btEntryBottle.setEnabled(false);
                     etShadLocation.setEnabled(true);
                 } else if (statue.equals("Validate")) {
-                    //验证成功
-                    tvColorCoefficient.setText(intent.getExtras().getInt("colornum") + "");
+                   tvColorCoefficient.setText(intent.getExtras().getInt("colornum") + "");
                     spParaType.setSelection((intent.getExtras().getInt("paratype") - 1));
                 } else if (statue.equals("leavebottlesucess")) {
-                    //出瓶成功
-                    isEnter = false;
+                   isEnter = false;
                     getActivity().findViewById(R.id.btSave).setEnabled(true);
                     getActivity().findViewById(R.id.btSave).setEnabled(true);
                 }
             }
-        }
-
-        ;
+        };
     }
-
-
     @Override
     public View initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.fragment_ypxq, null);
         initFindViewById(view);
         return view;
-
     }
-
     @Override
     public void initFindViewById(View view) {
         etBottlePara = (EditText) view.findViewById(R.id.etBottlePara);
@@ -164,7 +142,6 @@ public class YpjqFragment extends BaseFragment {
         etShadLocation.addTextChangedListener(new ViewTextWatcher(etShadLocation));
         tvShadPara.addTextChangedListener(new ViewTextWatcher(tvShadPara));
         tvColorCoefficient.addTextChangedListener(new ViewTextWatcher(tvColorCoefficient));
-
     }
 
     @Override
