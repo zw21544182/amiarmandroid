@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
@@ -28,9 +27,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import org.opencv.android.OpenCVLoader;
+
 import java.lang.reflect.Method;
 
-import cn.ml_tech.mx.mlproj.util.VerSionUtil;
 import cn.ml_tech.mx.mlservice.IMlService;
 
 public abstract class BaseActivity extends Activity implements HeadFragment.OnFragmentInteractionListener, BottomFragment.OnFragmentInteractionListener {
@@ -123,6 +123,11 @@ public abstract class BaseActivity extends Activity implements HeadFragment.OnFr
         super.onCreate(savedInstanceState);
         Log.d("zw", "oncreate");
         app = (AmiApp) getApplication();
+        if (!OpenCVLoader.initDebug()) {
+            Log.e(this.getClass().getSimpleName(), "  OpenCVLoader.initDebug(), not working.");
+        } else {
+            Log.d(this.getClass().getSimpleName(), "  OpenCVLoader.initDebug(), working.");
+        }
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);

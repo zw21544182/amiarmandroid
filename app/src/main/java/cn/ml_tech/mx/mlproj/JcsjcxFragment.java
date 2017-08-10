@@ -113,7 +113,6 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initFindViewById(View view) {
-        btSearch = (Button) view.findViewById(R.id.btSearch);
         recyclerReport = (RecyclerView) view.findViewById(R.id.recyclerReport);
         recyclerDetail = (RecyclerView) view.findViewById(R.id.recyclerDetail);
         llReport = (LinearLayout) view.findViewById(R.id.llReport);
@@ -139,8 +138,6 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         super.initEvent();
         setDateToEdit(stopDate);
         setDateToEdit(startDate);
-        btResver.setOnClickListener(this);
-        btSearch.setOnClickListener(this);
         view.findViewById(R.id.ibPre).setOnClickListener(this);
         view.findViewById(R.id.ibNext).setOnClickListener(this);
         view.findViewById(R.id.ibSearch).setOnClickListener(this);
@@ -151,6 +148,8 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 adapterReport.operateAll(isChecked);
             }
         });
+        btResver.setOnClickListener(this);
+        btSearch.setOnClickListener(this);
     }
 
     private void initRecycleReport() {
@@ -392,7 +391,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 i--;
             }
         }
-        adapterReport = new AdapterReport(detectionReports, mActivity);
+        adapterReport = new AdapterReport(reportList, mActivity);
         if (recyclerReport != null) {
             recyclerReport.setAdapter(adapterReport);
         }
@@ -475,6 +474,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 etStopDate.setText("");
                 try {
                     List<DetectionReport> detectionReports = mlService.getAllDetectionReports(getPermissionById(17, 9));
+                    Log.d("zw", "detection size " + detectionReports.size());
                     setDataToView(detectionReports, true);
                 } catch (RemoteException e) {
                     e.printStackTrace();

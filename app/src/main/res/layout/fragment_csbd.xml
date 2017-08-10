@@ -226,7 +226,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="40um标准" />
+                        />
 
                     <TextView
                         android:id="@+id/txt50um"
@@ -234,7 +234,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="50um标准" />
+                       />
 
                     <TextView
                         android:id="@+id/txt60um"
@@ -242,52 +242,47 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="60um标准" />
+                        />
 
                     <TextView
                         android:id="@+id/txt40umvariance"
-
                         style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="40um方差" />
+                        />
 
                     <TextView
                         android:id="@+id/txt60umvariance"
-
                         style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="60um方差" />
+                        android:layout_weight="0.91"
+                       />
 
                     <TextView
                         android:id="@+id/txtrotatetime"
-
                         style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="旋屏时间" />
+                        />
 
                     <TextView
                         android:id="@+id/txtstoptime"
-
                         style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="停瓶时间" />
+                        />
 
                     <TextView
                         android:id="@+id/txtcolorfactor"
-
                         style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="色差系数" />
+                        />
 
                 </LinearLayout>
             </LinearLayout>

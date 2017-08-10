@@ -90,6 +90,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="记住密码" />
-
+    <Button
+        android:text="测试Opencv"
+        style="@style/ButtonStyle"
+        android:id="@+id/tvOpenCv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     </LinearLayout>
 </FrameLayout>

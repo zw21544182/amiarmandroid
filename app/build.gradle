@@ -50,5 +50,5 @@ dependencies {
     compile project(':Three_levels')
     compile files('src/main/libs/itextpdf-5.5.5.jar')
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile project(':openCVLibrary')
+    compile project(':openCVLibrary330')
 }
