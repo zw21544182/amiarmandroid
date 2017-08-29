@@ -41,8 +41,12 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
     public void operateAll(boolean b) {
         for (int i = 0; i < checks.size(); i++)
             checks.set(i, b);
-        ids.clear();
         notifyDataSetChanged();
+        ids.clear();
+        for (DetectionReport report :
+                detectionReportList) {
+            ids.add(report.getId() + "");
+        }
         Log.d("zw", " ids Size " + ids.size());
     }
 
