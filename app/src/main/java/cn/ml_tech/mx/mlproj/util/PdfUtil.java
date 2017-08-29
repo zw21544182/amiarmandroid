@@ -3,7 +3,6 @@ package cn.ml_tech.mx.mlproj.util;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
@@ -68,6 +67,7 @@ public class PdfUtil {
     private java.util.List<DetectionDetail> allDetailList;
     private java.util.List<DetectionDetail> posList, negList;
     private JSONObject jsonObject;
+    private String redFontName;
 
     public PdfUtil(Activity activity, DevUuid devUuid, Handler handler, DrugControls drugControls, DetectionReport report, java.util.List<DetectionDetail> allDetailList) {
         this.activity = activity;
@@ -116,6 +116,10 @@ public class PdfUtil {
                     addTable();
                     document.newPage();
                     addDetailTitle();
+                    redFont = new Font(BaseFont.createFont(redFontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED));
+                    redFont.setColor(BaseColor.RED);
+                    redFont.setSize(10);
+
                     addDetailInfo();
                     document.close();
                     outputStream.close();
@@ -131,7 +135,7 @@ public class PdfUtil {
     private void setFont() {
         String yaHeiFontName = activity.getResources().getString(R.raw.simsun);
         yaHeiFontName += ",1";
-        String redFontName = activity.getResources().getString(R.raw.simsun);
+        redFontName = activity.getResources().getString(R.raw.simsun);
         redFontName += ",1";
         try {
             yaHeiFont = new Font(BaseFont.createFont(yaHeiFontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED));
@@ -184,16 +188,17 @@ public class PdfUtil {
             Log.d("zw", "false");
         }
     }
+
     private void addDetailInfo() throws DocumentException {
         yaHeiFont.setSize(10);
         int i = 0;
         for (DetectionDetail detail :
                 allDetailList) {
-            if (i % 4 == 0&&i!= 0) {
+            if (i % 4 == 0 && i != 0) {
                 document.newPage();
-                    document.add(emptyParagraph);
-                    document.add(emptyParagraph);
-                }
+                document.add(emptyParagraph);
+                document.add(emptyParagraph);
+            }
             try {
                 jsonObject = new JSONObject(detail.getNodeInfo());
                 PdfPTable pdfPTable = new PdfPTable(5);
