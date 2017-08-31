@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.ml_tech.mx.mlproj.BaseFragment;
@@ -82,9 +83,9 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
     private Button btnAutoRun;
     private EditText etAutoCount;
     private Button btnAutoSet;
-
-
     private List<DevParam> devParams;
+    private List<DevParam> params;
+    private DevParam devParam;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -184,10 +185,20 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
         btnSendMotorWrite.setOnClickListener(this);
         btnMachineHandMotorStart.setOnClickListener(this);
         btnMachineHandMotorWrite.setOnClickListener(this);
+        btnCatchMotorWrite.setOnClickListener(this);
+        btnPressedMotorWrite.setOnClickListener(this);
+        btnShadeMotorWrite.setOnClickListener(this);
+        btnRotateMotorStart.setOnClickListener(this);
+        btnRotateMotorStop.setOnClickListener(this);
+        btnOutPutWrite.setOnClickListener(this);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        if (params == null)
+            params = new ArrayList<>();
+        if (devParam == null)
+            devParam = new DevParam();
         new Thread() {
             @Override
             public void run() {
@@ -240,7 +251,7 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                 String sendMotorSpeed = etSendMotorSpeed.getEditableText().toString();
                 String sendMotorOffsetLocation = etSendMotorOffsetLocation.getEditableText().toString();
                 try {
-                    mlService.operateMlMotor(CommonUtil.Device_MachineHand, 1, Double.parseDouble(sendMotorSpeed), Integer.parseInt(sendMotorOffsetLocation));
+                    mlService.operateMlMotor(CommonUtil.Device_MachineHand, 1, Double.parseDouble(sendMotorSpeed), Double.parseDouble(sendMotorOffsetLocation));
                 } catch (NumberFormatException e) {
                     showToast("请输入数字");
                 } catch (RemoteException e) {
@@ -249,6 +260,16 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.btnSendMotorWrite:
                 // TODO: 2017/8/28 写入抓瓶数据
+                params.clear();
+                params.add(new DevParam("SendSpeed", Double.parseDouble(etSendMotorSpeed.getEditableText().toString())));
+                params.add(new DevParam("SendDistance", Double.parseDouble(etSendMotorOffsetLocation.getEditableText().toString())));
+
+                try {
+                    mlService.saveAllDevParam(params);
+                    initData(null);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.btnMachineHandMotorStart:
                 // TODO: 2017/8/28 启动机械手
@@ -258,7 +279,7 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                 String machineHandMotorOutPutLocation = etMachineHandMotorOutPutLocation.getEditableText().toString();
                 // TODO: 2017/8/28 判断机械手状态
                 try {
-                    mlService.operateMlMotor(CommonUtil.Device_MachineHand, 1, Double.parseDouble(machineHandMotorSpeed), Integer.parseInt(machineHandMotorCatchLocation));
+                    mlService.operateMlMotor(CommonUtil.Device_MachineHand, 1, Double.parseDouble(machineHandMotorSpeed), Double.parseDouble(machineHandMotorCatchLocation));
                 } catch (NumberFormatException e) {
                     showToast("请输入中文数字");
                 } catch (RemoteException e) {
@@ -266,8 +287,86 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                 }
                 break;
             case R.id.btnMachineHandMotorWrite:
-                // TODO: 2017/8/28 写入机械手数据 
+                // TODO: 2017/8/28 写入机械手数据
+                params.clear();
+                params.add(new DevParam("MachineHandSpeed", Double.parseDouble(etMachineHandMotorSpeed.getEditableText().toString().trim())));
+                params.add(new DevParam("MachineHandDistance1", Double.parseDouble(etMachineHandMotorCatchLocation.getEditableText().toString())));
+                params.add(new DevParam("MachineHandDistance2", Double.parseDouble(etMachineHandMotorDetLocation.getEditableText().toString())));
+                params.add(new DevParam("MachineHandDistance3", Double.parseDouble(etMachineHandMotorWaitLocation.getEditableText().toString())));
+                params.add(new DevParam("MachineHandDistance4", Double.parseDouble(etMachineHandMotorOutPutLocation.getEditableText().toString())));
+                try {
+                    mlService.saveAllDevParam(params);
+                    initData(null);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 break;
+            case R.id.btnCatchMotorWrite:
+                params.clear();
+                params.add(new DevParam("CatchHandMaxDistance", Double.parseDouble(etCatchMaxDiatance.getEditableText().toString().trim())));
+                params.add(new DevParam("CatchHandStchDistance", Double.parseDouble(etCatchPutterDistance.getEditableText().toString())));
+                params.add(new DevParam("CatchHandOpenDistance", Double.parseDouble(etCatchOpenDistance.getEditableText().toString())));
+                params.add(new DevParam("CatchHandSpeed", Double.parseDouble(etCatchSpeed.getEditableText().toString())));
+                params.add(new DevParam("CatchHandDistance1", Double.parseDouble(etCatchParam1.getEditableText().toString())));
+                params.add(new DevParam("CatchHandDistance2", Double.parseDouble(etCatchParam2.getEditableText().toString())));
+                params.add(new DevParam("CatchHandTime", Double.parseDouble(etCatchDelayTime.getEditableText().toString())));
+
+                try {
+                    mlService.saveAllDevParam(params);
+                    initData(null);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.btnPressedMotorWrite:
+                params.clear();
+                params.add(new DevParam("PressedSpeed", Double.parseDouble(etPressedSpeed.getEditableText().toString().trim())));
+                params.add(new DevParam("PressedDistance1", Double.parseDouble(etPressedParam1.getEditableText().toString())));
+                try {
+                    mlService.saveAllDevParam(params);
+                    initData(null);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.btnShadeMotorWrite:
+                params.clear();
+                params.add(new DevParam("ShadeLightSpeed", Double.parseDouble(etShadeMotorSpeed.getEditableText().toString().trim())));
+                params.add(new DevParam("ShadeLightDistance", Double.parseDouble(etShadeMotorParam.getEditableText().toString())));
+                try {
+                    mlService.saveAllDevParam(params);
+                    initData(null);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.btnRotateMotorStart:
+                int rotateSpeed = Integer.parseInt(etRotateMotorSpeed.getEditableText().toString().trim());
+                // TODO: 2017/8/31 开始旋瓶速度为 rotateSpeed
+            case R.id.btnRotateMotorStop:
+                // TODO: 2017/8/31 停止旋瓶
+                break;
+            case R.id.btnOutPutWrite:
+
+                params.clear();
+                params.add(new DevParam("OutPut10mlDistance1", Double.parseDouble(etOutPut10mlStandardParam1.getEditableText().toString().trim())));
+                params.add(new DevParam("OutPut10mlDistance2", Double.parseDouble(etOutPut10mlStandardParam2.getEditableText().toString())));
+                params.add(new DevParam("OutPut10mlDiameter", Double.parseDouble(etOutPut10mlStandardParamDiameter.getEditableText().toString())));
+                params.add(new DevParam("OutPutSpeed", Double.parseDouble(etOutPut10mlStandardSpeed.getEditableText().toString())));
+                params.add(new DevParam("OutPutDistance1", Double.parseDouble(etOutPutParam1.getEditableText().toString())));
+                params.add(new DevParam("OutPutDistance2", Double.parseDouble(etOutPutParam2.getEditableText().toString())));
+                try {
+                    mlService.saveAllDevParam(params);
+                    initData(null);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
         }
     }
 
@@ -288,42 +387,33 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                     break;
                 case "MachineHandDistance2":
                     etMachineHandMotorDetLocation.setText(devParam.getParamValue() + "");
-
                     break;
                 case "MachineHandDistance3":
                     etMachineHandMotorWaitLocation.setText(devParam.getParamValue() + "");
-
                     break;
                 case "MachineHandDistance4":
                     etMachineHandMotorOutPutLocation.setText(devParam.getParamValue() + "");
                     break;
                 case "CatchHandMaxDistance":
                     etCatchMaxDiatance.setText(devParam.getParamValue() + "");
-
                     break;
                 case "CatchHandStchDistance":
                     etCatchPutterDistance.setText(devParam.getParamValue() + "");
-
                     break;
                 case "CatchHandOpenDistance":
                     etCatchOpenDistance.setText(devParam.getParamValue() + "");
                     break;
-
                 case "CatchHandSpeed":
                     etCatchSpeed.setText(devParam.getParamValue() + "");
-
                     break;
                 case "CatchHandTime":
                     etCatchDelayTime.setText(devParam.getParamValue() + "");
-
                     break;
                 case "CatchHandDistance1":
                     etCatchParam1.setText(devParam.getParamValue() + "");
-
                     break;
                 case "CatchHandDistance2":
                     etCatchParam2.setText(devParam.getParamValue() + "");
-
                     break;
                 case "PressedSpeed":
                     etPressedSpeed.setText(devParam.getParamValue() + "");
@@ -345,11 +435,9 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                     break;
                 case "OutPut10mlDistance2":
                     etOutPut10mlStandardParam2.setText(devParam.getParamValue() + "");
-
                     break;
                 case "OutPut10mlDiameter":
                     etOutPut10mlStandardParamDiameter.setText(devParam.getParamValue() + "");
-
                     break;
                 case "OutPutSpeed":
                     etOutPut10mlStandardSpeed.setText(devParam.getParamValue() + "");
@@ -357,11 +445,9 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                     break;
                 case "OutPutDistance1":
                     etOutPutParam1.setText(devParam.getParamValue() + "");
-
                     break;
                 case "OutPutDistance2":
                     etOutPutParam2.setText(devParam.getParamValue() + "");
-
                     break;
 
             }
