@@ -523,6 +523,10 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                         .setPositiveButton("删除", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                if (isDataCompelete(dialog)) {
+
+                                    return;
+                                }
                                 try {
                                     mlService.deleteDetectionReportsById(ids);
                                     showToast("删除成功");
@@ -533,6 +537,20 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                                     showToast("删除失败");
                                 }
                                 dialog.dismiss();
+                            }
+
+                            private boolean isDataCompelete(DialogInterface dialog) {
+                                boolean result = false;
+                                List<Integer> pos = adapterReport.getPos();
+                                for (int i : pos) {
+                                    if (!adapterReport.getDetectionReportList().get(i).ispdfdown()) {
+                                        dialog.dismiss();
+                                        result = true;
+                                        showToast("数据不完整");
+                                        break;
+                                    }
+                                }
+                                return result;
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {

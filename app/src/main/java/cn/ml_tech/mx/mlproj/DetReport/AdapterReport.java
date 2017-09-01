@@ -21,13 +21,14 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
     private Context mContext;
     private List<Boolean> checks;
     private List<String> ids;
+    private List<Integer> pos;
 
     public AdapterReport(List<DetectionReport> detectionReportList, Context mContext) {
         this.detectionReportList = detectionReportList;
         this.mContext = mContext;
         ids = new ArrayList<>();
-        ids = new ArrayList<>();
         checks = new ArrayList<>();
+        pos = new ArrayList<>();
         for (DetectionReport detectionReport :
                 detectionReportList) {
             checks.add(false);
@@ -43,17 +44,24 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
             checks.set(i, b);
         notifyDataSetChanged();
         ids.clear();
-        for (DetectionReport report :
-                detectionReportList) {
-            ids.add(report.getId() + "");
+        pos.clear();
+        if (b) {
+            for (DetectionReport report :
+                    detectionReportList) {
+                ids.add(report.getId() + "");
+            }
+            for (int i = 0; i < detectionReportList.size(); i++) {
+                pos.add(i);
+            }
+            Log.d("zw", " ids Size " + ids.size());
         }
-        Log.d("zw", " ids Size " + ids.size());
     }
 
     public void setDataToView(List<DetectionReport> detectionReports) {
         detectionReportList.clear();
         checks.clear();
         ids.clear();
+        pos.clear();
         detectionReportList.addAll(detectionReports);
         for (DetectionReport detectionReport :
                 detectionReportList) {
@@ -72,6 +80,10 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
     }
 
     OnItemClickListener mItemClickListener = null;
+
+    public List<DetectionReport> getDetectionReportList() {
+        return detectionReportList;
+    }
 
     @Override
     public void onClick(View v) {
@@ -118,13 +130,19 @@ public class AdapterReport extends RecyclerView.Adapter<ViewHolderReport> implem
                 checks.set(i, isChecked);
                 if (isChecked) {
                     ids.add(detectionReportList.get(i).getId() + "");
+                    pos.add(i);
                     Log.d("zw", " ids Size " + ids.size());
                 } else {
                     ids.remove(detectionReportList.get(i).getId() + "");
                     Log.d("zw", " ids Size " + ids.size());
+                    pos.remove(i);
                 }
             }
         });
+    }
+
+    public List<Integer> getPos() {
+        return pos;
     }
 
     @Override
