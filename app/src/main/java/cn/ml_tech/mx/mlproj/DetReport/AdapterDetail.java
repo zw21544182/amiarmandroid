@@ -2,6 +2,7 @@ package cn.ml_tech.mx.mlproj.DetReport;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,6 @@ public class AdapterDetail extends RecyclerView.Adapter<ViewHolderDetail> implem
         viewHolderDetail.txtDetailAnalyzeResult.setText(String.valueOf(detectionDetailList.get(i).isAnalyzePositive() ? ResultPositive : ResultNegative));
         viewHolderDetail.txtDetailNodeResult.setText(String.valueOf(detectionDetailList.get(i).isNodePositive() ? ResultPositive : ResultNegative));
         viewHolderDetail.txtDetailSuperNodeResult.setText(String.valueOf(detectionDetailList.get(i).isSuperPositive() ? ResultPositive : ResultNegative));
-//        viewHolderDetail.txtDetailAllResult.setText(String.valueOf(detectionDetailList.get(i).getNodeInfo()));
         viewHolderDetail.txtDetailIsPositive.setText(String.valueOf(detectionDetailList.get(i).isPositive() ? ResultPositive : ResultNegative));
         viewHolderDetail.txtDetailVideo.setText(VideoText);
         viewHolderDetail.txtDetailIsValid.setText(String.valueOf(detectionDetailList.get(i).isValid() ? NormalText : AbNormalText));
@@ -96,6 +96,8 @@ public class AdapterDetail extends RecyclerView.Adapter<ViewHolderDetail> implem
         viewHolderDetail.txtDetailColorFactor.setText(String.valueOf(detectionDetailList.get(i).getColorFactor()));
         viewHolderDetail.txtDetailVideo.setTag(i);
         viewHolderDetail.txtDetailAllResult.setTag(i);
+        viewHolderDetail.txtDetailVideo.setText(Html.fromHtml("<u>" + "视频" + "</u>"));
+        viewHolderDetail.txtDetailAllResult.setText(Html.fromHtml("<u>" + "结果详情" + "</u>"));
     }
 
     @Override
