@@ -3,6 +3,8 @@ package cn.ml_tech.mx.mlproj;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,9 +27,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ml_tech.mx.mlproj.util.PdfUtil;
 import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
+import cn.ml_tech.mx.mlservice.DAO.DevUuid;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.DAO.ResultModule;
 import cn.ml_tech.mx.mlservice.DrugControls;
@@ -58,12 +62,25 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     private TextView tvNumRes;
     private TextView tvMaxRes;
     private TextView tvsuJianTime;
-
-
     private String state = "";
     private String detectionSn = "";
     private DetectionReport report;
     private Button btExportData;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case PdfUtil.SUCESS:
+                    Toast.makeText(getActivity(), "导出pdf成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case PdfUtil.FAILURE:
+                    Toast.makeText(getActivity(), "导出pdf失败", Toast.LENGTH_SHORT).show();
+
+                    break;
+            }
+        }
+    };
 
     public void setState(String state) {
         this.state = state;
@@ -93,7 +110,6 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         tvDetectionSn = (TextView) view.findViewById(R.id.tvDetectionSn);
         cbSecondCheck = (CheckBox) view.findViewById(R.id.cbSecondCheck);
         cbFirstCheck = (CheckBox) view.findViewById(R.id.cbFirstCheck);
-
         tvYi40 = (TextView) view.findViewById(R.id.tvYi40);
         tvYi50 = (TextView) view.findViewById(R.id.tvYi50);
         tvYi60 = (TextView) view.findViewById(R.id.tvYi60);
@@ -124,8 +140,11 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         btExportData.setVisibility(getPermissionById(11, 1) == true ? View.VISIBLE : View.INVISIBLE);
         etRotateNum.setEnabled(getPermissionById(13, 4));
         if (state.equals("")) {
+            // TODO: 2017/9/1 新的检测 之后要做的操作 
             setDataToView(ypjcActivity.detectionReport);
+            btExportData.setEnabled(false);
         } else {
+            // TODO: 2017/9/1 继续上一次检测要做的操作 
             report = null;
             try {
                 report = mlService.getLastReport();
@@ -139,6 +158,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         }
         initReceiver();
     }
+
 
     private void setPreDataToView(DetectionReport report) {
         detectionSn = report.getDetectionSn();
@@ -194,7 +214,9 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         receiverUtil = new ReceiverUtil("com.checkfinsh", getActivity()) {
             @Override
             protected void operate(Context context, Intent intent) {
+                // TODO: 2017/9/1 检测完药品收到数据之后要做的操作 
                 DetectionDetail detectionDetail = null;
+                btExportData.setEnabled(true);
                 try {
                     detectionDetail = ypjcActivity.mService.getLastDetail();
                     setReceivedData(detectionDetail);
@@ -318,7 +340,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btExportData:
                 if (getPermissionById(11, 8)) {
-                    showToast("导出数据");
+                    exportData();
                 } else {
                     showRefuseTip();
                 }
@@ -337,13 +359,27 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
                         if (report.getDetectionSecondCount() == report.getDetectionCount()) {
                             Toast.makeText(getActivity(), "已完成复检", Toast.LENGTH_SHORT).show();
                         }
-                        Log.d("zw", detectionSn + "detectionSn");
                         ypjcActivity.mService.startCheck((int) report.getDruginfo_id(), report.getDetectionCount(), Integer.parseInt(rotate), report.getDetectionNumber(), report.getDetectionBatch(), cbFirstCheck.isChecked(), detectionSn);
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 break;
+        }
+    }
+
+    private void exportData() {
+        try {
+            DetectionReport detectionReport = mlService.getLastReport();
+            if (detectionReport == null) {
+                showToast("请先检查药品");
+                return;
+            }
+
+            outPutPdf(mlService.queryDetectionDetailByReportId(detectionReport.getId()), detectionReport);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
@@ -392,6 +428,18 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
                 num = (TextView) itemView.findViewById(R.id.num);
                 result = (TextView) itemView.findViewById(R.id.result);
             }
+        }
+    }
+
+    private void outPutPdf(List<DetectionDetail> detectionDetails, DetectionReport detectionReport) {
+        try {
+            DevUuid devUuid = mlService.getDevUuidInfo();
+            DrugControls drugControls = mlService.queryDrugControlsById(detectionReport.getDruginfo_id());
+            new PdfUtil(getActivity(), devUuid, handler, drugControls, detectionReport, detectionDetails).createPdf();
+            detectionReport.setIspdfdown(true);
+            mlService.saveDetectionReport(detectionReport);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 }
