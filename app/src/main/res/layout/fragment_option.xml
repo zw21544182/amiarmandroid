@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
 
-    tools:context="cn.ml_tech.mx.mlproj.OptionFragment">
+    tools:context="cn.ml_tech.mx.mlproj.cn.ml_tech.mx.fragment.OptionFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

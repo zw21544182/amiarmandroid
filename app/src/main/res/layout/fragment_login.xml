@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_content"
     android:orientation="vertical"
-    tools:context="cn.ml_tech.mx.mlproj.LoginFragment">
+    tools:context="cn.ml_tech.mx.mlproj.cn.ml_tech.mx.fragment.LoginFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"

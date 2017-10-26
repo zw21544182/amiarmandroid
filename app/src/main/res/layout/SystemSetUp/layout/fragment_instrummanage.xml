@@ -18,7 +18,7 @@
             android:text="调试规格直径" />
 
         <EditText
-            android:id="@+id/etSpeDiameter "
+            android:id="@+id/etSpeDiameter"
             style="@style/EditTextStyle"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="极光开关" />
+            android:text="激光开关" />
 
         <Button
             android:id="@+id/btnLaserSwitch"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="打开" />
+            android:text="关闭" />
 
         <Button
             android:id="@+id/btnRelease"
@@ -76,7 +76,6 @@
 
         <Button
             android:id="@+id/btnSaveParam"
-
             style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

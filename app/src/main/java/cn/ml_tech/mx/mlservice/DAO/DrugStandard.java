@@ -30,8 +30,6 @@ CREATE TABLE [drugstandard](
 */
 
 public class DrugStandard extends DataSupport {
-
-
     @Column(unique = true, nullable = false)
     private long id;
     @Column(nullable = false, defaultValue = "false")
@@ -40,7 +38,6 @@ public class DrugStandard extends DataSupport {
     private String name;
     @Column(nullable = false)
     private long druginfo_id;
-
     public long getId() {
         return id;
     }

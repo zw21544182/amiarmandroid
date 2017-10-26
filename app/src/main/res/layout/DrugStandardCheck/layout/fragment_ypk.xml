@@ -6,7 +6,7 @@
     android:layout_marginRight="100dp"
     android:background="@drawable/bgitme_layout"
     android:orientation="vertical"
-    tools:context="cn.ml_tech.mx.mlproj.YpkFragment">
+    tools:context="cn.ml_tech.mx.mlproj.ypfragment.YpkFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

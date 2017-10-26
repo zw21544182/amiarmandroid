@@ -1,5 +1,4 @@
 package cn.ml_tech.mx.mlservice.DAO;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -29,8 +28,6 @@ import org.litepal.crud.DataSupport;
  foreign key (trayID) REFERENCES tray(id)
  );
  */
-
-
 public class DevParam extends DataSupport implements Parcelable {
     @Column(unique = true,nullable = false)
     private  long id;
@@ -40,6 +37,11 @@ public class DevParam extends DataSupport implements Parcelable {
     private double paramValue;
     @Column( nullable = false,defaultValue = "0")
     private int type;
+
+    public DevParam(String paramName, double paramValue) {
+        this.paramName = paramName;
+        this.paramValue = paramValue;
+    }
 
     public long getId() {
         return id;

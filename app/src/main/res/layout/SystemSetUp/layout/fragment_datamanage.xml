@@ -53,7 +53,7 @@
             android:text="提交" />
     </LinearLayout>
 
-    <cn.ml_tech.mx.CustomView.MyHorizontalScrollView
+    <cn.ml_tech.mx.mlproj.customview.MyHorizontalScrollView
         android:id="@+id/horizon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,5 +84,5 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </LinearLayout>
-    </cn.ml_tech.mx.CustomView.MyHorizontalScrollView>
+    </cn.ml_tech.mx.mlproj.customview.MyHorizontalScrollView>
 </LinearLayout>

@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import cn.ml_tech.mx.mlproj.util.UtilsHelper;
+
 import static org.junit.Assert.assertTrue;
 
 /**

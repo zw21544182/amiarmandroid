@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/nopadding"
     android:paddingRight="@dimen/nopadding"
     android:paddingTop="@dimen/nopadding"
-    tools:context="cn.ml_tech.mx.mlproj.CsbdFragment">
+    tools:context="cn.ml_tech.mx.mlproj.cn.ml_tech.mx.fragment.CsbdFragment">
     <LinearLayout
         android:id="@+id/layoutmain"
         android:layout_width="match_parent"

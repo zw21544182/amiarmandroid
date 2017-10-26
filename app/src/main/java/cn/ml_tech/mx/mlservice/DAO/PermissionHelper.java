@@ -51,7 +51,7 @@ public class PermissionHelper implements Parcelable {
         }
     }
 
-    public static final Parcelable.Creator<PermissionHelper> CREATOR = new Parcelable.Creator<PermissionHelper>() {
+    public static final Creator<PermissionHelper> CREATOR = new Creator<PermissionHelper>() {
         @Override
         public PermissionHelper createFromParcel(Parcel source) {
             return new PermissionHelper(source);

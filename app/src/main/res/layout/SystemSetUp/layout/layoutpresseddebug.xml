@@ -8,7 +8,10 @@
     android:columnCount="3"
     android:orientation="horizontal"
     android:rowCount="3">
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="压瓶"/>
     <TextView
         style="@style/TextViewStyle"
         android:layout_width="wrap_content"
@@ -23,13 +26,10 @@
         android:text="@string/motorCatchParam1" />
 
     <TextView
+        android:id="@+id/txtPressedRunState"
         style="@style/TextViewStyle"
-
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/motorRunState"
-
-        />
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/etPressedSpeed"
@@ -46,14 +46,14 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal" />
 
-    <TextView
-        android:id="@+id/txtPressedRunState"
 
+    <Button
+        android:id="@+id/btnPressedMotorReset"
 
-        style="@style/TextViewStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        style="@style/ButtonStyle"
+        android:layout_marginTop="5dp"
 
+        android:text="复位" />
     <Button
         android:id="@+id/btnPressedMotorStart"
 
@@ -69,4 +69,5 @@
         style="@style/ButtonStyle"
         android:layout_marginTop="5dp"
         android:text="@string/motorWrite" />
+
 </GridLayout>

@@ -15,13 +15,6 @@ import java.util.Map;
 public class Permission implements Parcelable {
     private Map<String, Boolean> permissiondata;
 
-    @Override
-    public String toString() {
-        return "Permission{" +
-                "permissiondata=" + permissiondata +
-                '}';
-    }
-
     public Map<String, Boolean> getPermissiondata() {
         return permissiondata;
     }

@@ -106,11 +106,19 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/etCatchParam2"
+        android:id="@+id/etCatchParam1"
 
         style="@style/EditTextStyle"
         android:layout_width="100dp"
         android:layout_height="wrap_content" />
+
+    <EditText
+
+        android:id="@+id/etCatchParam2"
+        style="@style/EditTextStyle"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content" />
+
 
     <EditText
         android:id="@+id/etCatchDelayTime"
@@ -124,6 +132,13 @@
         style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnCatchMotorReset"
+        style="@style/ButtonStyle"
+        android:layout_column="2"
+        android:layout_row="4"
+        android:text="复位" />
 
     <Button
         android:id="@+id/btnCatchMotorStart"
@@ -141,11 +156,4 @@
         android:layout_row="4"
         android:text="@string/motorWrite" />
 
-    <EditText
-        android:id="@+id/etCatchParam1"
-        style="@style/EditTextStyle"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_row="4" />
 </GridLayout>

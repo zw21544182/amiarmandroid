@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Three_levels_library/Three_levels.iml" filepath="$PROJECT_DIR$/Three_levels_library/Three_levels.iml" />
       <module fileurl="file://$PROJECT_DIR$/amiarmandroid.iml" filepath="$PROJECT_DIR$/amiarmandroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/openCVLibrary/openCVLibrary.iml" filepath="$PROJECT_DIR$/openCVLibrary/openCVLibrary.iml" />
     </modules>
   </component>
 </project>

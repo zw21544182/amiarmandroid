@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ml_tech.mx.mlproj.CsbdActivity">
+    tools:context="cn.ml_tech.mx.mlproj.cn.ml_tech.mx.activity.CsbdActivity">
 
     <Button
         android:id="@+id/button"

@@ -37,7 +37,7 @@ import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.DAO.DevUuid;
-import cn.ml_tech.mx.mlservice.DrugControls;
+import cn.ml_tech.mx.mlservice.DAO.DrugControls;
 
 
 /**

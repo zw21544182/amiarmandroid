@@ -27,11 +27,14 @@ android {
                     'src/main/res/layout/',
                     'src/main/res'
             ]
-//            java.srcDirs = [ 'src/main/java/cn.ml_tech.mx.CustomView',
-//                             'src/main/java',
-//                             'src/main/',
-//                             'src/']
+
         }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 }
 
@@ -47,8 +50,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
     compile 'org.litepal.android:core:1.5.1'
-    compile project(':Three_levels')
     compile files('src/main/libs/itextpdf-5.5.5.jar')
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile project(':openCVLibrary330')
+    compile 'cn.jeesoft.widget.pickerview:ThreeLeve:1.0.0'
 }

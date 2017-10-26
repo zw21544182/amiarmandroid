@@ -13,8 +13,34 @@ public class CommonUtil {
     public static final int Device_CatchHand = 3;//抓瓶手
     public static final int Device_OutPut = 5;//出瓶
     public static final int Device_Rotate = 6;//旋屏
+    /**
+     * 成功
+     */
     public static final int SUCESS = 100;
+    /**
+     * 失败
+     */
     public static final int FAILURE = 200;
+    /**
+     * 自动调试标定
+     */
+    public static final int AUTOEBUG_CALIBRATE = 33;
+    /**
+     * 自动调试调试
+     */
+    public static final int AUTOEBUG_DEBUG = 44;
+    /**
+     * 自动调试检测
+     */
+    public static final int AUTOEBUG_CHECK = 55;
+    /**
+     * 获取TrayId
+     */
+    public static final int TRAYID_ID = 66;
+    /**
+     * 获取直径
+     */
+    public static final int TRAYID_RADIO = 77;
     public static final String ISUPDATE = "isupdate";
     public static final String UPDATEINDO = "updateinfo";
     public static final String LOGINSUCESS = "User login success";

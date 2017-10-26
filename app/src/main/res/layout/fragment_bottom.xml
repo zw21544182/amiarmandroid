@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="bottom"
-    tools:context="cn.ml_tech.mx.mlproj.BottomFragment">
+    tools:context="cn.ml_tech.mx.mlproj.cn.ml_tech.mx.fragment.BottomFragment">
 
     <LinearLayout
         android:id="@+id/bottomLayout"

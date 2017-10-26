@@ -58,8 +58,8 @@
         />
 
     <Button
-        android:id="@+id/btnSendMotorStart"
 
+        android:id="@+id/btnSendMotorStart"
         style="@style/ButtonStyle"
         android:layout_column="1"
         android:layout_marginTop="5dp"

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ml_tech.mx.mlproj.XtwhFragment"
+    tools:context="cn.ml_tech.mx.mlproj.cn.ml_tech.mx.fragment.XtwhFragment"
     >
     <LinearLayout
         android:id="@+id/llBack"
