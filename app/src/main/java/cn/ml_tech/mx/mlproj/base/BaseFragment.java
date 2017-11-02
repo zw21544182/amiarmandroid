@@ -1,5 +1,4 @@
 package cn.ml_tech.mx.mlproj.base;
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,11 +15,6 @@ import cn.ml_tech.mx.mlservice.DAO.P_Operator;
 import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.IMlService;
-
-
-/**
- *
- */
 public abstract class BaseFragment extends Fragment {
     public BaseActivity mActivity;
     public View view;
@@ -32,7 +26,6 @@ public abstract class BaseFragment extends Fragment {
     protected Handler handler;
 
     public BaseFragment() {
-        // Required empty public constructor
     }
 
     public void showToast(String content) {
@@ -69,8 +62,6 @@ public abstract class BaseFragment extends Fragment {
     protected void handleMsg(Message message) {
     }
 
-    ;
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -87,13 +78,7 @@ public abstract class BaseFragment extends Fragment {
         this.permission = permission;
     }
 
-    /**
-     * 在调用次方法之前必须先通过set方法传递Permissoin
-     *
-     * @param sourceId
-     * @param operateId
-     * @return
-     */
+
     public boolean getPermissionById(long sourceId, long operateId) {
         return permission.getPermissiondata().get(getPermissionTextById(sourceId, operateId));
     }
@@ -126,20 +111,11 @@ public abstract class BaseFragment extends Fragment {
             if (p_operator.getId() == id) {
                 result = p_operator.getTitle();
                 break;
-            }
+        }
         }
         return result;
     }
-
-    /*
-        子类实现此方法返回View展示
-         */
     public abstract View initView(LayoutInflater inflater);
-
-    //初始化控件
     public abstract void initFindViewById(View view);
-
-    //子类在此方法中实现数据的初始化
     public abstract void initData(@Nullable Bundle savedInstanceState);
-
 }
