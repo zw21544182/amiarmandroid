@@ -78,6 +78,7 @@ public class ManchineManagerFragment extends Fragment implements View.OnClickLis
             etMachineName.setText(devUuid.getDevName());
             etMachineFactoryName.setText(devUuid.getDevFactory());
             SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+            if(devUuid.getDevDateOfProduction()!=null)
             etMachineDateOfProduction.setText(dateFormat.format(devUuid.getDevDateOfProduction()));
         }
 

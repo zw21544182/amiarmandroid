@@ -59,7 +59,6 @@ public class YpxaFragment extends BaseFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         ypjcActivity = (YpjcActivity) getActivity();
-        setPermission(ypjcActivity.permission);
         getActivity().findViewById(R.id.etMachineFactoryAddr).setOnTouchListener((View.OnTouchListener) getActivity());
         getActivity().findViewById(R.id.btnSaveFactory).setOnClickListener((View.OnClickListener) getActivity());
         getActivity().findViewById(R.id.bt_back).setOnClickListener((View.OnClickListener) getActivity());

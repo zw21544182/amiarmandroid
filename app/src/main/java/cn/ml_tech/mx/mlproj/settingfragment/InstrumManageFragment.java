@@ -470,6 +470,7 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                         break;
                 }
                 try {
+
                     mlService.operateMlMotor(CommonUtil.Device_CatchHand, (int) dirs, speed, (int) dis);
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -587,7 +588,7 @@ public class InstrumManageFragment extends BaseFragment implements View.OnClickL
                 String content = etAutoCount.getEditableText().toString();
                 try {
                     int num = Integer.parseInt(content);
-                    mlService.autoDebug(num);
+                    mlService.autoDebug(CommonUtil.AUTOEBUG_DEBUG, num);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 } catch (NumberFormatException e) {

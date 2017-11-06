@@ -24,7 +24,7 @@ public class AdapterReport extends RecyclerView.Adapter<AdapterReport.ViewHolder
     private Context mContext;
     private List<Boolean> checks;
     private List<String> ids;
-    private List<Integer> pos;
+    private List<String> pos;
 
     public AdapterReport(List<DetectionReport> detectionReportList, Context mContext) {
         this.detectionReportList = detectionReportList;
@@ -43,21 +43,17 @@ public class AdapterReport extends RecyclerView.Adapter<AdapterReport.ViewHolder
     }
 
     public void operateAll(boolean b) {
-        for (int i = 0; i < checks.size(); i++)
-            checks.set(i, b);
-        notifyDataSetChanged();
         ids.clear();
         pos.clear();
-        if (b) {
-            for (DetectionReport report :
-                    detectionReportList) {
-                ids.add(report.getId() + "");
+        for (int i = 0; i < detectionReportList.size(); i++) {
+            checks.set(i, b);
+            if (b) {
+                ids.add(detectionReportList.get(i).getId() + "");
+                pos.add(i + "");
             }
-            for (int i = 0; i < detectionReportList.size(); i++) {
-                pos.add(i);
-            }
-            Log.d("zw", " ids Size " + ids.size());
         }
+        notifyDataSetChanged();
+        Log.d("zw", "operate ids size" + ids.size());
     }
 
     public void setDataToView(List<DetectionReport> detectionReports) {
@@ -65,11 +61,15 @@ public class AdapterReport extends RecyclerView.Adapter<AdapterReport.ViewHolder
         checks.clear();
         ids.clear();
         pos.clear();
+        int i = 0;
         detectionReportList.addAll(detectionReports);
         for (DetectionReport detectionReport :
                 detectionReportList) {
             checks.add(false);
+            ids.add(detectionReport.getId() + "");
+            pos.add((i + 1) + "");
         }
+
         notifyDataSetChanged();
     }
 
@@ -126,25 +126,36 @@ public class AdapterReport extends RecyclerView.Adapter<AdapterReport.ViewHolder
         viewHolder.txtPDF.setTag(i);
         viewHolder.txtDetDetail.setTag(i);
         viewHolder.txtDetDel.setTag(i);
-        viewHolder.chkBox.setChecked(checks.get(i));
         viewHolder.chkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 checks.set(i, isChecked);
                 if (isChecked) {
-                    ids.add(detectionReportList.get(i).getId() + "");
-                    pos.add(i);
+                    if (!ids.contains(detectionReportList.get(i).getId() + "")) {
+                        ids.add(detectionReportList.get(i).getId() + "");
+                    }
+                    if (!pos.contains(i + "")) {
+                        pos.add(i + "");
+                    }
                     Log.d("zw", " ids Size " + ids.size());
                 } else {
-                    ids.remove(detectionReportList.get(i).getId() + "");
+                    if (ids.contains(detectionReportList.get(i).getId() + "")) {
+                        ids.remove(detectionReportList.get(i).getId() + "");
+                    }
                     Log.d("zw", " ids Size " + ids.size());
-                    pos.remove(i);
+                    if (!pos.contains(i + "")) {
+
+                        pos.remove(i + "");
+                    }
                 }
+                Log.d("zw", "pos size " + pos.size());
             }
         });
+        viewHolder.chkBox.setChecked(checks.get(i));
+
     }
 
-    public List<Integer> getPos() {
+    public List<String> getPos() {
         return pos;
     }
 

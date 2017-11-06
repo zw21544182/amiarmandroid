@@ -7,8 +7,6 @@ import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -38,21 +36,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.activity.JcsjcxActivity;
-import cn.ml_tech.mx.mlproj.base.AmiApp;
-import cn.ml_tech.mx.mlproj.base.BaseFragment;
-import cn.ml_tech.mx.mlproj.adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.adapter.AdapterDetail;
 import cn.ml_tech.mx.mlproj.adapter.AdapterReport;
+import cn.ml_tech.mx.mlproj.adapter.StringAdapter;
+import cn.ml_tech.mx.mlproj.base.AmiApp;
+import cn.ml_tech.mx.mlproj.base.BaseFragment;
 import cn.ml_tech.mx.mlproj.dialog.NodeInfoDialog;
-import cn.ml_tech.mx.mlproj.R;
-import cn.ml_tech.mx.mlproj.util.PdfUtil;
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
 import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
-import cn.ml_tech.mx.mlservice.DAO.DevUuid;
 import cn.ml_tech.mx.mlservice.DAO.DrugContainer;
-import cn.ml_tech.mx.mlservice.DAO.DrugControls;
-import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class JcsjcxFragment extends BaseFragment implements View.OnClickListener {
     private RecyclerView recyclerReport;
@@ -81,24 +76,11 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     private Button btSearch;
     private Button btResver;
     private Button btDelete;
+    private Button btOutput;
     private CheckBox chkBox;
     private int cuurentPage = 1, lastPage;
-    private Permission permission;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case PdfUtil.SUCESS:
-                    Toast.makeText(getActivity(), "导出pdf成功", Toast.LENGTH_SHORT).show();
-                    break;
-                case PdfUtil.FAILURE:
-                    Toast.makeText(getActivity(), "导出pdf失败", Toast.LENGTH_SHORT).show();
+    private List<String> ids;
 
-                    break;
-            }
-        }
-    };
 
     public boolean isReportLayout() {
         return isReportLayout;
@@ -135,6 +117,8 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         btResver = (Button) view.findViewById(R.id.btResver);
         chkBox = (CheckBox) view.findViewById(R.id.chkBox);
         btDelete = (Button) view.findViewById(R.id.btDelete);
+        btOutput = (Button) view.findViewById(R.id.btOutput);
+
     }
 
     @Override
@@ -146,6 +130,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.ibNext).setOnClickListener(this);
         view.findViewById(R.id.ibSearch).setOnClickListener(this);
         btDelete.setOnClickListener(this);
+        btOutput.setOnClickListener(this);
         chkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -156,29 +141,20 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         btSearch.setOnClickListener(this);
     }
 
-    private void initRecycleReport() {
+    public void initRecycleReport() {
+        chkBox.setChecked(false);
         detectionReports = new ArrayList<>();
         try {
             if (mlService != null) {
-                detectionReports = mlService.getAllDetectionReports(getPermissionById(17, 9));
+                detectionReports = mlService.getAllDetectionReports();
             }
+            Log.d("zw", "detection size" + detectionReports.size());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
         setDataToView(detectionReports, true);
     }
 
-    private void outPutPdf(List<DetectionDetail> detectionDetails, DetectionReport detectionReport) {
-        try {
-            DevUuid devUuid = mlService.getDevUuidInfo();
-            DrugControls drugControls = mlService.queryDrugControlsById(detectionReport.getDruginfo_id());
-            new PdfUtil(getActivity(), devUuid, handler, drugControls, detectionReport, detectionDetails).createPdf();
-            detectionReport.setIspdfdown(true);
-            mlService.saveDetectionReport(detectionReport);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void ShowDetailInfo(@Nullable String id) {
         setReportLayout(false);
@@ -251,11 +227,8 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         jcsjcxActivity = (JcsjcxActivity) getActivity();
-        setPermission(jcsjcxActivity.getPermission());
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         detectionDetailList = new ArrayList<DetectionDetail>();
-        btSearch.setVisibility(getPermissionById(17, 1) == true ? View.VISIBLE : View.INVISIBLE);
-        btSearch.setEnabled(getPermissionById(17, 8));
         try {
             List<String> strings = new ArrayList<>();
             List<DrugContainer> drugContainers = mlService.getDrugContainer();
@@ -267,7 +240,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        if (getPermissionById(17, 2))
+
             initRecycle();
 
     }
@@ -384,7 +357,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-    public void setDataToView(List<DetectionReport> reportList, boolean isReseting) {
+    public void setDataToView(final List<DetectionReport> reportList, boolean isReseting) {
         lastPage = ((int) Math.floor(reportList.size() / 20)) + 1;
         ((TextView) getActivity().findViewById(R.id.tvAllPage)).setText(lastPage + "");
         if (isReseting) {
@@ -407,30 +380,22 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             public void OnItemClick(final View view, int position) {
                 switch (view.getId()) {
                     case R.id.txtPDF:
-                        if (!getPermissionById(18, 6)) {
-                            showRefuseTip();
-                            return;
-                        }
                         int i = (int) view.getTag();
+                        Log.d("zw", "id = " + i);
                         try {
-                            List<DetectionDetail> detectionDetails = mlService.queryDetectionDetailByReportId(detectionReports.get(i).getId());
-                            outPutPdf(detectionDetails, detectionReports.get(i));
+                            if (ids == null)
+                                ids = new ArrayList<>();
+                            ids.clear();
+                            ids.add(reportList.get(i).getId() + "");
+                            mlService.OperateReportInfo(ids, CommonUtil.OPERATEREPORT_OUTPUT);
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
                         break;
                     case R.id.txtDetDetail:
-                        if (!getPermissionById(18, 10)) {
-                            showRefuseTip();
-                            return;
-                        }
                         ShowDetailInfo(String.valueOf(position));
                         break;
                     case R.id.txtDetDel:
-                        if (!getPermissionById(18, 5)) {
-                            showRefuseTip();
-                            return;
-                        }
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                                 .setTitle("是否删除这条数据")
                                 .setPositiveButton("删除", new DialogInterface.OnClickListener() {
@@ -477,7 +442,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 etStartDate.setText("");
                 etStopDate.setText("");
                 try {
-                    List<DetectionReport> detectionReports = mlService.getAllDetectionReports(getPermissionById(17, 9));
+                    List<DetectionReport> detectionReports = mlService.getAllDetectionReports();
                     Log.d("zw", "detection size " + detectionReports.size());
                     setDataToView(detectionReports, true);
                 } catch (RemoteException e) {
@@ -517,53 +482,40 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
                 }
                 break;
             case R.id.btDelete:
-                final List<String> ids = adapterReport.getIds();
+                ids = adapterReport.getIds();
                 if (ids.size() == 0) {
                     showToast("尚未选中");
                     return;
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                        .setTitle("是否删除选中数据")
-                        .setPositiveButton("删除", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (isDataCompelete(dialog)) {
-
-                                    return;
-                                }
-                                try {
-                                    mlService.deleteDetectionReportsById(ids);
-                                    showToast("删除成功");
-                                    adapterReport.setDataToView(mlService.getAllDetectionReports(getPermissionById(17, 9)));
-                                    chkBox.setChecked(false);
-                                } catch (RemoteException e) {
-                                    e.printStackTrace();
-                                    showToast("删除失败");
-                                }
-                                dialog.dismiss();
-                            }
-
-                            private boolean isDataCompelete(DialogInterface dialog) {
-                                boolean result = false;
-                                List<Integer> pos = adapterReport.getPos();
-                                for (int i : pos) {
-                                    if (!adapterReport.getDetectionReportList().get(i).ispdfdown()) {
-                                        dialog.dismiss();
-                                        result = true;
-                                        showToast("数据不完整");
-                                        break;
-                                    }
-                                }
-                                return result;
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                builder.create().show();
+                showToast("后台操作中");
+                new Thread() {
+                    public void run() {
+                        super.run();
+                        try {
+                            mlService.OperateReportInfo(ids, CommonUtil.OPERATEREPORT_DELETE);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+                break;
+            case R.id.btOutput:
+                ids = adapterReport.getIds();
+                if (ids.size() == 0) {
+                    showToast("尚未选中");
+                    return;
+                }
+                showToast("后台操作中");
+                new Thread() {
+                    public void run() {
+                        super.run();
+                        try {
+                            mlService.OperateReportInfo(ids, CommonUtil.OPERATEREPORT_OUTPUT);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
                 break;
         }
     }

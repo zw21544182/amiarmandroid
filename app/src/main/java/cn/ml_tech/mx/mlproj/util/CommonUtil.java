@@ -14,6 +14,14 @@ public class CommonUtil {
     public static final int Device_OutPut = 5;//出瓶
     public static final int Device_Rotate = 6;//旋屏
     /**
+     * 导出检测信息
+     */
+    public static final String OPERATEREPORT_OUTPUT = "OPERATEREPORT_OUTPUT";
+    /**
+     * 删除检测信息
+     */
+    public static final String OPERATEREPORT_DELETE = "OPERATEREPORT_DELETE ";
+    /**
      * 成功
      */
     public static final int SUCESS = 100;

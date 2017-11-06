@@ -269,7 +269,14 @@
                 style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="刪除" />
+                android:text="批量刪除" />
+
+            <Button
+                android:id="@+id/btOutput"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="批量导出" />
         </LinearLayout>
 
     </LinearLayout>

@@ -3,8 +3,6 @@ package cn.ml_tech.mx.mlproj.ypfragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,11 +28,10 @@ import java.util.List;
 import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.activity.YpjcActivity;
 import cn.ml_tech.mx.mlproj.base.BaseFragment;
-import cn.ml_tech.mx.mlproj.util.PdfUtil;
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
 import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.DetectionDetail;
 import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
-import cn.ml_tech.mx.mlservice.DAO.DevUuid;
 import cn.ml_tech.mx.mlservice.DAO.DrugControls;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.DAO.ResultModule;
@@ -69,21 +66,6 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     private String detectionSn = "";
     private DetectionReport report;
     private Button btExportData;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case PdfUtil.SUCESS:
-                    Toast.makeText(getActivity(), "导出pdf成功", Toast.LENGTH_SHORT).show();
-                    break;
-                case PdfUtil.FAILURE:
-                    Toast.makeText(getActivity(), "导出pdf失败", Toast.LENGTH_SHORT).show();
-
-                    break;
-            }
-        }
-    };
 
     public void setState(String state) {
         this.state = state;
@@ -139,9 +121,6 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        setPermission(((YpjcActivity) getActivity()).permission);
-        btExportData.setVisibility(getPermissionById(11, 1) == true ? View.VISIBLE : View.INVISIBLE);
-        etRotateNum.setEnabled(getPermissionById(13, 4));
         if (state.equals("")) {
             // TODO: 2017/9/1 新的检测 之后要做的操作 
             setDataToView(ypjcActivity.detectionReport);
@@ -342,11 +321,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btExportData:
-                if (getPermissionById(11, 8)) {
                     exportData();
-                } else {
-                    showRefuseTip();
-                }
                 break;
             case R.id.btStartCheck:
                 btStartCheck.setEnabled(false);
@@ -378,9 +353,9 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
                 showToast("请先检查药品");
                 return;
             }
-
-            outPutPdf(mlService.queryDetectionDetailByReportId(detectionReport.getId()), detectionReport);
-
+            List<String> ids = new ArrayList<>();
+            ids.add(detectionReport.getId() + "");
+            mlService.OperateReportInfo(ids, CommonUtil.OPERATEREPORT_OUTPUT);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -434,15 +409,5 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         }
     }
 
-    private void outPutPdf(List<DetectionDetail> detectionDetails, DetectionReport detectionReport) {
-        try {
-            DevUuid devUuid = mlService.getDevUuidInfo();
-            DrugControls drugControls = mlService.queryDrugControlsById(detectionReport.getDruginfo_id());
-            new PdfUtil(getActivity(), devUuid, handler, drugControls, detectionReport, detectionDetails).createPdf();
-            detectionReport.setIspdfdown(true);
-            mlService.saveDetectionReport(detectionReport);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

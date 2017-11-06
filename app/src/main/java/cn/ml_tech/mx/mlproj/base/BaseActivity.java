@@ -364,10 +364,14 @@ public abstract class BaseActivity extends Activity implements HeadFragment.OnFr
                             return;
                         }
                     }).show();
-
+            if (null != intent.getExtras().getString("extra")) {
+                handlerExtraInfo(intent.getExtras().getString("extra"));
+            }
         }
 
     }
+
+    protected  void handlerExtraInfo(String extra){};
 
     public class customViewGroup extends ViewGroup {
 

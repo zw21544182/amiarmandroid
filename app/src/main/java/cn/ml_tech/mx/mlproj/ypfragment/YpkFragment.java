@@ -51,6 +51,7 @@ public class YpkFragment extends BaseFragment {
     private Button btnypxNext;
     private static final int RSUCESS = 123;
     private ProgressDialog progressDialog;
+    private int size;
 
     public IMlService getmlService() {
         return mlService;
@@ -64,18 +65,14 @@ public class YpkFragment extends BaseFragment {
     private DrugAdapter.OperateToData operateToData = new DrugAdapter.OperateToData() {
         @Override
         public boolean delete(long id) {
-            if (getPermissionById(9, 5)) {
-                try {
-                    mlService.deleteDrugInfoById((int) id);
-                    mlService.deleteDrugParamById((int) id);
-                    adapter.deleteDataById((int) id);
-                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), "删除成功 原因:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                showRefuseTip();
+            try {
+                mlService.deleteDrugInfoById((int) id);
+                mlService.deleteDrugParamById((int) id);
+                adapter.deleteDataById((int) id);
+                Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "删除成功 原因:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
             return false;
         }
@@ -90,13 +87,9 @@ public class YpkFragment extends BaseFragment {
 
         @Override
         public void update(DrugControls drugControls) {
-            if (getPermissionById(9, 4)) {
-                ypjcActivity.druginfo_id = (int) drugControls.getId();
-                ypjcActivity.drugControl = drugControls;
-                ypjcActivity.moveToAddDrug();
-            } else {
-                showRefuseTip();
-            }
+            ypjcActivity.druginfo_id = (int) drugControls.getId();
+            ypjcActivity.drugControl = drugControls;
+            ypjcActivity.moveToAddDrug();
         }
     };
 
@@ -112,7 +105,8 @@ public class YpkFragment extends BaseFragment {
             public void run() {
                 super.run();
                 try {
-                    drugList = mlService.queryDrugControl();
+                    drugList = mlService.queryDrugControlByInfo("", "", "", 1);
+                    size = mlService.getNumByTableName("druginfo");
                     handler.sendEmptyMessage(RSUCESS);
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -131,7 +125,8 @@ public class YpkFragment extends BaseFragment {
         switch (message.what) {
 
             case RSUCESS:
-                setDataToView(drugList, true);
+
+                setDataToView(drugList, true, size);
                 break;
         }
     }
@@ -187,14 +182,7 @@ public class YpkFragment extends BaseFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        setPermission(((YpjcActivity) getActivity()).permission);
         initDrugs();
-        query.setVisibility(getPermissionById(7, 1) == true ? View.VISIBLE : View.INVISIBLE);
-        query.setEnabled(getPermissionById(7, 8));
-        addphonetic.setVisibility(getPermissionById(8, 1) == true ? View.VISIBLE : View.INVISIBLE);
-        addphonetic.setEnabled(getPermissionById(8, 8));
-        btnypxNext.setVisibility(getPermissionById(10, 1) == true ? View.VISIBLE : View.INVISIBLE);
-
     }
 
     public void setPreDataToView() throws RemoteException {
@@ -243,31 +231,31 @@ public class YpkFragment extends BaseFragment {
 
     }
 
-    public void setDataToView(List<DrugControls> drugList, boolean isReseting) {
-        if (getPermissionById(9, 1)) {
-            lastPage = ((int) Math.floor(drugList.size() / 20)) + 1;
-            ((TextView) view.findViewById(R.id.tvAllPage)).setText(lastPage + "");
-            if (isReseting) {
-                cuurentPage = 1;
-                ((TextView) view.findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
-                for (int i = 20; i < drugList.size(); i++) {
-                    drugList.remove(i);
-                    i--;
-                }
+    public void setDataToView(List<DrugControls> drugList, boolean isReseting, int size) {
+        lastPage = ((int) Math.floor(size / 20)) + 1;
+        ((TextView) view.findViewById(R.id.tvAllPage)).setText(lastPage + "");
+        if (isReseting) {
+            cuurentPage = 1;
+            ((TextView) view.findViewById(R.id.tvCurrentPage)).setText(cuurentPage + "/");
+            for (int i = 20; i < drugList.size(); i++) {
+                drugList.remove(i);
+                i--;
             }
-            adapter = new DrugAdapter(drugList, getActivity(), operateToData);
-            recyclerView.setAdapter(adapter);
-            Log.d("zw", "set data to view");
         }
+        adapter = new DrugAdapter(drugList, getActivity(), operateToData);
+        recyclerView.setAdapter(adapter);
+        Log.d("zw", "set data to view");
     }
+
 
     public void setDataByName(String name) {
         meName.setText(name);
         Log.d("zw", " name " + name);
         try {
-            List<DrugControls> drugControlses = mlService.queryDrugControlByInfo(name, "", "", -1);
-            Log.d("zw", " drugcontrol size " + drugControlses.size());
-            setDataToView(drugControlses, true);
+            List<DrugControls> drugControlses = mlService.queryDrugControlByInfo(name, "", "", 1);
+            size = mlService.getNumByTableName("druginfo");
+
+            setDataToView(drugControlses, true, size);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

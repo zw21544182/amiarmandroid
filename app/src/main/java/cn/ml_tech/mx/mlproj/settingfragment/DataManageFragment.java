@@ -9,8 +9,6 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,20 +17,20 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import cn.ml_tech.mx.mlproj.customview.MyHorizontalScrollView;
-import cn.ml_tech.mx.mlproj.customview.SystemSetUp.DataItmeView;
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.base.BaseFragment;
-import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlproj.customview.MyHorizontalScrollView;
+import cn.ml_tech.mx.mlproj.customview.SystemSetUp.DataItmeView;
 import cn.ml_tech.mx.mlservice.DAO.Modern;
 import cn.ml_tech.mx.mlservice.IMlService;
 
@@ -168,7 +166,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                 try {
                     filedNames = mlService.getFieldByName(tableName);
 
-                    modern = mlService.getDataByTableName(tableName);
+                    modern = mlService.getDataByTableName(tableName, 1);
                     handler.sendEmptyMessage(SUCESS);
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -182,32 +180,73 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
     }
 
     private void initFiledInfo() {
-        toplayout.removeAllViews();
-        LinearLayout linearLayout = new LinearLayout(getActivity());
-        CheckBox checkBox = new CheckBox(getActivity());
-        checkBox.setBackgroundResource(R.color.colorheadLine);
-        linearLayout.setBackgroundResource(R.color.colorheadLine);
-        LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        checkBox.setLayoutParams(checkParams);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                tableAdapter.setAllChecked(isChecked);
+        Log.d("Zw", "count " + toplayout.getChildCount());
+        for (int c = 0; c < toplayout.getChildCount(); c++) {
+            View view = toplayout.getChildAt(c);
+            view.setVisibility(View.GONE);
+            if (view instanceof TextView) {
+                TextView textView = (TextView) view;
+                textView.setText("");
             }
-        });
-        linearLayout.addView(checkBox);
-        toplayout.addView(linearLayout);
-        if (filedNames != null) {
-            for (String name : filedNames) {
-                Log.d("zw", name);
-                DataItmeView dataItmeView = new DataItmeView(getActivity(), null);
-                dataItmeView.setContentValue(name);
-                dataItmeView.setContentEdit(false);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-                dataItmeView.setLayoutParams(layoutParams);
-                toplayout.addView(dataItmeView);
+            if (view instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) view;
+                checkBox.setChecked(false);
             }
         }
+        int index = 0;
+        for (int i = 0; i < toplayout.getChildCount(); i++) {
+            View view = toplayout.getChildAt(i);
+            if (view instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) view;
+                checkBox.setVisibility(View.VISIBLE);
+                checkBox.setBackgroundResource(R.color.colorheadLine);
+                toplayout.setBackgroundResource(R.color.colorheadLine);
+                LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                checkBox.setLayoutParams(checkParams);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        tableAdapter.setAllChecked(isChecked);
+                    }
+                });
+            }
+            if (view instanceof View) {
+                view.setVisibility(View.VISIBLE);
+            }
+            if (view instanceof TextView) {
+                if (index == filedNames.size()) {
+                    break;
+                }
+                TextView textView = (TextView) view;
+                textView.setText(filedNames.get(index));
+                index++;
+            }
+        }
+        //        LinearLayout linearLayout = new LinearLayout(getActivity());
+//        CheckBox checkBox = new CheckBox(getActivity());
+//        checkBox.setBackgroundResource(R.color.colorheadLine);
+//        linearLayout.setBackgroundResource(R.color.colorheadLine);
+//        LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        checkBox.setLayoutParams(checkParams);
+//        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                tableAdapter.setAllChecked(isChecked);
+//            }
+//        });
+//        linearLayout.addView(checkBox);
+//        toplayout.addView(linearLayout);
+//        if (filedNames != null) {
+//            for (String name : filedNames) {
+//                Log.d("zw", name);
+//                DataItmeView dataItmeView = new DataItmeView(getActivity(), null);
+//                dataItmeView.setContentValue(name);
+//                dataItmeView.setContentEdit(false);
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
+//                dataItmeView.setLayoutParams(layoutParams);
+//                toplayout.addView(dataItmeView);
+//            }
+//        }
 
     }
 
@@ -274,6 +313,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         private Map<Integer, List<String>> data;
         private List<String> pos;
         private List<Boolean> checks;
+        private int size;
 
         public List<String> getPos() {
             return pos;
@@ -284,7 +324,10 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             checks = new ArrayList<>();
             this.context = context;
             this.data = data;
-
+            for (Map.Entry<Integer, List<String>> entry : data.entrySet()) {
+                size = entry.getValue().size();
+                break;
+            }
             for (int i = 0; i < data.size(); i++) {
                 checks.add(false);
             }
@@ -326,6 +369,10 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             this.data.clear();
             pos.clear();
             this.data.putAll(data);
+            for (Map.Entry<Integer, List<String>> entry : data.entrySet()) {
+                size = entry.getValue().size();
+                break;
+            }
             checks.clear();
             for (int i = 0; i < data.size(); i++) {
                 checks.add(false);
@@ -345,60 +392,94 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, final int position) {
-            holder.linearLayout.removeAllViews();
-            final CheckBox checkBox = new CheckBox(getActivity());
-            checkBox.setBackgroundResource(R.color.colorheadLine);
-            LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            checkBox.setLayoutParams(checkParams);
-            checkBox.setChecked(checks.get(position));
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    checks.set(position, isChecked);
-                    if (isChecked) {
-                        pos.add(data.get(position).get(0));
+            int viewSize = holder.linearLayout.getChildCount();
+            int dex = 0;
+            List<String> datas = data.get(position);
+            for (int i = 0; i < viewSize; i++
+                    ) {
+                View view = holder.linearLayout.getChildAt(i);
+                if (view instanceof CheckBox) {
+                    CheckBox checkBox = (CheckBox) view;
+                    checkBox.setBackgroundResource(R.color.colorheadLine);
+                    LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    checkBox.setLayoutParams(checkParams);
+                    checkBox.setChecked(checks.get(position));
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            checks.set(position, isChecked);
+                            if (isChecked) {
+                                pos.add(data.get(position).get(0));
+                            } else {
+                                pos.remove(data.get(position).get(0));
+                            }
+                        }
+                    });
+                }
+                if (view instanceof DataItmeView) {
+                    DataItmeView dataItmeView = (DataItmeView) view;
+                    if (dex == 0)
+                        dataItmeView.setContentEdit(false);
+                    if (dex < datas.size()) {
+                        String value = datas.get(dex);
+                        dataItmeView.setContentValue(value);
+                        dex++;
                     } else {
-                        pos.remove(data.get(position).get(0));
+                       break;
                     }
                 }
-            });
-            holder.linearLayout.addView(checkBox);
-            final List<String> datas = data.get(position);
-            for (int i = 0; i < datas.size(); i++) {
-                String value = datas.get(i);
-                DataItmeView dataItmeView = new DataItmeView(getActivity(), null);
-                dataItmeView.setContentValue(value);
-                if (i == 0)
-                    dataItmeView.setContentEdit(false);
-                dataItmeView.setBackGroudColor(R.color.colorWhite);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-                dataItmeView.setLayoutParams(layoutParams);
-                holder.linearLayout.addView(dataItmeView);
-                EditText content = dataItmeView.getContentView();
-                final int finalI = i;
-                content.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        data.get(position).set(finalI, s.toString());
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
-
             }
+            //            holder.linearLayout.removeAllViews();
+//            final CheckBox checkBox = new CheckBox(getActivity());
+//            checkBox.setBackgroundResource(R.color.colorheadLine);
+//            LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            checkBox.setLayoutParams(checkParams);
+//            checkBox.setChecked(checks.get(position));
+//            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    checks.set(position, isChecked);
+//                    if (isChecked) {
+//                        pos.add(data.get(position).get(0));
+//                    } else {
+//                        pos.remove(data.get(position).get(0));
+//                    }
+//                }
+//            });
+//            holder.linearLayout.addView(checkBox);
+//            final List<String> datas = data.get(position);
+//            for (int i = 0; i < datas.size(); i++) {
+//                String value = datas.get(i);
+//                DataItmeView dataItmeView = new DataItmeView(getActivity(), null);
+//            dataItmeView.setContentValue(value);
+//                if (i == 0)
+//                    dataItmeView.setContentEdit(false);
+//                dataItmeView.setBackGroudColor(R.color.colorWhite);
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
+//                dataItmeView.setLayoutParams(layoutParams);
+//                holder.linearLayout.addView(dataItmeView);
+//                EditText content = dataItmeView.getContentView();
+//                final int finalI = i;
+//                content.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                        data.get(position).set(finalI, s.toString());
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(Editable s) {
+//
+//                    }
+//                });
+//
+//            }
 
         }
 
-        /**
-         * @return
-         */
         @Override
         public int getItemCount() {
             return data.size();

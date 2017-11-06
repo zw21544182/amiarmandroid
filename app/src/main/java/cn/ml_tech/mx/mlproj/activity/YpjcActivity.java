@@ -36,7 +36,6 @@ import cn.ml_tech.mx.mlservice.DAO.DetectionReport;
 import cn.ml_tech.mx.mlservice.DAO.DrugControls;
 import cn.ml_tech.mx.mlservice.DAO.DrugParam;
 import cn.ml_tech.mx.mlservice.DAO.Factory;
-import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class YpjcActivity extends BaseActivity implements View.OnClickListener,
@@ -68,6 +67,7 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
     private AmiApp amiApp;
     private boolean isPermissionSucess = false;
     private ProgressDialog progressDialog;
+    private int size;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -75,15 +75,8 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
             if (progressDialog != null && progressDialog.isShowing())
                 progressDialog.dismiss();
             switch (msg.what) {
-                case PERMISSIONSUCESS:
-                    isPermissionSucess = true;
-                    ypjcFragment = (YpjcFragment) switchContentFragment(YpjcFragment.class.getSimpleName());
-                    break;
-                case PERMISSIONFAILURE:
-                    showToast("权限验证失败");
-                    break;
                 case QUERYSUCESS:
-                    ypkFragment.setDataToView(drugControlses, true);
+                    ypkFragment.setDataToView(drugControlses, true, size);
                     break;
                 case QUERYFALUSE:
                     showToast("查询失败，重试");
@@ -97,37 +90,21 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void doAfterGetService() {
         amiApp = (AmiApp) getApplication();
-        if (progressDialog == null)
-            progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("数据加载中....");
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+
         new Thread() {
             @Override
             public void run() {
                 super.run();
-                String url = "";
                 try {
                     mService.addAudittrail(5, 5, "", CommonUtil.ENTERDRUGDETECTION);
-                    for (P_Source p_source : amiApp.getP_sources()
-                            ) {
-                        if (p_source.getId() == 15) {
-                            url = p_source.getUrl();
-                            Log.d("zw", url);
-                            break;
-                        }
-                    }
-                    if (mService != null)
-                        permission = mService.getPermissonByUrl(url, false);
-                    handler.sendEmptyMessage(PERMISSIONSUCESS);
                 } catch (RemoteException e) {
                     e.printStackTrace();
-                    handler.sendEmptyMessage(PERMISSIONFAILURE);
 
                 }
             }
         }.start();
+        ypjcFragment = (YpjcFragment) switchContentFragment(YpjcFragment.class.getSimpleName());
+
     }
 
     @Override
@@ -209,15 +186,12 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 ypjccFragment = (YpjccFragment) switchContentFragment(YpjccFragment.class.getSimpleName());
                 break;
             case R.id.btnypxNext:
-                if (ypkFragment.getPermissionById(10, 8)) {
-                    detectionReport.setDruginfo_id(drugControl.getId());
-                    detectionReport.setDrugName(drugControl.getDrugName());
-                    detectionReport.setFactoryName(drugControl.getDrugFactory());
-                    YpjcjFragment = (YpjcjFragment) switchContentFragment(YpjcjFragment.class.getSimpleName());
+                detectionReport.setDruginfo_id(drugControl.getId());
+                detectionReport.setDrugName(drugControl.getDrugName());
+                detectionReport.setFactoryName(drugControl.getDrugFactory());
+                YpjcjFragment = (YpjcjFragment) switchContentFragment(YpjcjFragment.class.getSimpleName());
 
-                } else {
-                    showToast("拒绝访问");
-                }
+
                 break;
             case R.id.bt_back:
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
@@ -267,20 +241,17 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 ypxaFragment = (YpxaFragment) switchContentFragment(YpxaFragment.class.getSimpleName());
                 break;
             case R.id.btnSaveFactory:
-                if (ypxaFragment.getPermissionById(12, 3)) {
-                    Factory factory = ypxaFragment.getFactory();
-                    try {
-                        if (factory != null) {
-                            mService.addFactory(factory.getName(), factory.getAddress(), factory.getPhone(), factory.getFax(), factory.getMail(), factory.getContactName(), factory.getContactPhone(), factory.getWebSite(), factory.getProvince_code(), factory.getCity_code(), factory.getArea_code());
-                        }
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
+                Factory factory = ypxaFragment.getFactory();
+                try {
+                    if (factory != null) {
+                        mService.addFactory(factory.getName(), factory.getAddress(), factory.getPhone(), factory.getFax(), factory.getMail(), factory.getContactName(), factory.getContactPhone(), factory.getWebSite(), factory.getProvince_code(), factory.getCity_code(), factory.getArea_code());
                     }
-                    ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
-                    ypxxFragment.setmService(mService);
-                } else {
-                    showToast("拒绝访问");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
+                ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
+                ypxxFragment.setmService(mService);
+
                 break;
             case R.id.btnypxjPre:
                 ypxxFragment = (YpxxFragment) switchContentFragment(YpxxFragment.class.getSimpleName());
@@ -290,10 +261,7 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 ypjqFragment = (YpjqFragment) switchContentFragment(YpjqFragment.class.getSimpleName());
                 break;
             case R.id.btSave:
-                ypjcFragment.setPermission(permission);
-                if (!ypjcFragment.getPermissionById(8, 3)) {
-                    showToast("拒绝访问");
-                }
+
                 try {
                     data.putAll(ypjqFragment.getData());
                     Log.d("zw", "drugid" + druginfo_id);
@@ -362,11 +330,12 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
             public void run() {
                 super.run();
                 try {
-                    int page = -1;
+                    int page = 1;
                     String name = ypkFragment.getDrugName();
                     String pinyin = ypkFragment.getPinyin();
                     String enname = ypkFragment.getEnName();
                     drugControlses = mService.queryDrugControlByInfo(name, pinyin, enname, page);
+                    size = mService.getNumByTableName("druginfo");
                     handler.sendEmptyMessage(QUERYSUCESS);
                 } catch (RemoteException e) {
                     e.printStackTrace();

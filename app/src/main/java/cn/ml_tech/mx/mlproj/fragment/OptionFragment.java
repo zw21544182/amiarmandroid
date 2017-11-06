@@ -9,13 +9,12 @@ import android.widget.ImageButton;
 
 import java.util.Map;
 
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.activity.CsbdActivity;
 import cn.ml_tech.mx.mlproj.activity.JcsjcxActivity;
-import cn.ml_tech.mx.mlproj.activity.LoginActivity;
 import cn.ml_tech.mx.mlproj.activity.XtwhActivity;
-import cn.ml_tech.mx.mlproj.base.BaseFragment;
-import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.activity.YpjcActivity;
+import cn.ml_tech.mx.mlproj.base.BaseFragment;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class OptionFragment extends BaseFragment implements View.OnClickListener {
@@ -53,25 +52,7 @@ public class OptionFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        permission = ((LoginActivity) getActivity()).getPermission();
-        isPermission = ((LoginActivity) getActivity()).isPermission();
-        perData = permission.getPermissiondata();
-        if (!perData.get(getTitleById(6) + getOperateNameById(1)))
-            ibCsbd.setVisibility(View.INVISIBLE);
-        else
-            ibCsbd.setVisibility(View.VISIBLE);
-        if (!perData.get(getTitleById(15) + getOperateNameById(1)))
-            ibYpjc.setVisibility(View.INVISIBLE);
-        else
-            ibYpjc.setVisibility(View.VISIBLE);
-        if (!perData.get(getTitleById(19) + getOperateNameById(1)))
-            ibSjcx.setVisibility(View.INVISIBLE);
-        else
-            ibSjcx.setVisibility(View.VISIBLE);
-        if (!perData.get(getTitleById(27) + getOperateNameById(1)))
-            ibXtwh.setVisibility(View.INVISIBLE);
-        else
-            ibXtwh.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -79,33 +60,22 @@ public class OptionFragment extends BaseFragment implements View.OnClickListener
         Intent intent = null;
         switch (v.getId()) {
             case R.id.ibCsbd:
-                if (perData.get(getTitleById(6) + getOperateNameById(8))) {
                     intent = new Intent(getActivity(), CsbdActivity.class);
                     startActivity(intent);
-                } else {
-                    showRefuseTip();
-                }
                 break;
             case R.id.ibYpjc:
-                if (perData.get(getTitleById(15) + getOperateNameById(8))) {
                     intent = new Intent(getActivity(), YpjcActivity.class);
                     startActivity(intent);
-                } else {
-                    showRefuseTip();
-                }
+
                 break;
             case R.id.ibSjcx:
-                if (perData.get(getTitleById(19) + getOperateNameById(8))) {
                     intent = new Intent(getActivity(), JcsjcxActivity.class);
                     startActivity(intent);
-                } else showRefuseTip();
                 break;
             case R.id.ibXtwh:
-                if (perData.get(getTitleById(27) + getOperateNameById(8))) {
                     intent = new Intent(getActivity(), XtwhActivity.class);
                     startActivity(intent);
-                } else showRefuseTip();
-                break;
+                 break;
             default:
         }
     }

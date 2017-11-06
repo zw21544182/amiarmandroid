@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="仪器参数标定" />
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="开始标定" />
+
+        <CheckBox
+            android:id="@+id/cbBdLook"
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看" />
+
+        <CheckBox
+            android:id="@+id/cbBdCheck"
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查询" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="260dp"
+            android:gravity="start"
+            android:text="标定50um粒子" />
+
+        <CheckBox
+            android:id="@+id/cbLzLook"
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看" />
+
+        <CheckBox
+            android:id="@+id/cbLzExcute"
+
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="执行" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="260dp"
+            android:gravity="start"
+            android:text="应用" />
+
+        <CheckBox
+            android:id="@+id/cbYyLook"
+
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看" />
+
+
+        <CheckBox
+            android:id="@+id/cbYyExcute"
+
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="执行" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="260dp"
+            android:gravity="start"
+            android:text="导出文件" />
+
+        <CheckBox
+            android:id="@+id/cbExLook"
+
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看" />
+
+        <CheckBox
+            android:id="@+id/cbExExcute"
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="执行" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="260dp"
+            android:gravity="start"
+            android:text="标定结果" />
+
+        <CheckBox
+            android:id="@+id/cbResLook"
+
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="260dp"
+            android:gravity="start"
+            android:text="仪器参数标定" />
+
+        <CheckBox
+            android:id="@+id/cbPaLook"
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看" />
+
+        <CheckBox
+            android:id="@+id/cbPaExcute"
+
+            style="@style/CheckBox_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="执行" />
+    </LinearLayout>
+
+
+</LinearLayout>

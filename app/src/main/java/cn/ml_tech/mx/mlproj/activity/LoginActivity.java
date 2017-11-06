@@ -103,19 +103,6 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
     @Override
     protected void onRestart() {
         super.onRestart();
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    permission = mService.getPermissonByUrl("", true);
-                    handler.sendEmptyMessage(RESTARTSUCESS);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    handler.sendEmptyMessage(GETPERMISSIONFAILURE);
-                }
-            }
-        }.start();
 
     }
 
@@ -205,8 +192,7 @@ public class LoginActivity extends BaseActivity implements BottomFragment.OnFrag
                                 try {
                                     long userid = mService.getUserId();
                                     app.setUserid(userid);
-                                    permission = mService.getPermissonByUrl("", true);
-                                    handler.sendEmptyMessage(GETPERMISSIONSUCESS);
+                                   handler.sendEmptyMessage(GETPERMISSIONSUCESS);
                                 } catch (RemoteException e) {
                                     e.printStackTrace();
                                     handler.sendEmptyMessage(GETPERMISSIONFAILURE);

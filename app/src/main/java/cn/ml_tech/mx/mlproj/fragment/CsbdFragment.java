@@ -19,10 +19,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ml_tech.mx.mlproj.customview.DrugStandardCheck.WorkflowitemView;
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.activity.CsbdActivity;
 import cn.ml_tech.mx.mlproj.base.BaseFragment;
-import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlproj.customview.DrugStandardCheck.WorkflowitemView;
+import cn.ml_tech.mx.mlproj.util.CommonUtil;
 import cn.ml_tech.mx.mlproj.util.ReceiverUtil;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
@@ -87,16 +88,6 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
     public void initData(@Nullable Bundle savedInstanceState) {
         csbdActivity = (CsbdActivity) getActivity();
         permission = csbdActivity.permission;
-        if (permission.getPermissiondata().get(getTitleById(1) + getOperateNameById(1)))
-            btStart.setVisibility(View.VISIBLE);
-        else btStart.setVisibility(View.INVISIBLE);
-        if (permission.getPermissiondata().get(getTitleById(3) + getOperateNameById(1)))
-            btApply.setVisibility(View.VISIBLE);
-        else btApply.setVisibility(View.INVISIBLE);
-        if (permission.getPermissiondata().get(getTitleById(4) + getOperateNameById(1)))
-            btExport.setVisibility(View.VISIBLE);
-        else btExport.setVisibility(View.INVISIBLE);
-        ltresult.setVisibility(permission.getPermissiondata().get(getTitleById(5) + getOperateNameById(1)) == true ? View.VISIBLE : View.INVISIBLE);
         initReceiver();
     }
 
@@ -150,15 +141,13 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
                 getActivity().finish();
                 break;
             case R.id.btStart:
-                if (permission.getPermissiondata().get((getTitleById(1) + getOperateNameById(8)))) {
-                    try {
-                        mlService.startCalibration();
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    showRefuseTip();
+
+                try {
+                    mlService.autoDebug(CommonUtil.AUTOEBUG_CALIBRATE, 1);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
+
                 break;
         }
     }
@@ -180,6 +169,14 @@ public class CsbdFragment extends BaseFragment implements View.OnClickListener {
                         workflowitemViewList.get(i).setBackgroundColor(Color.RED);
                         workflowitemViewList.get(i).setTextcolor(Color.GREEN);
                     }
+
+                }
+                if (state == 3 || state == 4) {
+                    workflowitemViewList.get(3).setBackgroundColor(Color.RED);
+                    workflowitemViewList.get(3).setTextcolor(Color.GREEN);
+                    workflowitemViewList.get(4).setBackgroundColor(Color.RED);
+                    workflowitemViewList.get(4).setTextcolor(Color.GREEN);
+
 
                 }
                 tvNotice.setText("标定参数进行中");

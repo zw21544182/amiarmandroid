@@ -6,14 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.RemoteException;
-import android.util.Log;
 
 import cn.ml_tech.mx.mlproj.base.AmiApp;
 import cn.ml_tech.mx.mlproj.base.BaseActivity;
 import cn.ml_tech.mx.mlproj.fragment.BottomFragment;
 import cn.ml_tech.mx.mlproj.fragment.CsbdFragment;
-import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class CsbdActivity extends BaseActivity implements BottomFragment.OnFragmentInteractionListener {
@@ -58,22 +55,8 @@ public class CsbdActivity extends BaseActivity implements BottomFragment.OnFragm
             public void run() {
                 super.run();
                 String url = "";
-                try {
-                    for (P_Source p_source : amiApp.getP_sources()
-                            ) {
-                        if (p_source.getId() == 6) {
-                            url = p_source.getUrl();
-                            Log.d("zw", url);
-                            break;
-                        }
-                    }
-                    if (mService != null)
-                        permission = mService.getPermissonByUrl(url, false);
-                    handler.sendEmptyMessage(PERMISSIONSUCESS);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    handler.sendEmptyMessage(PERMISSIONFAILURE);
-                }
+                handler.sendEmptyMessage(PERMISSIONSUCESS);
+
             }
         }.start();
     }

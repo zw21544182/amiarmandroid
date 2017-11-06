@@ -9,11 +9,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import java.util.List;
-
 import cn.ml_tech.mx.mlproj.util.CommonUtil;
-import cn.ml_tech.mx.mlservice.DAO.P_Operator;
-import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.IMlService;
 
 /**
@@ -22,8 +18,7 @@ import cn.ml_tech.mx.mlservice.IMlService;
 public class AmiApp extends Application {
     private IMlService mMLService;
     private static Context context;
-    private List<P_Source> p_sources;
-    private List<P_Operator> p_operators;
+
 
     public AmiApp() {
         this.isLogined = false;
@@ -49,9 +44,7 @@ public class AmiApp extends Application {
                 mMLService = IMlService.Stub.asInterface(service);
                 try {
                     mMLService.addAudittrail(5, 5, "", CommonUtil.POWERON);
-                    p_operators = mMLService.getAllP_Operator();
-                    p_sources = mMLService.getAllP_Source();
-                } catch (RemoteException e) {
+                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
 
@@ -95,13 +88,6 @@ public class AmiApp extends Application {
         isLogined = logined;
     }
 
-    public List<P_Source> getP_sources() {
-        return p_sources;
-    }
-
-    public List<P_Operator> getP_operators() {
-        return p_operators;
-    }
     private long userid ;
 
     public long getUserid() {

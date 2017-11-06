@@ -36,7 +36,16 @@
             android:id="@+id/rootLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical">
+
+            <include layout="@layout/layout_instrumentparam" />
+
+            <include layout="@layout/layout_drugcheck" />
+
+            <include layout="@layout/layout_checkdata" />
+
+            <include layout="@layout/layout_systemparam" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

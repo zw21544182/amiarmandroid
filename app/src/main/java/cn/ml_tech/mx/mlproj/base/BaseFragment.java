@@ -1,4 +1,5 @@
 package cn.ml_tech.mx.mlproj.base;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,20 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.List;
-
-import cn.ml_tech.mx.mlservice.DAO.P_Operator;
-import cn.ml_tech.mx.mlservice.DAO.P_Source;
-import cn.ml_tech.mx.mlservice.DAO.Permission;
 import cn.ml_tech.mx.mlservice.IMlService;
+
 public abstract class BaseFragment extends Fragment {
     public BaseActivity mActivity;
     public View view;
     public IMlService mlService;
     public AmiApp amiApp;
-    public List<P_Operator> p_operators;
-    public List<P_Source> p_sources;
-    private Permission permission;
     protected Handler handler;
 
     public BaseFragment() {
@@ -68,54 +62,14 @@ public abstract class BaseFragment extends Fragment {
         mActivity = (BaseActivity) getActivity();
         amiApp = (AmiApp) mActivity.getApplication();
         mlService = amiApp.getmMLService();
-        p_operators = amiApp.getP_operators();
-        p_sources = amiApp.getP_sources();
         initData(savedInstanceState);
         initEvent();
     }
 
-    public void setPermission(Permission permission) {
-        this.permission = permission;
-    }
 
-
-    public boolean getPermissionById(long sourceId, long operateId) {
-        return permission.getPermissiondata().get(getPermissionTextById(sourceId, operateId));
-    }
-
-    public void showRefuseTip() {
-        showToast("拒绝访问");
-    }
-
-    public String getTitleById(long id) {
-        String result = "";
-        for (P_Source p_source :
-                p_sources
-                ) {
-            if (p_source.getId() == id) {
-                result = p_source.getTitle();
-                break;
-            }
-        }
-        return result;
-    }
-
-    public String getPermissionTextById(long sourceId, long operateId) {
-        return getTitleById(sourceId) + getOperateNameById(operateId);
-    }
-
-    public String getOperateNameById(long id) {
-        String result = "";
-        for (P_Operator p_operator :
-                p_operators) {
-            if (p_operator.getId() == id) {
-                result = p_operator.getTitle();
-                break;
-        }
-        }
-        return result;
-    }
     public abstract View initView(LayoutInflater inflater);
+
     public abstract void initFindViewById(View view);
+
     public abstract void initData(@Nullable Bundle savedInstanceState);
 }

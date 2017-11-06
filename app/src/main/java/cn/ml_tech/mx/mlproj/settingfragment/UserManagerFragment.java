@@ -24,13 +24,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ml_tech.mx.mlproj.adapter.StringAdapter;
-import cn.ml_tech.mx.mlproj.base.AmiApp;
-import cn.ml_tech.mx.mlproj.base.BaseFragment;
 import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.activity.XtwhActivity;
+import cn.ml_tech.mx.mlproj.adapter.StringAdapter;
+import cn.ml_tech.mx.mlproj.base.BaseFragment;
 import cn.ml_tech.mx.mlproj.fragment.XtwhFragment;
-import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.User;
 import cn.ml_tech.mx.mlservice.DAO.UserType;
 
@@ -77,21 +75,8 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     initUserInfo();
                     break;
                 case INITDATASUCESS:
-                    if (getPermissionById(20, 2)) {
-                        initUserTypeInfo();
-                        initUserInfo();
-                    } else {
-                        if (recyleUserAdapter == null) {
-                            recyleUserAdapter = new RecyleUserAdapter(listUser, getActivity(), itmeClick);
-                            rcvUser.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            rcvUser.setAdapter(recyleUserAdapter);
-                            recyleUserAdapter.clearAll();
-                        } else {
-                            recyleUserAdapter.clearAll();
-
-
-                        }
-                    }
+                    initUserTypeInfo();
+                    initUserInfo();
                     break;
                 case INITDATAFAILURE:
                     showToast("加载失败");
@@ -134,54 +119,36 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
     private OnItmeClick itmeClick = new OnItmeClick() {
         @Override
         public void update(User user) {
-            if (getPermissionById(20, 4)) {
-                if (getPermissionById(20, 9)) {
-                    if (user.getId() != ((AmiApp) getActivity().getApplication()).getUserid()) {
-                        showToast("仅能操作自身张账号");
-                        return;
-                    }
-                }
-                mUser = user;
-                setUserInfoToView(user);
-            } else {
-                showRefuseTip();
-            }
+            mUser = user;
+            setUserInfoToView(user);
         }
 
         @Override
         public void delete(final long id) {
-            if (getPermissionById(20, 5)) {
-                if (getPermissionById(20, 9)) {
-                    if (id != ((AmiApp) getActivity().getApplication()).getUserid()) {
-                        showToast("仅能操作自身张账号");
-                        return;
-                    }
-                }
-                if (progressDialog == null) {
-                    progressDialog = new ProgressDialog(getActivity());
-                }
-                progressDialog.setTitle("操作中...");
-                progressDialog.show();
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        try {
-                            Log.d("zw", "delete data");
-                            mlService.deleteUserById(id);
-                            listUser = mlService.getUserList();
-                            handler.sendEmptyMessage(OPERATESUCESS);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                            handler.sendEmptyMessage(OPERATEFAILURE);
 
-                        }
-
-                    }
-                }.start();
-            } else {
-                showRefuseTip();
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(getActivity());
             }
+            progressDialog.setTitle("操作中...");
+            progressDialog.show();
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        Log.d("zw", "delete data");
+                        mlService.deleteUserById(id);
+                        listUser = mlService.getUserList();
+                        handler.sendEmptyMessage(OPERATESUCESS);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                        handler.sendEmptyMessage(OPERATEFAILURE);
+
+                    }
+
+                }
+            }.start();
+
         }
     };
 
@@ -250,24 +217,13 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                 super.run();
                 String url = "";
                 try {
-                    for (P_Source p_source : amiApp.getP_sources()
-                            ) {
-                        if (p_source.getId() == 27) {
-                            url = p_source.getUrl();
-                            break;
-                        }
-                    }
-                    setPermission(mlService.getPermissonByUrl(url, false));
                     if (mlService != null) {
                         listUser = mlService.getUserList();
                         userTypes = mlService.getAllUserType();
                         handler.sendEmptyMessage(INITDATASUCESS);
-
                     } else {
                         handler.sendEmptyMessage(INITDATAFAILURE);
-
                     }
-
 
                 } catch (RemoteException e) {
                     handler.sendEmptyMessage(INITDATAFAILURE);
@@ -296,12 +252,8 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSave:
-                if (mUser == null && getPermissionById(20, 3)) {
-                    mUser = new User();
-                } else if (mUser == null && !getPermissionById(20, 3)) {
-                    showRefuseTip();
-                    return;
-                }
+                mUser = new User();
+
                 mUser.setIsEnable(chbEnable.isChecked() ? 1 : 0);
                 if (!TextUtils.isEmpty(etNickName.getEditableText().toString())) {
                     mUser.setUserId(etNickName.getEditableText().toString());
@@ -448,13 +400,8 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     itmeClick.update(user);
                     break;
                 case R.id.txtDel:
-                    if (getPermissionById(20, 5)) {
-                        long id = (long) v.getTag();
-                        itmeClick.delete(id);
-                    } else {
-                        showRefuseTip();
-
-                    }
+                    long id = (long) v.getTag();
+                    itmeClick.delete(id);
                     break;
             }
         }

@@ -14,9 +14,9 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.base.AmiApp;
 import cn.ml_tech.mx.mlproj.base.BaseFragment;
-import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.settingfragment.AddTypeFragment;
 import cn.ml_tech.mx.mlproj.settingfragment.AuditTrackFragment;
 import cn.ml_tech.mx.mlproj.settingfragment.CamParamsFragment;
@@ -31,7 +31,6 @@ import cn.ml_tech.mx.mlproj.settingfragment.SysConfigFragment;
 import cn.ml_tech.mx.mlproj.settingfragment.TrayManagerFragment;
 import cn.ml_tech.mx.mlproj.settingfragment.UserManagerFragment;
 import cn.ml_tech.mx.mlproj.util.CommonUtil;
-import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class XtwhFragment extends BaseFragment {
@@ -62,7 +61,6 @@ public class XtwhFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case PERSUCESS:
-                    initStartFragment();
                     initPermission();
                     break;
                 case PERFAILURE:
@@ -77,13 +75,6 @@ public class XtwhFragment extends BaseFragment {
      * 根据权限设置子模块是否可见
      */
     private void initPermission() {
-        view.findViewById(R.id.rbUserManage).setVisibility(permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
-        view.findViewById(R.id.rbTrayManage).setVisibility(permission.getPermissiondata().get(getTitleById(21) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
-        view.findViewById(R.id.rbSystemConfig).setVisibility(permission.getPermissiondata().get(getTitleById(22) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
-        view.findViewById(R.id.rbAuditTrack).setVisibility(permission.getPermissiondata().get(getTitleById(23) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
-        view.findViewById(R.id.rbpermissTrack).setVisibility(permission.getPermissiondata().get(getTitleById(24) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
-        view.findViewById(R.id.rbProgramUpdate).setVisibility(permission.getPermissiondata().get(getTitleById(25) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
-        view.findViewById(R.id.rbLogShow).setVisibility(permission.getPermissiondata().get(getTitleById(26) + getOperateNameById(1)) == true ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -291,42 +282,13 @@ public class XtwhFragment extends BaseFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         amiApp = (AmiApp) getActivity().getApplication();
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                String url = "";
-                for (P_Source p_source :
-                        amiApp.getP_sources()) {
-                    if (p_source.getId() == 27) {
-                        url = p_source.getUrl();
-                        break;
-                    }
-                }
-                try {
-                    permission = mlService.getPermissonByUrl(url, false);
-                    handler.sendEmptyMessage(PERSUCESS);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    handler.sendEmptyMessage(PERFAILURE);
-                }
-            }
-        }.start();
     }
 
     private void initStartFragment() {
-        if (permission.getPermissiondata().get(getTitleById(20) + getOperateNameById(1))) {
-            ((RadioButton) view.findViewById(R.id.rbUserManage)).setChecked(true);
-            if (userManagerFragment == null) ;
-            userManagerFragment = new UserManagerFragment();
-            switchFragment(userManagerFragment);
-        } else {
-
-            if (instrumManageFragment == null)
-                instrumManageFragment = new InstrumManageFragment();
-            switchFragment(instrumManageFragment);
-        }
-
+        ((RadioButton) view.findViewById(R.id.rbUserManage)).setChecked(true);
+        if (userManagerFragment == null) ;
+        userManagerFragment = new UserManagerFragment();
+        switchFragment(userManagerFragment);
     }
 
     private void switchFragment(Fragment fragment) {

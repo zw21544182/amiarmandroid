@@ -1,23 +1,18 @@
 package cn.ml_tech.mx.mlproj.activity;
 
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.base.AmiApp;
 import cn.ml_tech.mx.mlproj.base.BaseActivity;
 import cn.ml_tech.mx.mlproj.fragment.BottomFragment;
 import cn.ml_tech.mx.mlproj.fragment.JcsjcxFragment;
-import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.util.CommonUtil;
-import cn.ml_tech.mx.mlservice.DAO.P_Source;
 import cn.ml_tech.mx.mlservice.DAO.Permission;
 
 public class JcsjcxActivity extends BaseActivity implements
@@ -28,35 +23,14 @@ public class JcsjcxActivity extends BaseActivity implements
     private boolean isPermissionSucess = false;
     Permission permission;
     private AmiApp amiApp;
-    private ProgressDialog progressDialog;
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (progressDialog != null && progressDialog.isShowing())
-                progressDialog.dismiss();
-            switch (msg.what) {
-                case PERMISSIONSUCESS:
-                    isPermissionSucess = true;
-                    jcsjcxFragment = (JcsjcxFragment) switchContentFragment(JcsjcxFragment.class.getSimpleName());
-                    break;
-                case PERMISSIONFAILURE:
-                    showToast("权限验证失败");
-                    break;
-            }
-        }
-    };
+
     private Button btnBack;
 
     @Override
     public void doAfterGetService() {
         amiApp = (AmiApp) getApplication();
-        if (progressDialog == null)
-            progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("数据加载中....");
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+        jcsjcxFragment = (JcsjcxFragment) switchContentFragment(JcsjcxFragment.class.getSimpleName());
+
         new Thread() {
             @Override
             public void run() {
@@ -64,20 +38,8 @@ public class JcsjcxActivity extends BaseActivity implements
                 String url = "";
                 try {
                     mService.addAudittrail(5, 5, "", CommonUtil.ENTERDRUGSTANDARD);
-                    for (P_Source p_source : amiApp.getP_sources()
-                            ) {
-                        if (p_source.getId() == 19) {
-                            url = p_source.getUrl();
-                            Log.d("zw", url);
-                            break;
-                        }
-                    }
-                    if (mService != null)
-                        permission = mService.getPermissonByUrl(url, false);
-                    handler.sendEmptyMessage(PERMISSIONSUCESS);
                 } catch (RemoteException e) {
                     e.printStackTrace();
-                    handler.sendEmptyMessage(PERMISSIONFAILURE);
 
                 }
             }
@@ -93,8 +55,6 @@ public class JcsjcxActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (progressDialog != null)
-            progressDialog.dismiss();
     }
 
     @Override
@@ -124,6 +84,12 @@ public class JcsjcxActivity extends BaseActivity implements
 
     public Permission getPermission() {
         return permission;
+    }
+
+    @Override
+    protected void handlerExtraInfo(String extra) {
+        super.handlerExtraInfo(extra);
+        jcsjcxFragment.initRecycleReport();
     }
 
     @Override
