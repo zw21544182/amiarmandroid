@@ -21,18 +21,20 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import cn.ml_tech.mx.mlproj.customview.MyHorizontalScrollView;
-import cn.ml_tech.mx.mlproj.customview.SystemSetUp.DataItmeView;
+import cn.ml_tech.mx.mlproj.R;
 import cn.ml_tech.mx.mlproj.adapter.StringAdapter;
 import cn.ml_tech.mx.mlproj.base.BaseFragment;
-import cn.ml_tech.mx.mlproj.R;
+import cn.ml_tech.mx.mlproj.customview.MyHorizontalScrollView;
+import cn.ml_tech.mx.mlproj.customview.SystemSetUp.DataItmeView;
 import cn.ml_tech.mx.mlservice.DAO.Modern;
 import cn.ml_tech.mx.mlservice.IMlService;
 
@@ -63,12 +65,22 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
     private Modern modern;
     private TableAdapter tableAdapter;
     private HorizontalScrollView horizon;
+    private ImageButton ibPre;
+    private EditText etPage;
+    private ImageButton ibNext;
+    private TextView tvCurrentPage;
+    private TextView tvAllPage;
+    private ImageButton ibSearch;
+    private int currentPage = 1;
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SUCESS:
+                    tvCurrentPage.setText(currentPage + "/ ");
+                    tvAllPage.setText(num + "");
                     initFiledInfo();
                     Map<Integer, List<String>> data = modern.getMap();
                     if (tableAdapter == null) {
@@ -85,12 +97,13 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                 case DELETEFAILURE:
                     break;
                 case DELETESUCESS:
-                    initTableData();
+                    initTableData(currentPage);
                     break;
             }
 
         }
     };
+    private int num;
 
     @Override
     public View initView(LayoutInflater inflater) {
@@ -110,6 +123,12 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         rvData = (RecyclerView) view.findViewById(R.id.rvData);
         rvData.setLayoutManager(new LinearLayoutManager(getActivity()));
         horizon = (MyHorizontalScrollView) view.findViewById(R.id.horizon);
+        ibPre = (ImageButton) view.findViewById(R.id.ibPre);
+        etPage = (EditText) view.findViewById(R.id.etPage);
+        ibNext = (ImageButton) view.findViewById(R.id.ibNext);
+        tvCurrentPage = (TextView) view.findViewById(R.id.tvCurrentPage);
+        tvAllPage = (TextView) view.findViewById(R.id.tvAllPage);
+        ibSearch = (ImageButton) view.findViewById(R.id.ibSearch);
         horizon.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         horizon.setFocusable(false);
         horizon.setFocusableInTouchMode(false);
@@ -151,11 +170,15 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         btSubmit.setOnClickListener(this);
         btDelete.setOnClickListener(this);
         btAdd.setOnClickListener(this);
+        ibPre.setOnClickListener(this);
+        ibNext.setOnClickListener(this);
+        ibSearch.setOnClickListener(this);
         spDataTyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tableName = spDataTyle.getSelectedItem().toString();
-                initTableData();
+                currentPage = 1;
+                initTableData(currentPage);
             }
 
             @Override
@@ -164,23 +187,35 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-    private void initTableData() {
+    private void initTableData(final int page) {
         if (progressDialog == null)
             progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("数据加载中......");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
+                    Thread.sleep(500);
+                    int all = (mlService.getNumByTableName(tableName));
+                    if (all % 12 == 0) {
+                        num = all / 12;
+                    } else {
+                        num = all / 12 + 1;
+                    }
+
                     filedNames = mlService.getFieldByName(tableName);
-                    modern = mlService.getDataByTableName(tableName, 1);
+                    modern = mlService.getDataByTableName(tableName, page);
                     handler.sendEmptyMessage(SUCESS);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                     handler.sendEmptyMessage(FAILURE);
 
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -240,7 +275,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                 modern.setMap(tableAdapter.getData());
                 try {
                     mlService.updateData(tableName, modern);
-                    initTableData();
+                    initTableData(currentPage);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -272,6 +307,41 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             case R.id.btAdd:
                 rvData.scrollToPosition(tableAdapter.getItemCount() - 1);
                 tableAdapter.addNewDataToView();
+                break;
+            case R.id.ibPre:
+                if (currentPage == 1) {
+                    showToast("已经是第一页了");
+                } else {
+                    currentPage--;
+                    initTableData(currentPage);
+                    tvCurrentPage.setText(currentPage + "/");
+                }
+                break;
+            case R.id.ibNext:
+                if (currentPage == num) {
+                    showToast("已经是最后一页了");
+                } else {
+                    currentPage++;
+                    initTableData(currentPage);
+                    tvCurrentPage.setText(currentPage + "/");
+
+                }
+                break;
+            case R.id.ibSearch:
+                try {
+                    int userPage = Integer.parseInt(etPage.getEditableText().toString());
+                    if (userPage > num) {
+                        showToast("超过了最大值");
+                    } else if (userPage < 1) {
+                        showToast("WTF");
+                    } else {
+                        currentPage = userPage;
+                        initTableData(currentPage);
+                        tvCurrentPage.setText(currentPage + "/");
+                    }
+                } catch (NumberFormatException e) {
+                    showToast("请输入数字");
+                }
                 break;
         }
     }
@@ -327,6 +397,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             }
             notifyDataSetChanged();
         }
+
 
         public void setDataToView(Map<Integer, List<String>> data) {
             Log.d("zw", "setDataToView");
