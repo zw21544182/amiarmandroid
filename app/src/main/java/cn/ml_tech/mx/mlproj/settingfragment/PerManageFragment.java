@@ -5,11 +5,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import cn.ml_tech.mx.mlservice.DAO.UserType;
 
 public class PerManageFragment extends BaseFragment {
     private Spinner spUser;
+    private LinearLayout rootLayout;
     private List<UserType> users;
     private List<String> usernames;
     private long curUserTypeId;
@@ -104,7 +106,7 @@ public class PerManageFragment extends BaseFragment {
     private CheckBox cbLsExc;
     private CheckBox cbXwLook;
     private CheckBox cbXwExc;
-
+    private boolean isAdd;
     private long currentUserTypeId;
     private List<PermissionHelper> permissionHelpers;
     private Handler handler;
@@ -119,6 +121,7 @@ public class PerManageFragment extends BaseFragment {
     @Override
     public void initFindViewById(View view) {
         spUser = (Spinner) view.findViewById(R.id.spUser);
+        rootLayout = (LinearLayout) view.findViewById(R.id.rootLayout);
         initInstrunmentView();
         initDrugCheckView();
         initDataCheckView();
@@ -157,16 +160,21 @@ public class PerManageFragment extends BaseFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        isAdd = false;
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                Log.d("Zw", "permission helper size " + permissionHelpers.size() + " userTypeId " + permissionHelpers.get(1).getUserTypeId());
                 setDataToCheckBox();
+                if (!isAdd) {
+                    setCheckOutListen();
+                    isAdd = true;
+                }
             }
         };
         initSpinnerData();
     }
+
 
     private void setDataToCheckBox() {
         for (PermissionHelper permissionHelper :
@@ -174,343 +182,375 @@ public class PerManageFragment extends BaseFragment {
             P_SourceOperator p_sourceOperator = permissionHelper.getP_sourceOperator();
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 1) {
                 cbBdLook.setChecked(permissionHelper.isCanOperate());
-                cbBdCheck.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbBdLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 1) {
                 cbBdCheck.setChecked(permissionHelper.isCanOperate());
-                cbBdCheck.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbBdCheck.setTag(p_sourceOperator);
             }
             //校验50um粒子
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 2) {
                 cbLzLook.setChecked(permissionHelper.isCanOperate());
-                cbLzLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbLzLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 2) {
                 cbLzExcute.setChecked(permissionHelper.isCanOperate());
-                cbLzExcute.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbLzExcute.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 3) {
                 cbYyLook.setChecked(permissionHelper.isCanOperate());
-                cbYyLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYyLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 3) {
                 cbYyExcute.setChecked(permissionHelper.isCanOperate());
-                cbYyExcute.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYyExcute.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 4) {
                 cbExLook.setChecked(permissionHelper.isCanOperate());
-                cbExLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbExLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 4) {
                 cbExExcute.setChecked(permissionHelper.isCanOperate());
-                cbExExcute.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbExExcute.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 5) {
                 cbResLook.setChecked(permissionHelper.isCanOperate());
-                cbResLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbResLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 6) {
                 cbPaLook.setChecked(permissionHelper.isCanOperate());
-                cbPaLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbPaLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 6) {
                 cbPaExcute.setChecked(permissionHelper.isCanOperate());
-                cbPaExcute.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbPaExcute.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 7) {
                 cbKsLook.setChecked(permissionHelper.isCanOperate());
-                cbKsLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbKsLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 7) {
                 cbKsExc.setChecked(permissionHelper.isCanOperate());
-                cbKsExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbKsExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 8) {
                 cbJyLook.setChecked(permissionHelper.isCanOperate());
-                cbJyLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJyLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 3 && p_sourceOperator.getP_source_id() == 8) {
                 cbJyAdd.setChecked(permissionHelper.isCanOperate());
-                cbJyAdd.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJyAdd.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 8) {
                 cbJyExc.setChecked(permissionHelper.isCanOperate());
-                cbJyExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJyExc.setTag(p_sourceOperator);
             }
 
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 9) {
                 cbYxLook.setChecked(permissionHelper.isCanOperate());
-                cbYxLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYxLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 4 && p_sourceOperator.getP_source_id() == 9) {
                 cbYxModify.setChecked(permissionHelper.isCanOperate());
-                cbYxModify.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYxModify.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 5 && p_sourceOperator.getP_source_id() == 9) {
                 cbYxDelete.setChecked(permissionHelper.isCanOperate());
-                cbYxDelete.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYxDelete.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 10) {
                 cbKjLook.setChecked(permissionHelper.isCanOperate());
-                cbKjLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbKjLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 10) {
                 cbKjExc.setChecked(permissionHelper.isCanOperate());
-                cbKjExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbKjExc.setTag(p_sourceOperator);
             }
 
 
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 11) {
                 cbSdLook.setChecked(permissionHelper.isCanOperate());
-                cbSdLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbSdLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 6 && p_sourceOperator.getP_source_id() == 11) {
                 cbSdExp.setChecked(permissionHelper.isCanOperate());
-                cbSdExp.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbSdExp.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 11) {
                 cbSdExc.setChecked(permissionHelper.isCanOperate());
-                cbSdExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbSdExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 12) {
                 cbTcLook.setChecked(permissionHelper.isCanOperate());
-                cbTcLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTcLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 3 && p_sourceOperator.getP_source_id() == 12) {
                 cbTcAdd.setChecked(permissionHelper.isCanOperate());
-                cbTcAdd.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTcAdd.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 12) {
                 cbTcExc.setChecked(permissionHelper.isCanOperate());
-                cbTcExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTcExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 4 && p_sourceOperator.getP_source_id() == 13) {
                 cbXcModfy.setChecked(permissionHelper.isCanOperate());
-                cbXcModfy.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbXcModfy.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 4 && p_sourceOperator.getP_source_id() == 14) {
                 cbTyModify.setChecked(permissionHelper.isCanOperate());
-                cbTyModify.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTyModify.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 15) {
                 cbYjLook.setChecked(permissionHelper.isCanOperate());
-                cbYjLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYjLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 15) {
                 cbYjExc.setChecked(permissionHelper.isCanOperate());
-                cbYjExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYjExc.setTag(p_sourceOperator);
             }
 
 
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 16) {
                 ckLcLook.setChecked(permissionHelper.isCanOperate());
-                ckLcLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                ckLcLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 2 && p_sourceOperator.getP_source_id() == 16) {
                 ckLcQue.setChecked(permissionHelper.isCanOperate());
-                ckLcQue.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                ckLcQue.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 16) {
                 cbLcExc.setChecked(permissionHelper.isCanOperate());
-                cbLcExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbLcExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 9 && p_sourceOperator.getP_source_id() == 16) {
                 cbLcSel.setChecked(permissionHelper.isCanOperate());
-                cbLcSel.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbLcSel.setTag(p_sourceOperator);
             }
 
 
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 17) {
                 cbCxLook.setChecked(permissionHelper.isCanOperate());
-                cbCxLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbCxLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 2 && p_sourceOperator.getP_source_id() == 17) {
                 cbCxQue.setChecked(permissionHelper.isCanOperate());
-                cbCxQue.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbCxQue.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 17) {
                 cbCxExc.setChecked(permissionHelper.isCanOperate());
-                cbCxExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbCxExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 9 && p_sourceOperator.getP_source_id() == 17) {
                 cbCxSelf.setChecked(permissionHelper.isCanOperate());
-                cbCxSelf.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbCxSelf.setTag(p_sourceOperator);
             }
 
 
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 18) {
                 cbJxLook.setChecked(permissionHelper.isCanOperate());
-                cbJxLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJxLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 5 && p_sourceOperator.getP_source_id() == 18) {
                 cbJxDelete.setChecked(permissionHelper.isCanOperate());
-                cbJxDelete.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJxDelete.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 6 && p_sourceOperator.getP_source_id() == 18) {
                 cbJxExp.setChecked(permissionHelper.isCanOperate());
-                cbJxExp.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJxExp.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 10 && p_sourceOperator.getP_source_id() == 18) {
                 cbJxDet.setChecked(permissionHelper.isCanOperate());
-                cbJxDet.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJxDet.setTag(p_sourceOperator);
             }
 
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 19) {
                 cbJsLook.setChecked(permissionHelper.isCanOperate());
-                cbJsLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJsLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 19) {
                 cbJsExc.setChecked(permissionHelper.isCanOperate());
-                cbJsExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbJsExc.setTag(p_sourceOperator);
             }
 
 
             //用户管理
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 20) {
                 cbYgLook.setChecked(permissionHelper.isCanOperate());
-                cbYgLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYgLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 2 && p_sourceOperator.getP_source_id() == 20) {
                 cbYgQue.setChecked(permissionHelper.isCanOperate());
-                cbYgQue.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYgQue.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 3 && p_sourceOperator.getP_source_id() == 20) {
                 cbYgAdd.setChecked(permissionHelper.isCanOperate());
-                cbYgAdd.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYgAdd.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 4 && p_sourceOperator.getP_source_id() == 20) {
                 cbYgModify.setChecked(permissionHelper.isCanOperate());
-                cbYgModify.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYgModify.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 5 && p_sourceOperator.getP_source_id() == 20) {
                 cbYgDelete.setChecked(permissionHelper.isCanOperate());
-                cbYgDelete.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYgDelete.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 20) {
                 cbYgExc.setChecked(permissionHelper.isCanOperate());
-                cbYgExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYgExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 9 && p_sourceOperator.getP_source_id() == 20) {
                 cbYgSel.setChecked(permissionHelper.isCanOperate());
-                cbYgSel.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbYgSel.setTag(p_sourceOperator);
             }
 //托环管理
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 21) {
                 cbTgLook.setChecked(permissionHelper.isCanOperate());
-                cbTgLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTgLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 2 && p_sourceOperator.getP_source_id() == 21) {
                 cbTgQue.setChecked(permissionHelper.isCanOperate());
-                cbTgQue.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTgQue.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 3 && p_sourceOperator.getP_source_id() == 21) {
                 cbTgAdd.setChecked(permissionHelper.isCanOperate());
-                cbTgAdd.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTgAdd.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 4 && p_sourceOperator.getP_source_id() == 21) {
                 cbTgModify.setChecked(permissionHelper.isCanOperate());
-                cbTgModify.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTgModify.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 5 && p_sourceOperator.getP_source_id() == 21) {
                 cbTgDelete.setChecked(permissionHelper.isCanOperate());
-                cbTgDelete.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTgDelete.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 21) {
                 cbTgExc.setChecked(permissionHelper.isCanOperate());
-                cbTgExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbTgExc.setTag(p_sourceOperator);
             }
 
 
             //系统配置
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 22) {
                 cbXpLook.setChecked(permissionHelper.isCanOperate());
-                cbXpLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbXpLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 4 && p_sourceOperator.getP_source_id() == 22) {
                 cbXpModify.setChecked(permissionHelper.isCanOperate());
-                cbXpModify.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbXpModify.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 22) {
                 cbXpExc.setChecked(permissionHelper.isCanOperate());
-                cbXpExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbXpExc.setTag(p_sourceOperator);
             }
 
 
             //审计追踪
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 23) {
                 cbSzLook.setChecked(permissionHelper.isCanOperate());
-                cbSzLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbSzLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 2 && p_sourceOperator.getP_source_id() == 23) {
                 cbSzQue.setChecked(permissionHelper.isCanOperate());
-                cbSzQue.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbSzQue.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 23) {
                 cbSzExc.setChecked(permissionHelper.isCanOperate());
-                cbSzExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbSzExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 9 && p_sourceOperator.getP_source_id() == 23) {
                 cbSzSel.setChecked(permissionHelper.isCanOperate());
-                cbSzSel.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbSzSel.setTag(p_sourceOperator);
             }
 
 
             //权限管理
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 24) {
                 cbQgLook.setChecked(permissionHelper.isCanOperate());
-                cbQgLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbQgLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 2 && p_sourceOperator.getP_source_id() == 24) {
                 cbQgQue.setChecked(permissionHelper.isCanOperate());
-                cbQgQue.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbQgQue.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 4 && p_sourceOperator.getP_source_id() == 24) {
                 cbQgModify.setChecked(permissionHelper.isCanOperate());
-                cbQgModify.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbQgModify.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 7 && p_sourceOperator.getP_source_id() == 24) {
                 cbQgAut.setChecked(permissionHelper.isCanOperate());
-                cbQgAut.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbQgAut.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 24) {
                 cbQgExc.setChecked(permissionHelper.isCanOperate());
-                cbQgExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbQgExc.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 9 && p_sourceOperator.getP_source_id() == 24) {
                 cbQgSel.setChecked(permissionHelper.isCanOperate());
-                cbQgSel.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbQgSel.setTag(p_sourceOperator);
             }
 
             //程序更新
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 25) {
                 cbCgLook.setChecked(permissionHelper.isCanOperate());
-                cbCgLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbCgLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 25) {
                 cbCgExc.setChecked(permissionHelper.isCanOperate());
-                cbCgExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbCgExc.setTag(p_sourceOperator);
             }
 
             //logShow
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 26) {
                 cbLsLook.setChecked(permissionHelper.isCanOperate());
-                cbLsLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbLsLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 26) {
                 cbLsExc.setChecked(permissionHelper.isCanOperate());
-                cbLsExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbLsExc.setTag(p_sourceOperator);
             }
 
 //系统参数维护
             if (p_sourceOperator.getP_operator_id() == 1 && p_sourceOperator.getP_source_id() == 27) {
                 cbXwLook.setChecked(permissionHelper.isCanOperate());
-                cbXwLook.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbXwLook.setTag(p_sourceOperator);
             }
             if (p_sourceOperator.getP_operator_id() == 8 && p_sourceOperator.getP_source_id() == 27) {
                 cbXwExc.setChecked(permissionHelper.isCanOperate());
-                cbXwExc.setTag(new long[]{p_sourceOperator.getP_operator_id(), p_sourceOperator.getP_source_id()});
+                cbXwExc.setTag(p_sourceOperator);
             }
 
+        }
+    }
+
+    private void setCheckOutListen() {
+        for (int index = 0; index < rootLayout.getChildCount(); index++) {
+            if (rootLayout.getChildAt(index) instanceof LinearLayout) {
+                LinearLayout layout = (LinearLayout) rootLayout.getChildAt(index);
+                for (int lindex = 0; lindex < layout.getChildCount(); lindex++) {
+                    if (layout.getChildAt(lindex) instanceof LinearLayout) {
+                        LinearLayout linearLayout = (LinearLayout) layout.getChildAt(lindex);
+                        for (int zindex = 0; zindex < linearLayout.getChildCount(); zindex++) {
+                            if (linearLayout.getChildAt(zindex) instanceof CheckBox) {
+                                CheckBox checkBox = (CheckBox) linearLayout.getChildAt(zindex);
+                                final P_SourceOperator tag = (P_SourceOperator) checkBox.getTag();
+                                if (tag != null) {
+                                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                                        @Override
+                                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                            try {
+                                                mlService.operatePermission(tag.getP_operator_id(), tag.getP_source_id(), currentUserTypeId, b);
+                                            } catch (RemoteException e) {
+
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
