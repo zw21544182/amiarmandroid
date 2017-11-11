@@ -97,7 +97,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                 case DELETEFAILURE:
                     break;
                 case DELETESUCESS:
-                    initTableData(currentPage);
+                    initTableData();
                     break;
             }
 
@@ -178,7 +178,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tableName = spDataTyle.getSelectedItem().toString();
                 currentPage = 1;
-                initTableData(currentPage);
+                initTableData();
             }
 
             @Override
@@ -187,7 +187,8 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-    private void initTableData(final int page) {
+    private void initTableData() {
+        etPage.setText("");
         if (progressDialog == null)
             progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("数据加载中......");
@@ -206,9 +207,11 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                     } else {
                         num = all / 12 + 1;
                     }
-
+                    if (currentPage > num) {
+                        currentPage--;
+                    }
                     filedNames = mlService.getFieldByName(tableName);
-                    modern = mlService.getDataByTableName(tableName, page);
+                    modern = mlService.getDataByTableName(tableName, currentPage);
                     handler.sendEmptyMessage(SUCESS);
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -275,7 +278,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                 modern.setMap(tableAdapter.getData());
                 try {
                     mlService.updateData(tableName, modern);
-                    initTableData(currentPage);
+                    initTableData();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -313,7 +316,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                     showToast("已经是第一页了");
                 } else {
                     currentPage--;
-                    initTableData(currentPage);
+                    initTableData();
                     tvCurrentPage.setText(currentPage + "/");
                 }
                 break;
@@ -322,7 +325,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                     showToast("已经是最后一页了");
                 } else {
                     currentPage++;
-                    initTableData(currentPage);
+                    initTableData();
                     tvCurrentPage.setText(currentPage + "/");
 
                 }
@@ -336,7 +339,7 @@ public class DataManageFragment extends BaseFragment implements View.OnClickList
                         showToast("WTF");
                     } else {
                         currentPage = userPage;
-                        initTableData(currentPage);
+                        initTableData();
                         tvCurrentPage.setText(currentPage + "/");
                     }
                 } catch (NumberFormatException e) {

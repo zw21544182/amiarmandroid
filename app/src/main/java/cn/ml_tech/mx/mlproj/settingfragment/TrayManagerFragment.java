@@ -151,7 +151,7 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         if (mTrayHelper.saveOrUpdateTray(this.mTray)) {
             ResetTray();
             LoadTrayData();
-        } else Toast.makeText(mActivity, "保存托环信息失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean CheckInfoComplete() {
@@ -174,7 +174,7 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void EditTray(Tray tray) {
-
+        mTray = tray;
         mTrayHelper.EditTray(tray);
         etContainerDiameter.setText(String.valueOf(tray.getDiameter()));
         etTrayInnerDiameter.setText(String.valueOf(tray.getInnerDiameter()));
@@ -182,6 +182,7 @@ public class TrayManagerFragment extends BaseFragment implements View.OnClickLis
         etTrayIcId.setText(tray.getIcId());
         etTrayDisplayNumber.setText(String.valueOf(tray.getDisplayId()));
         etMark.setText(tray.getMark());
+
     }
 
     private void LoadTrayData() {

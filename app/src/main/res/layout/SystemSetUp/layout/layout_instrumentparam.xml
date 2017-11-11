@@ -37,7 +37,7 @@
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查询" />
+            android:text="执行" />
 
 
     </LinearLayout>

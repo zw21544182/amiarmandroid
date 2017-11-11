@@ -59,15 +59,13 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
     private List<UserType> userTypes;
     private List<String> typeName;
     private StringAdapter typeNameAdapter;
+    private boolean isAdd;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (progressDialog != null) progressDialog.dismiss();
             switch (msg.what) {
-                case OPERATEFAILURE:
-                    showToast("操作失败");
-                    break;
                 case OPERATESUCESS:
                     mUser = null;
                     clearText();
@@ -78,10 +76,6 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
                     initUserTypeInfo();
                     initUserInfo();
                     break;
-                case INITDATAFAILURE:
-                    showToast("加载失败");
-                    break;
-
             }
         }
     };
@@ -120,6 +114,7 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
         @Override
         public void update(User user) {
             mUser = user;
+            isAdd = false;
             setUserInfoToView(user);
         }
 
@@ -204,7 +199,6 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mlService = mActivity.getmService();
         xtwhFragment = ((XtwhActivity) getActivity()).getXtwhFragment();
         typeName = new ArrayList<>();
         if (progressDialog == null)
@@ -252,7 +246,8 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSave:
-                mUser = new User();
+                if (isAdd)
+                    mUser = new User();
 
                 mUser.setIsEnable(chbEnable.isChecked() ? 1 : 0);
                 if (!TextUtils.isEmpty(etNickName.getEditableText().toString())) {
@@ -305,6 +300,7 @@ public class UserManagerFragment extends BaseFragment implements View.OnClickLis
 
                     }
                 }.start();
+                isAdd = true;
                 break;
             case R.id.btAddType:
                 xtwhFragment.moveToAddType();

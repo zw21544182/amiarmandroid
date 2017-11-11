@@ -120,8 +120,6 @@ public class YpkFragment extends BaseFragment {
     @Override
     protected void handleMsg(Message message) {
         super.handleMsg(message);
-        if (progressDialog != null && progressDialog.isShowing())
-            progressDialog.dismiss();
         switch (message.what) {
 
             case RSUCESS:
@@ -183,6 +181,14 @@ public class YpkFragment extends BaseFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initDrugs();
+        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                if (adapter != null && progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
+            }
+        });
     }
 
     public void setPreDataToView() throws RemoteException {

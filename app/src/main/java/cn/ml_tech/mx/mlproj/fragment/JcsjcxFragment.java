@@ -1,12 +1,14 @@
 package cn.ml_tech.mx.mlproj.fragment;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -77,9 +79,12 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
     private Button btResver;
     private Button btDelete;
     private Button btOutput;
+    private ProgressDialog progressDialog;
     private CheckBox chkBox;
     private int cuurentPage = 1, lastPage;
     private List<String> ids;
+    private static final int DATALOADSUESS = 553;
+    private static final int DATALOADFALSE = 554;
 
 
     public boolean isReportLayout() {
@@ -139,20 +144,38 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
         });
         btResver.setOnClickListener(this);
         btSearch.setOnClickListener(this);
+        recyclerReport.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                if (adapterReport != null && progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
+        });
     }
 
     public void initRecycleReport() {
         chkBox.setChecked(false);
         detectionReports = new ArrayList<>();
-        try {
-            if (mlService != null) {
-                detectionReports = mlService.getAllDetectionReports();
-            }
-            Log.d("zw", "detection size" + detectionReports.size());
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setTitle("数据加载中");
         }
-        setDataToView(detectionReports, true);
+        new Thread() {
+            public void run() {
+                super.run();
+                try {
+                    if (mlService != null) {
+                        detectionReports = mlService.getAllDetectionReports();
+                        handler.sendEmptyMessage(DATALOADSUESS);
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(DATALOADFALSE);
+                }
+            }
+        }.start();
+
     }
 
 
@@ -176,6 +199,19 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             e.printStackTrace();
         }
         adapterDetail.UpdateData(detectionDetailList);
+    }
+
+    @Override
+    protected void handleMsg(Message message) {
+        super.handleMsg(message);
+        switch (message.what) {
+            case DATALOADSUESS:
+                setDataToView(detectionReports, true);
+                break;
+            case DATALOADFALSE:
+
+                break;
+        }
     }
 
     private void initRecycleDetail(@Nullable String prefix) {
@@ -241,7 +277,7 @@ public class JcsjcxFragment extends BaseFragment implements View.OnClickListener
             e.printStackTrace();
         }
 
-            initRecycle();
+        initRecycle();
 
     }
 

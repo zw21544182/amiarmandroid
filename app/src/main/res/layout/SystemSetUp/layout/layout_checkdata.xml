@@ -26,26 +26,28 @@
             android:text="历史记录查询" />
 
         <CheckBox
-            android:id="@+id/ckSee"
+            android:id="@+id/ckLcLook"
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看" />
 
         <CheckBox
-            android:id="@+id/ckExcute"
+            android:id="@+id/ckLcQue"
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查询" />
 
         <CheckBox
+            android:id="@+id/cbLcExc"
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="执行" />
 
         <CheckBox
+            android:id="@+id/cbLcSel"
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,6 +73,7 @@
             android:text="查询" />
 
         <CheckBox
+            android:id="@+id/cbCxLook"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -78,6 +81,7 @@
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbCxQue"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -85,6 +89,7 @@
             android:text="查询" />
 
         <CheckBox
+            android:id="@+id/cbCxExc"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -92,6 +97,7 @@
             android:text="执行" />
 
         <CheckBox
+            android:id="@+id/cbCxSelf"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -117,24 +123,31 @@
             android:text="检测信息" />
 
         <CheckBox
+            android:id="@+id/cbJxLook"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbJxDelete"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="删除" />
 
         <CheckBox
+            android:id="@+id/cbJxExp"
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="导出" />
 
         <CheckBox
+            android:id="@+id/cbJxDet"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -159,12 +172,16 @@
             android:text="检测数据查询" />
 
         <CheckBox
+            android:id="@+id/cbJsLook"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbJsExc"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

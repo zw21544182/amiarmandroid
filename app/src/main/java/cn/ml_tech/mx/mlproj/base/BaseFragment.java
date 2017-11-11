@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import cn.ml_tech.mx.mlproj.util.UtilsHelper;
 import cn.ml_tech.mx.mlservice.IMlService;
 
 public abstract class BaseFragment extends Fragment {
@@ -23,7 +24,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showToast(String content) {
-        Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+        UtilsHelper.ShowToast(getActivity(), content, Toast.LENGTH_SHORT);
     }
 
     @Nullable

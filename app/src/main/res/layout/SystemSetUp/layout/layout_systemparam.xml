@@ -26,13 +26,14 @@
             android:text="用户管理" />
 
         <CheckBox
-
+            android:id="@+id/cbYgLook"
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbYgQue"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -40,30 +41,40 @@
             android:text="查询" />
 
         <CheckBox
+            android:id="@+id/cbYgAdd"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="增加" />
 
         <CheckBox
+            android:id="@+id/cbYgModify"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改" />
 
         <CheckBox
+            android:id="@+id/cbYgDelete"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="删除" />
 
         <CheckBox
+            android:id="@+id/cbYgExc"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="执行" />
 
         <CheckBox
+            android:id="@+id/cbYgSel"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,6 +100,7 @@
             android:text="托环管理" />
 
         <CheckBox
+            android:id="@+id/cbTgLook"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -96,6 +108,7 @@
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbTgQue"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -103,6 +116,7 @@
             android:text="查询" />
 
         <CheckBox
+            android:id="@+id/cbTgAdd"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -110,6 +124,7 @@
             android:text="增加" />
 
         <CheckBox
+            android:id="@+id/cbTgModify"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -117,7 +132,7 @@
             android:text="修改" />
 
         <CheckBox
-
+            android:id="@+id/cbTgDelete"
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,6 +140,7 @@
 
 
         <CheckBox
+            android:id="@+id/cbTgExc"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -151,18 +167,24 @@
             android:text="系统配置" />
 
         <CheckBox
+            android:id="@+id/cbXpLook"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbXpModify"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改" />
 
         <CheckBox
+            android:id="@+id/cbXpExc"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -188,24 +210,32 @@
             android:text="审计追踪" />
 
         <CheckBox
+            android:id="@+id/cbSzLook"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbSzQue"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查询" />
 
         <CheckBox
+            android:id="@+id/cbSzExc"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="执行" />
 
         <CheckBox
+            android:id="@+id/cbSzSel"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -231,36 +261,48 @@
             android:text="权限管理" />
 
         <CheckBox
+            android:id="@+id/cbQgLook"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbQgQue"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查询" />
 
         <CheckBox
+            android:id="@+id/cbQgModify"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改" />
 
         <CheckBox
+            android:id="@+id/cbQgAut"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="授权" />
 
         <CheckBox
+            android:id="@+id/cbQgExc"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="执行" />
 
         <CheckBox
+            android:id="@+id/cbQgSel"
+
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -286,6 +328,7 @@
             android:text="程序更新" />
 
         <CheckBox
+            android:id="@+id/cbCgLook"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -293,11 +336,12 @@
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbCgExc"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查看" />
+            android:text="执行" />
     </LinearLayout>
 
     <LinearLayout
@@ -318,6 +362,7 @@
             android:text="logShow" />
 
         <CheckBox
+            android:id="@+id/cbLsLook"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -325,11 +370,12 @@
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbLsExc"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查看" />
+            android:text="执行" />
     </LinearLayout>
 
     <LinearLayout
@@ -350,6 +396,7 @@
             android:text="系统参数维护" />
 
         <CheckBox
+            android:id="@+id/cbXwLook"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
@@ -357,10 +404,11 @@
             android:text="查看" />
 
         <CheckBox
+            android:id="@+id/cbXwExc"
 
             style="@style/CheckBox_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查看" />
+            android:text="执行" />
     </LinearLayout>
 </LinearLayout>
