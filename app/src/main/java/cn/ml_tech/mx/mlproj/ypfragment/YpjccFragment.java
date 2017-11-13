@@ -321,7 +321,7 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btExportData:
-                    exportData();
+                exportData();
                 break;
             case R.id.btStartCheck:
                 btStartCheck.setEnabled(false);
@@ -359,6 +359,10 @@ public class YpjccFragment extends BaseFragment implements View.OnClickListener 
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setButtonState() {
+        btStartCheck.setEnabled(true);
     }
 
     private class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHold> {

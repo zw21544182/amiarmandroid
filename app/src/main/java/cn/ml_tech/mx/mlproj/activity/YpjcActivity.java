@@ -264,10 +264,8 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
 
                 try {
                     data.putAll(ypjqFragment.getData());
-                    Log.d("zw", "drugid" + druginfo_id);
                     mService.addDrugInfo(name, enName, pinyin, containnerid, factoryid, String.valueOf(druginfo_id));
                     saveDrugParams(data, druginfo_id);
-                    showToast("保存成功");
                     ypkFragment = (YpkFragment) switchContentFragment(YpkFragment.class.getSimpleName());
                     ypkFragment.setDataByName(name.trim());
                 } catch (RemoteException e) {
@@ -320,6 +318,16 @@ public class YpjcActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             default:
+                break;
+        }
+    }
+
+    @Override
+    protected void handlerExtraInfo(String extra) {
+        super.handlerExtraInfo(extra);
+        switch (extra) {
+            case "check":
+                ypjccFragment.setButtonState();
                 break;
         }
     }
