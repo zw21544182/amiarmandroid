@@ -77,6 +77,10 @@ public class XtwhFragment extends BaseFragment {
     private void initPermission() {
     }
 
+    public AddTypeFragment getAddTypeFragment() {
+        return addTypeFragment;
+    }
+
     @Override
     public View initView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.activity_xtwhactivity, null);

@@ -24,7 +24,7 @@ public class XtwhActivity extends BaseActivity implements BottomFragment.OnFragm
     }
 
     private AmiApp amiApp;
-    public XtwhFragment xtwhFragment = null;
+    private XtwhFragment xtwhFragment = null;
 
     @Override
     public void doAfterGetService() {
@@ -102,5 +102,11 @@ public class XtwhActivity extends BaseActivity implements BottomFragment.OnFragm
         }
     }
 
-
+    @Override
+    protected void handlerExtraInfo(String extra) {
+        super.handlerExtraInfo(extra);
+        if (extra.trim().equals("initAddType")) {
+            xtwhFragment.getAddTypeFragment().initData(null);
+        }
+    }
 }
