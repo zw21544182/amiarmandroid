@@ -82,7 +82,6 @@ public class AddTypeFragment extends BaseFragment implements View.OnClickListene
                 }
                 try {
                     if (mlService.isRename(s.toString())) {
-
                         tvShowResult.setText("重名请重新输入");
                         btSave.setEnabled(false);
                     } else {
